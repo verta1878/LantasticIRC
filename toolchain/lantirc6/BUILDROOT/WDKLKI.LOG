@@ -1,0 +1,10 @@
+
+Microsoft (R) Overlay Linker  Version 3.65   
+Copyright (C) Microsoft Corp 1983-1988.  All rights reserved.
+
+LINK : warning L4051: LLIBCE.LIB : cannot find library
+EXIT
+Directory of C:\.
+NOSEXT   EXE             31,682 05-09-2026  6:30
+    1 File(s)            31,682 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.

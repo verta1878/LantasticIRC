@@ -1,0 +1,4 @@
+Testing CL...
+usage: cl [ option... ] filename... [ -link linkoption... ]
+---
+This program cannot be run in DOS mode.

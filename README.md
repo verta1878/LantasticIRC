@@ -1,76 +1,74 @@
 # LANtastic v6 — Source Code Recovery
 ## GPLv3 — the crew 4free
 
-### What Is This?
-Source code recovery of Artisoft LANtastic v6.x DOS peer-to-peer networking software.
-Ghidra decompilation targeting exact byte match with original binaries.
+**Repo:** verta1878/LantasticIRC
 
-### Project Status
-**Phase 0 — Binary Extraction**
-- V6 floppy images (4 disks) acquired
-- 232 files inventoried inside NOS.001-004 archives
-- Artisoft "RR" archive format partially reverse-engineered
-- Blocker: custom compression in NOS archives needs decompressor
+### Current Status: INST6.EXE COMPILES AND LINKS
 
-### Directory Structure
+| Milestone | Status |
+|-----------|--------|
+| Ghidra decompile (717 functions, 49,772 lines) | ✅ |
+| Identify framework: Knowledge Dynamics wINSTALL V3.22 | ✅ |
+| Identify compiler: MSC 6.0a (NE format, can't run in DOSBox) | ✅ |
+| Identify compression: LZH (LZSS+Huffman), NOT LZW | ✅ |
+| Python LZH verifier: 243/243 files extracted | ✅ |
+| Source cleanup: 665/717 Ghidra functions compile | ✅ |
+| Hand-written: 95 helpers + 6 LZH + 3 NOS + 6 DOSIO | ✅ |
+| DOSBox BCC 3.1 compile: 7/7 files, zero errors | ✅ |
+| TLINK: INST6.EXE linked (47,226 bytes) | ✅ |
+| Linker undefined symbols: 2 (FIWRQQ/FIDRQQ FPU stubs) | ✅ |
+| Overlay structure analyzed (32 segments, 382KB) | ✅ |
+| Byte-exact CRC match vs original (435,648 bytes) | ⬜ Pending |
+| Run rebuilt INST6.EXE to extract NOS archives | ⬜ Pending |
 
+### Build Files (analysis/INST6/BUILD/)
+
+| File | Lines | Purpose |
+|------|-------|---------|
+| INST6.C | 53,200 | 665 Ghidra functions + 1,200 overlay stub bodies |
+| HELPERS.C | 1,052 | 95 hand-written implementations |
+| LZH.C | 365 | LZH decompressor |
+| NOSARCH.C | 147 | NOS archive parser |
+| DOSIO.C | 80 | DOS INT 21h via intdosx() |
+| STUBS.C | 337 | Remaining stubs |
+| LINKFIX.C | 135 | Cross-module symbol resolution + main() |
+| MAKEFILE | — | BCC 3.1 build script |
+| INST6.EXE | 47,226 | **Compiled output** |
+
+### How to Build
+```bash
+export SDL_VIDEODRIVER=dummy
+export SDL_AUDIODRIVER=dummy
+# DOSBox 0.74 with Borland C++ 3.1
+dosbox -conf compile.conf -exit
 ```
-v6_binorg/        Original v6 binaries (pending extraction from NOS archives)
-v6_bytematch/     Ghidra decompiled source (exact byte match target)
-docs/             Technical documentation, recovery plans
-attic/            Old files, backups
-```
 
-### Key Binaries (inside NOS archives)
+### Original vs Rebuilt
+| | Original | Rebuilt |
+|---|---------|---------|
+| Size | 435,648 bytes | 47,226 bytes |
+| Format | MZ + 32 overlay segments | Flat MZ |
+| Compiler | MSC 6.0a | BCC 3.1 |
+| Overlay mgr | Knowledge Dynamics custom | None (flat) |
 
-| Binary | Description |
-|--------|-------------|
-| SERVER.EXE | LANtastic file/print server |
-| REDIR.EXE | Client redirector |
-| NET.EXE | NET command-line interface |
-| NET_MGR.EXE | Network manager |
-| AILANBIO.EXE | NetBIOS transport |
-| LANBIOS.EXE | NetBIOS driver |
-| LANCACHE.EXE | Disk cache |
-| LED.EXE | LANtastic Enhanced Display |
-| LANCHECK.EXE | Network diagnostics |
+The 388KB gap is the **overlay segment data** — 32 code segments loaded
+dynamically by the KD overlay manager. Reconstructing overlays requires
+the KD overlay linker or manual segment layout matching.
 
-### Third-Party Libraries
-Statically-linked code in the binaries that is NOT Artisoft's:
+### Key Technical Findings
+1. **MSC 6.0a can't run in DOSBox** — C1/C2/C3.EXE are NE (OS/2) format
+2. **BCC 3.1 works** — NE but "bound", runs in DOSBox 0.74
+3. **LZH not LZW** — NOS archives use LZSS+Huffman despite KD docs saying LZW
+4. **1,200 overlay calls** — func_0x stubs span 1.1MB virtual address space
+5. **Comment trick** — `/* reg = */ 0; /* broken` hides bad code in gcc but breaks BCC
 
-- **C Runtime (CRT)** — Borland or Microsoft C library (malloc, printf, startup).
-  Will be identified and tagged as imports, not included in recovered source.
-- **NDIS Wrapper** — Microsoft Network Driver Interface Spec implementation.
-  Possible sources: Microsoft DDK, or open-source (GitHub).
-  Needs license verification.
-- **NetBIOS** — NetBIOS protocol implementation.
-  Possible sources: Microsoft, open-source (GitHub), or Samba project (GPLv3).
-  Samba's NetBIOS implementation is GPLv3-compatible.
-- **Compiler toolchain** — TBD, will identify from binary headers once extracted.
-
-Only Artisoft application code goes GPLv3. Third-party library code will be
-stripped and documented as external dependencies.
-
-### Licensing
-- **Target: GPLv3** — need to verify/obtain license permission
-- Third-party components will use their original licenses or
-  be replaced with GPL-compatible implementations (Samba, open-source NDIS)
-- CRT functions excluded from recovery (linked at build time)
-
-### NOS Archive Format
-Artisoft proprietary "RR" compression format:
-- Magic: `RR\x01`
-- Authors: Eric Jon Heflin, Larry Hastings, Darryl Rust
-- 20-byte record headers with compressed/uncompressed sizes
-- Custom LZSS variant (not zlib, not standard LZH)
-- Decompressor exists in INSTALL.EXE (Ghidra decompiled, 712 functions)
-
-### Build Requirements
-- TBD — likely Borland C 3.x/4.x or Microsoft C 6.0 (era-correct for 1994)
+### Documentation
+- `docs/DOSBOX_DEBUG.md` — Full DOSBox compilation setup, all fixes applied
+- `docs/RECOVERY_PLAN.md` — 4-phase plan + overlay structure analysis
+- `docs/LANTASTIC_OVERVIEW.md` — LANtastic system architecture
 
 ### The Crew
 verta1878 (lead), sysop/0, bob, evga, kiddo, wrench,
 hexadecimal, DotMatrix, byte
 
-### Original Developer
-Artisoft, Inc. (Tucson, AZ) — founded 1983, LANtastic released 1989
+*Artisoft, Inc. (Tucson, AZ) — Knowledge Dynamics Corp. wINSTALL V3.22*

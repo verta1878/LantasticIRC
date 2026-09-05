@@ -1,0 +1,15 @@
+set PATH=C:\BC31\BIN
+echo === LINKFIX === > C:\REBLD.LOG
+bcc -c -ml -w- -IC:\BC31\INCLUDE LINKFIX.C >> C:\REBLD.LOG
+echo === INST6 === >> C:\REBLD.LOG
+bcc -c -ml -w- -IC:\BC31\INCLUDE INST6.C >> C:\REBLD.LOG
+echo === HELPERS === >> C:\REBLD.LOG
+bcc -c -ml -w- -IC:\BC31\INCLUDE HELPERS.C >> C:\REBLD.LOG
+echo === LZH === >> C:\REBLD.LOG
+bcc -c -ml -w- -IC:\BC31\INCLUDE LZH.C >> C:\REBLD.LOG
+echo === NOSARCH === >> C:\REBLD.LOG
+bcc -c -ml -w- -IC:\BC31\INCLUDE NOSARCH.C >> C:\REBLD.LOG
+echo === LINK === >> C:\REBLD.LOG
+tlink /x /c C:\BC31\LIB\C0L.OBJ INST6.OBJ HELPERS.OBJ LZH.OBJ NOSARCH.OBJ DOSIO.OBJ STUBS.OBJ LINKFIX.OBJ,INST6.EXE,,C:\BC31\LIB\CL.LIB >> C:\REBLD.LOG
+echo === DONE === >> C:\REBLD.LOG
+dir INST6.EXE >> C:\REBLD.LOG

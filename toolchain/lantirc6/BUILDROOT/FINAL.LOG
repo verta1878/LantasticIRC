@@ -1,0 +1,5 @@
+LINKFIX.C
+Turbo Link  Version 5.1 Copyright (c) 1992 Borland International
+Fatal: Bad object file record in library file c:\msc60a\lib\llibcr.lib in module _SFTBUF.ASM near module file offset 0x000000CB
+Directory of C:\.
+File INST6.EXE not found.

@@ -1,0 +1,19 @@
+=== LZH.C ===
+Borland C++  Version 3.1 Copyright (c) 1992 Borland International
+lzh.c:
+
+	Available memory 4198164
+=== DOSIO.C ===
+Borland C++  Version 3.1 Copyright (c) 1992 Borland International
+dosio.c:
+
+	Available memory 4180068
+=== DONE ===
+Directory of C:\.
+DOSIO    OBJ                863 05-09-2026  3:06
+HELPERS  OBJ              4,525 05-09-2026  3:06
+LZH      OBJ              2,434 05-09-2026  3:06
+NOSARCH  OBJ                843 05-09-2026  3:06
+STUBS    OBJ                592 05-09-2026  3:06
+    5 File(s)             9,257 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.

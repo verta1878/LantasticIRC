@@ -1,0 +1,347 @@
+      Packing List for Microsoft C Optimizing Compiler, Version 6.00A
+				 5.25" Disk Set
+
+		Copyright (c) Microsoft Corporation, 1984, 1990
+
+
+
+
+DISK 1 : Setup/Compiler 1
+
+ Files                       Description
+ -----                       -----------
+
+setup.exe                    Setup program -- installs compiler
+c1.exe                       DOS compiler, pass 1
+c1l.exe                      DOS large model compiler, pass 1
+c1.err                       Error messages for pass 1
+c23.err                      Error messages for passes 2 and 3
+c2.exe                       DOS compiler pass 2
+qcc.exe                      DOS Quick compiler
+c2l.exe                      OS/2 Large model compiler, pass 2
+c3l.exe                      OS/2 Large model compiler, pass 3
+lib.exe                      Library maintenance utility
+readme.doc                   Documentation Information for Microsoft  C 6.00
+packing.lst                  This listing of files for Microsoft C 6.00
+
+
+DISK 2 : Compiler 2
+
+ Files                       Description
+ -----                       -----------
+
+cv.exe                       DOS CodeView debugger
+cl.exe                       OS/2 compiler driver
+c1.exe                       OS/2 compiler (pass 1)
+c1l.exe                      OS/2 large model compiler (pass 1)
+c2.exe                       OS/2 compiler (pass 2)
+c3.exe                       OS/2 compiler (pass 3)
+qcc.exe                      OS/2 Quick compiler
+himem.sys                    HIMEM driver program
+fixshift.com                 Fixes BIOS bug for some compatible keyboards
+
+help\qh.exe                  Quick Help program
+
+
+DISK 3 : Libraries
+
+ Files                       Description
+ -----                       -----------
+
+slibcr.lib                   DOS runtime library (small model)
+mlibcr.lib                   DOS runtime library (medium model)
+clibcr.lib                   DOS runtime library (compact model)
+llibcr.lib                   DOS runtime library (large model)
+slibfp.lib                   Floating point library (small model)
+mlibfp.lib                   Floating point library (medium model)
+clibfp.lib                   Floating point library (compact model)
+llibfp.lib                   Floating point library (large model)
+slibfa.lib                   Alternate math libary (small model)
+mlibfa.lib                   Alternate math libary (medium model)
+clibfa.lib                   Alternate math libary (compact model)
+llibfa.lib                   Alternate math libary (large model)
+sgraphfa.lib                 Graphics FP library (small/compact model)
+libh.lib                     General helper library
+87.lib                       Floating point library for math coprocessor
+em.lib                       Floating point library for emulator
+graphics.lib                 DOS Graphics library
+pgchart.lib                  DOS Presentation Graphics library
+llibcmt.lib                  OS/2 multi-thread runtime library
+crtcom.lib                   Library file for generating .COM files
+binmode.obj                  Changes default I/O from text to binary
+fileinfo.obj                 Allows child programs to inherit files
+setargv.obj                  Expands wildcard in command line arguments
+rmfixup.obj                  Prevents real mode emulator fixups
+varstck.obj                  Allows heap and stack to compete for space
+txtonly.obj                  Allows graphics calls to be stubbed out
+crtexe.obj                   Support files for DLL runtime
+crtdll.obj                   "
+crtlib.obj                   "
+crtdll_i.obj                 "
+dllinit.obj                  "
+dllterm.obj                  "
+
+help\utils.hlp               Utilities help file
+help\helpmake.exe            Utility to creates/modify help files
+help\cl.hlp                  Compiler command line help
+
+
+DISK 4 : Programmer's WorkBench/Utilities
+
+ Files                       Description
+ -----                       -----------
+
+link.exe                     Linker
+nmake.exe                    MS-DOS New Program maintenance utility
+exehdr.exe                   EXE file modification utility
+ilink.exe                    Incremental linker
+ilinkstb.ovl                 ILINK overlay
+implib.exe                   Import library creation utility
+cvpack.exe                   CodeView information optimization utility
+mouse.com                    DOS mouse driver
+msherc.com                   TSR to support Hercules card graphics
+
+pwb\exp.exe                  File expunge program
+pwb\rm.exe                   File deletion program
+pwb\undel.exe                File restore program
+pwb\pwbed.exe                DOS Programmer's WorkBench
+pwb\pwbrowse.mxt             "
+pwb\pwb.com                  "
+pwb\pwbhelp.mxt              "
+pwb\pwbc.mxt                 "
+pwb\pwbutils.mxt             "
+pwb\pwbrmake.exe             "
+
+pwb\ext\ext.h                Files for writing PWB extensions
+pwb\ext\exthdr.obj           "
+pwb\ext\extsup.lib           "
+pwb\ext\ext.def              "
+
+pwb\ini\brief.ini            Brief emulation macros for PWB
+pwb\ini\tools.pre            Sample macros for PWB
+
+include\assert.h             Include files -- read each file for details
+include\bios.h               "
+include\conio.h              "
+include\ctype.h              "
+include\direct.h             "
+include\dos.h                "
+include\errno.h              "
+include\fcntl.h              "
+include\float.h              "
+include\graph.h              "
+include\io.h                 "
+include\limits.h             "
+include\locale.h             "
+include\malloc.h             "
+include\math.h               "
+include\memory.h             "
+include\pgchart.h            "
+include\process.h            "
+include\search.h             "
+include\setjmp.h             "
+include\share.h              "
+include\signal.h             "
+include\stdarg.h             "
+include\stddef.h             "
+include\stdio.h              "
+include\stdlib.h             "
+include\string.h             "
+include\time.h               "
+include\varargs.h            "
+
+include\sys\locking.h        "
+include\sys\stat.h           "
+include\sys\timeb.h          "
+include\sys\types.h          "
+include\sys\utime.h          "
+
+source\samples.doc           Documentation for sample programs
+source\filter.c              Sample programs, see SAMPLES.DOC for info
+source\txtfmt.c              "
+source\include.c             "
+source\grdemo.c              "
+source\menu.c                "
+source\menu.h                "
+source\turtle.c              "
+source\turtle.h              "
+source\grdemo.mak            "
+source\chrtdemo.c            "
+source\chrtopt.c             "
+source\chrtdemo.h            "
+source\chrtsupt.c            "
+source\chrtdemo.mak          "
+source\sortdemo.c            "
+source\sortdemo.mak          "
+source\snap.c                OS/2 DLL samples
+source\snap.mak              "
+
+startup\chkstk.asm           OS independent startup files
+startup\chksum.asm           " -- read STARTUP.DOC for info
+startup\rchkstk.asm          "
+startup\crt0fp.asm           "
+startup\fmsghdr.asm          "
+startup\setargv.asm          "
+startup\heap.inc             "
+startup\cmacros.inc          "
+startup\msdos.inc            "
+startup\version.inc          "
+startup\rterr.inc            "
+startup\_file.c              "
+startup\nulbody.c            "
+startup\wild.c               "
+startup\file2.h              "
+startup\msdos.h              "
+startup\register.h           "
+startup\makefile             Make file for startup sources
+startup\startup.doc          Information of startup sources
+startup\startup.bat          Batch file for building startup sources
+startup\startup.cmd          OS/2 Batch file for building startup sources
+startup\emoem.asm            OS independent startup file
+
+startup\dos\crt0.asm         DOS specific startup source files
+startup\dos\crt0dat.asm      " -- read STARTUP.DOC for information
+startup\dos\crt0msg.asm      "
+startup\dos\execmsg.asm      "
+startup\dos\nmsghdr.asm      "
+startup\dos\stdalloc.asm     "
+startup\dos\stdargv.asm      "
+startup\dos\stdenvp.asm      "
+startup\dos\nulbody.lnk      "
+
+startup\os2\crt0.asm         OS/2 specific startup source files
+startup\os2\crt0dat.asm      " -- read STARTUP.DOC for info
+startup\os2\crt0msg.asm      "
+startup\os2\nmsghdr.asm      "
+startup\os2\stdalloc.asm     "
+startup\os2\stdargv.asm      "
+startup\os2\stdenvp.asm      "
+startup\os2\nulbody.lnk      "
+
+font\courb.fon               Font files
+font\helvb.fon               "
+font\modern.fon              "
+font\roman.fon               "
+font\script.fon              "
+font\tmsrb.fon               "
+
+patch\patch320.doc           DOS 3.20 FP exception patch
+patch\setrhs.exe             " -- read PATCH320.DOC for details
+patch\rmrhs.exe              "
+patch\stkpat.bat             "
+patch\stkpat.scr             "
+
+help\link.hlp                Help file for linker
+
+
+DISK 5 : Programmer's WorkBench/Utilities for OS/2
+
+ Files                       Description
+ -----                       -----------
+
+cvp.exe                      OS/2 CodeView debugger
+slibcp.lib                   OS/2 runtime library (small model)
+mlibcp.lib                   OS/2 runtime library (medium model)
+clibcp.lib                   OS/2 runtime library (compact model)
+llibcp.lib                   OS/2 runtime library (large model)
+grtextp.lib                  OS/2 Text Graphics library
+mgraphfp.lib                 Graphics FP library (medium/large model)
+sgraphfp.lib                 Graphics FP library (small/compact model)
+mgraphfa.lib                 Graphics FP library (medium/large model)
+os2.lib                      OS/2 API library for OS/2 1.1
+llibcdll.lib                 OS/2 DLL support library
+cdllsupp.lib                 "
+cdllobjs.lib                 OS/2 DLL runtime library objects
+cdllobjs.def                 Support files for DLL runtime
+cdllobjs.cmd                 "
+cl.exe                       DOS compiler driver
+cl.msg                       Message file for CL.EXE
+cl.err                       Error messages for CL.EXE
+
+pwb\pwb.exe                  OS/2 Programmer's WorkBench
+pwb\pwbhelp.pxt              "
+pwb\pwbc.pxt                 "
+pwb\pwbrowse.pxt             "
+pwb\mshelp.dll               DLL for Microsoft Help system
+
+pwb\ext\exthdrp.obj          Files for writing extensions to PWB
+pwb\ext\exthdrpd.obj         "
+
+
+DISK 6 : Microsoft C Advisor On-Line Reference
+
+ Files                       Description
+ -----                       -----------
+
+help\qh.hlp                  Quick Help help file
+help\cv.hlp                  CodeView help file
+help\clang.hlp               C language help file
+help\pwb.hlp                 PWB help file
+help\ext.hlp                 PWB extension help
+
+nmk.com                      real mode PWB loader for NMAKE 
+
+
+DISK 7 : Libraries for OS/2 Systems
+
+ Files                       Description
+ -----                       -----------
+
+c3.exe                       DOS compiler pass 3
+nmake.exe                    OS/2 New Program maintenance utility
+bind.exe                     Bound program creation utility
+apilmr.obj                   Gives OS/2 bound programs 64K DGROUP
+api.lib                      Family API stub library for OS/2 Bound programs
+os2.lib                      OS/2 API library for OS/2 1.2
+rc.exe                       Resource compiler for OS/2
+rc.hlp                       Resource compiler help file
+rcpp.err                     Error messages for preprocessor
+rcpp.exe                     Resource compiler preprocessor for OS/2
+
+include\bsedos.h             Includes for OS/2 1.2-- read each file for details
+include\bse.h                "
+include\bsedev.h             "
+include\bseerr.h             "
+include\bsesub.h             "
+include\os2.h                "
+include\os2def.h             "
+include\pm.h                 "
+include\pmavio.h             "
+include\pmbitmap.h           "
+include\pmdev.h              "
+include\pmfont.h             "
+include\pmgpi.h              "
+include\pmord.h              "
+include\pmshl.h              "
+include\pmwin.h              "
+include\pmerr.h              "
+include\pmhelp.h             "
+include\pmmle.h              "
+include\pmpic.h              "
+include\pmtypes.h            "
+
+inc11\bse.h                  Includes for OS/2 1.1-- read each file for details
+inc11\bsedev.h               "
+inc11\bsedos.h               "
+inc11\bseerr.h               "
+inc11\bsesub.h               "
+inc11\os2.h                  "
+inc11\os2def.h               "
+inc11\pm.h                   "
+inc11\pmavio.h               "
+inc11\pmbitmap.h             "
+inc11\pmdev.h                "
+inc11\pmfont.h               "
+inc11\pmgpi.h                "
+inc11\pmord.h                "
+inc11\pmpic.h                "
+inc11\pmshl.h                "
+inc11\pmspl.h                "
+inc11\pmwin.h                "
+
+help\utilerr.hlp             Utilities error message help file
+
+pwb\pwbutils.pxt             "
+
+smartdrv.sys                 DOS disk cache device driver
+ramdrive.sys                 DOS virtual disk device driver

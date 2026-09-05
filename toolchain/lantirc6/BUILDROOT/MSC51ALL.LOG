@@ -1,0 +1,22 @@
+=== LZH.C ===
+LZH.C
+=== NOSARCH.C ===
+NOSARCH.C
+=== STUBS.C ===
+STUBS.C
+=== HELPERS.C ===
+HELPERS.C
+=== DOSIO.C ===
+DOSIO.C
+=== LINKFIX.C ===
+LINKFIX.C
+=== DONE ===
+Directory of C:\.
+DOSIO    OBJ                893 05-09-2026  4:41
+HELPERS  OBJ              8,158 05-09-2026  4:41
+LINKFIX  OBJ              5,755 05-09-2026  4:41
+LZH      OBJ              2,894 05-09-2026  4:41
+NOSARCH  OBJ                893 05-09-2026  4:41
+STUBS    OBJ              3,090 05-09-2026  4:41
+    6 File(s)            21,683 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.

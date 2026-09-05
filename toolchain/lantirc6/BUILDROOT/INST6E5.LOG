@@ -1,0 +1,33 @@
+Borland C++  Version 3.1 Copyright (c) 1992 Borland International
+inst6.c:
+Error inst6.c 15360: Too few parameters in call to 'FUN_2000_d7d2' in function thunk_FUN_2000_d782
+Error inst6.c 15383: Too few parameters in call to 'FUN_2000_d7d2' in function FUN_2000_d782
+Error inst6.c 17157: Nonportable pointer conversion in function FUN_3000_050c
+Error inst6.c 18646: Type mismatch in parameter 'param_1' in call to 'FUN_3000_20c0' in function FUN_3000_21b2
+Error inst6.c 18648: Type mismatch in parameter 'param_1' in call to 'FUN_3000_20c0' in function FUN_3000_21b2
+Error inst6.c 18650: Type mismatch in parameter 'param_1' in call to 'FUN_3000_2104' in function FUN_3000_21b2
+Error inst6.c 18650: Type mismatch in parameter 'param_2' in call to 'FUN_3000_2104' in function FUN_3000_21b2
+Error inst6.c 22001: Extra parameter in call to FUN_3000_8c88 in function FUN_3000_4f00
+Error inst6.c 22001: Not an allowed type in function FUN_3000_4f00
+Error inst6.c 22006: Extra parameter in call to FUN_3000_8c88 in function FUN_3000_4f00
+Error inst6.c 22006: Not an allowed type in function FUN_3000_4f00
+Error inst6.c 22007: Extra parameter in call to FUN_3000_8e98 in function FUN_3000_4f00
+Error inst6.c 22007: Not an allowed type in function FUN_3000_4f00
+Error inst6.c 22010: Extra parameter in call to FUN_3000_8e98 in function FUN_3000_4f00
+Error inst6.c 22010: Not an allowed type in function FUN_3000_4f00
+Error inst6.c 22013: Extra parameter in call to FUN_3000_8e98 in function FUN_3000_4f00
+Error inst6.c 22013: Not an allowed type in function FUN_3000_4f00
+Error inst6.c 22022: Too few parameters in call to 'FUN_3000_8828' in function FUN_3000_4f00
+Error inst6.c 22025: Too few parameters in call to 'FUN_3000_8828' in function FUN_3000_4f00
+Error inst6.c 22534: Extra parameter in call to FUN_3000_8c88 in function FUN_3000_63d8
+Error inst6.c 22534: Not an allowed type in function FUN_3000_63d8
+Error inst6.c 22536: Too few parameters in call to 'FUN_3000_8ec4' in function FUN_3000_63d8
+Error inst6.c 22536: Not an allowed type in function FUN_3000_63d8
+Error inst6.c 22549: Too few parameters in call to 'FUN_3000_8ec4' in function FUN_3000_63d8
+Error inst6.c 22549: Not an allowed type in function FUN_3000_63d8
+Error inst6.c 22549: Too many error or warning messages in function FUN_3000_63d8
+*** 26 errors in Compile ***
+
+	Available memory 4039468
+Directory of C:\.
+File INST6.OBJ not found.

@@ -4,7 +4,6 @@
 - **1987**: LANtastic 1.0 released by Artisoft, Inc., Tucson, AZ
 - **1989-1993**: Peak popularity, DOS versions 3.x-5.x
 - **1994**: LANtastic 6.0 — DOS + Windows 3.x support, NDIS, NetBIOS
-- **1996-1998**: Versions 7.x-8.01, added Win95/NT support
 - **1999**: Artisoft acquired, LANtastic discontinued
 
 ## Architecture (v6)
@@ -26,4 +25,3 @@
 
 ## NOS Archive Format
 Proprietary compressed installer archive used across LANtastic 6.x-8.x.
-Same format ("RR\x01" magic) found in both v6 and v8.01 NOS files.

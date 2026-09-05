@@ -1,0 +1,25 @@
+=== INST6 ===
+INST6.C
+=== HELPERS ===
+HELPERS.C
+=== LZH ===
+LZH.C
+=== NOSARCH ===
+NOSARCH.C
+=== DOSIO ===
+DOSIO.C
+=== STUBS ===
+STUBS.C
+=== LINKFIX ===
+LINKFIX.C
+=== DONE ===
+Directory of C:\.
+DOSIO    OBJ                883 05-09-2026  5:36
+HELPERS  OBJ              7,999 05-09-2026  5:36
+INST6    OBJ             34,478 05-09-2026  5:36
+LINKFIX  OBJ              5,399 05-09-2026  5:36
+LZH      OBJ              2,756 05-09-2026  5:36
+NOSARCH  OBJ                849 05-09-2026  5:36
+STUBS    OBJ              2,992 05-09-2026  5:36
+    7 File(s)            55,356 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.

@@ -1,0 +1,13 @@
+=== LZH ===
+C:\WDKSDK\SRC\LZH.C
+C:/WDKSDK/INCLUDE/winstall.h(12) : fatal error C1015: cannot open include file 'stdio.h'
+=== NOSARCH ===
+C:\WDKSDK\SRC\NOSARCH.C
+C:/WDKSDK/INCLUDE/winstall.h(12) : fatal error C1015: cannot open include file 'stdio.h'
+=== DOSIO ===
+C:\WDKSDK\SRC\DOSIO.C
+C:\WDKSDK\SRC\DOSIO.C(5) : fatal error C1015: cannot open include file 'dos.h'
+=== NOSEXT ===
+C:\WDKSDK\TOOLS\NOSEXT.C
+C:\WDKSDK\TOOLS\NOSEXT.C(7) : fatal error C1015: cannot open include file 'stdio.h'
+=== LINK ===

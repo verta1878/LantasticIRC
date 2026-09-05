@@ -1,0 +1,33 @@
+Borland C++  Version 3.1 Copyright (c) 1992 Borland International
+inst6.c:
+Error inst6.c 15105: Type mismatch in redeclaration of 'FUN_2000_dd69'
+Error inst6.c 16318: Type mismatch in redeclaration of 'FUN_3000_02ef'
+Error inst6.c 16569: Nonportable pointer conversion in function FUN_3000_050c
+Error inst6.c 16608: Type mismatch in redeclaration of 'FUN_3000_06ce'
+Error inst6.c 16734: Type mismatch in redeclaration of 'FUN_3000_0912'
+Error inst6.c 18058: Type mismatch in parameter 'param_1' in call to 'FUN_3000_20c0' in function FUN_3000_21b2
+Error inst6.c 18060: Type mismatch in parameter 'param_1' in call to 'FUN_3000_20c0' in function FUN_3000_21b2
+Error inst6.c 18062: Type mismatch in parameter 'param_1' in call to 'FUN_3000_2104' in function FUN_3000_21b2
+Error inst6.c 18062: Type mismatch in parameter 'param_2' in call to 'FUN_3000_2104' in function FUN_3000_21b2
+Error inst6.c 20144: Type mismatch in redeclaration of 'FUN_3000_3cd6'
+Error inst6.c 22287: Type mismatch in redeclaration of 'FUN_3000_6c3c'
+Error inst6.c 22743: Type mismatch in redeclaration of 'FUN_3000_7872'
+Error inst6.c 22824: Type mismatch in redeclaration of 'FUN_3000_7928'
+Error inst6.c 24078: Type mismatch in redeclaration of 'FUN_3000_8c88'
+Error inst6.c 24089: Type mismatch in redeclaration of 'FUN_3000_8c98'
+Error inst6.c 24145: Type mismatch in redeclaration of 'FUN_3000_8d4e'
+Error inst6.c 24158: Type mismatch in redeclaration of 'FUN_3000_8d68'
+Error inst6.c 24308: Type mismatch in redeclaration of 'FUN_3000_8e98'
+Error inst6.c 24331: Type mismatch in redeclaration of 'FUN_3000_8ec4'
+Error inst6.c 24342: Type mismatch in redeclaration of 'FUN_3000_8eda'
+Error inst6.c 27039: Type mismatch in redeclaration of 'FUN_3000_bf52'
+Error inst6.c 29150: Type mismatch in redeclaration of 'FUN_3000_ffe0'
+Error inst6.c 29208: Nonportable pointer conversion in function FUN_3000_ffe0
+Error inst6.c 37894: Nonportable pointer conversion in function FUN_4000_7d28
+Error inst6.c 38351: Type mismatch in redeclaration of 'FUN_4000_8828'
+Error inst6.c 38351: Too many error or warning messages
+*** 26 errors in Compile ***
+
+	Available memory 4053052
+Directory of C:\.
+File INST6.OBJ not found.

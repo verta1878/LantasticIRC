@@ -1,0 +1,19 @@
+@echo off
+set PATH=C:\MSC51\BIN
+set INCLUDE=C:\MSC60A\INCLUDE
+set LIB=C:\MSC60A\LIB
+set TMP=C:\
+echo === LZH.C === > C:\MSC51ALL.LOG
+cl /c /W0 /AL LZH.C >> C:\MSC51ALL.LOG
+echo === NOSARCH.C === >> C:\MSC51ALL.LOG
+cl /c /W0 /AL NOSARCH.C >> C:\MSC51ALL.LOG
+echo === STUBS.C === >> C:\MSC51ALL.LOG
+cl /c /W0 /AL STUBS.C >> C:\MSC51ALL.LOG
+echo === HELPERS.C === >> C:\MSC51ALL.LOG
+cl /c /W0 /AL HELPERS.C >> C:\MSC51ALL.LOG
+echo === DOSIO.C === >> C:\MSC51ALL.LOG
+cl /c /W0 /AL DOSIO.C >> C:\MSC51ALL.LOG
+echo === LINKFIX.C === >> C:\MSC51ALL.LOG
+cl /c /W0 /AL LINKFIX.C >> C:\MSC51ALL.LOG
+echo === DONE === >> C:\MSC51ALL.LOG
+dir *.OBJ >> C:\MSC51ALL.LOG

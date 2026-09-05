@@ -1,0 +1,439 @@
+
+Microsoft (R) Overlay Linker  Version 3.65   
+Copyright (C) Microsoft Corp 1983-1988.  All rights reserved.
+
+LINK : warning L4051: LLIBCE.LIB : cannot find library
+
+LINK : error L2029: Unresolved externals:
+
+
+
+_func_0x000b67a8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a06d2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000037ca in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000ff662 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x001080de in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000ed668 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a03f2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a26d2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c05d8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b60f6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000042fe in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000093ea in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007d31 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004e49a in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00101c44 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x001073ee in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a2b02 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a28e2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000bf976 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b63f8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fbcc6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b56e8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c69d2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b80be in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000094fe in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000ec896 in file(s):
+ INST6.OBJ(INST6.C)
+__fltused in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009f2b2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00034004 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000cffb8 in file(s):
+ INST6.OBJ(INST6.C)
+FISRQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000087ff in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000aa95e in file(s):
+ INST6.OBJ(INST6.C)
+FJSRQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x001077fe in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006f63 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b4c22 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x001078fe in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000feaf8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a0ad in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004f0e8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007a97 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00008310 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b5d32 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c1c46 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007d3b in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009f1f0 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000e1d42 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009f78 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006f86 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000ffff in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007d96 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000d2a58 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c6c42 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00008605 in file(s):
+ INST6.OBJ(INST6.C)
+FIWRQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009612 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fffae in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007242 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009332 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b6c58 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004ea12 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a0112 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006350 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0007e1cc in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00055c6e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000d1e68 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a0f72 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0003410e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c0a96 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004b1ec in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a0c92 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009446 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fc6b5 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009640 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004ec22 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b5b88 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007078 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006366 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009360 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b4406 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00005184 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007654 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0002dd32 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004dc36 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f6f76 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c2f92 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00005384 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00008282 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000632c in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f8f75 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b7128 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a1812 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009474 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000ed7d6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f8506 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a1532 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009764 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009bc52 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004dc54 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000ff4f2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007677 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a1252 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009fb52 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00058576 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000952c in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007684 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c8526 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000aab22 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a108 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009588 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000853c in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000d2828 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a9d5e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b6918 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a209 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fcb20 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000eb2dc in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000ca93 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006ec0 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000e5744 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000955a in file(s):
+ INST6.OBJ(INST6.C)
+FIARQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000adb40 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a135 in file(s):
+ INST6.OBJ(INST6.C)
+FJARQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000c6752 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009ce1 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b3858 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fbd36 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004ef2c in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f9936 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000828b in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000dc9ce in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a2392 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009fd1 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000966e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a152 in file(s):
+ INST6.OBJ(INST6.C)
+FICRQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009aad in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b6770 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b7576 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000938e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004b624 in file(s):
+ INST6.OBJ(INST6.C)
+FJCRQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a161 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a159 in file(s):
+ INST6.OBJ(INST6.C)
+FIDRQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000858e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000abd66 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000768e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0004d344 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fed56 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000abe0e in file(s):
+ INST6.OBJ(INST6.C)
+FIERQQ in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a11c in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006eba in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00007bcc in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000859e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a1dd2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a12a in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b5cc8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a1af2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000adb92 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000979e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000094a2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000ee018 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a13e in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00009ddb in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000d6ce0 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000aa422 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000075b6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a9ed2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000072d3 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000095b6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f9fc6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b3ef2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fc516 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000028c3 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000075c5 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009b196 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f8ce6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a01a4 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000042f2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000bd430 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000094d0 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00107fde in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000085d2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000082e7 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f3bbc in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a20b2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000072f2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x001000ba in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0000a16d in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000dc248 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000872e8 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009f872 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000095e4 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009f592 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x0009c982 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000fe638 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000b54a6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a6aee in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000f60c6 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000028ad in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000093bc in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000085ae in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x00006f02 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000a09b2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000e54c2 in file(s):
+ INST6.OBJ(INST6.C)
+_func_0x000aa772 in file(s):
+ INST6.OBJ(INST6.C)
+
+There were 211 errors detected
+EXIT
+Directory of C:\.
+INST6    EXE             33,047 05-09-2026  5:40
+    1 File(s)            33,047 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.

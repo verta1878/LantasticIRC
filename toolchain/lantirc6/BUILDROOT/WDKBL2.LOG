@@ -1,0 +1,15 @@
+=== LZH ===
+C:\WDKSDK\SRC\LZH.C
+C:\WDKSDK\SRC\LZH.C(153) : error C2144: syntax error : missing ';' before type 'int'
+C:\WDKSDK\SRC\LZH.C(154) : error C2065: 'root' : undefined
+C:\WDKSDK\SRC\LZH.C(189) : error C2144: syntax error : missing ';' before type 'int'
+C:\WDKSDK\SRC\LZH.C(190) : error C2065: 'root' : undefined
+=== NOSARCH ===
+C:\WDKSDK\SRC\NOSARCH.C
+=== DOSIO ===
+C:\WDKSDK\SRC\DOSIO.C
+=== NOSEXT ===
+C:\WDKSDK\TOOLS\NOSEXT.C
+C:/MSC60A/INCLUDE/sys/stat.h(32) : error C2061: syntax error : identifier 'dev_t'
+C:/MSC60A/INCLUDE/sys/stat.h(32) : fatal error C1022: expected '#endif'
+=== LINK ===

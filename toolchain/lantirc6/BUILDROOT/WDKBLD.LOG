@@ -1,0 +1,21 @@
+=== LZH ===
+C:\WDKSDK\SRC\LZH.C
+C:\WDKSDK\SRC\LZH.C(79) : error C2073: 'bl_count' : cannot initialize array in function
+C:\WDKSDK\SRC\LZH.C(102) : error C2062: type 'int' unexpected
+C:\WDKSDK\SRC\LZH.C(102) : error C2065: 'bit' : undefined
+C:\WDKSDK\SRC\LZH.C(102) : error C2143: syntax error : missing ';' before ')'
+C:\WDKSDK\SRC\LZH.C(106) : error C2065: 'n' : undefined
+C:\WDKSDK\SRC\LZH.C(111) : error C2059: syntax error : 'else'
+=== NOSARCH ===
+C:\WDKSDK\SRC\NOSARCH.C
+=== DOSIO ===
+C:\WDKSDK\SRC\DOSIO.C
+=== NOSEXTRACT ===
+C:\WDKSDK\TOOLS\NOSEXTRACT.C
+fatal error C1013: cannot open source file 'C:\WDKSDK\TOOLS\NOSEXTRACT.C'
+=== DONE ===
+Directory of C:\.
+DOSIO    OBJ                907 05-09-2026  6:20
+NOSARCH  OBJ              1,746 05-09-2026  6:20
+    2 File(s)             2,653 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.

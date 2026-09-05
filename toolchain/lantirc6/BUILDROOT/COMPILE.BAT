@@ -1,0 +1,8 @@
+@echo off
+set PATH=C:\MSC60A\BIN
+set INCLUDE=C:\MSC60A\INCLUDE
+set LIB=C:\MSC60A\LIB
+cl /c /W0 /AL LZH.C
+if exist LZH.OBJ echo SUCCESS > C:\STATUS.TXT
+if not exist LZH.OBJ echo FAILED > C:\STATUS.TXT
+dir *.OBJ > C:\DIROUT.TXT

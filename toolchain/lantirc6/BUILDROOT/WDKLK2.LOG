@@ -1,0 +1,37 @@
+
+Microsoft (R) Overlay Linker  Version 3.65   
+Copyright (C) Microsoft Corp 1983-1988.  All rights reserved.
+
+LINK : warning L4051: LLIBCE.LIB : cannot find library
+
+LINK : error L2029: Unresolved externals:
+
+
+
+__aFlmul in file(s):
+ C:\MSC51\LIB\LLIBCR.LIB(fseek.c) C:\MSC51\LIB\LLIBCR.LIB(calloc.c) C:\MSC51\LIB\LLIBCR.LIB(fwrite.c) C:\MSC51\LIB\LLIBCR.LIB(fread.c)
+__fltused in file(s):
+ NOSEXT.OBJ(C:\WDKSDK\TOOLS\NOSEXT.C)
+FISRQQ in file(s):
+ NOSEXT.OBJ(C:\WDKSDK\TOOLS\NOSEXT.C)
+FJSRQQ in file(s):
+ NOSEXT.OBJ(C:\WDKSDK\TOOLS\NOSEXT.C)
+FIWRQQ in file(s):
+ NOSEXT.OBJ(C:\WDKSDK\TOOLS\NOSEXT.C)
+__aFuldiv in file(s):
+ C:\MSC51\LIB\LLIBCR.LIB(fwrite.c) C:\MSC51\LIB\LLIBCR.LIB(fread.c)
+__aFldiv in file(s):
+ C:\MSC51\LIB\LLIBCR.LIB(fseek.c)
+__aFlrem in file(s):
+ C:\MSC51\LIB\LLIBCR.LIB(fseek.c)
+FIDRQQ in file(s):
+ NOSEXT.OBJ(C:\WDKSDK\TOOLS\NOSEXT.C)
+FIERQQ in file(s):
+ NOSEXT.OBJ(C:\WDKSDK\TOOLS\NOSEXT.C)
+
+There were 10 errors detected
+EXIT
+Directory of C:\.
+NOSEXT   EXE             21,353 05-09-2026  6:24
+    1 File(s)            21,353 Bytes.
+    0 Dir(s)        262,111,744 Bytes free.
