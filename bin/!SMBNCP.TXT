@@ -1,0 +1,132 @@
+
+{                       LANtastic NCP and SMB Support
+{                       =============================
+
+       After choosing NCP and or SMB Support in the LANtastic
+       installation, you're ready to connect to and use NCP and/or SMB
+       servers and their resources as soon as the installation is
+       completed.  If you have trouble connecting to the NCP and/or SMB
+       servers in your network, make sure your computer's configuration
+       files contain all of the commands and settings included in the
+       examples below.  See your LANtastic Installation and Management
+       Guide for information on setting up your configuration files for
+       NCP-only connectivity.
+
+{       Note:  To be able to connect to and use SMB drives and resources,
+{              you must have the program NETBEUI.EXE in your LANtastic
+{              installation directory (usually C:\LANTASTI.)  Contact
+{              Microsoft for information on obtaining a copy of NETBEUI.EXE.
+
+{  Example PROTOCOL.INI file for SMB Connectivity
+{  ==============================================
+       To allow SMB support, changes must be made to the PROTOCOL.INI
+       file in your LANtastic installation directory (usually C:\LANTASTI.)
+       These changes are made automatically during the LANtastic
+       installation if you choose to install SMB support.  The following
+       example PROTOCOL.INI file allows LANtastic to connect to and use any
+       SMB server and its resources.  The PROTOCOL.INI file must contain
+       these commands:
+
+              [PROTMAN]
+                DRIVERNAME = PROTMAN$
+                DYNAMIC = YES
+                PRIORITY = NETBEUI
+
+              [NETBEUI_XIF]
+                Drivername = NETBEUI$
+                SESSIONS = 6
+                NCBS = 12
+                BINDINGS = AEXNDIS_NIF
+                LANABASE = 1
+
+              [AEXNDIS_NIF]
+                DriverName = AEXNDS$
+
+{  Example PROTOCOL.INI file for NCP and SMB Connectivity
+{  =======================================================
+       To allow NCP and SMB support, changes must be made to the
+       PROTOCOL.INI file in your LANtastic installation directory (usually
+       C:\LANTASTI.) These changes are made automatically during the
+       LANtastic installation if you choose to install SMB and NCP support.
+       The following example PROTOCOL.INI file allows LANtastic to connect
+       to and use NCP and SMB servers and their resources.  The PROTOCOL.INI
+       file must contain these commands:
+
+              [PROTMAN]
+                DRIVERNAME = PROTMAN$
+                DYNAMIC = YES
+                PRIORITY = NETBEUI
+
+              [NETBEUI_XIF]
+                Drivername = NETBEUI$
+                SESSIONS = 6
+                NCBS = 12
+                BINDINGS = NRODI
+                LANABASE = 1
+
+              [AEXNDIS_NIF]
+                DriverName = AEXNDS$
+
+
+{  Example STARTNET.BAT Files
+{  ==========================
+       To allow SMB support, changes must be made to the STARTNET.BAT file
+       in your LANtastic installation directory (usually C:\LANTASTI.)
+       These changes are made automatically during the LANtastic
+       installation if you choose to install SMB and/or NCP support.
+
+       To connect to an SMB server, such as Windows NT, Windows for
+       Workgroups and LAN Server, the following lines must be in
+       STARTNET.BAT file:
+
+          NETBEUI
+          AI-NDIS BIND_TO=AEXNDIS_NIF NO_RECEIVE_HOLDOFF RECEIVE_BUFFERS=4
+          AILANBIO @STARTNET.CFG
+
+       To connect to both NCP and SMB servers, the following lines must
+       be in the STARTNET.BAT file:
+
+          LSL
+          NRODI
+          ODINSUP
+          IPXODI
+          NETBEUI
+          AI-NDIS BIND_TO=NRODI NO_RECEIVE_HOLDOFF RECEIVE_BUFFERS=4
+          AILANBIO @STARTNET.CFG
+
+
+{  STARTNET.CFG Changes
+{  ====================
+       To allow NCP and/or SMB support, changes must be made to the
+       STARTNET.CFG file in your LANtastic installation directory
+       (usually C:\LANTASTI.) These changes are made automatically
+       during the LANtastic installation if you choose to install SMB
+       and/or NCP support. Examples of these changes are shown below.
+
+       To connect to both NCP and SMB networks, make sure that the lines:
+
+              NCP_SUPPORT
+              SMB_SUPPORT
+
+       are added to the REDIR section of the NET.CFG file. For example:
+
+              [REDIR]
+                LOGINS=10
+                NCP_SUPPORT
+                SMB_SUPPORT
+
+
+       To connect to SMB networks only, make sure that the line:
+
+              SMB_SUPPORT
+
+       is added to the REDIR section of the NET.CFG file.  To connect to
+       NCP networks only, make sure the line:
+
+              NCP_SUPPORT
+
+       is added to the NET.CFG file.
+
+
+
+

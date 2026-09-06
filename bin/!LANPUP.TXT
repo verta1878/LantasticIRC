@@ -1,0 +1,23 @@
+
+                             {LANPUP Switches
+                             {===============
+  {LINE= [4] 0-20
+  {==============
+       This switch sets the position on the screen where the LANPUP
+       command bar will appear. For example, setting this value to 10
+       would position the informative messages in the middle of the
+       screen.
+
+  {STACK
+  {=====
+       Instructs LANPUP to allocate and use its own 512-byte stack for
+       processing. Use this option if you'll be popping up the LANPUP
+       command bar over a program such as Microsoft(R) Works(TM) that uses
+       a stack smaller than 512 bytes.
+
+  {STAND_ALONE
+  {===========
+       Makes LANPUP operate in stand-alone mode. LANPUP will be in memory
+       only when you're using the program. Once you've exited the program,
+       you must re-issue the LANPUP/STAND_ALONE command to use LANPUP
+       again.

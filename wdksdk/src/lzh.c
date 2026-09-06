@@ -1,282 +1,195 @@
-/* lzh.c — LZH (LZSS + Huffman) decompressor
- * Knowledge Dynamics wINSTALL V3.22 compatible
- * Uses simple bit-by-bit tree traversal (no lookup tables).
- * Verified correct against 243/243 NOS archive files.
- *
+/* lzh.c — LZH decompressor (LZSS+Huffman)
+ * Ported from verified Python implementation
  * GPLv3 — the crew 4free
  */
-#include "winstall.h"
 #include <string.h>
-#include <stdlib.h>
+#include "winstall.h"
 
-#define NC      510
-#define NT      19
-#define NP      14
-#define TBIT    5
-#define CBIT    9
-#define PBIT    4
-#define WINSZ   8192
-#define WINMASK 0x1FFF
-#define MAXCODE 8192
+#define NC    510
+#define NT    19
+#define NP    14
+#define WINSZ 8192
+#define WMASK 0x1FFF
 
 typedef struct {
-    int left, right;  /* -1 = leaf */
-} NODE;
+    const unsigned char *data;
+    int pos;
+    int len;
+    unsigned long bitbuf;
+    int bits;
+} BitReader;
 
-typedef struct {
-    WI_READ_FN   read_fn;
-    WI_WRITE_FN  write_fn;
-    void         *user_data;
-    unsigned int  bitbuf;
-    unsigned int  subbitbuf;
-    int           bitcount;
-    long          incount;
-    unsigned int  blocksize;
-    /* Trees built from code lengths */
-    NODE  c_tree[MAXCODE];
-    int   c_root;
-    int   c_next;
-    NODE  pt_tree[MAXCODE];
-    int   pt_root;
-    int   pt_next;
-    unsigned char c_len[NC];
-    unsigned char pt_len[NT];
-    unsigned char window[WINSZ];
-} LZH;
+static void br_init(BitReader *br, const unsigned char *data, int len) {
+    br->data = data; br->pos = 0; br->len = len;
+    br->bitbuf = 0; br->bits = 0;
+}
 
-static void fillbuf(LZH *s, int n)
-{
-    s->bitbuf = (s->bitbuf << n) & 0xFFFF;
-    while (n > s->bitcount) {
-        n -= s->bitcount;
-        s->bitbuf |= (unsigned int)s->subbitbuf << n;
-        if (s->incount > 0) {
-            unsigned char b = 0;
-            s->read_fn(&b, 1, s->user_data);
-            s->subbitbuf = b;
-            s->incount--;
-        } else {
-            s->subbitbuf = 0;
-        }
-        s->bitcount = 8;
+static void br_fill(BitReader *br, int n) {
+    while (br->bits < n) {
+        unsigned char b = (br->pos < br->len) ? br->data[br->pos] : 0;
+        br->pos++;
+        br->bitbuf = (br->bitbuf << 8) | b;
+        br->bits += 8;
     }
-    s->bitcount -= n;
-    s->bitbuf |= s->subbitbuf >> s->bitcount;
 }
 
-static unsigned int getbits(LZH *s, int n)
-{
-    unsigned int x = s->bitbuf >> (16 - n);
-    fillbuf(s, n);
-    return x;
+static unsigned int br_getbits(BitReader *br, int n) {
+    unsigned int val;
+    br_fill(br, n);
+    br->bits -= n;
+    val = (unsigned int)(br->bitbuf >> br->bits) & ((1u << n) - 1);
+    return val;
 }
 
-/* Build a canonical Huffman tree from code lengths */
-static int tree_build(NODE *tree, int *next_node, int nchar, unsigned char *lens)
-{
-    unsigned int code = 0;
-    int i, len, root, node;
-    unsigned int bl_count[17];
-    unsigned int next_code[17];
-    memset(bl_count, 0, sizeof(bl_count));
+/* Huffman table: (code, nbits) -> symbol */
+#define MAX_TAB 4096
+typedef struct { unsigned short code; unsigned char nbits; unsigned short sym; } TabEntry;
 
-    /* Count codes per length */
+typedef struct {
+    TabEntry entries[MAX_TAB];
+    int count;
+    int default_sym; /* -1 if using table, >= 0 if single symbol */
+} HuffTab;
+
+static void tab_init(HuffTab *t) { t->count = 0; t->default_sym = -1; }
+
+static void tab_build(HuffTab *t, int nchar, const unsigned char *lens) {
+    int bl[17] = {0}, nxt[17] = {0};
+    int i, all_zero = 1;
+    t->count = 0; t->default_sym = -1;
+    
     for (i = 0; i < nchar; i++)
-        if (lens[i] <= 16) bl_count[lens[i]]++;
-    bl_count[0] = 0;
-
-    /* Compute first code for each length */
-    next_code[0] = 0;
-    for (len = 1; len <= 16; len++)
-        next_code[len] = (next_code[len-1] + bl_count[len-1]) << 1;
-
-    /* Build tree */
-    root = (*next_node)++;
-    tree[root].left = tree[root].right = -1;
-
+        if (lens[i] > 0 && lens[i] <= 16) { bl[lens[i]]++; all_zero = 0; }
+    
+    if (all_zero) { t->default_sym = 0; return; }
+    
+    for (i = 1; i <= 16; i++) nxt[i] = (nxt[i-1] + bl[i-1]) << 1;
     for (i = 0; i < nchar; i++) {
-        len = lens[i];
-        if (len == 0 || len > 16) continue;
-        code = next_code[len]++;
-        /* Insert code into tree */
-        node = root;
-        { int bit, n; for (bit = len - 1; bit >= 0; bit--) {
-            if (code & (1u << bit)) {
-                if (tree[node].right == -1) {
-                    n = (*next_node)++;
-                    if (n >= MAXCODE) return root;
-                    tree[n].left = tree[n].right = -1;
-                    tree[node].right = n;
-                }
-                node = tree[node].right;
-                if (node < 0 || node >= MAXCODE) return root;
-            } else {
-                if (tree[node].left == -1) {
-                    n = (*next_node)++;
-                    if (n >= MAXCODE) return root;
-                    tree[n].left = tree[n].right = -1;
-                    tree[node].left = n;
-                }
-                node = tree[node].left;
-                if (node < 0 || node >= MAXCODE) return root;
-            }
-        } }
-        /* Mark leaf: store symbol as negative value */
-        tree[node].left = -(i + 2);  /* leaf marker */
+        int l = lens[i];
+        if (l > 0 && l <= 16 && t->count < MAX_TAB) {
+            t->entries[t->count].code = (unsigned short)nxt[l];
+            t->entries[t->count].nbits = (unsigned char)l;
+            t->entries[t->count].sym = (unsigned short)i;
+            t->count++;
+            nxt[l]++;
+        }
     }
-    return root;
 }
 
-static int tree_decode(LZH *s, NODE *tree, int root)
-{
-    int node = root;
-    int guard = 0;
-    while (tree[node].left >= 0 || tree[node].right >= 0) {
-        /* Not a leaf — read one bit */
-        int bit = s->bitbuf >> 15;
-        fillbuf(s, 1);
-        node = bit ? tree[node].right : tree[node].left;
-        if (node < 0 || node >= MAXCODE || ++guard > 50) return 0;
-    }
-    /* Leaf: symbol stored as -(symbol+1) in left */
-    return -(tree[node].left) - 2;
+static void tab_set_default(HuffTab *t, int sym) {
+    t->count = 0; t->default_sym = sym;
 }
 
-static void read_pt_len(LZH *s, int nn, int nbit, int i_special)
-{
-    int i, c, n, root;
+static int tab_decode(HuffTab *t, BitReader *br) {
+    unsigned int code; int nb, i;
+    if (t->default_sym >= 0) return t->default_sym;
+    code = 0;
+    for (nb = 1; nb <= 16; nb++) {
+        code = (code << 1) | br_getbits(br, 1);
+        for (i = 0; i < t->count; i++) {
+            if (t->entries[i].nbits == nb && t->entries[i].code == code)
+                return t->entries[i].sym;
+        }
+    }
+    return 0;
+}
 
-    n = getbits(s, nbit);
+static void read_pt(BitReader *br, HuffTab *tab, int nn, int nbit, int i_special) {
+    unsigned char lens[NT];
+    int n, i, c;
+    memset(lens, 0, sizeof(lens));
+    
+    n = (int)br_getbits(br, nbit);
     if (n == 0) {
-        c = getbits(s, nbit);
-        memset(s->pt_len, 0, nn);
-        /* All codes decode to c */
-        s->pt_next = 0;
-        root = s->pt_next++;
-        s->pt_tree[root].left = -(c + 2);
-        s->pt_tree[root].right = -1;
-        s->pt_root = root;
+        c = (int)br_getbits(br, nbit);
+        tab_set_default(tab, c);
         return;
     }
-
     i = 0;
     while (i < n && i < nn) {
-        c = s->bitbuf >> 13;
-        if (c == 7) {
-            unsigned int m = 1 << 12;
-            while (m & s->bitbuf) { m >>= 1; c++; }
-        }
-        fillbuf(s, (c < 7) ? 3 : c - 3);
-        s->pt_len[i++] = (unsigned char)c;
+        c = (int)br_getbits(br, 3);
+        if (c == 7) { while (br_getbits(br, 1) == 1) c++; }
+        lens[i++] = (unsigned char)c;
         if (i == i_special) {
-            c = getbits(s, 2);
-            while (--c >= 0 && i < nn) s->pt_len[i++] = 0;
+            int skip = (int)br_getbits(br, 2);
+            while (skip-- > 0 && i < nn) lens[i++] = 0;
         }
     }
-    while (i < nn) s->pt_len[i++] = 0;
-
-    s->pt_next = 0;
-    memset(s->pt_tree, 0xFF, sizeof(s->pt_tree)); /* clear to -1 */
-    s->pt_root = tree_build(s->pt_tree, &s->pt_next, nn, s->pt_len);
+    tab_build(tab, nn, lens);
 }
 
-static void read_c_len(LZH *s)
-{
-    int i, c, n, root;
-
-    n = getbits(s, CBIT);
+static void read_clen(BitReader *br, HuffTab *ctab, HuffTab *pt_tab) {
+    unsigned char lens[NC];
+    int n, i, c;
+    memset(lens, 0, sizeof(lens));
+    
+    n = (int)br_getbits(br, 9);
     if (n == 0) {
-        c = getbits(s, CBIT);
-        memset(s->c_len, 0, NC);
-        s->c_next = 0;
-        root = s->c_next++;
-        s->c_tree[root].left = -(c + 2);
-        s->c_tree[root].right = -1;
-        s->c_root = root;
+        c = (int)br_getbits(br, 9);
+        tab_set_default(ctab, c);
         return;
     }
-
     i = 0;
     while (i < n && i < NC) {
-        c = tree_decode(s, s->pt_tree, s->pt_root);
-
+        c = tab_decode(pt_tab, br);
         if (c <= 2) {
-            int count;
-            if (c == 0) count = 1;
-            else if (c == 1) count = getbits(s, 4) + 3;
-            else count = getbits(s, CBIT) + 20;
-            while (count > 0 && i < NC) { s->c_len[i++] = 0; count--; }
+            int cnt;
+            if (c == 0) cnt = 1;
+            else if (c == 1) cnt = (int)br_getbits(br, 4) + 3;
+            else cnt = (int)br_getbits(br, 9) + 20;
+            while (cnt-- > 0 && i < NC) lens[i++] = 0;
         } else {
-            s->c_len[i++] = (unsigned char)(c - 2);
+            lens[i++] = (unsigned char)(c - 2);
         }
     }
-    while (i < NC) s->c_len[i++] = 0;
-
-    s->c_next = 0;
-    memset(s->c_tree, 0xFF, sizeof(s->c_tree)); /* clear to -1 */
-    s->c_root = tree_build(s->c_tree, &s->c_next, NC, s->c_len);
+    tab_build(ctab, NC, lens);
 }
 
-static unsigned int decode_c(LZH *s)
+int wi_lzh_decompress(const unsigned char *src, unsigned int src_len,
+                       unsigned char *dst, unsigned int dst_len)
 {
-    if (s->blocksize == 0) {
-        s->blocksize = getbits(s, 16);
-        read_pt_len(s, NT, TBIT, 3);
-        read_c_len(s);
-        read_pt_len(s, NP, PBIT, -1);
-    }
-    s->blocksize--;
-    return (unsigned int)tree_decode(s, s->c_tree, s->c_root);
-}
-
-static unsigned int decode_p(LZH *s)
-{
-    unsigned int p = (unsigned int)tree_decode(s, s->pt_tree, s->pt_root);
-    if (p > 1) {
-        unsigned int bits = p - 1;
-        p = (1u << bits) + getbits(s, (int)bits);
-    }
-    return p;
-}
-
-long wi_lzh_decompress(WI_READ_FN read_fn, WI_WRITE_FN write_fn,
-                        long comp_size, long orig_size, void *user_data)
-{
-    LZH *s = (LZH *)calloc(1, sizeof(LZH));
-    long decoded = 0;
-    unsigned int wpos = 0;
-
-    if (!s) return -1;
-    s->read_fn = read_fn;
-    s->write_fn = write_fn;
-    s->user_data = user_data;
-    s->incount = comp_size;
-
-    fillbuf(s, 16);
-
-    while (decoded < orig_size) {
-        unsigned int c = decode_c(s);
-        if (c < 256) {
-            unsigned char b = (unsigned char)c;
-            s->window[wpos] = b;
-            wpos = (wpos + 1) & WINMASK;
-            write_fn(&b, 1, user_data);
-            decoded++;
-        } else {
-            unsigned int len = c - 256 + 3;
-            unsigned int dist = decode_p(s);
-            unsigned int src = (wpos - dist - 1) & WINMASK;
-            unsigned int i;
-            for (i = 0; i < len && decoded < orig_size; i++) {
-                unsigned char b = s->window[src];
-                s->window[wpos] = b;
-                src = (src + 1) & WINMASK;
-                wpos = (wpos + 1) & WINMASK;
-                write_fn(&b, 1, user_data);
-                decoded++;
+    BitReader br;
+    HuffTab c_tab, pt_tab, p_tab;
+    unsigned char window[WINSZ];
+    unsigned int wpos = 0, out = 0;
+    int blocksize = 0;
+    
+    br_init(&br, src, (int)src_len);
+    memset(window, 0, WINSZ);
+    
+    while (out < dst_len) {
+        if (blocksize == 0) {
+            blocksize = (int)br_getbits(&br, 16);
+            if (blocksize == 0) break;
+            read_pt(&br, &pt_tab, NT, 5, 3);
+            read_clen(&br, &c_tab, &pt_tab);
+            read_pt(&br, &p_tab, NP, 4, -1);
+        }
+        blocksize--;
+        {
+            int c = tab_decode(&c_tab, &br);
+            if (c < 256) {
+                dst[out++] = (unsigned char)c;
+                window[wpos] = (unsigned char)c;
+                wpos = (wpos + 1) & WMASK;
+            } else {
+                int length = c - 256 + 3;
+                int p = tab_decode(&p_tab, &br);
+                unsigned int dist, mpos;
+                int j;
+                if (p > 1) dist = (1u << (p - 1)) | br_getbits(&br, p - 1);
+                else if (p == 1) dist = 1;
+                else dist = 0;
+                mpos = (wpos - dist - 1) & WMASK;
+                for (j = 0; j < length && out < dst_len; j++) {
+                    unsigned char b = window[mpos];
+                    dst[out++] = b;
+                    window[wpos] = b;
+                    wpos = (wpos + 1) & WMASK;
+                    mpos = (mpos + 1) & WMASK;
+                }
             }
         }
     }
-    free(s);
-    return decoded;
+    return (int)out;
 }

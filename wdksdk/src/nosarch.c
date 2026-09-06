@@ -5,6 +5,7 @@
  * GPLv3 — the crew 4free
  */
 
+#include <stdlib.h>
 #include "winstall.h"
 #include <string.h>
 
@@ -70,18 +71,6 @@ typedef struct {
     FILE *out;
 } EXTRACT_CTX;
 
-static size_t extract_read(void *buf, size_t size, void *user)
-{
-    EXTRACT_CTX *ctx = (EXTRACT_CTX *)user;
-    return fread(buf, 1, size, ctx->in);
-}
-
-static size_t extract_write(const void *buf, size_t size, void *user)
-{
-    EXTRACT_CTX *ctx = (EXTRACT_CTX *)user;
-    return fwrite(buf, 1, size, ctx->out);
-}
-
 int wi_nos_extract(WI_ARCHIVE *arc, WI_FILE_ENTRY *entry, const char *outpath)
 {
     FILE *out;
@@ -94,11 +83,18 @@ int wi_nos_extract(WI_ARCHIVE *arc, WI_FILE_ENTRY *entry, const char *outpath)
     fseek(arc->fp, entry->data_offset, SEEK_SET);
 
     if (entry->compressed) {
-        EXTRACT_CTX ctx;
-        ctx.in = arc->fp;
-        ctx.out = out;
-        wi_lzh_decompress(extract_read, extract_write,
-                           entry->comp_size, entry->orig_size, &ctx);
+        unsigned char *comp_buf, *decomp_buf;
+        comp_buf = (unsigned char *)malloc(entry->comp_size);
+        decomp_buf = (unsigned char *)malloc(entry->orig_size);
+        if (!comp_buf || !decomp_buf) {
+            free(comp_buf); free(decomp_buf); fclose(out);
+            fseek(arc->fp, saved_pos, SEEK_SET); return -1;
+        }
+        fread(comp_buf, 1, entry->comp_size, arc->fp);
+        wi_lzh_decompress(comp_buf, entry->comp_size,
+                           decomp_buf, entry->orig_size);
+        fwrite(decomp_buf, 1, entry->orig_size, out);
+        free(comp_buf); free(decomp_buf);
     } else {
         unsigned char buf[4096];
         long remain = (long)entry->comp_size;

@@ -1,0 +1,198 @@
+                            {AILANBIO Switches
+                            {=================
+
+  {ACK_TIMEOUT= [2] 0-254
+  {======================
+       Specifies the time in ticks (1/18 sec.) that AILANBIO will wait for
+       an acknowledgment (ACK) from a remote node. Once this time limit
+       has expired, data is re-sent to the remote node. If you have a slow
+       network node or heavy network traffic, you may want to increase the
+       ACK_TIMEOUT value. Generally you should not set an ACK_TIMEOUT of
+       zero, as it will cause instantaneous timeouts.
+
+       If your low-level device driver sets an ACK_TIMEOUT value, the
+       timeout specified on the AILANBIO command line is ignored. Some
+       low-level drivers set this value automatically, without using a
+       command line option.
+
+  {ADAPTER= [0] 0-255
+  {==================
+       Indicates the NetBIOS network adapter into which this AILANBIO
+       driver will be loaded. If your system has only one adapter, it's a
+       good idea to leave this value at the default setting. If your
+       system has multiple adapters, specify a unique adapter number for
+       each copy of AILANBIO that's installed.
+
+  {BUFFERS= [1] 0-254
+  {==================
+       Specifies the number of buffers used by AILANBIO. Increasing this
+       value can improve performance, but it will require more of your
+       computer's memory.
+
+  {FORCE_ACK_MODE
+  {==============
+       When this switch is used, every other computer that establishes a
+       session with the node requires frequent acknowledgments before
+       sending more data. This switch is normally used on a slow link
+       (such as a dial-up node) to control the rate at which other nodes
+       send data to it. You normally won't need to use this switch.
+
+  {INITIAL_SEND_SIZE= [570] 1-65535
+  {================================
+       Sets the size of the first packet of every sending sequence.
+       Increasing this size usually improves performance by decreasing
+       network traffic. For this switch to function properly, you must
+       also increase the SIZE= option to the same setting. If you choose
+       to increase these values, do so on all network computers. This will
+       allow them all to send and buffer the larger initial data packets.
+
+  {IPX_ROUTING
+  {===========
+       Instructs AILANBIO to send and receive packets in a format that's
+       compatible with most IPX routing hardware and software. When you
+       use this switch, you must also include the IEEE switch on the
+       command line.
+
+  {IPX_SIZE= [1024] 500-4300
+  {=========================
+       Specifies the size in bytes of IPX routable packets sent by
+       AILANBIO. Use this switch if your routing hardware and/or software
+       requires a specific packet size.
+
+  {KEEP_ALIVE_TIMEOUT= [15] 0-32767
+  {================================
+       Specifies the number of seconds that AILANBIO will wait before
+       sending out a message confirming that the session between this
+       computer and another network computer is still active. The default
+       setting of 15 seconds is typically adequate for most network needs.
+       Note that if this switch is set to zero, no messages will be sent.
+
+  {MAX_NAMES= [16] 1-253
+  {=====================
+       Specifies the total number of NetBIOS names that this invocation of
+       AILANBIO can support. The default is usually sufficient for most
+       applications. The more names you specify, the more memory AILANBIO
+       uses.
+
+  {MAX_NCBS= [32] 1-255
+  {====================
+       This switch specifies the absolute maximum number of network
+       control blocks (NCBs) that this invocation of AILANBIO can support.
+       NCBs are used to communicate with the NetBIOS.  Specifying more
+       NCBs causes AILANBIO to use more memory. Usually you don't need to
+       change this value. If AILANBIO is running on a server, this switch
+       must be set to at least the number of users that the server
+       will support, plus four. For example, if the number of users is 50,
+       this switch must be set to at least 54.
+
+  {MAX_SESSIONS= [32] 1-254
+  {========================
+       Specifies the maximum number of sessions that this invocation of
+       AILANBIO can support. A session is a logical connection between two
+       computers for the exchange of data. Each log-in you make to a
+       server is a session. Each log-in another user makes to your
+       computer is also a session. Specifying more sessions uses more
+       computer memory. If AILANBIO is running on a server, set this
+       switch to at least the number of users that the server will
+       support. If AILANBIO is running on a workstation, set this switch
+       to at least the number of servers to which the workstation will
+       connect.
+
+  {MPX= [C7] C0-FF
+  {===============
+       Specifies the DOS multiplex (MPX) number to use for communication
+       with the low-level hardware driver. You need to change this value
+       only if the default MPX number is in use by another application or
+       NetBIOS. Usually this occurs if you're using multiple adapters in
+       the same computer. The value you specify must be the same as the
+       value specified when the low-level driver was installed. Refer to
+       your network adapter documentation for more information.
+
+  {NCBS= [32] 1-255
+  {================
+       Specifies the default number of NCBs allocated at NetBIOS
+       initialization or RESET time. Specifying a number greater than the
+       value set for the MAX_NCBS= switch causes the maximum number of
+       NCBs to be allocated. This parameter does not affect memory usage.
+
+  {NO_MULTICAST
+  {============
+       Set this switch if you want this computer to send broadcast packets
+       on the network, instead of sending multicast packets. By default
+       AILANBIO sends multicast packets. Multicast packets typically allow
+       data to be sent more efficiently on the network. However, you may
+       need to send broadcast packets if the data must pass through a
+       bridge or router that can't accept multicast packets.
+
+  {POST_LEVEL= [3] 0-3
+  {===================
+       Specifies how deeply AILANBIO nests calls to network control block
+       (NCB) post routines. Generally you don't need to set this switch.
+       However, setting a lower value for this switch may help if you
+       experience lockup problems that didn't occur with an earlier
+       version of LANtastic.
+
+  {RETRY_PERIOD= [2] 0-254
+  {=======================
+       Specifies the time in ticks (1/18 sec.) between the transmission of
+       inquiry messages. If you have a slow network node, you may want to
+       specify a larger value. If you have heavy network traffic and a
+       fast link, set this option to a smaller value. Specifying a retry
+       period of zero isn't recommended, since inquiry messages will be
+       sent in rapid succession. If your low-level device driver sets a
+       RETRY_PERIOD value, the timeout specified on the AILANBIO command
+       line is ignored. Some low-level drivers set this value
+       automatically, without using a command line switch.
+
+  {ROM_PATCH
+  {=========
+       Provides certain enhancements to AILANBIO that can be added after
+       DOS is running. This switch is needed only for versions of AILANBIO
+       that are loaded from a boot ROM chip. On such installations,
+       AILANBIO is run before DOS, so you must issue this command after
+       the diskless workstation boots up. You don't need to use this
+       switch if you're using the FIND/ FOUND type of boot image. For more
+       information, see the instructions that came with your Boot PEROM
+       Kit.
+
+  {RUN_BURST= [10] 0-254
+  {=====================
+       Specifies the time in ticks (1/18 sec.) that AILANBIO runs before
+       returning control to normal CPU processing. This option takes
+       effect only if AILANBIO runs continuously due to heavy network
+       traffic (mostly on slower adapters) or during some loopback
+       operations. Normally you won't need to change this number.
+       Specifying a shorter RUN_BURST value gives less time to NetBIOS
+       processing and more time to local CPU processing. If you're running
+       AILANBIO on a dedicated server, you should increase this number.
+       Specifying a large run burst on a machine that's used for normal
+       processing may cause the machine to appear to lock up for the
+       RUN_BURST duration. If your low-level driver sets a RUN_BURST
+       value, the timeout specified on the AILANBIO command line is
+       ignored. Some low-level drivers set this value automatically,
+       without using a command line option.
+
+  {SESSIONS= [32] 1-254
+  {====================
+       Specifies the default number of sessions allocated at NetBIOS
+       initialization or RESET time. Specifying a number above the value
+       set for MAX_SESSIONS= causes the maximum number of sessions to be
+       allocated. This parameter doesn't affect memory usage.
+
+  {SIZE= [570] 1-4300
+  {==================
+       Specifies the size of each buffer allocated. Increasing the size
+       of the buffer(s) can improve performance. Normally you'll want to
+       set this switch to the same size as the INITIAL_SEND_SIZE= value.
+       You'll also want to set the same values for these options on all
+       other network computers.
+
+  {TIMEOUT= [2] 1-254
+  {==================
+       Specifies the time in ticks (1/18 sec.) that the NetBIOS waits
+       before causing SESSION STATUS, ADD NAME and CALL/LISTEN to timeout.
+       You may want to increase this number if you have a slow link or if
+       you have heavy network traffic. If your low-level device driver
+       sets a TIMEOUT value, the timeout specified on the AILANBIO command
+       line will be ignored. Some low-level drivers set this value
+       automatically, without using a command line switch.

@@ -40,8 +40,8 @@ typedef struct {
 } WI_FILE_ENTRY;
 
 /* LZH decompression */
-long wi_lzh_decompress(WI_READ_FN read_fn, WI_WRITE_FN write_fn,
-                        long comp_size, long orig_size, void *user_data);
+int wi_lzh_decompress(const unsigned char *src, unsigned int src_len,
+                       unsigned char *dst, unsigned int dst_len);
 
 /* NOS/RR archive */
 int  wi_nos_open(WI_ARCHIVE *arc, const char *path);

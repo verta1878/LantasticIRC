@@ -1,0 +1,657 @@
+$Revision:   1.59  $
+`MN  Main Help - LANtastic (R) NET_MGR Configuration Manager
+~00 |Individual Account Management
+ Use this option to manage the server's individual accounts.
+ Individual accounts allow specific users to log in to the server.
+~01 |Wildcard Account Management
+ Use this option to manage the server's wildcard accounts. Wildcard 
+ accounts allow groups of users to log in to the server.
+~02 |ACL Group Management
+ Use this option to manage the server's ACL Groups. ACL groups may give 
+ individual or wildcard account users additional privileges on a given 
+ resource.
+~03 |Shared Resource Management
+ Select this option to manage the resources you want this server to share
+ on the network. 
+~04 |Server Startup Parameters
+ Use this option to specify how the server will be used on the network.
+~05 |Audit Trail Maintenance
+ Use this option to view, copy or clear the server's audit file. 
+~06 |Queue Maintenance
+ Use this option to clear the queue or to specify another location for  
+ the queue file.
+~07 |Password Maintenance
+ Use this option to add or remove password protection on this control 
+ directory.
+~08 |Remote Boot Maintenance 
+ Use this option to specify which computers can remote boot from this
+ server. 
+~09 |Management Utilities
+ Select this option to import or export the individual account, wildcard 
+ account and ACL group information in one of three formats.
+~0A |Control Directory Maintenance
+ Use this option to change, back up, restore, delete or create control
+ directories. LANtastic uses control directories to store all of its setup
+ information.
+`GU  Wildcard Account Information
+ This screen shows all the wildcard accounts that have been set up.
+ Wildcard accounts are distinguished by the presence of an asterisk ("*") 
+ wildcard character at the end of the name. The order of the wildcard 
+ accounts is important because the server searches the list from the top 
+ to the bottom and uses the first matching account. You can use the 
+ following keys to manage your wildcard accounts:
+
+        |Enter| - If you want to change any of the selected wildcard 
+                accounts parameters.
+        |Ins|   - If you want to add a wildcard account at the selected
+                location.
+        |Del|   - If you want to delete the selected wildcard account.
+        |F|     - If you want to find a given wildcard account. Note that
+                the |Home| key will go to the top of the list.
+        |C|     - If you want to copy the selected wildcard account to 
+                another account or to another control directory.
+
+`CU  Individual Account Information
+ This screen shows all the individual accounts that have been set up. You
+ can use the following keys to manage your individual accounts:
+
+        |Enter| - If you want to change any of the selected individual 
+                accounts parameters.
+        |Ins|   - If you want to add an individual account.
+        |Del|   - If you want to delete the selected individual account.
+        |F|     - If you want to find a given individual account. Note 
+                that the |Home| key will go to the top of the list.
+        |C|     - If you want to copy the selected individual account to 
+                another account or to another control directory.
+
+`UI  Detailed Account Screen
+ |Name
+ Press |Enter| and type in a name for this account. Note that a name can't
+ be more than 16 characters.
+~01 |Description
+ Press |Enter| and type in a description for this account. Note that a  
+ description can't be more than 32 characters.
+~02 |Account Modifications
+ Press |Enter| to toggle this field between Allowed and Disallowed. If 
+ account modifications are Allowed, users will able to change the password
+ and disable the account after they log in.
+~03 |ACL Groups
+ Press |Enter| to view a list of this account's ACL Groups.
+~04 |Date Last Logged In
+ The is the last time this account was used.
+~05 |Account Expiration Date
+ Press |Enter| and select the last day this account can be used to log in
+ to this server.
+~06 |Password
+ Press |Enter| and type in a password for this account. |Note| that once a
+ password is entered, there's no way to see what was typed. Make sure you
+ can remember the password you specified.
+~07 |Password Expiration Date
+ Press |Enter| and select the last day this password can be used to log
+ in to this server.
+~08 |Password Renewal Days
+ Press |Enter| and type in the number of days before the password must be
+ changed.
+~09 |Privileges
+ Select this option to assign privileges to this account. Use the
+ following keys to manage the account privileges:       
+
+ |A| - Super ACL Privilege
+     If this privilege is enabled, the Access Control Lists (ACLs)
+     protecting printers, subdirectories and sending mail will not be
+     checked. This user will have access to every shared resource on the
+     server. If this privilege is disabled, ACL protection is enforced.
+
+ |Q| - Super Queue Privilege
+     If this privilege is enabled, you will be allowed to view and control
+     all jobs in the print queue. When the Q privilege is disabled, you 
+     can only see and control your own print jobs.
+
+ |M| - Super Mail Privilege
+     If this privilege is enabled, you will be allowed to view and control
+     all items in the mail queue. If the M privilege is disabled, you can 
+     only see and control mail items sent to or by you.
+
+ |S| - System Manager Privilege
+     If this privilege is enabled, you will be allowed to perform such
+     management functions as using the NET RUN and NET SHUTDOWN commands.
+
+ |U| - User Auditing Privilege
+     When enabled, the U privilege allows you to issue NET AUDIT commands
+     and create audit entries in the server audit log. If the U privilege 
+     is disabled, user audit entries may not be created.
+
+ |O| - Operator Notification Privilege
+     If this option is enabled the account user will receive system 
+     notification messages that require operator intervention. Messages
+     such as "Out of Paper" on printers will be sent to accounts that have
+     this option enabled.
+
+ |D| - Remote Despooler Privilege
+     If this option is enabled the account user will be able to start a
+     remote despooler and despool from any available queue.
+
+ |N| - Network Manager Privilege
+     If this option is enabled the account user will be able to gather all
+     statistics kept by the server.
+
+~0A |Number of Concurrent Logins
+ Press |Enter| and type in the maximum number of times this account can
+ be used to log in to this server at the same time. If this number is
+ zero, the account is disabled and no one may use it.
+~0B |Login Hours
+ Press |Enter| and select the times and days of the week that a user can 
+ log in to this server.
+~0C |ACL Summary        
+ Press |Enter| to view the resource access control lists (ACLs) for this
+ account. You can use the list to check that the resources have been set
+ up correctly.
+`SO  Server Startup Parameters Information
+~00 |Configuration Type
+ Press |Enter| to view a list of predefined server configurations. You may
+ want to select one of the listed configurations as a starting point when
+ you set up this server. The parameters for each of the options are based
+ on the resources that have already been set up for this server. You may
+ want to read through the Help for each of these options to decide which
+ one best fits your needs for this server.
+~01 |Maximum Users
+ Press |Enter| and type in the maximum number of people that you want to 
+ use this server. The more users you specify, the more memory the server 
+ will use.
+~02 |Number of Adapters
+ Press |Enter| and type in the maximum number of adapters that you want
+ this server to use. The default number is six. Each of these adapters can
+ service an independent network if the corresponding adapter driver and
+ NetBIOS software are installed.
+~03 |Maximum Files Open
+ Normally the maximum number of files that can be opened is controlled by
+ your CONFIG.SYS file with the FILES= statement. The maximum number of
+ files the server can open is 255 if the FILES= statement is used. If you
+ want more files opened or if you don't want to conflict with files opened
+ locally, you can specify a number between 50 and 5100. This causes the
+ server to allocate its own files separately from those allocated through
+ the CONFIG.SYS file.
+~04 |Printing
+ Use this option to set up this server to share printers on the network.
+ |Note| that this option must be enabled for the LANtastic Mail feature of
+ the NET program to work. 
+~05 |Security
+ Use this option to set up various levels of security for this server.
+~06 |Remote Control
+ Use this option to allow other people to control this server's resources
+ from another computer on the network. Setting up this server for remote 
+ control allows other people to shut down this server, flush this server's
+ caches, control who uses this server and control this server's keyboard 
+ and screen.
+~07 |Auditing
+ Use this option to set up this server to audit selected events. Auditing
+ is a good way to keep track of how the server is being used on the
+ network.
+~08 |Notification
+ Use this option set up this server to notify logged-in users who have the
+ O (Operator) privilege about selected events. |Note| that this option
+ must be enabled if you want operator notification to work for any
+ individual printer resource notification that you've set up.
+~09 |Floppy Direct
+ Press |Enter| to toggle this option between Enabled and Disabled. If this
+ option is enabled, a user on the server may issue the DOS FORMAT and
+ CHKDSK commands for floppy disks.
+
+ |Note| that if floppy direct access is enabled and the floppy drive is 
+ shared on the network, you must make sure that no one formats a floppy
+ disk at the same time as it's being accessed across the network.
+~0A |Remote Booting
+ This option allows you to set up this server for remote booting. Press 
+ |Enter| to toggle this option between Enabled and Disabled. If you choose
+ Enabled, you'll need to use the Remote Boot Maintenance option from the 
+ Main Functions menu to specify which computers can remote boot from this
+ server. |Note| that those computers must also be set up for remote booting.
+~0B |Non-DOS Disk Support 
+ If this server is set up to share non-DOS disks, for example a CD-ROM or
+ OS/2 drive, you may need to use this option to increase the value that
+ appears in parentheses. This value is the number of non-DOS disk entries 
+ supported by this server. You may need to increase this value if you're 
+ unable to scan the complete directory structure of a NON-DOS disk.
+~0E |Setting the Network Buffer Size
+ Use this option to change the size of the network buffer that this server
+ will use for each networking task. If you increase the buffer size,
+ you'll improve server performance but also use more server memory.
+~0F |Setting the Request Buffer Size
+ Use this option to specify the size of the buffer that the server uses to
+ process requests from other network users. If you increase the request 
+ buffer size, you'll improve server response time. One of these buffers is
+ allocated to each of the users you've allowed to simultaneously log in
+ to this server (this is the number you specified in the Maximum Users
+ field on this Server Startup Parameters menu). |Note| that the size of this
+ buffer also determines which requests this server will handle in "burst"
+ mode. LANtastic's burst mode feature can significantly improve network 
+ performance. However, burst mode will only be used if the computer
+ sending the request has been set up to support this feature and this
+ server's request buffer size is large enough to handle the request. 
+~10 |Network Tasks
+ Use this option to specify the number of tasks the server can handle at
+ the same time. Each network task requires a network buffer, so increasing
+ this number also increases the amount of memory the server will use.
+
+ Typically, the more people who are going to be using this server at the
+ same time, the higher the number of network tasks you should set. In
+ general, the number of network tasks you need to set will be 1/4 of the 
+ maximum number of users allowed to log in to this server, plus one. For 
+ example, if the maximum number of users is set for 16, set the network
+ tasks value to five (16ˆ4+1)U printe
+ getnt use, the highererss the ss s6ˆ4+u can use es thisrskseue.
+
+ |N- remmanst"
+one. For 
+ exars goars u will use.ximum numbert of mem~1r nRuny. 
+equest. 
+~10 |Network Tasks
+ Useess |Enter| and typecsrs(1/18tufferaonly ushd)ecify the size oftworktd onnabl that t use es uffer alverfne. Foo be er (this er| and typecsrsputeelapsg Privilsize oftworkr(Op networkCPUecifoows yegtelup thisrverver's rRuny. 
+ou may nreasing
+ use es  er-DOSu
+equd tuc The maxer-DOferonfli thisrs
+ option is e als1 thCver,der  to controest. 
+~10 |Network Tasks
+ Use this optibuffer siztions are ba which ver of per|Note| th Server Sterver, betuires a ner. You may  num"
+onmode featu50 and 510size, you'll OS ds se, thh Server Steunableocate itlso inc and senablfmote Boot ort this  exam als13use theCver, |Setting the Request Buffer Size
+ Use this optionrver, times thstll urer oount Note| tOne o and  Server Stbetuwils maxs, fls more saver's rnrver, sSettincreasing
+ thixer-DO ba s
+ buer oous se |Entewet ers
+ oa ort this  e is servimum ou're 
+etBIO14 and
+ Hoer Tll ting the Request Buffer Size
+ Uselengtuffer'll O theecsrs(1/18tufferaonly ushd)ecify the size oftworkwaiaximumanabloconld
+ bes yeemmsum used iequd he computef enn between Earre peoplvimo ilidual printer requessted to confr
+ fls more savver at ld
+ hoer 'll Orvimuest 
+ buffer size, yo setr caBIO1he I remnli SHAREting the Network Buffero selecell handle in i remnli SHAREr requesenouave B  |Sets optionDOS disk.
+~0Eetworse this op to specie size of the imum use es the unidual pthe Sizea netwaver's p to spetworkother net use es ze,
+ you'll imppporor er neequd ze, you'll Ois
+
+ ver
+ wondisk entries e Sizea noa o03 |ally
+~0Eetw thisdelaysud ze, you'll Oe floppy drivel impppore featurd ze, you'll Oe er of adaptersbetween Epla7 |Auditing
+ Use's resourf thededie of thererssse.ximurvimnabledwaver's p to spe thif memorwant
+ thisu may  op4096 gxam thdme caus use es ze,
+ you'llis
+
+ peoplo coittle users between o inextspelocanumrber also in,mnabledwtion2048e thif m`DR  C
+on
+ flled,veoplvid Modzea noSand thr  to controt
+ ais ser the reaorktthe options are based
+r
+ sending thet thand thcan bo determinesces
+ from anoth (ACLs) for th
+ ais ser ffer
+ones uwthand tequd ztions aputers d
+putmodzenexhe a nohand thd ztions f memoWatieen o inc
+on
+ hd ztions ,mnabledwnamly the maximum es aocacreasdl uted eS dor remote 
+ in tois server, pximum numberIf thito support this C:r example
+ Enabnaml C-DRIVEbetween Em numberIf thia unable tog up thtened coays thd  Server Stple
+ Enabnaml PAYROLLenouavh (ACLs) rove servth
+ ais ser ffer
+oneso work fvid m enad ztions forwaser ofd ztions aame timlvim"@"tic's one forbeginned c optioirwnamlyforwathat
+ thiso work for any
+ iaml 
+ a@PRINTER. @serRIXfvid @LPT1Earreis servsnablfmcseuoounamly imumo work for any
+s. @seIL selelwaysuEnabnaml  optiod to enad ztionsf memorfer
+onesaohand th use es ufztionswed up.
+Ins|th (A'ork tafeamptat thissks thenete| ainc aServer StbeToters d
+aohand th use es ufztionswe (Opery
+trol thd up.
+Del|beTotmodzenaohand th use es ufztionswe (Opery
+ol thd up.r for remof memoOr remote 
+ Ls) viuwta the s optiond ztions ahand thcabo determinescan b peopll handle in astic Mail f mem`DL  Det enn etuServer SteAe
+ OaoSand thD is ehisDnable to r foDeis id eventsAatis id eves optiond ztionsbetmppporore g the64er Sng use,loo be se1 andli Path and ne. Foo fuorkpath (othlue used ifs is ee tlows 
+ maxibnaocoloo)r the LANto iroo wonessubunable to 
+ option is e als0 thmote D is ery od tId th(thised ifs is eao logs options 
+ m usedy os: on ,non-DOS, We ssse.DOS nd ,s, forhisOr re als03usF
+
+NET program to work. 
+~05 |Se if flted t-is op to set uth (ACLs) limi |Note| tptionnotification ted trhisy(ACLs) for th eaotloote ("*")etwodc conr Sng ustptio coimi |Note| tptio gtelpblfmoservhrough
+Aote| tr this serrwanNote| tol who urer  reayeemmns 
+ ms: memo nR| -hr adnNote| emo nW| -hWet enNote| emo nC| -hC
+onesoservemo nM| -hMd onunable tirvemo nL| -hAntroled trlookuprs(DIRs)emo nD| -hDelenesoservemo nK| -hKwork(ers d)nunable tirvemo nN| -hr naml oservemo nE| -hAntrolc Mail fexo s events
+A| -hAntroled trathe  imhe bumum o Sizednts
+I| -hDnable to srequesstific
+
+ |ed to c |P| -hAntrolchysthe |Note| tptile to contr`MA  Det enn etuServer SteAe
+ OaoSand thM enar  to co r foDeis id eventsAatis id eves optiond ztionsbetmppporore g the64er Sng use,loo be se1 aAote| tr this serWs
+
+y(ACLs)  if flthisdoptiontor s optionNote| tol who urer  r,ptiod te. Hoons are based
+or se
+~0
+ |Nre: memonR| -hr adnNote| emonW| -hWet enNote| emonC| -hC
+onesoservemonL| -hAntroled trlookuprs(DIRs)em`PP field |ai P work fr  to co tuServer Str foDeis id eventsAatis id eves optiond ztionsbetmppporore g the64er Sng use,loo be se1 aOutres Devic loggutres devic etwork taCOM1,aCOM2,aCOM3thisCOM4 als0 th-in user sed on the
+ ne0B |Non-fce optid Disabled. Ifr s per|et up O thwith tionged-in usersffer o have ttwork taindivi-DOfers)  ) prare baame time.work ) pre
+; thi this serverwatietiono work frk. u s oppapre als03us-in user sed on the
+ Tll ou
+equtweoin user individual pr Disabled. Ily log in
+ 'll O(otly ushds)option tkseueelapsg bes yee thenndividual pr Diy btbetweense ttuual pr Dg up r
+
+ axibes yee the er (this 'll Oin id eexptime,e thenndividual pr D servicel
+etBIOgh
+Banaskfiege ne0B |Non- 
+~05  Disabled. If banaskfpae ttwork tao workxibes yeee buffer oprajoban handbanaskfnumwsrs is
+ anaml,pppchof  naml,p 
+~05alg up ms S r,ptio donesans 'll Otio jobum sao workxs the ss s6ˆ4+u cop numbero workxians or rem aServer StbBIOghe n tm Fr-Ds ne0B |Non- 
+~05  Disabled. If Serv bekxip msEntewwork tasenumbertiod to work fvfne. e bufr oprajobaBIOg6
+Ims dwonesD ze,ola netw0B |Non- 
+~05  Disabled. Itiono wor jobumworksersno wor, thhms dwoneser thi) p bes yeemorkttheh Server Steputer
+ sennumbertio feruehat
+ a
+ a
+ fuonotiween o ino wor, ther's pjobDiyubufuteailps
+smoservhroug7foDeie,ol Tll ou
+equtwehms dwoneatie,ola nr Disabled. Ily lo 
+~05 lenr the ner of us numbnablfm'll Otione for see valyatie,ola nrjobupporersten i of bes yeei | D serloskxians anor remjobu Diy btmbertio o work hroug8onLof thPskfiege net
+ afied i 
+ mr the ork Tasks
+ Use this optilof then Em numo workxi
+ nee bufregevervServ bekxip msEntewwork tasenumafne. Fooe er (this er| and to coif thsed
+r
+ so workxhroug9 |Tab Width and ne.eoplviysu may excep Oaozero (0), the higfied isabledsrsab expanse
+ neans  er (this
+ Use this optibpac The matie,olspetworkot
+ at is the o wor nejobu netym'll Oarsab  Disacnumbern bet
+ a
+ a
+ fuo imumo work  are baduffenore request abrvervty the rsab s more s
+ a8hrougA |Papre Width antweensebanaskfpae t 
+~05  Disabled. Ien Epporner ofhigfied ibertiod to oin ppapreumwdtt bufmd onnnsebanaskth (ACdon't number of neofhigfied iifse.ximuarre peoplsernd con8.5" x 11"ppapre als0BonC Sns/S ushd net
+ a 
+~05 setThe mam u |Enter| and tyr Sng use,tione fortie,olspetworonly bembertio o work ee bufy ushd,rerg cole| t optionthe scie size of D seze,
+ yeopbetween Ener a 16, set fivest"
+one. For 
+ exess |Enter| and t ser Sng use,preuy ushdet fiven re's resourLs) outres,ven re's resourtworonltd onsosing th awaymote Bor remfce optie, thocoustptipcho ne
+ ex16, sonly t, the higfied  als0Cuse t g Delay net
+ afied i 
+ mr the ork Tasks
+ Use this optiy ushdse fortie,olspetworonlwaiaxbOS 
+ senne used ifs t g str, the mtio o work eans  nne used int Noton tdona bumum o workxhet
+ a
+ a
+ fuo imumo work  are banumberll Ottio c u tialthisd ifs t g str, t als0DonCOp n g Delay net
+ afied i 
+ mr the ork Tasks
+ Use this optiy ushdse fortie,olspetworonlwaiaxafne. enne used ifcOp n g oserhet
+ a
+ a
+ fuo imumo work  are banumb setr cOtti u tialthisafne. FooecOp n g oserr Diy btbals0E nEdiaxe t g Str, t net
+ a 
+~05  
+ mr the orkediaxd ifs t g str, theione fortie,olspetworonly bembertio o work efy the sersnferser oprajobant
+ aitr, thaximum time seto ner of uo wor  thi,uo wor e coitytmodeians or rempSngme useth (ACLs)  ser
+onesprinte
+ go work enamly tortic'sones
+ |N- rechysthe |o work fr)  seva idustmodes in tois servery(ACLoud icmorkver -xer-DOdrafntmodei@DRAFT  neans cmorke tlo-e coitytmodei@LQf memoIand senferses t g str, thy(ACLs)  ine. ent g ans cOp n g osernamlyforwathaent g oserr Dioutresibes yee thebanaskfpae forwaecOp n g oserr Dioutres neafne. en reo wor jobuou're 
+vhrougF aAote| tr this serWs
+
+y(ACLs)  if flthisdoptiontor s optionNote| tol who urer  r,ptiod te. Hoons are based
+or se
+~0
+ |Nre: memonR| -hr adnNote| emonW| -hWet enNote| emonC| -hC
+onesoservemonL| -hAntroled trlookuprs(DIRs)em`SM xe t g Str, t |EnteF
+s Ss serserrwan 
+~05swondisk ens ser  
+ m the orkt
+of  d ifs t g str, then Em nu seto  tasenumbertio|o work fbes yeei |beginsno wor, tverlremnltis serhen  servimt
+of  aaent g oserrEnt/mumancOp n g oserrto  tasenumbertio|o work . r fosede|et fiven ervinoreus  aaent g oserrEntmancOp n g oserriween o in peopetwavs t g str, t alr foe t g Str, t neS(Operywork. 
+~05 |Se d
+ol nexhe a noh t g str, thor orkt
+of  as uwthaent g str, t als01foe t g Fsernaml neS(Operywork. 
+~05 |Se Tasks
+ Use aml  opaaent g oserforwaeent g oseronlwwork tasenumbertio|o work fbes yeea jobubeginsno wor, trEntmbes yeeany nebanaskfpae tisso workxhroug2onCOp n g Fsernaml neS(Operywork. 
+~05 |Se Tasks
+ Use aml  opaacOp n g oserhetaecOp n g osero c Diy btmbertio o work tptile- u tialthisiaxafne.  peoplaaent g oserrimumaffer oprajobaem`SP xe  woi P work fr  to co tuServer Str foDeis id eventsAatis id eves optiond ztionsbetmppporore g the64er Sng use,loo be se1 aOutres Devic loggutres devic etwork taLPT1,aLPTorhisLPT3 als0 th-in user sed on the
+ ne0B |Non-fce optid Disabled. Ifr s per|et up O thwith tionged-in usersffer o have ttwork taindivi-DOfers)  ) prare baame time.work ) pre
+; thi this serverwatietiono work frk. u s oppapre als03us-in user sed on the
+ Tll ou
+equtweoin user individual pr Disabled. Ily log in
+ 'll O(otly ushds)option tkseueelapsg bes yee thenndividual pr Diy btbetweense ttuual pr Dup r
+
+ ax nebes yee the er (this 'll Oin id eexptime,e thenndividual pr Dervicel
+etBIOgh
+Banaskfiege ne0B |Non- 
+~05  Disabled. If banaskfpae ttwork tao workxibes yeee buffer oprajoban handbanaskfnumwsrs is
+ anaml,pppchof  naml,p 
+~05alg up ms S r,ptio donesans 'll Otio jobum sao workxs the ss s6ˆ4+u cop numbero workxians or rem aServer StbBIOghe n tm Fr-Ds ne0B |Non- 
+~05  Disabled. If Serv bekxip msEntewwork tasenumbertiod to work fvfne. e bufr oprajobaBIOg6
+Ims dwonesD ze,ola netw0B |Non- 
+~05  Disabled. Itiono wor jobumworksersno wor, thhms dwoneser thi) p bes yeemorkttheh Server Steputer
+ sennumbertio feruehat
+ a
+ a
+ fuonotiween o ino wor, ther's pjobDiyubufuteailps
+smoservhroug7foDeie,ol Tll ou
+equtwehms dwoneatie,ola nr Disabled. Ily lo 
+~05 lenr the ner of us numbnablfm'll Otione for see valyatie,ola nrjobupporersten i of bes yeei | D serloskxians anor remjobu Diy btmbertio o work hroug8onLof thPskfiege net
+ afied i 
+ mr the ork Tasks
+ Use this optilof then Em numo workxi
+ nee bufregevervServ bekxip msEntewwork tasenumafne. Fooe er (this er| and to coif thsed
+r
+ so workxhroug9 |Tab Width and ne.eoplviysu may excep Oaozero (0), the higfied isabledsrsab expanse
+ neans  er (this
+ Use this optibpac The matie,olspetworkot
+ at is the o wor nejobu netym'll Oarsab  Disacnumbern bet
+ a
+ a
+ fuo imumo work  are baduffenore request abrvervty the rsab s more s
+ a8hrougA |Papre Width antweensebanaskfpae t 
+~05  Disabled. Ien Epporner ofhigfied ibertiod to oin ppapreumwdtt bufmd onnnsebanaskth (ACdon't number of neofhigfied iifse.xim'rre peoplsernd con8.5" x 11"ppapre als0BonC Sns/S ushd net
+ a 
+~05 setThe mam u |Enter| and tyr Sng use,tione fortie,olspetworonly bembertio o work ee bufy ushd,rerg cole| t optionthe scie size of D seze,
+ yeopbetween Ener a 16, set fivest"
+one. For 
+ exess |Enter| and t ser Sng use,preuy ushdet fiven re's resourLs) outres,ven re's resourtworonltd onsosing th awaymote Bor remfce optie, thocoustptipcho ne
+ ex16, sonly t, the higfied  als0Cuse t g Delay net
+ afied i 
+ mr the ork Tasks
+ Use this optiy ushdse fortie,olspetworonlwaiaxbOS 
+ senne used ifs t g str, the mtio o work eans  nne used int Noton tdona bumum o workxhet
+ a
+ a
+ fuo imumo work  are banumberll Ottio c u tialthisd ifs t g str, t als0DonCOp n g Delay net
+ afied i 
+ mr the ork Tasks
+ Use this optiy ushdse fortie,olspetworonlwaiaxafne. enne used ifcOp n g oserhet
+ a
+ a
+ fuo imumo work  are banumb setr cOtti u tialthisafne. FooecOp n g oserr Diy btbals0E nEdiaxe t g Str, t net
+ a 
+~05  
+ mr the orkediaxd ifs t g str, theione fortie,olspetworonly bembertio o work efy the sersnferser oprajobant
+ aitr, thaximum time seto ner of uo wor  thi,uo wor e coitytmodeians or rempSngme useth (ACLs)  ser
+onesprinte
+ go work enamly tortic'sones
+ |N- rechysthe |o work fr)  seva idustmodes in tois servery(ACLoud icmorkver -xer-DOdrafntmodei@DRAFT  neans cmorke tlo-e coitytmodei@LQf memoIand senferses t g str, thy(ACLs)  ine. ent g ans cOp n g osernamlyforwathaent g oserr Dioutresibes yee thebanaskfpae forwaecOp n g oserr Dioutres neafne. en reo wor jobuou're 
+vhrougF ae  woi PuesttuServer Str fRefustptien reo worustsEnon timum16,idmpSngme useeto ner imumen reo worushrou10 |PuestAote| emoPre| t|d ne.|ibertt uof beS 
+ s Sndwareians Int14hbetwe Sndwareiiumbers(Operd. Idona wwork tatransfern sdo
+
+ lyabertio ouesbetweInt14hf D ses(Operd. Idona wwork tatransfern sviakttheh ne.rup O14hfsizeic vhrou11
+Baud RoneemoPre| t|d ne.|iondisk e 
+~05 |Se (Operyote Bacoisnfer16,idmbaud  us vhrou1 thWoco Length anPre| t|d ne.|iondisk e 
+~05 |Sett uof tthewoco length beS 
+ s7ians 8 nebitvhrou13usStop Bitv anPre| t|d ne.|iondisk e 
+~05 |Sett uof tthe this optiytop biaxbOS 
+ s1 neans 2hrou14 |Paet y anPre| t|d ne.|iondisk e 
+~05 |Sealremnltf tthepaet yxbOS 
+ sNons, Od. I and) p ans Markhrou1he n
+ m r this serPre| t|d ne.|iondisk e 
+~05 |Sealremnltf tthef
+ m ol who ubOS 
+ sNons,serHSndwareians XON/XOFFhrou16 aAote| tr this  LisserWs
+
+y(ACLs)  if flthisdoptiontor s optionNote| tol who urer  r,ptiod te. Hoons are based
+or se
+~0
+ |Nre: memonR| -hr adnNote| emonW| -hWet enNote| emonC| -hC
+onesoservemonL| -hAntroled trlookuprs(DIRs)em`PS  Outres Devic  TypnumberTsk ens ser ois in
+ 'ypnumptidevic  |Evailtion. Usf tthearrrolkeyeeto mbers(OperrserSngllel (LPT1,aLPTorhisLPT3),fsizwoi (COM1,aCOM2,aCOM3rhisberCOM4),fGlobal, Se,olsd KeyboSnd,hr mede, Do
+
+  KeyboSnd,hhisDo
+
+  neSs ser devic forwa so e| t|d ne.|f memoIween EneOperrsesizwoi o worustdevic ery(A'orknumber orefustptien rd to work fsEnon timumFooec r
+
+ esizwoi ouests more sf memoS(Operyr medetiween Em numptius  aar medettie,olspant
+ adevic etworknor nebettie,olsdmbydisk enize of memoS(OperyGlobaltiween Em numptius  aar  to co 05  nor remnize ofetae nerefussacsdmr  to co kseuebenNote| iiontote Bisk enize of memoS(OperySe,olsd KeyboSndmptir
+onesaar  to co re batworktd ondona ote Bisod tferueians plac ei | nbertik ekeyboSnd. Usf ttk er  to co imumferueeoplvbers(rinumptikeyboSndip msEntsf memoS(OperyDo
+
+  KeyboSndmptir
+onesaar  to co re batworktd ondona ote Bag up this la nr per|ans plac ei | nbertik enize o' ekeyboSnd. Y(A'orkusf ttk  nere to co ro  
+ m r medetol who uofrtik enize o' ekeyboSnd. memoS(OperyDo
+
+  Ss ser ptir
+onesaar  to co re batwork 
+ m p this la n ne pereeto viewrtik enize o' ens ser. Y(A'orkusf ttk ere to co ro  
+ m  neremedetview, thofrtik enize o' ens ser.em`IS  P work fIu tialther SteStr, t  and ne.rs) iu tialther Steitr, th(64-r Sng usxess |En) re batwork tasenu seto en reo worustbes yeee buer oprajobanRefustptien reo worustsEnon timum setwaeent g codesmptius  with en reo worushro`SF xe t g Fsernaml  and ne.rtthefuorkpatt bufen reo worustent g oserforwaepatt kseuesersnwithetwavd o eke tlotim
+ msdmbydaacoloo (:),funle| txim'rres more s g aeremede nere to co Entew numptius  aaent g oserronptiond medetnize ofeIndisk ecass,sertthefsernamlfnumud ibegin with f backslash '\' ans c thais the oatt buftwathaent g oser. Don't includf tthe\\SERVERe aml is the oatthro`CF xCOp n g Fsernaml  and ne.rtthefuorkpatt bufen reo worustcOp n g oserhetaepatt kseuesersonlwwth f d o eke tlotim
+ msdmbydaacoloo (:),funle| txim'rres more s g a neremedetre to co Entew numptius  aacOp n g oserronptiond medetnize ofeInserttk ecass,rtthefsernamlfnumud ibegin with f backslash '\' ans c thais thed toatt buftwaaent g oser. Don't includf tthe\\SERVERe aml is the oatthro`AC  Aote| tr this  Lisrs(ACL)m se (ACLs) usf ttk ess ser ptiviewrtionNote| trer  rare based
+r
+ senreup seimumFooes(Operd.fnuarn sdo
+
+ ory,eo worustostsEilnd ztionsbe (ACLs) alsuffemodemodemodemhis opti  rare based
+Operd.fnuarn sdo
+ (ACLs) alseueydaacop n gvic Otionewho urer seto er| and t-hr adnNote| emonre| t|d nnnnnUsres,ven pkhroaffer opra todoe t g enNote| emonre| t|d nnnnnUsres,ven pkhroaffer opraw emoe t g eesoservemonLF btmbennnnUsres,ven e ba  to co rg s't inclper| emon If Serv bekxiusres,vembennnn  to co Sngmk ew emonCoh t g str,t inc g eMsoservemonLDo worustmbennnnUsres,ven  to co rg s'subeo worust.ntroled trlookuF bt LRs)em`PS  O memoS(O)mbennnnUsres,ven s nbey/searce tlo worust ztisubeo worust.ntroDed t
+ aeonLF bt|d nnnnnUsres,vend aeonLa,t inc g eKed t
+ aeonLDo worusit|d nnnnnUsres,vento cve/d aeonLa,subeo worust.ntroNote| ee oatF bt|d nnnnnUsres,vengtimoaffer  rg s'e oa.ntroEed trlookuProserm ExecuustptiennnnUsresnnumtnizeased ifs xecuueobantosermerveryawaymntosermailpstiennnnMicrosoRAFWindkedner ofhnlwwgtimml,pppchml,pR ( emonre| t|)zeasedtiennnnises t g stml,pEzeased ifsemedethim ztihd to w xecuueo thi,uosermentroAed trlookuF bt Atr Sbuuesorkxhethd ngr of     Aiusres,vee,prngrrsr Sbuuesoone| -hAtthro`AC
+ ory,eo worustentroIed t
+o worust Srvervtsecaeo wortF bt|d nnnnnRr  to cosorkxther eo wortffer nu secaurolkeyeed tdoneg stml,pr eo word nnnnnffer rkxhetrenbertdged-in useed tdoneg stml,pffer rie,olsper eo word nnnnnffer poionegtoentroPed trlookuPwork fr)his  Lirkxnumbersof     Aiusres,vee,oorwcd ifsDOSvailtion.ertio oue Sngst athrougin useof     nt
+ adevic etwo i of swortthro`ACe ofeInsyes m. ennrinumDIR n gte Bd nnnnnfztiastsEilnd rebers4hfDu fortiesymote srg th bk rebers4se SnglocS r,ppppprebers4ser seto euer|ndTab Wppppp|Warnoe t..| Tkxtvouseeu're 
+vhd afidneitem`a goo'rrdeagst atof Serv  Wpppppo`ACPi  rare basederyDo
+An who urer  r,pti,idmb(ACLs)isr16,idmbaudppchof  se Sngo`Aitiassocola  of basedervery(ACLoud:of     ADMIN_*nnnRWCMLDKNEAI-of     CARL nnnnnRW--L---E---of     *         ----L-------of seueyirdmbACL, ADMIN_*,
+ Use this ope,o|Nreusresed-in useyirdmbsixed
+ msdms "ADMIN_,"ilps
+smoADMIN_NED,snnumbufenais  Lirkxf D seze,'d. Id
+ ory,e batwork 
+ med toatser ptiACL. CARL isr1aacolootien abekw emoernaIRs) on't inse Sng xecuueontosermaibuus,vest ad aeonLpra te oat7foDeitrloOtioofetiewrti(
+ |N- renize ofe "*")s,ven e baIRs) on't inseryDo
+f ttk ess ser ueydaacop n ers(OperoS(  DiustcOACLs:of     ppp|rseed trdd  rg s'ACL.of     ppp|
+ aed t
+ aeonLCoh t g str,ACL.of     ppp|F3| d trlookuafenais  L. of     ppp|F4| d tDeNreafenais  L.of     ppp|F9| d tSaimml,pcuoi nt,ACL.of     ppp|F10ote| eOS reo thi,uumbin  basaimd,ACL.of`AfIuAut g TrnsbeMaEilnna co of rrolkeyealremns
+~05 |SemenuOperoS(  Diopti ut g trnsb
+r
+ senreup see higfion'
+~05 |SemoS(Opery |Vte| LadmbF s'Aut g fuosit|d nDs nbeyumtnizladmbf s'euosit|te| tol wut g trnsb,t inc g~0neeCopyuAut g TrnsbeF btmbe  to co isabled. mptius  aar  tanask),fupyte| tol wut g trnsb,t inclsuffemodi ofustptiede o' ek mptius  aar  teu're fnetml,pffer pra'\' ion'ml,pffer,olsdr oprf fltrro iddiaxe 2Delay hml,pAut g TrnsbeF btmbe  to co isabled.aar ay h--d aeon--tol wut g trnsb,t inclItem`a goo'rrdeageo worde o' ekt oularouesbetvouseaisu woa str,largrrsmouoneg stwut g trnsb,eo ag uped.ustcO s k.of`AD  Vtik eniml,pAut g TrnsbeF btmbeTol wut g trnsb,t inmed toatser ueydaacop n mr ths-hr addddddddT  DmonL Tte BnUsree oateMax16nennRrased. V
+ erv  WmbeTolse mr thsthe\\SERVERe ydaacop n ir fRefustp-hr adnT| (sk eg steuosy)mbenn*d tSeze,wth f  a
+Notr rie,olspev
+ erv  mr theed toatse16,idmbaudwie,o adddddddf D seze,m p thiut g.of   !d tSeze,wwnumshnetdken.of   Id treusreslpss  LbufebaIRggr tthrokxf D seze,
+Notr rie,olsperrased. adddddddmr theed toatseml,pppchem`eu'v ingeL.of   Od treusresIRggr tfnete forze,  neSf D seze,m,oorwcdled.wnumbroken.of     ppNotr rie,olspev
+ erv  mr theed toatsetol wmouonte fIO per fRer of      bydaacoloo (:optiytop biaxbrebers4s.of   Ad tris  Liwnum1aacolootieaId
+ ory,e batwor.of   Dd tris  LiwnumdenilootieaId
+ ory,e batwor.of   Qd trnteuosyiwnumnbertdgthro`ACbers(.of   Sd treplac eeuosyiwnumbydisk enitieaI`SF xe t g   Hd tTol  s k
+ Uertinnumdropploo eookuai,uu-wor  te bholab WpppBd tTol CPUppp  Dinnumriskhroboveuai,uu-wor  te bholab WpppUd treusresrebers4enitiew emonCohwut g euosy.ntroD t|d nTol   m ol wheuosyiwnummadeic etwoptivhkengthro`AC fRe YY.MM.DD,swfete YYre toe.|fdonegl whyy h, MMgl whmd the SngDDgl whday.ntroTte d nTol gte Bl wheuosyiwnummadeic etwoptivhkengthro`AC fRe HH:MM:SS,swfete eianH toe.|fdonegn wrs, MMgminuueso SngSSfor,ooOpery |Usree oambeTol wccouont thi,wrted.wnumusp n w|d ntol wut g euosyiwnummadei g eMax16nembeTol rouguorkpatt ,wrted.wnumusp n w|d ntol wut g euosyiwnummadei g eRrasedmbeTol rrased.Operd.fneuosy.ntroV
+ erv  Wtrddidledm nur fRefustprobonetml,pwut g euosy.nt`AU efuork eniml,pAccouontNae Bd nu tialtm'riqul wccouonte oa.
+An whoouonte oaer seto on'mo tr ess |En) srnaIRe tlItfhnlwwst a,vest aed toatt|Nre Uerts neSr  r,ptiess |En) s.ntrsk k frlyrg th bksgin with fhigfion'usp n whoouonte oa
+r
+ s ay hlyrntrrdenthis r eovidetwaiewrti(r eovidetwawhoouon|)zneSgroupsbaudppchsrna( p dconeswhoouon|)n EneOp eovidetwawhoouonte oa
+mased he\\SERVERe e oaee| tol ,wrted.whorustd o  aar  temedetOp n g 5 |SemoS(Opervery(ACLoud, BILLzneSJONESn EneOWp dconeswhoouon|odi obe e oao
+o
+r
+ sf flthislim g ais  LifneSgroupsbauo viewrt,ifneS(ACLoud, mhi  to  ad LPTtmdonegid.ustcOroug|Nralseute masedtieiontSgroupionewhoouon|oOperd.fnpay perad LPTtmdon,ifneS(ACLoud,  frlr of PAYOM3PAY2M3PAY3o Sngo
+ousfA3PAY*  p dconeswhoouon w witht|d nhe\\SERke na ool wccouonegid.ustcOpay perad LPTtmdon. Oofet p dconeswhoouon|emodased be e oao
+SALES*zneSENG-*.  Lat,  w|d nrsesizti  rare based
+edmbed
+ ory,e batworssf flthiss ser usete oa
+r temedetoy(A'Nrebased
+rdemor eovidetwaiewrtineSgroupsbaudppchsn Ene`CE  C emo fr)Eto her  fRefustp g eRrosyitol N th bkeybo k
+neSsknor nO,wrfustp g 
+  Ss  co isabled.aaranasktol rouguorkpsremptlkeyealwrfustp agoat.ntrW|d nrseso couonialtheeto h,  he' iaarse numpl whdoobiaxba,tloppytlotim co r pkhrobi mptiusenreuawaymoofetminocOp orv merAforkpaakp n zwoi outimke cdled,sizwoi o co isabled.aarf swmDiustcOalwrfustpc g~0neeFnsb,tol N th bkeybo k
+neSsknor nO,wrfustp g 
+  Ss  co isabled.aarca collkeyealwrfustp id.ntose  Li Sngr Dornent g oser,uumbin  pndkeclsuffin witht|d nzwoi out|Nrep orv mtineSpe  Li|Esc|
+rdemo t tlkeye pndkecaxe 2DeIgn reo thiEto h, srsinureo worNET_MGRneOpmptiuschoo to co isablednamlfnNET_MGRontoserm nu secrsinurenumtnouginneOst hp n happln a
+|Notr| rie,olspealwrfustp di ofod be p olwr ba oLoud4enike Sngdi ol t gaarfuDoreeeto hscass,mostefserssf flin withfod izwoi o co io r pustpc g~03roAbrvtnNET_MGRoSngR Dornent DOSvImoaoola lymbeToo isabled.emedessf flo w xitnNET_MGRoimoaoola ly.nt`LNnnRrew numpNe.rtthefuorkptm'riqul e oa.
+I a,vesenreuon'mo 8iess |En) sbydaacoloo (:),lwriodke Snga 3xess |En) rexlnnsstpclseueydaacop n areeeACLoudsbaudvitrdte oa:of   C-DRIVEof   FLOPPY-Aof   @PRINTERof   @MAILntroNotr| rie,o@MAILoptilspeae bavitrdte oaoOperd.fnonsbe (ACLs) ant`DE  Devieilremnsntrsk atthrambydieilremnuon'mo 64iess |En) sbIRe tlIp diNreNET SngNET_MGRneOwindkedneae ba useyirdmb20iess |En) sbr seto e se,go
+item`a goo'rrdeagrdemotk atthramin rtmbydieilremnuyirdm,bydaacoloo (:),IRe  bian ant`DD  Devieilremnsntrsk atthrambydieilremnuon'mo 32iess |En) sbIRe tlIp diNreNET SngNET_MGRneOwindkedneae ba useyirdmb20iess |En) sbr seto e se,go
+item`a goo'rrdeagrdemotk atthramin rtmbydieilremnuyirdm,bydaacoloo (:),IRe  bian ant`HX  Inpch str,Css |En) srnafuorkptmth -digitnheACdse mfr)ytop biakptmsp ninmess |En) ant`PA tSeze,wP AosrnafuorkptmvitrdtDOSv  Aot seueyirdmbess |En) rhnlwwiontSlotim
+ |N- rstpc g seueor,ooObess |En) rhnlwwiontSfunle| tx. WmbeTotwoptio`AC  Aoee| tol lo worust aeusresed sese nw|d nusp n  co re toACLs) ant`BD  Bwut Rla s g 
+  Ss  ceupwut ro co pp olrola oOperustcOpSF xe t 
+erustcOpSF xe  diNuS r,pOperm reour fRefustpant`PD  Passh bdsntrsk atthrampassh bd on'mo tr ess |En) sbIRe tlveryaecu emy rraseds,schoo tke m'riqul passh bderAvouseppchof  se Sngh bds rie,odased be assocola  of ed-in usewhoouon. Wmbe|Notr| rie,olspepassh bd ptist a,vsu-wonssutim,go
+ves"A" Sngaes"a" arer,pOuncdledm  ba uses oaerss |En) ant`TD  LogthrH wrsDo
+f ttareecuoi nt bavtik eniml,pdeyum Sngoioa
+r
+ sf D se  Sseeswhoouon o re 1aacolooais  Lirkxf |SemoS(OperA lowmoSng()o ppy h|oOperee,y 30-minuueio rblockee| tte Bl whwhoouon o  1aacolooais  LeryDo
+f ttk es cveml,pcuosperd.rougin useblocksee| tte B Sngr sosiSs akptaacoo viewroais  LibySpe  Lp n |
+ aedakp|rseede  p outimly.Opmpapppchemre 1aacc renitte BonSf D seze,mo  1bonetm w xprti,snr prashr nu sebe gtimnd o  rnoe snw|d n15, 5, 3, 2B Sng1gminuue(|)zareeleftlsdr oprf D seze,mIRgmre  usmtfneant`WD  Dmonmre FomedetOspeae-die se Helpe Sng norkpatt 
+ |ory,emon.nt`AT efuork enip eovidetw,OWp dconespraGroupiN oa
+r tml,pACLrnafuorkpERe e oaee| ther eovidetwawhoouon,  p dconeswhoouon ocOACLSgroupirnatius  aar  tr  r,pt.rW|d nrsesde o' ener o' sebe erv    tr  r,ptmtnizlee,oOtiofoais  Lir
+ siewroneSgroupbaudppchsinnum
+~05 |Sem
+ ory,e batwor.of`PB tSizaee| tol PSF xe  Bui  trnafuorkpERe sizaee| tol pSF xe  bui  tpatt 
+ 
+ adev nu ses ser                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                LF+   " `   àW  y" \
+' O    [4à    !   ÑKÄ  0     &R`
+\dY  `) q4  0LUR>  Fj" HL h F  yÑ\ _ *   `R R
+à )+	 05	   [ `U4n!>           W8 
+  ä É  ew Y=0OyF   VK  Q _  =>H     nG OW 	ä Q[*É)äy1h
+Å 8= ! C >GUg LÅ    >KW  `y1  y"1  W ' jÉä [ e h   [ C  VmU}yÅ 	9 C gq   5y K n UW  n    V 8    GeY } R g_  Å \   CsH"e        V[5    n  5  W F"  \*  ä  +O	  &   9[Y  " l [C C W  äL    WÅ  1      =  lyQ9äÅ  jK 0 j}ä  G      sL F*K	  wK  5    Y[ Ä  ) WK  !    4 Y eK K"_	 ng      y *  g Ä   s  !Kn \ O    )   = s	 à s   V\   Gn   Äq    >àà l 9 +l  Q"s  Ä 5el \h 4! e W q  +  R Wh = G 8Ä\ sähq  sÅq g4q H  É) F      yR   n =s    H\   GL  5 Ä  eqy äw  0à+KV  h  	QGàO   äG  GU ä *   Y G W8! 	     "  	*+nRà   * Ñà W  }g =ql  C  gwy9   ![WL Ñ y8[[ 1U 0 .Ch 	 ä s       +  ["         Q  4   w        94L H4hh"  W   *L9    m `m  q \K  R jE     K 4)   F+YHK[         n)1    Ä[wF  s 8äy '  C É  E>Y 9 0=  V 	   U  }  w9  l   e    !  \  à  \8äCLL \=  K [	  9 1     m  QK 8 GU 0y  sq 8=j'QU K   y  8\  Le    9 9QF[     jO   n  
+Å=h    m'GU     _Y VROV9     l L  'WC Kl  [Äj0Y É      qsÑÄ}V        Y      "  e1K 	!Ñ\ e yy   =l  s``   Ñ Ñ Å 9F + ÉY`K  wg   >8    }0     * h+ à )  Ñ *  Å  L+  y     lwW    '5 Q4)[L )w =5      =)Å   l   !} \   ) !n  q  "    " 9  É  L9!    4s_  W Å     ` >  >   !!j  1 R  )5E l+ "YR 4'_)C   `ÑY  >  à   9EeGC0 ÄU  0 )1 H )1wh          0h   K    > Ñ  Ñ4Ow  9n l eHY  [  nF E +0	Gy4   y  K     Q=     ä   w !h ä+É    +   QLF 4ä	 E       m  É 9   q `L >  U =ä
+ Ä E E  ä " y >> !_  `  j"L >y  h    KsW `    >   0" U8 `>*Cl  l!  ÄK *   n ÄlG  Å1w  àWe\    " O }   *mh l    ä  eX )   yy   En`Gm  1 Ä  ä      Yq g   Ñ   '  V ` ä VÑà Ä
+    +  [K    4 9     >  O1    }O` +m  [4ä+	 U ÄK	  t0 H     K ROV  W l    l5 U   àä_Q  1äÉ       qÉ Å_5  ÉhO_H W1      Å l 5Wl  	K+H" Q= }   Q Oq11NÄ     5  +     Én8 s )  E e4   [ 
+  '  n        C  F WWF0  4  ÅQ 5 
+l     `     E 4   94 >[ y   ÅK9e *  E e  ÅmÄ4 y V       O    Å Yg
+he  w          WYR   Å       !}) _  e 	 Y  	  gH    YCG =!  Ä4  GG R`nwÄ wp[É+  >Y   L!Qs  )  Y    =8  ä 4e Fq K OVL   'O   Ñg_  = !   4 gU1}gU H    }    0      ä  F  W    y\5Ñ'      )V) )1 *W\	 9)E y n  m +E j W9=  _  L    5Q\Ég   !    )` F  lÅ}  w!  gä Q  s  à q e  Qà  ' =0  > Y  V  `QL    swC nL   y  	G àl m=  ' Ä_  g =` 
+9 n   5qä h     9  g_ HG*    !Lä = 0    y  É   _ C !Y \_ É V l;É    hm l   É mÄä    e   9`F  G       5*lO  =   *UH _  Ä  +    R  `Uw O mÑ  "      G   UwL>Kh1" Å  '0 n
+ 	`  s > C0U=    C      1Qe  s   C  ä 	YG     V n= R UW   1   w0>              + g Ñ  G 0 Å1V>  )ÄÑ*ÉO   R hR    j ) ! 5Ä[  "VÑF *s4  Å  }>  h  VWWhn'H) Å[   Äg	 FÑL  àK } ÉÉ L e Y`      'En    5>h  01! = " )'gl ä   s à  9 >   L }G9  j    Ä    }9   L   4\	\ Y   e eKs "9à*W 4'F
+L !4`hÉq   F LO_É  E\  j"  j\qwwl   Y [5 e=U  \   wL   	à gQ  Ä  5+     R [qn)  
+ 0      G  g Vj  e= F  [   n     m 1 LCà  >'	h) Å9  L  5K9 LL  Å>KW !j}5m  8  e   8)  l  q   }`+[ e} KRL`    h qm  ')n  E1 `  Å`   e	"  äe' +    4=É  _       [    *H  Là}  "w    +hC1      5     gnC   à  > e e   s  9W
+ q ))"hs> 0e U_ ={  04 `
+   Lg   C  L g 8 e m + n4*e Y  h w ["ä =  O + 
+Å        àj   5     n5Å     0C e>4     Gl  Vg  Y  jUs }L" ! l0w O
+GW48 \ _  E  \+    n  y  ä`_mG eC _qC= Y           É W  g` = *    W1 F   8 '   _   8  !    nnÄ         !w4  =Ñ >G* !s    !Y 8 )1 jK  )  Ä     5 	 50   \Uh  )  LàlV` e  L    h
+  G 4ä   'F!  ÑW9Qw	   g w R  5  äqg+ = Y\  nw  K     h\9 1 O  _   V 1 n  l C m s`q`l 1 \qU     àe"L Fà 9 L
+`K   YY    'V  gY    h!G  0  Y     ! U_ [  [  ÑÑä RÑÅ)=jWYL[à   G}q    	
+V =    "9    * L s q'  à5 W _q+ O  ÉK1 9>[ K Ñ   'e )1 =y ÑH RE   K   F w[F*	 4K 'Ñ qg  ` )  )}H _    R *  >K ä9_ '  g 8  H  F sUO9y s   H_ g\     +  U j9}+    Rà   M E [Oä    5U   U wÑj  ` \!*we  ä É  0  n   ) lV \ > '!5  l     O" U'_  e[ 	 ä9  G5 CW ` 9[1 .5  C` 
+  Å8C m4äWQ 	  _` 
+ä0  *    E !ÑWgà}+y wÑ   =W    W F"   > 9        w>l       n gW*l "V H    H      	 w  gh  eG  )1 H     Y Y[ "KC8 C  E   )  U     Y    ++    j   `  =  j   L*[F  )%  !É0 g   e  Y  Ä   4Qg     _)  j  
+R  O V    E   W   àR    à _*[GC   	 à} O  Y  E =\ Y1     q Å  n  Xg qà   Q    G_  C Y  * 0m    OC0    * j9  q9'sÅ em  *=9 '  [     \'    e  m    ÄC ÉC	 W   É!  } " V\ 4Yä j   V}OÑR EW    s! h  YC'VÉ'V OÉU H   qh   m >  E   l> 9      Y  >  e [ Wnà9 "+VÄ    [      _  ` H   ä   E   ' C ÅR  `  g      
+4   !V   K
+ \  s"  hjH 5     gF   G   	   \   U \hÄ 	 W  H +"  '0 }  G  ä0y_  
+Å     F w=  e >   e}   [  Å    +Hj  wáà QwW   9 WG     Ñ    Q É >     mäV 
+W"  wÑ  *   n  Y    1}elnÉg Uà ÅGjq  m0 n! )  n    1 n   V  H y  9w"= rQ s 5 "4hq  "àÑ 0 	K  1Y\  >    U*É'E Ç  Hsà 1           }  >C   q   1n[h0 F eY eÑH    g4Y  Y s     _UK O  Ñs Å     wÉ   n  Ws "* `E    ÉC`G 	 U   } R' H " jÅ14 ')0\ 5 j  W  `  9EÅ FÄ    jHL   ÉKäCs +EC  ' RV Kq 4C  " eE   É É  }  )s   äE  v    4  C+  0    `     +m5G    m+  w }   8 Éw  É  0 0          8R1     Y `ÅOY RC W q0 g}gV _\8q`äh}} 1      àF ä Q\E>5ä  s LL L V "KUEU+  Y   s >   V     !K+  	0L     >  =gÉàK  Q     R    >)R h  L!   l E 1   
+_ l }
+Uy!9    4 !
+Q>      Å        _    _ Ä K`R[g  CqYFw1   "  5ÄFmL  [>    1 )   y   9    ÄlOnY äU !  1Q  G9 É F_àG   	  *R9 Ñ! L  h   !àq      Ä V [  }[   w l \ ) G   ! CRVe Å  8qF \9W 0á G ) > àJ)R  }  0Vg   sw  _ l l 	  [ 9h_H VV Uy      Q  nj1   g    V     9 0    à  L   äs     äEj  Ñ  O  > à     8	  gG`n' **   `=  O 	 s  RF RQ   Q+  g Qeà  QwäGL9lC  g Ä'ä  [           )Ñm wj         Å> 0  _g>iw   O  	   V+          t  }+     _     [ nn L W à É h     = y Ä   s C > eR    Väm " l  "  %n
+*    ) H Ñ   nE h8
+ y ` h }      e l 9   5H>     =  à     sj* 5  É  >l  9 [ w4  U 8 4  ä4  _  yà `L'y_Ñ he`\  `   8 L
+   _'  ä1
+  Hä=   = C" H   Q     "lÑ_Ä"  j  j         É "  9 hy Y  "He   V0  1É>ä    h  5  C  4    Å s Ä  C   05 ä 0E  L    * É  G  C[Eà  w       "  } C " É1   8} '     V    F` =F1nÉ F  ä      Åq Y*      W
+9Y}9 !'      R  ä  n  5  "HEL E   É       nV4	  j    eQ"} WLg   w0Y1  "=4F     "5     !4      C"  j  =   L  "R W 9\ V K   GL me à   g)GKW l h * wR  [ }  Eq 1	w  =q  V4g  >
+K   Å)! n`m   =      ä      +  	  \   nV  C0 à Oà ) ä *H Gl44   1     ) \ [à 9 \" 5Ñ  jäe  U+OUQ5Å      \ s Ö) à 
+  R  "U   5*W 9 )ä  }sO Ñ   15    m)+     É   	KH  '   Q w`     j H  
+      Ñ  E   h e _  F)    [ )É*j   } G '=  ÄjV4   Q L     F   =   [H      O* G  g  =  w 5   s!V UR5q   8G  Q!`05Ä  n   Éà Ñ " 0} g h  É59 m  V F  Yq5 01 ! U  q5    )K 0
+)  eÑ  K    1
+    ) w } K5  >n}4 Q 0wR )  Ä	8 C+    sH  V)   h *    8n !'Yg U    m Cà YÅ   Ñ _  n G4 1    + F 	R w}nl
+   5U U   g [
+  4      qe  w 'ÑUL> _ )40FmUj 	  j   Å*  Q w= àY
+_E    \ "  E OÑ
+ * \ _C R nl0à5w   ` > Uy   [  5 4        5[ + Hh0l  _       
+   Hq    Rl8   m  Ål Q   >Y Y[0        V+8   h  55 $  +   s CC8     1j4ä !C[   e
+   L>   h>   W   YU  0!    }sE[  l0 " K *4   ÄY !  VVmV   C H  lG`  1 ) n      n}   	 O  Ä Y Y 1` 
+    UL w  W[Y   `
+  5 8   Q=ä Y+  +)GÄ`  + E!   +  m " j    äF É  jW  É 4 H> 99[\G QU  4[      Kà Ä   "  w>  	   4 }>*_  É  }+j 44          C  `  '     *        K 1Y"m    
+ n   1s) H `   H Å     '  no 5E  sà`     ]8OC  à	e =   }m  \     RÉ  ! +O8=1'`     e '1_sR"["m  E   '     y}K K  m    K  R 'L)"  G 0 =q [G  K E 14   m   O à àÄ q5  U  Ñ }W  Å    >   >n9Ä U 9h0 H9 0   ä >       mC   O  QmQ}G   qe}s 1*    
+à[_ä  g   gKR  G          >1ÅO _    )là Ä      w	  "   0 H "U  }  j V )g>
+OOà    _G4Yg g )  ljCiÉ  ÑÉU      `	}  ÉV ! LW  5ä)  F	!R [ 1 Y  W" j  8  
+  l   H)1É      8_  "   '  nj àm\0    Ryh _Ey+   ER	> qY   É4   `      >\ q     R       }W  jgmG   w > ÉÉ Å    "   K48   ` Ñ
+ ) = w }   H  \)qC\s  n  0   RO   n   	8  QÉ")L E0   \5F) R  e"ll Å Å      e   É[H U  	 1)    " Ñ ReU  =C'l 1\    `}ä   L>    lV1 Y ä `  Rà  ' [)     ÑR Ñ   4ÑE`5"ÅU` 	  4!R`  geVY  Hg9Y K C y        9Y'   O  O  wK1 Å  +Ç    e  wm1 _   h    lx
+[
+ }jÅ   n L }    U   G  8        10    +\ Fàe R C EWe    ä   5L   =>H  ä9  G    _ [=CE  qK> C\ 
+W8K 5 G FÄ=  à"  _g 0g  ! Ä e      5       	 _W   Ñgä RY 'G   U   s` à   4    e	K   5K5  e =     m Eel l  )L1ÖÄ   U0  _Y   y' !   y+K[   y`   QÅ9+    }  4 É  H  9Ä y    G  ll   s}O ! ä  y!     l h jÄ_   Q!Vq	 8É àq G g à `   *   0 191K    m      Å K s   L
+9 _)   !    n_  Q É ä `   mÄ  àL   hj nä _ 8U Y ä e  8G  n>5'j=L m 8_    CU 4É L  gO  jä*8     
+  +G"  ÑK  
+  Å q  \O 5 e\ }  q+8F !	          40 G0   _   h     "5UjjeQ        E   Ks nm nm }q   qQ \        'y\`   	 45   GU   [C0 =  O  l  m `}W   _[       >  	H[Å Y 	  
+=
+O  `n    >    1É      e    `! nm
+sR0W*YÅ R sm      ÉQg y    0  8 ) YUw    9	 mQ Ä  n 4 _w  \    n  +CC4we        E      	 Y   \Y  m   H  h5Y 5YqG h qO+>FR \ sK 	s+äFF   w	 ='s O_ 5G mseF  g    *  
+}>W   >R  Ä  G 5U0 Qh   yjC g G e 8l  ) ÉEK   C_  C  1 H  !Éä  _  W   
+G   L  [  0\H9W	}\   )Y +     
+w  W0  H   Y8  !  ! =sÑ  Ä}G' _ =   U[ >"4!       e jO)\  Y       lCEW     eÅ   9K  C8 +l |   E }  j + *Ul*   w5V4  gÑ w } Q m    ÑO 9j_[  e g H =Ä>   	  [  y   0   RL "	 H  ä 0\    ÑÄ  w  ! hÉ  1ä Ä 0 Cq  E  > C   Ä 'àLQ    Ä) y e   4Ljà OÅ` R  j 1 O  "s   R C   nK _ j   C HhwWK    g   	 \Eàm)ä h    V *g  W   } > LVw 5[> +   Å QL_ jlV V    > =Ä   H  RÄRl s     =0Q [C  Vl    _  HFCWH   y_
+1H g9O}h yFH   wG F EUà    ÅHwU      55   Ä 9) mà Ä =ÅE s    4  C} qY1 wU =Y    '1l _n  n  H C  g+  s+}
+Q" '  8Qhw ` 'àlWC )'É4  E  Ñ   ! 'Å  [  ))  j   gàH1 W 0  G\ O0 O)seH  >   à  e yÑ  K  Åj 4w  'Ve  ) \  919    +  ä  jy*'      ` g ;w   e      nà)[   H à   4  y  ÑlYsg 1K>Ñà eÑY F1CÑ G  g    É   ä  F
+ m +  !  *=5 às"       CàL ejH"41  h>Kh  V04>  0   !   "0W _ ÉHÉ  C  55  Yl        U   É	    EÉ8  )Y	   ` 1 _Ä      Å  4ÅRq_ Å4qÄ [          s 5Ä h	W yF+ gKY[*  K\  äVm8Y8 `H=> ') y   q C 9  Å'H     )    '  8   je    8 ä ÉÉ
+  8  84  y  F[ÉCCF  QÄ\ 5            0 `             Cq  W   Lh gw"  }W>Là h 110 l  [   > 
+   ä  }Y   q  Eq }Ä  G je ' >0      y h> =8 y"" ln U  9  +_     }   ä  *L9ÉE  l yh=1 y n	 É G      *HmU     E[[U=QL  R  gG['CO'U    à  FF_     h    \ s8  R     l8   >Gn  H  à  C U eäm9 l             8    l \l [   à g    9  R LQ   V     [ h  É  Å\F  Y [  g     VKyQ  "äG V80   + F \à9      h\=LL=K C Lg 
+   w  _!+Äw   G+      nÄ'4     Yh  10 É  g 4	0 Él   '                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

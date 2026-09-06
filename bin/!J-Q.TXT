@@ -1,0 +1,529 @@
+
+                            {Net Commands J-Q
+                            {================
+
+  {LOGIN
+  {=====
+       Allows you to log in to a server.
+
+             {NET LOGIN</WAIT/DEFERRED> \\server <user> <pw> (adapter#)
+
+      {/WAIT}      Continues log-in attempt until server is available. Can
+                 be abbreviated to /W.
+
+      {/DEFERRED}  Retries failed connection attempt later when user
+                 attempts to use connection.
+
+      {server}     Name of server to log in to.
+
+      {user}       Account name on the server.  If none is supplied, the
+                 default user and password are used.
+
+      {pw}         Password used to access server.
+
+      {adapter#}   Sets which workstation adapter to log in through.
+
+      Examples:
+
+              {NET LOGIN/WAIT \\SERVER1 BRUCE SECRET
+              {NET LOGIN \\HOST MARY LAMB 1
+
+  {LOGOUT
+  {======
+       Logs you out of one or more servers and cancels all drive and
+       printer connections.
+
+             {NET LOGOUT \\server
+
+      {server} The name of server to log out of. You can also enter a
+             wildcard character to log out of multiple servers.
+
+       Example:
+
+             {NET LOGOUT \\SERVER1
+             {NET LOGOUT \\SERVER*
+             {NET LOGOUT *
+
+  {LPT COMBINE
+  {===========
+       This command is designed for use in a batch file to combine
+       redirected printer output. For example, this option would allow you
+       to print the output from three programs with no breaks. You must
+       issue the command in your batch file as soon as you want the
+       printer output combined.
+
+       When the batch file is complete, DOS will automatically disable the
+       combining function and close your printer output.
+
+             {NET LPT COMBINE
+
+       The following are two sample batch files.  The first example
+       creates two print jobs, one containing the text "A directory
+       follows" and another containing the directory.
+
+             {echo A directory follows>lpt1
+             {dir/w>lpt1
+
+       The second batch file accomplishes the same task, except it creates
+       only one print job by using the NET COMBINE command.
+
+             {NET LPT COMBINE
+             {echo A directory follows>lpt1
+             {dir/w>lpt1
+
+  {LPT FLUSH
+  {=========
+       Designed for use in a batch file to flush a printer after the NET
+       LPT COMBINE command has been given.
+
+  {NET LPT FLUSH
+  {=============
+       The following example shows a sample batch file using both the LPT
+       COMBINE and the LPT FLUSH commands to create two print jobs instead
+       of four:
+
+             {NET LPT COMBINE               ;Combine output
+             {echo First print job>lpt1     ;Display message
+             {dir/w>lpt1                    ;Print directory
+             {NET LPT FLUSH                 ;Flush print output
+             {echo Second print job>lpt1    ;Display message
+             {dir/w>lpt1                    ;Print directory
+
+  {LPT NOTIFY
+  {==========
+       Instructs LANtastic to notify a user when a print job is completed.
+       By default, this feature is disabled.
+
+             {NET LPT </ENABLE> </DISABLE> NOTIFY
+
+       {ENABLE}    Enables notification.
+
+       {DISABLE}   Disables notification.
+
+       The NET LPT NOTIFY command can be overridden with the NET
+       PRINT/ENABLE or the NET PRINT/DISABLE command.
+
+       Example:
+
+             {NET LPT/ENABLE NOTIFY
+
+  {LPT SEPARATE
+  {============
+       LPT SEPARATE is designed for use in a batch file to disable the LPT
+       COMBINE function. It disables the redirected printer combining that
+       has been enabled in the batch file. Don't issue this command unless
+       you have previously given the LPT COMBINE command.
+
+             {NET LPT SEPARATE
+
+       The following is a sample batch file using both the LPT COMBINE and
+       the LPT SEPARATE commands.
+
+             {NET LPT COMBINE               ;Combine output
+             {echo First print job>lpt1     ;Display Text message
+             {dir/w>lpt1                    ;Print directory
+             {NET LPT SEPARATE              ;Separate output
+             {echo Second print job>lpt1    ;Print text
+             {echo Third print job>lpt1     ;Print text
+
+       This batch file creates three different print jobs, since the first
+       two print items were combined into one print job and the last two
+       print items were printed separately.
+
+  {LPT TIMEOUT
+  {===========
+       Specifies the length of time in seconds that LANtastic will wait
+       before it assumes a print job is finished. If no new data is sent,
+       the timeout expires, and the printer flushes all data. This has the
+       same effect as pressing Ctrl+Alt+Print Screen. A beep confirms
+       that the printer has flushed the data.
+
+             {NET LPT TIMEOUT time-out
+
+       {time-out}   Amount of time in seconds that LANtastic will wait for
+                  a print job to close. To set this value, start with a
+                  value between 5-10 seconds. If your printer output
+                  is separated when you print, you may need to increase
+                  this value. The valid range is 0-3600 seconds.
+
+       Example:
+
+             {NET LPT TIMEOUT 10
+
+  {MAIL
+  {====
+       The file will be placed on the server's mail queue where the user
+       can have access to it. When used with no command line switches,
+       this runs the LANtastic Mail menu interface where you may select a
+       server's mail queue to view.
+
+             {NET MAIL </VOICE> filename \\server <recipient> <"comment">
+
+       {/VOICE}     Denotes a voice mail file. Can be abbreviated to /V.
+
+       {filename}   DOS path of the file to send.
+
+       {server}     Name of the server whose queue the file is to be sent
+                  to.
+
+       {recipient}  User to receive the file. You may use wildcard
+                  characters to send the mail file to a group of users.
+
+       {comment}    Comment associated with mail queue item. You must
+                  place comments in quotes (" ").
+
+       Examples:
+
+             {NET MAIL C:\MAY_RPT.TXT \\SERVER1
+             {!ERNIE "Sales report for May"
+             {NET MAIL/VOICE C:\VOICE.MEM
+             {\\HOST $SAM "Voice memo"
+
+  {MESSAGE
+  {=======
+       Controls the display and sound for pop-up and voice error messages.
+       The BEEP argument enables or disables the informative tone that
+       accompanies pop-up messages, and the POP argument enables or
+       disables display of the pop-up messages.  The defaults are for
+       pop-up messages to appear, informative tones to be enabled, and
+       voice error messages to be spoken.
+
+              {NET MESSAGE </ENABLE /DISABLE> <BEEP POP SPEAK ALL>
+
+      {/ENABLE}   Enables voice and text messages and informative tones
+                if the BEEP, SPEAK and POP arguments are omitted, or
+                enables only the argument specified.
+
+      {/DISABLE}  Disables messages and informative tones if the BEEP,
+                SPEAK and POP arguments are omitted, or disables only
+                the argument specified.
+
+      {ALL}       Allows you to enable or disable speak, BEEP and POP with
+                one command.
+
+      {BEEP}      When enabled, informative tones will accompany messages.
+                When this function is disabled, you won't hear the
+                informative tone when messages arrive.
+
+      {POP}       When enabled, messages will pop up when received. When
+                this function is disabled, messages won't appear.
+
+      {SPEAK}     Enables or disables voice error messaging.
+
+      Examples:
+
+             {NET MESSAGE/DISABLE BEEP
+             {NET MESSAGE/ENABLE POP
+             {NET MESSAGE/ENABLE SPEAK
+
+  {PAUSE
+  {=====
+       PAUSE is similar to the DOS PAUSE command that suspends processing
+       of a batch file. NET PAUSE also allows you to halt processing for a
+       specified number of seconds. If desired, you can enter a message to
+       be displayed.
+
+             {NET PAUSE </NEWLINE> <message> <time>
+
+      {/NEWLINE}  Generates a new line at the end of the message.
+
+      {message}   Message to display. This message isn't new-line
+                terminated unless you include the NEWLINE switch.
+
+      {time}      Time in seconds (0-999) to delay while displaying the
+                message. If zero or no time length is entered, the
+                message will be displayed until the user presses a key.
+
+       Examples:
+
+             {NET PAUSE/NEWLINE "Batch file continues in 10 seconds" 10
+             {NET PAUSE 5
+
+  {PING
+  {====
+       Use this command to view the following information about individual
+       computers, groups of computers or all computers that are running on
+       the network:
+
+             {NET PING <machine>
+
+      {machine}   Name(s) of the computer(s) about which you want to view
+                information. You can use the asterisk ("*") wildcard
+                character to specify a group of computers. For example,
+                you might type ACCOUNTS* to "ping" all the computers in
+                your accounts department. Note that it takes
+                approximately 1/18th second (1 tick) to process each
+                name, so "pinging" a large network (NET PING *) may take a
+                considerable amount of time.
+
+  {POSTBOX
+  {=======
+       Searches the mail queues of all the servers you're logged in to for
+       any waiting mail. You'll receive a message only if you have mail
+       waiting.
+
+             {NET POSTBOX \\<servername>
+
+       Sample output:
+
+             {You have 1 message on Server \\TONY
+
+  {PRINT
+  {=====
+       To use a network printer, issue this command in place of the DOS
+       PRINT command.
+
+{             NET PRINT </BINARY> </DATE=> </DELAY=> </DELETE> </DIRECT>
+{             </NOTIFY> </NONOTIFY> </TIME=> </VERBOSE> filename device
+{             <"comment"> <copies>
+
+      {/BINARY}      Prints file in binary mode. Abbreviated to /B.
+
+      {/DATE=}       Sets the despool date. This option defaults to the
+                   current day. Date format is month-day-year (e.g.,
+                   8-7-1994) or day-month-year (e.g., 7- AUG-1994).
+
+      {/DELAY=}      Sets the amount of time the server will wait before
+                   despooling the print job. The valid range for this
+                   option is 0 to 96 hours. The default value is no
+                   delay.  The delay format is hours:minutes (e.g., 1:15
+                   to delay despooling one hour and fifteen minutes).
+
+       {/DELETE}     Deletes the file after direct printing. Don't use
+                   this switch unless you're using the /DIRECT switch and
+                   want to delete the original file after it has been
+                   printed.
+
+       {/DIRECT}     Allows you to despool directly to the server's
+                   printer from the file without copying it into the
+                   spool area.  This option can be used only with files
+                   that reside on the print server.
+
+       {/NOTIFY}     Notifies you via pop-up message when the print job is
+                   finished. Overrides the command NET LPT/DISABLE NOTIFY.
+
+       {/NONOTIFY}   Disables sending pop-up message when the print job is
+                   finished. Overrides the command NET LPT/ENABLE NOTIFY.
+
+       {/TIME=}      Sets the time at which the server will begin
+                   despooling the print job. This option defaults to the
+                   current time. The time format is hour:minute[AM PM]
+                   (e.g.  19:30 or 7:30PM).
+
+       {/VERBOSE}    Displays filenames as they're queued.
+
+       {filename}    Full DOS path of file to be printed. Wildcard
+                   characters such as "*" are acceptable.
+
+       {device}      Network printer name. You can use network paths or
+                   redirected printer names.
+
+       {comment}     Comment associated with the print job. If no comment
+                   is given, the filename is used.  You must place
+                   comments in quotation marks(" ").
+
+       {copies}      Number of copies to print. If omitted, one copy is
+                   printed.
+
+       Examples:
+
+             {NET PRINT report.txt lpt1
+             {NET PRINT C:\WP\MEMO \\SERVER1\@DRAFT "Use less paper"
+             {NET PRINT      PA      RINT      P.intoT "Use lessCAD "Plotle wi     {NET PRINT      PA      R(NEbel.into   2 "LEbels     J   "
+  {====
+QUEUE HALT      Searchuse a networHalNote ur and fifttert befors ther of secrt befor
+
+     twork     When tIose queue theiote ur and ficlose. To sejob is
+ PA  QUEUE HALT    n quotati the smand itonet on the server'sback    ahis optio user
+         dese ur and fitaste     laceT
+                tob i      ove withotwork:
+
+        n
+    
+        on Se
+   Q (Su    Q  {f)s opv   This m         thi place of th   {NET POSTBOX \\<servQUEUE HALTpient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Name of the ser server whose queue the fect a
+ the oprint job. T       delay.  The dellll forpies}      NuFY.n}PRINT </BINAer whose quthars elr
+
+     twork    s}      NuCOMn}PRINT </BINAer whose que oialr
+
+     twork    s}      NuD ur aner-You }NAer whose qurAGEt
+
+       {/N (RPSopies}      Nuws you to eime attopote ur and fiftteyou're logged'sr
+
+         When this functargument smante. Thino
+       ne co NEWLnd ina PA    When this functargumeQUEUE HALTonet auto usecrs yi  opote ur and fiftteyo   When this functargume're logged'sr
+
+           When           {NET PRINT repo\<servQUEUE HALTpie"Use le}{NET PRINT repo\<servQUEUE HALTpie"Use leIFY.e}{NET PRINT repo\<servQUEUE HALTpie"Use leICOM2}{NET PRINT repo\<servQUEUE HALTpie"Use leIws y{====
+QUEUE 
+       PAUSE rchuse a networTem   ari yi  opote ur and fi
+     
+
+    ceT
+ he time ose. To sg.
+
+        ceasete ur and f, butis
+                 cloplacent sm userg.
+
+        te uill waiter wose. To sejob ie ur and fitaste     la        one cos
+ PA  QUEUE STAR          ent smantdiffetime ithout coPA  QUEUE a networHALTptati the fect t
+ he time ose. To sitaste     la ithout cplayed.
+
+   n
+    
+        on Se
+   Q (Su    Q  {f)s opv   This m              opte of th   {NET POSTBOX \\\<servQUEUE ING
+ ient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Name of the ser server whose queue the fect a
+ the oprint job. T       delay.  The dellllpa   pies}      NuFY.n}PRINT </BINAer whose quthars elr
+
+     twork    s}      NuCOMn}PRINT </BINAer whose que oialr
+
+     twork    s}      NuD ur aner-You }NAer whose qurAGEt
+
+       {/N (RPSopies}      Nuws you to eime aPa   ote ur and fiftteyou're logged'sr
+
+         When this functargument smante. Thino
+       nples:
+
+             {NET PRINT report.txQUEUE ING
+ ie"Use le{NET PRINT report.txQUEUE  ING
+ ie"Use leIFY.e{NET PRINT report.txQUEUE  ING
+ ie"Use leICOM2{NET PRINT report.txQUEUE  ING
+ ie"Use leIws {====
+QUEUE RESTAR     PAUSE rchusese a netwoRe     s t
+ he time ose. To siithout co      ofs used.   ent sman a netwo   fulejob i      jamers toe qor
+
+     .
+
+ersche ,nutesa
+ the  a netwos mte     iclose. To seithout co
+   n
+    nt smdiffets ithout coPA  a netwoQUEUE STAR             ahrvePA  QUEUE STAR  reeles voi use
+  een
+  a netwoa PA  QUEUE HALT, t.txQUEUE ING
+ s tPA  QUEUE STOP             a netwo  oppla e ur and fifttert befortwork    
+        on Se
+   Q (Su    a netwoQ  {f)s opv   This m        ce of th   {NET POSTBOX \\<servQUEUE RESTAR  ient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Name of the ser serrver whose queue the fect a
+ the oprint job. T       delay.  The dellllmte     pies}      NuFY.n}PRINT </BINNAer whose quthars elr
+
+     twork    s}      NuCOMn}PRINT </BINNAer whose que oialr
+
+     twork    s}      NuD ur aner-You }NNAer whose qurAGEt
+
+       {/N (RPSopies}      Nuws you to eime aoRe     s e ur and fiftteyou're logged'sr
+
+         When this functargumeent smante. Thino
+       nples:
+
+             {NET PRINT report.txQUEUE RESTAR  ie"Use leIFY.e{NET PRINT report.txQUEUE RESTAR  ie"Use leICOM2{NET PRINT report.txQUEUE RESTAR  ie"Use leIws {====
+QUEUE S aL     PAUSE rchusee a networD ur an    T swl wose. To se follob i  opote ur and f ent sman a netwoo   fulejob ia
+
+      eeela   put 
+    me vidualn
+      
+
+   a netwoon defao   ec   e ac    nly ose. To sp mess     reand in pcoPA  a netwo QUEUE S aL                  ent
+    NEWLnd in place of ther wle   one cos
+ eue theiote ur and f,l begin
+        ides t t
+ he time ent,   one cos
+ i  op  
+        on Se
+   Q (Su    Q  {f)s opv   This m              opte of th   {NET POSTBOX \\rt.txQUEUE S aL  ient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Nme of the ser serrver whose queue the fect a
+ the octly to thea   When this functargumeT swl wose. To sLAY=}      SFY.n}PRINT </BINNAer whose quthars elr
+
+     twork    s}      uCOMn}PRINT </BINNAer whose que oialr
+
+     twork    s}      uD ur aner-You }NNAer whose qurAGEt
+
+       {/N (RPSopies}      uws you to eime aoD ur an    T swl wose. To seftteyou're logged's      delay.  The dellllp
+      ent smante. Thino
+       nples:
+
+             {NET PRINT report.txQUEUE S aL  ie"Use leIFY.e{NET PRINT report.txQUEUE S aL  ie"Use leICOM2{NET PRINT report.txQUEUE S aL  ie"Use leIws {====
+QUEUE STAR     PAUSE rchuse output:
+    s 
+
+     o sp e ur and fifttert befo
+ nd in place of ther         dese ur and fi        mdipop-u  e(nt smw     se oprint job.    ahi      dest.t_MGR
+
+  {PR
+     thPharme" ares m"
+
+   D.")
+   e ur and fita      deseipop-u     ahis
+  {PR
+     thPharme" ar,os
+ PA  QUEUE STAR     n quotati the     eles v e ur and fift yi seil a
+ te etT LPT/EN   fors     n quoLnd ina PA  QUEUE HALT, t.txQUEUE ING
+ s tPA  QUEUE STOP            When t
+        on Se
+   Q (Su    Q  {f)s opv   This m        te of th   {NET POSTBOX \\rt.txQUEUE STAR  ient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Nme of the ser serrver whose queue the fect a
+ the octleles v      delay.  The delllle ur and f AY=}      SFY.n}PRINT </BINNAer whose quthars elr
+
+     twork    s}      uCOMn}PRINT </BINNAer whose que oialr
+
+     twork    s}      uD ur aner-You }NNAer whose qurAGEt
+
+       {/N (RPSopies}      uws you to eime aoEles voie ur and fiftteyou're logged'sr
+
+         When this functargument smante. Thino
+   ettd f AY=}                  {NET PRINT report.txQUEUE STAR  ie"Use leIFY.e{NET PRINT report.txQUEUE STAR  ie"Use leICOM2{NET PRINT report.txQUEUE STAR  ie"Use leIws {====
+QUEUE STATUS    PAUSE rchusee a networwork paths o place of thectlideesutis
+    tuswhosaor
+     a networ
+
+     orr
+
+           WhenNT </BINNA.txQUEUE STATUS ient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Nme of the ser serrver whose queue the fect     
+
+    (s)man/
+   When this functargumelocaExamples:
+
+ SFY.n}PRINT </BINNAer whose quthars elr
+
+       s}      uCOMn}PRINT </BINNAer whose que oialr
+
+       s}      uD ur aner-You }NNAer whose qurAGEt
+
+       {/N (RPSopies}      uws you to eime aoAllowp messctlcheck s
+    tuswhosayou're logged's      delay.  The dellllp
+      ent smante. Thino
+   ettd f AY=}                  {NET PRINT report.txQUEUE STATUS ie"Use leIFY.e{NET PRINT report.txQUEUE STATUS ie"Use leICOM2{NET PRINT report.txQUEUE STATUS ie"Use leIws {====me aoAiter   NA.txQUEUE STATUS ut    applar    low      WhenNT </BINFY.e 
+
+   DiatPS:169oRead: 20480 Out    17555iateIf omleft:1   WhenNT </BINFY.2 DIS
+   Dia-- NotoD ur and fi--   WhenNT </BINFY.3 
+
+   Diaa-- NotoD ur and fi--   WhenNT </BINCOM1 ING
+Diaaa-- NotoD ur and fi--   WhenNT </BINCOM2 
+
+   Diaa-- NotoD ur and fi--   WhenNT </BINCOM3 
+
+   Diaa-- NotoD ur and fi--   WhenNT </BINCOM4 
+
+   Diaa-- NotoD ur and fi--   WhenNT </BINBATCH DIS
+   Di-- NotoD ur and fi--     When tI  ahise       above,NFY.e lacee time yie ur and fidata T       delp
+      eD ur and fi        mpa   difttCOM1, so    ose. To sp 
+   When tbed fi      mu  eFY.2  theBATCH on Se
+  irie ur and ficapability      deseipop-u , so    ose. To sp  pate se     mu i seil e ur and fita      desreeles vt job. If nPA  QUEUE STAR          eoAlthough e ur and fita      deseles vt     COM2,NCOM3 COM4  theFY.3,    o sp 
+cee time yibed f      delp
+   amples:{QUEUE STOP      Searchuse a networWob. Iflace of theyork pat  opte ur and fictis
+ eeesf t
+ he time      delp
+  ent
+   tfect 
+c   o sp  use
+  ,os
+ PA  QUEUE STOP    n quotati the  opote ur and fiimmu iaExly. 
+        on Se
+   Q (Su    a netwo Q  {f)s opv   This m        te of th fao te uille ur and f,lyor a netwo      hs o p nPA  QUEUE STAR          ples:{henNT </BINNA.txQUEUE STOP ient> <"co[FY.n COMnse ur aner-You mws ]>ver}     Nme of the ser serrver whose queue the fect a
+ the oprint job. T       delay.  The dellll  op ples:
+
+ SFY.n}PRINT </BINNAer whose quthars elr
+
+       s}      uCOMn}PRINT </BINNAer whose que oialr
+
+       s}      uD ur aner-You }NNAer whose qurAGEt
+
+       {/N (RPSopies}      uws you to eime aoAllowp messctl  opte ur and fiftteyou're logged's      delay.  The dellllp
+      eent smante. Thino
+   ettd f AY=}                  {NET PRINT report.txQUEUE STOP ie"Use leIFY.e{NET PRINT report.txQUEUE STOP ie"Use leICOM2{NET PRINT report.txQUEUE STOP 

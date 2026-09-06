@@ -1,0 +1,311 @@
+
+                            {Net Commands A-I
+                            {================
+
+  {ATTACH
+  {======
+       Allows you to redirect all available drives on your local computer
+       to every disk or directory resource on a server. This command
+       doesn't redirect printer ports.
+
+             {NET ATTACH</VERBOSE> \\server
+
+      {VERBOSE}     Displays information about redirections made with
+                  the NET ATTACH command.
+
+      {server}      The name of the server computer to which you want
+                  to attach your drives.
+
+       Examples:
+
+             {NET ATTACH \\SERVER1
+             {NET ATTACH/VERBOSE \\MAINSERVER
+
+  {AUDIT
+  {=====
+       Places an audit entry in the server's audit file. You may want to
+       place audit entries to mark the progress of your programs or log
+       significant events. You must have the U (User Auditing) privilege
+       to issue this command.
+
+             {NET AUDIT \\server reason "message"
+
+      {server}      Name of the server computer in which to place the
+                  audit entry.
+
+      {reason}      A string of up to eight characters giving the
+                  reason for the entry.
+
+      {"message"}   A string of up to 64 characters that gives detailed
+                  information about the audit. If you include blanks and
+                  commas in this field, you must enclose the variable
+                  string in quotes.
+
+       Examples:
+
+             {NET AUDIT \\ED start "sorting procedure"
+             {NET AUDIT \\ED stop "sorting procedure"
+             {NET AUDIT \\host *error* parity
+
+  {CHANGEPW
+  {========
+       Allows you to change your password on a server. You must first
+       enter your old password (which prevents unauthorized changing of
+       your password), then enter the new password. Note that you must be
+       logged in to the server to use this command.
+
+             {NET CHANGEPW \\server old-pw new-pw
+
+      {server}     Name of the server where the password is to be
+                 changed.
+
+      {old-pw}     Your current password.
+
+      {new-pw}     New password you want to use.
+
+       Example:
+
+             {NET CHANGEPW \\SERVER1 secret hidden
+
+       If you don't want anyone to see the passwords as you enter them,
+       use the command line:
+
+             {NET CHANGEPW \\SERVER1 ^"Old:" ^"New:"
+
+       You'll be prompted for the password, but the text won't appear on
+       the screen.
+
+  {CHAT
+  {====
+       Allows you to go directly to the Chat With Another User menu of the
+       NET program. There you can initiate a chat session or complete the
+       connection when you receive pop-up notification that another user
+       wants to chat with you.
+
+  {CLOCK
+  {=====
+       Sets your computer's system clock to the date and time of a
+       server's clock.
+
+             {NET CLOCK \\server
+
+      {server}     Name of the server whose date and time you want to
+                 use for your own computer's clock. You must already
+                 be logged in to the server.
+
+  {COPY
+  {====
+       Copies files directly on a server, reducing the amount of data sent
+       through the network. Both the original and destination file or
+       directory must reside on the same server.
+
+             {NET COPY from-path to-path
+
+      {from-path}    The complete network path of the source files. You
+                   can use wildcard characters such as "*".
+
+      {to-path}      The complete network path of the destination file
+                   or directory.
+
+       Example:
+
+             {NET COPY \\ED\C-DRIVE\*.TXT \\ED\D-DRIVE
+
+  {DETACH
+  {======
+       Allows you to cancel all disk connections made to a server without
+       having to issue a NET UNUSE command for each connection.
+
+             {NET DETACH \\server
+
+      {server}     The name of the server with which you'll cancel all
+                 disk connections.
+
+  {DIR
+  {===
+       Displays directory and file information on any network directory to
+       which you have access. NET DIR displays indirect file information
+       and file attributes, which the DOS DIR command does not.
+
+             {NET DIR{/ALL} {pathname}
+
+      {/ALL}        Includes system and hidden files in the directory
+                  listing. Can be abbreviated to /A.
+
+      {pathname}    Full DOS path to the directory.
+
+       Examples:
+
+             {NET DIR
+             {NET DIR C:\LOTUS
+             {NET DIR \\ED\C-DRIVE\WP\ACCOUNTS
+
+       This displays directory information in the following format:
+
+             {FILENAME ATTRIBUTES SIZE DATE TIME
+
+       where the size is the size of the file in bytes, the date is the
+       date the file was created, the time is the time the file was
+       created and the attributes are any of the following:
+
+      {I-}       Indirect file
+      {A-}       Archive flag
+      {D-}       Directory flag
+      {V-}       Volume label
+      {S-}       System file
+      {H-}       Hidden file
+      {R-}       Read-only file
+
+  {DISABLEA
+  {========
+       Disables your account from further log-ins. This is useful if
+       you'll be away from the server for an extended period. This
+       function sets the number of concurrent log-ins for your account to
+       zero. This command will only work if account modifications are
+       allowed.
+
+             {NET DISABLEA \\server password
+
+      {server}     The server on which to disable the account.
+
+      {password}   The password of your account.
+
+       Example:
+
+             {NET DISABLEA \\SERVER1 SECRET
+
+       If you don't want the password to appear on the screen, use the
+       command:
+
+             {NET DISABLEA \\server ^"password:"
+
+       You'll be prompted for the password, the text won't appear on the
+       screen.
+
+  {ECHO
+  {====
+       Allows you to display the current value of a string. Unlike the DOS
+       ECHO command, NET ECHO allows you to use LANtastic's special
+       strings.
+
+             {NET ECHO {string}
+
+      {string}    The string of characters that you'd like displayed.
+
+       Examples:
+
+             {NET ECHO "Start of batch file"
+             {NET ECHO !"Time"
+
+       In the first example, the text "Start of batch file" would be
+       printed. In the second example, "Time" is LANtastic's special
+       string to return the value for the current time. The exclamation
+       point (!) in the second NET ECHO command tells the NET program to
+       expand the current contents of the string time, rather than simply
+       displaying the word "Time." For more instructions, see the {Using
+       {NET Commands in Batch Files} section of this on-line manual.
+
+  {EXPAND
+  {======
+       Allows you to find the physical or network path of any file. When
+       using indirect files, the NET EXPAND command helps you keep track
+       of which file will finally be accessed. This is especially useful
+       if you have multiple layers of indirect files. Use the /PHYSICAL
+       switch to find the server's physical path to use the indirect file;
+       or use the /RECURSE switch to find the network path to the final
+       referenced file.
+
+             {NET EXPAND [/PHYSICAL/RECURSE] filename
+
+      {PHYSICAL}    Displays the full physical path to the file.
+
+      {RECURSE}     Displays the full network path to the file that the
+                  indirect file finally references.
+
+       In the examples below, the indirect file, INDIRECT.BAT, is linked
+       to ORIGINAL.BAT. The indirect file, IND2.BAT, is linked to
+       INDIRECT.BAT, creating two layers of indirect files. If you type:
+
+             {NET EXPAND IND2.BAT
+
+       you'll see the output shown below:
+
+             {\\HOST1\C-DRIVE\APPS\IND2.BAT
+
+       This output tells you where the file exists relative to the
+       network.  In this case the file is located on the server HOST1, on
+       the resource C-DRIVE in the subdirectory APPS.
+
+       If you use the Recurse (/R) switch for IND2.BAT:
+
+             {NET EXPAND/R IND2.BAT
+
+       you'll see this output:
+
+             {\\HOST1\C-DRIVE\ORIGINAL.BAT
+
+       This command line instructs the NET program to search through all
+       the levels of indirect files until it arrives at the final file
+       referenced. The information given is relative to the file's
+       location on the redirected drive. To find the actual physical
+       location of IND2.BAT on the server, you'd use the Physical (/P)
+       switch shown below.
+
+             {NET EXPAND/P IND2.BAT
+
+       You'll see the output:
+
+             {C:\APPS\IND2.BAT
+
+       To find out the physical location of the file to which IND2.BAT
+       finally resolves, you'd use both the /R and /P switches:
+
+             {NET EXPAND/P/R IND2.BAT
+
+       You'll see the output:
+
+             {C:\ORIGINAL.BAT
+
+       This indicates the physical location of the file to which IND2.BAT
+       resolves.
+
+  {FLUSH
+  {=====
+       Flushes the resource cache, random access cache and LANcache as
+       well as updating account information. This is useful, for example,
+       if you change resource parameters and/or account information with
+       NET_MGR and want these changes to take effect immediately.  In
+       order to use this command, you must have the S (System Manager)
+       privilege and the Remote Control feature must be enabled.
+
+             {NET FLUSH \\server
+
+      {server}     The name of the server where the caches will be
+                 flushed.
+
+       Example:
+
+             {NET FLUSH \\SERVER1
+
+  {INDIRECT
+  {========
+       Allows you to create an indirect file containing a reference to a
+       file in another directory. When a request is made for the indirect
+       file, the contents of the indirect file are replaced with those of
+       the referenced file. This allows you to access files without
+       changing directories.
+
+             {NET INDIRECT pathname actual-name
+
+      {pathname}     Name of the indirect file you want to create. You
+                   must create the indirect file on a network drive.
+
+      {actual-name}  Network path of the file the indirect file
+                   references.
+
+       Example:
+
+              {NET INDIRECT AUTO.BAT \\C-DRIVE \AUTOEXEC.BAT
+
+       For more information see the {Indirect Files} section of this
+       on-line manual.

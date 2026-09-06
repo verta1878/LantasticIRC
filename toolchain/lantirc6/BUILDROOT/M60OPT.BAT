@@ -1,8 +1,0 @@
-set PATH=C:\MSC60\BIN
-set INCLUDE=C:\MSC60A\INCLUDE
-set LIB=C:\MSC60A\LIB
-set TMP=C:\
-cl /c /W0 /AL /Ox /Gs TINY.C > C:\M60OPT.LOG
-echo EXIT >> C:\M60OPT.LOG
-exit
-CONF

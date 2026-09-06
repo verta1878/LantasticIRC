@@ -1,0 +1,7 @@
+POSITION(9,6)
+HEADLINE("       NET Manager Switches and Commands       ")
+SELECTION("  Syntax                                      ", !netmgr.TXT) 
+SELECTION("  Net Manager Commands                        ", !mgrcom.TXT) 
+SELECTION("  Net Manager Switches                        ", !mgrswch.TXT)
+status("Use [Up] or [Down] Arrows then press [Enter] to view file. Press [ESC] to exit.")
+

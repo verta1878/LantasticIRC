@@ -1,0 +1,51 @@
+
+                  {Using Artisoft's IPX Routable NetBIOS
+                  {=====================================
+
+       Artisoft's NetBIOS program AILANBIO is fully compatible with most
+       IPX routing hardware and software. Packets from PCs running
+       LANtastic and packets from computers running other network
+       operating systems can be controlled by IPX routers. This allows
+       network managers to have full control of traffic on networks
+       running multiple operating systems. They can limit the types of
+       packets that can pass through the router, thus controlling the flow
+       of information on the network.
+
+         1. Install your network hardware and software in each computer as
+            instructed in your user documentation. Refer to your
+            Installation and Management Guide for information on
+            installing LANtastic.
+
+         2. Place your router(s) at the desired locations in your LAN, and
+            attach your network cabling.
+
+         3. Configure your router(s) to control the types of packets that
+            are passed through. Refer to your router hardware and software
+            documentation.
+
+         4. In the STARTNET.BAT file of each LANtastic PC, edit the
+            low-level driver command line to include the IEEE switch and
+            the AILANBIO command to include the IPX_ROUTING switch. When
+            you're finished, the command lines will be as follows:
+
+             {NR/IEEE
+             {AILANBIO/IPX_ROUTING
+
+            where "NR" represents the low-level driver for your adapter.
+
+            The default size of the IPX packets sent by LANtastic is 1K.
+            If your routing software requires a different size packet, use
+            the IPX_SIZE= switch. This switch, along with the ones in the
+            command line above, is described in the {LANtastic Commands
+            {and Switches} section of this on-line manual.
+
+            The routers may now control the flow of packets between the
+            LANtastic PC and other computers. The router must be set up to
+            handle Novell-type 14H NETBIOS packets.
+
+      {Note}  If you use multiple network operating systems in your LAN,
+            you may want to use LANtastic's NDIS, NCP or SMB support.
+            NDIS support is described in the {LANtastic's NDIS Support}
+            section of this on-line manual. NCP and SMB support are
+            discussed in your LANtastic manuals.
+

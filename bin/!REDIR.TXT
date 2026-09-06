@@ -1,0 +1,123 @@
+                             {REDIR Switches
+                             {==============
+
+       To run REDIR, use the syntax:
+
+              {REDIR machine_name/switches
+
+       where "machine name" represents the name you want to give the
+       computer on the network and "switches" represents command line
+       switches.
+
+  {BEEP_CYCLE= [4] 1-3600
+  {======================
+       Sets the interval in seconds between each beep tone. You receive
+       these tones whenever a server is slow in processing your request.
+
+  {BEEP_DELAY= [4] 0-3600
+  {======================
+       Sets the amount of time in seconds that the REDIR program will
+       delay before emitting a beep tone. If you set this value to zero,
+       no beep tone will be emitted.
+
+  {BUFFERS= [1] 1-64
+  {=================
+       Sets the number of buffers allocated for the REDIR program.
+       Allocating more buffers uses more memory but can improve
+       performance on NetBIOS applications (typically when an application
+       has several sequential files open at the same time). It usually
+       won't improve the performance of LANtastic.
+
+  {DISCONNECT_NORETRY
+  {==================
+       This switch prevents automatic reconnection to a server when you
+       are disconnected.
+
+  {LOGINS= [2] 1-255
+  {=================
+       Specifies the number of concurrent log-ins you can have on the
+       network. This also determines the number of servers that you'll see
+       on the available servers list in the NET menus or NET SHOW list.
+       For example, if you set the number of log-ins to ten, and your
+       network has 15 available servers, you'll see a list of only ten
+       servers (if those servers have the Send Server ID option enabled)
+       when you try to log in through the NET menus.  Furthermore, you'll
+       be able to log in to only ten servers at a time.
+
+  {MONOCHROME
+  {==========
+       Specifies that pop-up messages appear in monochrome. This can make
+       messages easier to read on monitor systems that display in both
+       monochrome and CGA graphics modes.
+
+  {NCP_SUPPORT
+  {===========
+       Specifies that you want to set up this workstation to communicate
+       with Novell(R) NetWare(R) servers. Note that to enable this option
+       this workstation must already be set up with an IPX stack, and a
+       Novell server must be available.
+
+  {NOBURST
+  {=======
+       Specifies that you don't want to set up this workstation to support
+       LANtastic's burst mode feature. By default the burst mode feature
+       is enabled. Burst mode can significantly improve network
+       performance by reducing the number of acknowledgments returned for
+       each request made to the server.
+
+  {NOENCRYPT_NCP_PSWDS
+  {===================
+       If you're using the NCP_SUPPORT switch, your passwords will be
+       automatically encrypted. You can use the NOENCRYPT_NCP_PSWDS switch
+       if you don't want your passwords automatically encrypted.  Your
+       passwords will then be sent across the network exactly as they're
+       typed in.
+
+  {NOCHAIN
+  {=======
+       Instructs the REDIR program not to use the NetBIOS chain send
+       command (sending two pieces of data together). Some adapters use a
+       NetBIOS that doesn't properly implement chain sends.
+
+  {NOPING
+  {======
+       Prevents network users from obtaining information about your
+       computer with the NET PING command.
+
+  {NOPOPUPS
+  {========
+       You can use this switch to specify that you don't want pop-up
+       messages to appear on your screen. You may want to set this switch,
+       instead of using the NET MESSAGE command, if you want to save
+       memory. Note that if you do set this switch and later decide you
+       want to use pop-up messages, you'll have to remove REDIR and
+       restart it.
+
+  {POPUP_DURATION= [15] 0-3600
+  {===========================
+       Sets the length of time in seconds that pop-up messages will remain
+       on the screen. Note that this switch is only valid if you haven't
+       set the NOPOPUPS switch.
+
+  {POPUP_LINE= [5] 0-23
+  {====================
+       Sets the position on the screen where pop-up messages appear. For
+       example, setting this value to 12 would position the informative
+       messages in the middle of the screen. Note that this switch is only
+       valid if you haven't set the NOPOPUPS switch.
+
+  {REQUEST_TIMEOUT= [36] 0-255 decimal
+  {===================================
+       Specifies the time in ticks (1/18 sec.) that REDIR will wait before
+       re-issuing burst mode requests to the server. Note that setting
+       this switch has no effect if you're using the NOBURST switch.
+
+  {SIZE= [1024] 512-16384
+  {======================
+       Sets the size of the buffers that the REDIR program uses. Setting
+       larger buffers uses more memory but often improves performance.
+
+  {SMB_SUPPORT
+  {===========
+       Specifies that you want to set up this workstation to communicate
+       with servers that are using the SMB protocol.

@@ -1,2 +1,0 @@
-Directory of C:\.
-File *.OBJ not found.

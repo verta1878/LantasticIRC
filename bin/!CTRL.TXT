@@ -1,0 +1,328 @@
+
+                   {Using Control Directories with DOS
+                   {==================================
+
+       This section tells you how to use control directories with the
+       DOS-based interface to LANtastic. To learn to use control
+       directories with the Windows-based interface, see your LANtastic
+       manuals.
+
+       All LANtastic accounts, resources and server software parameters
+       are stored in a network control directory. In most cases this
+       control directory is the default, C:\LANTASTI.NET. However,
+       LANtastic allows you to create multiple control directories on your
+       hard disk. This means you can have more than one network
+       configuration saved. You can then switch control directories
+       whenever your current network situation warrants it.
+
+       All changes to control directories are accomplished using NET_MGR.
+       This program also lets you edit the control directories of servers
+       located throughout the network. This allows you to maintain all
+       your servers from just one machine. This is especially handy, for
+       example, if you need to set up a user with a new account on several
+       servers. From one machine, you can create or copy an account on any
+       network server.
+
+  {Creating a New Control Directory
+  {================================
+         1. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         2. Select Control Directory Maintenance <Enter>.
+
+         3. Select the Change Control Directory option. Type the name and
+            full DOS path for the control directory you want to create
+            <Enter>.
+
+            Notice that the Control Directory Maintenance menu has only
+            three options. This is because the control directory isn't
+            created yet.
+
+         4. Select Create Control Directory <Enter>.
+
+         5. Press Enter again to confirm.
+
+            NET_MGR creates a new control directory with no user accounts
+            or resources. You can now set up accounts and resources for
+            the new directory. To quickly set up a control directory,
+            simply copy accounts and resources from one directory to
+            another. For information on copying accounts and resources,
+            refer to your LANtastic manuals.
+
+       If you choose the Create Control Directory option with an existing
+       control directory selected, NET_MGR won't overwrite any existing
+       files. It will, however, create any files missing in the control
+       directory that are necessary for the network to function.
+
+  {Selecting a Control Directory
+  {=============================
+         1. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         2. Select Control Directory Maintenance <Enter>.
+
+         3. Select Change Control Directory. Type in the name and full DOS
+            path for the control directory you want to edit <Enter>.
+
+       If you've connected a local drive to a remote server's network
+       control directory, you can also enter that drive and directory and
+       edit it as if it resided on one of your own disks.
+
+       If the control directory is password protected, you're prompted for
+       the valid password. If you don't provide the correct password,
+       you're denied access to the control directory.
+
+       You can now edit the control directory to your specifications. To
+       instruct the SERVER program to use this control directory by
+       default, include the name of the directory on the SERVER command
+       line. For example, typing SERVER C:\CONTROL.DIR <Enter> would run
+       the SERVER program using the information specified in the
+       CONTROL.DIR network control directory. If you run LANtastic from
+       your STARTNET.BAT file, edit the command line running SERVER so
+       that the desired control directory is used. You must then reboot
+       and run the STARTNET.BAT file. To edit your STARTNET.BAT file, use
+       a text editor such as EDLIN or EDIT.
+
+    {Specifying Control Directories Using the LAN_DIR Variable
+    {---------------------------------------------------------
+       You can use the DOS SET command to set an environment variable to
+       store the location of a default control directory. Once this is
+       done, both NET_MGR and SERVER will use this control directory
+       unless you specify a different one on the command line. This is
+       handy if you want to run NET_MGR from any drive and edit the same
+       directory. Otherwise, NET_MGR searches for LANTASTI.NET on the
+       current drive.
+
+       This variable is set by default as C:\LANTASTI.NET in your
+       STARTNET.BAT file. To specify a different control directory, edit
+       the SET command in STARTNET. For example, to specify D:\NETWORK.DIR
+       as the default control directory you'd change the command line to
+
+             {SET  LAN_DIR=D:\NETWORK.DIR
+
+    {Specifying Control Directories from the Command Line
+    {----------------------------------------------------
+       To specify that you want to edit a control directory other than
+       LANTASTI.NET from the DOS command line, use the NET_MGR CONTROL=
+       switch as shown below.  The syntax for using this switch is as
+       follows:
+
+             {NET_MGR  /CONTROL=directory-name <Enter>
+
+       For example, to edit DIR.NEW, you'd type
+
+             {NET_MGR  /CONTROL=DIR.NEW <Enter>
+
+      When specifying which control directory you want the SERVER program
+      to use, the syntax is as follows:
+
+             {SERVER  directory-name <Enter>
+
+       For example,
+
+             {SERVER  DIR.NEW <Enter>
+
+  {Deleting a Network Control Directory
+  {====================================
+         1. Make sure SERVER isn't running on the computer. To remove
+            SERVER from memory:
+
+            - If necessary, quit Windows. Don't use the Windows DOS prompt
+              icon. You must exit Windows completely.
+
+            - Press Ctrl+Alt+Del. A screen appears telling you how many
+              other people are connected to the server and the number of
+              open network files.
+
+            - If other people are using files on the server, ask them to
+              close the files. When there are no open files, press the S
+              key at the shutdown screen to remove the SERVER program.
+
+       {Note} If you're sure there are no open files on the server, you
+            may choose to remove SERVER from memory by using the
+            SERVER/REMOVE switch as described in the {LANtastic Commands
+            {and Switches} section of this on-line manual. If you do this,
+            however, the SERVER program shuts down immediately and any
+            files on the server that are open may be damaged.
+
+         2. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         3. Select Control Directory Maintenance <Enter>.
+
+         4. If the name of the control directory that you want to delete
+            already appears at the top of the screen in the NET_MGR USING
+            field, skip steps 4 - 5.
+
+         5. Select Change Control Directory <Enter>.
+
+         6. Type in the name and full DOS path for the control directory
+            you want to delete <Enter>.
+
+            If you've connected a local drive to a remote server's control
+            directory, you can also select this control directory.
+            However, make sure the server isn't using the control
+            directory you'll be deleting. If this occurs, users can't
+            establish any new log-ins to the server until it's shut down
+            and SERVER is run with a valid control directory specified on
+            the command line.
+
+         7. Select Delete Control Directory <Enter>.
+
+         8. Press Enter to confirm that you want to delete the control
+            directory.
+
+         9. Press Esc to exit each screen.
+
+       This option deletes only LANtastic control directory files. Any
+       user files residing in the control directory are preserved.
+
+  {Backing Up a Network Control Directory
+  {======================================
+         1. Make sure SERVER isn't running on the computer. To remove
+            SERVER from memory:
+
+            - If necessary, quit Windows. Don't use the Windows DOS prompt
+              icon. You must exit Windows completely.
+
+            - Press Ctrl+Alt+Del. A screen appears telling you how many
+              other people are connected to the server and the number of
+              open network files.
+
+            - If other people are using files on the server, ask them to
+              close the files. When there are no open files, press the S
+              key at the shutdown screen to remove the SERVER program.
+
+       {Note} If you're sure there are no open files on the server, you
+            may choose to remove SERVER from memory by using the
+            SERVER/REMOVE switch as described in the {LANtastic Commands
+            {and Switches} section of this on-line manual.  If you do
+            this, however, the SERVER program shuts down immediately, and
+            any files on the server that are open may be damaged.
+
+         2. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         3. Select Control Directory Maintenance <Enter>.
+
+            If the name of the control directory that you want to back up
+            already appears at the top of the screen in the NET_MGR USING
+            field, skip steps 4 - 5.
+
+         4. Select Change Control Directory <Enter>.
+
+         5. Enter the name and full DOS path of the control directory
+            you'd like to back up <Enter>.
+
+            If you've connected a local drive to a remote server's control
+            directory, you can also back up that directory by specifying
+            its path.
+
+         6. Select Backup Control Directory <Enter>.
+
+         7. Type in the name under which you want this directory saved,
+            including the full path <Enter>.
+
+         8. Press Esc to exit each screen.
+
+  {Restoring a Network Control Directory
+  {=====================================
+       To restore a control directory after it has been backed up with the
+       NET_MGR Backup Control Directory feature:
+
+         1. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         2. Select Control Directory Maintenance <Enter>.
+
+         3. Select Restore Control Directory <Enter>.
+
+         4. Type in the name of the file that you want to restore,
+            including the full path <Enter>.
+
+         5. NET_MGR displays the original name for this directory. Press
+            Enter if this is the desired name or type a new name for the
+            restored control directory <Enter>.
+
+       {Note} If you specify an existing control directory, NET_MGR
+            doesn't overwrite any of its files. It restores only those
+            files that don't exist in the current version of the control
+            directory.
+
+         6. Press Esc to exit each screen.
+
+  {Requiring a Password for a Control Directory
+  {============================================
+       To increase security on a server, you may want to enable a password
+       requirement for a server control directory. Once this is done, a
+       user must enter the correct password to use NET_MGR to change any
+       of the accounts, resources or software configuration information
+       for that control directory.
+
+         1. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         2. Select Password Maintenance <Enter>.
+
+         3. Select Enable Password Access for NET_MGR <Enter>.
+
+         4. Type the desired password <Enter>. It can be up to 16
+            characters long.
+
+       {Warning} Make sure you type the password carefully. Once you enter
+               it, you can't see what you typed. If the password is lost,
+               you must delete the server's control directory and
+               reinstall LANtastic.
+
+            Type the password again to confirm <Enter>. You'll now be
+            required to give this password to edit the control directory.
+
+         5. Press Esc to exit each screen.
+
+       {Note} The password security that you've just set up is for this
+            control directory only.  Repeat the steps above for any other
+            control directories that you'd like to give this protection.
+
+  {Changing a Control Directory Password
+  {=====================================
+       Once you've enabled a password requirement, you can also change the
+       password for a control directory:
+
+         1. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         2. Select Password Maintenance <Enter>.
+
+         3. At the prompt, enter the current password <Enter>.
+
+         4. Select Change Password <Enter>. If the control directory isn't
+            password protected, the Change Password option doesn't appear.
+
+         5. When prompted, type in the new password <Enter>.
+
+       {Warning} Make sure you type the new password in carefully. Once
+               you enter it, you can't see what you typed. If the password
+               is lost, you must delete the server's control directory and
+               reinstall LANtastic.
+
+         6. Retype the new password to confirm <Enter>.
+
+         7. Press Esc to exit each screen.
+
+       You must now use the new password to edit this control directory.
+
+  {Disabling a Control Directory Password
+  {======================================
+         1. At the DOS prompt, type NET_MGR. The LANtastic Network Manager
+            Main screen appears.
+
+         2. Select Password Maintenance <Enter>.
+
+         3. At the prompt, enter the current password <Enter>.
+
+         4. Select Disable Password Access for NET_MGR <Enter>.
+
+         5. Press Esc to exit each screen.
+
+       You can now edit the control directory without using a password.
+

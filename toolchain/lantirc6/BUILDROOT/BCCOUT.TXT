@@ -1,6 +1,0 @@
-Borland C++  Version 3.1 Copyright (c) 1992 Borland International
-lzh.c:
-Error lzh.c 364: Undefined symbol 'read_byte'
-*** 1 errors in Compile ***
-
-	Available memory 4198164

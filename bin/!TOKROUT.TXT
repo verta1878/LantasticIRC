@@ -1,0 +1,80 @@
+
+      {LANtastic Source Routing Support With IBM Token-Ring Networks
+      {=============================================================
+
+       TOKROUTE.EXE provides source routing support for LANtastic on IBM
+       Token-Ring Networks.  It allows LANtastic AILANBIO packets to be
+       passed on by any source routing bridge.  Using TOKROUTE.EXE, you
+       can utilize bridges that connect Token-Ring to Ethernet, Token-Ring
+       to Token-Ring, Token-Ring to T1, etc.  This allows you to:
+
+         - Increase the number of LANtastic stations.
+         - Bridge two separate LANs to create a WAN (Wide Area Network),
+           thereby increasing both networks' resources.
+         - Divide a large LAN into smaller, more manageable sub-networks.
+         - Remove unnecessary network traffic and increase network
+           security by using logical frame filtering.
+
+       {Note} Only those stations containing Token-Ring adapters that
+            require source routing support need to load TOKROUTE.EXE.
+            Token-Ring stations that don't need to cross a bridge aren't
+            required to load TOKROUTE.EXE.  If you need to connect
+            Ethernet stations to Token-Ring stations, see the section
+            below titled "Connecting Token-Ring and Ethernet Stations."
+
+  {Using LANtastic with an IBM Token-Ring Adapter
+  {===========================================
+         1. Install the Token-Ring adapter in your PC as instructed in
+            your adapter documentation.
+
+         2. Run the LANtastic INSTALL program as instructed in your
+            LANtastic manuals.  When the installation program asks you to
+            select a network adapter, select "NDIS Support for Network
+            Adapters."
+
+         3. When prompted, place the diskette containing the NDIS driver
+            for your adapter into a floppy drive and type in the drive
+            letter.  This diskette is usually provided by the adapter
+            manufacturer.
+
+            You may also need to enter the directory where the NDIS
+            software is located on the driver diskette.  See your adapter
+            documentation for more information.
+
+         4. Proceed with the installation as instructed in your LANtastic
+            manuals.
+
+         5. Edit your CONFIG.SYS to include the commands loading the
+            protocol manager and NDIS MAC driver.  The sample CONFIG.SYS
+            below loads the protocol manager, PROTMAN.DOS and the NDIS MAC
+            driver, IBMTOK.DOS for an IBM Token-Ring adapter:
+
+             {FILES=50
+             {BUFFERS=32
+             {LASTDRIVE=Z
+             {FCBS=16,8
+             {DEVICE=C:\LANTASTI\PROTMAN.DOS /I:C:\LANTASTI
+             {DEVICE=C:\LANTASTI\IBMTOK.DOS
+
+       If you have problems with your installation, see the
+       {Troubleshooting} section in the LANtastic NDIS Support menu of
+       this on-line manual.
+
+  {Connecting Token-Ring and Ethernet Stations
+  {===========================================
+       You can connect an existing LANtastic Ethernet network to a
+       LANtastic Token-Ring network via a Token-Ring to Ethernet source
+       routing bridge such as the IBM 8209 LAN Bridge.  Configure the
+       Token-Ring stations as described in the section above.  Both the
+       Token-Ring and Ethernet station require the use of AILANBIO.EXE
+       V4.05 or higher provided on this disk.  The Ethernet stations
+       require the use of the NO_MULTICAST switch.  Below is a sample
+       AUTOEXEC.BAT file.
+
+             {C:\LANTASTI\AI-NDIS BIND_TO=AEXNDIS_NIF VERBOSE
+             {C:\LANTASTI\AILANBIO NO_MULTICAST VERBOSE
+             {C:\LANTASTI\REDIR ALLEN
+             {C:\LANTASTI\SERVER
+
+
+

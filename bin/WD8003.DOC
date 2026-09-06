@@ -1,0 +1,402 @@
+    AI-LANBIOS Low-level Driver For Western Digital Adapters (WD8003.DOC)
+           -----------------------------------------------------
+                     (C) Copyright 1989 ARTISOFT, Inc.
+                             (Revised 6/26/92)
+
+Introduction
+============
+
+The WD8003 low-level AI-LANBIOS driver is part of the AI-LANBIOS product.
+The low-level driver interfaces directly to the network hardware and
+provides basic unreliable data transfer capabilities.  The AI-LANBIOS
+high-level driver provides the reliable data transfer capabilities
+including all NETBIOS functions.
+
+The WD8003 driver makes extensive use of the on-board memory of the WD8003
+board to improve network throughput.
+
+The driver interfaces to the entire WD8003/WD8013 board line:
+
+  Coaxial Ethernet
+          WD8003EBT      EtherCard Plus with boot ROM socket (discontinued)
+          WD8003ET/A     EtherCard Plus/A for Micro Channel (discontinued)
+          WD8003E        EtherCard PLUS (Tm) 8-bit adapter
+          WD8003EB       EtherCard PLUS 8-bit adapter with boot ROM socket
+                         (software configurable)
+
+          WD8003E/A      EtherCard Plus/A for Micro Channel
+          WD8013EBT      EtherCard PLUS16 (Tm)
+          WD8003EBT      Revision X0
+          WD8013EBT      Revision X0 Elite 16
+          WD8003EP       Standard Ethernet EtherCard Plus Elite
+          WD80013EP      Standard Ethernet EtherCard Plus Elite 16 Combo
+
+  Twisted Pair Ethernet
+          WD8003WT       EtherCard PLUS (Synoptics LattisNet compatible,
+                         not for 10BaseT)
+          WD8003W        EtherCard PLUS10 (8-bit, software configurable,
+                         10BaseT adapter)
+          WD8003W/A      EtherCard PLUS10T/A (10baseT Micro Channel adapter)
+          WD80BEW        10BaseT and Standard Ethernet
+          WD8013W        10BaseT Ethernet EtherCard Plus10T/A
+
+  StarLAN
+          WD8003S        StarCard PLUS
+          WD8003SH       StarLink PLUS
+          WD8003ST/A     StarCard PLUS for Micro Channel
+
+
+Running WD8003
+==============
+
+The WD8003 low-level driver must be run before the AI-LANBIOS.  The WD8003
+driver interfaces to the AI-LANBIOS using a DOS multiplex interrupt
+number.  The default multiplex number is C7.  If you are only running one
+low-level driver and one copy of AI-LANBIOS then you will not have to
+concern yourself with which multiplex number to assign.  Multiplex numbers
+00 through BF are reserved for DOS use so you must use a multiplex number
+between C0 through FF.
+
+Each invocation of the WD8003 driver supports one Western Digital adapter
+board.  You must run multiple copies of WD8003 if you have multiple cards
+installed in your computer.  For each invocation of WD8003 you must run a
+separate invocation of the AI-LANBIOS program.  When running multiple
+invocations of the WD8003 driver each invocation must have a unique
+multiplex number, IRQ, I/O base address, and RAM base address.
+
+NOTE:  If you are running this driver on a Micro Channel machine and you
+        have multiple WD8003 cards installed, you should be aware of how
+        the low-level driver scans for the presence of cards.  The driver
+        will look sequentially at Micro Channel adapter slots 1 through 8.
+        When it encounters a WD8003 adapter and the adapter is not claimed
+        by other software, it will claim the adapter for its own use.
+
+       When running multiple invocations of WD8003 driver each invocation
+       will claim consecutive WD8003 hardware.  For example, if you have a
+       WD8003ET/A card installed in slot 1 and a WD8003TST/A card in slot
+       3, then the first invocation of WD8003 will claim the WD8003ET/A
+       card (in slot 1).  The second invocation will claim the WD8003ST/A
+       card (in slot 3).
+
+The WD8003 low-level driver program name is WD8003.EXE.  The syntax for
+WD8003 is
+
+     WD8003[switches . . . ] [ ; comment]
+
+where [switches . . . ] denotes zero or more optional command line switches. 
+Switches may be delimited by blanks or slashes (/).  If a switch takes a
+value, the switch must be followed by an equal sign (=) or a colon (:).
+Some values may be hexadecimal numbers while other values may be decimal.
+All switch values are range checked and illegal values produce errors.
+
+You may place a comment on the command line by preceding the comment with
+a semicolon (;).  You must precede the comment character with a blank.
+
+The following are valid switch formats:
+
+     SWITCH
+     SWITCH:value
+     /SWITCH
+     /SWITCH=value
+     @file
+
+The valid WD8003 switches are enumerated below.  The letters "ddd" denote
+a decimal number.  The letters "hh" denote a hexadecimal number.  Values
+enclosed in [] indicate default values if the switch is omitted.  Values
+after [] denote the valid range of the switch.
+
+----------
+    8-BIT
+
+ When this switch is used the PC bus will communicate with the adapter in
+ 8-bit mode, but the adapter will still access the on-board 16-bit memory.
+ This is useful for users with WD8013 adapters who experience memory
+ conflicts between VGA adapters and the network cards.
+
+----------
+    @switch-file
+
+This option specifies that further switches are to be taken from an
+switch file.  Any switches after the @switch-file name will be used,
+and the switch settings take precedence over any settings in the switch
+file.  You may invoke switch files from within switch files as often as
+you wish.  The file should contain valid switches and may contain comment
+characters (;) at the beginning of each line or after switches.
+
+For example,
+
+     WD8003 @setup
+
+The file SETUP contains
+
+     ; WD8003 AI-LANBIOS driver setup file
+     ;
+     RAMBASE=D800          ; Set shared RAM to paragraph D800
+     IRQ=2                 ; Use interrupt request 2
+     verbose               ; Display verbose information
+
+----------
+    HELP or ?
+
+This switch displays information about the valid command line switches,
+but does not install the WD8003 driver.  For example,
+
+     WD8003/help
+     WD8003 ?
+
+See the messages section for a detailed description of the HELP display
+output.
+
+----------
+    IOBASE=hhhh [280] 0200-03E0
+
+This switch specifies the I/O base address configured on the WD8003 card.
+The IOBASE switch value must match the jumper setting on the card.  The
+default value is the same as the default factory setting on the cards. 
+
+The IOBASE numbers must be in multiples of 20H.  If a non multiple is
+encountered, the I/O base address is rounded down to the closest address.
+For example, IOBASE=290 is the same as IOBASE=280
+
+Consult the Western Digital User Installation Guide for more information
+about setting I/O base address on the cards.
+
+NOTE: If you have a WD8003E/A, WD8003ET/A or WD8003ST/A Micro Channel
+      card, then this switch is ignored since the board parameters are
+      set at option configuration time.
+
+----------
+    IRQ=d [3] 2-7, 10, 15
+
+This switch specifies the interrupt request (IRQ) level for the board.
+Multiple boards should be on separate IRQs.  The IRQ switch value must
+match the jumper setting on the card.  The default value is the same as
+the default factory setting on the card.  To use IRQs 10 or 15, you must
+be using a WD8013 adapter in a 16-bit slot.
+
+Consult the Western Digital User Installation Guide for more information
+about setting IRQ jumpers on the cards.
+
+NOTE: If you have a WD8003E/A, WD8003ET/A or WD8003ST/A Micro Channel
+      card, then this switch is ignored since the board parameters are
+      set at option configuration time.
+
+----------
+    PACKET_SIZE=dddd [1500] 570-1500
+
+This switch specifies the maximum size of transmitted IEEE 802.3 packets.
+You may need to change this value when using certain bridges that do not
+support the full 1500 byte packet size.  Even when you reduce the packet
+size, the low-level driver can still receive large packets.
+
+----------
+    MPX=hh [C7] C0-FF
+
+This switch specifies the multiplex (MPX) interrupt number to use for
+communication to the high-level AI-LANBIOS.  You will need to change this
+value only if the MPX number is in use by another application or low-level
+driver.
+
+----------
+    RAMBASE=hhhh [D000] 8000-FE00
+
+This switch specifies the RAM base page address the on board RAM will be
+mapped into.  The RAM occupies either 8K or 32K of memory depending on the
+type of board you have.  There are no corresponding jumper settings for
+this option.
+
+The RAM base address should be specified in increments of 2000h.  Values
+not in 2000H increments are rounded down to the closest 2000H increment.
+For example, RAMBASE=C500 would become C400.
+
+You must be careful when choosing RAM base addresses to not conflict with
+existing memory.  The following list enumerates typical memory locations
+that should be avoided:
+
+     below A000    If you have 640K of memory
+     A000-BE00     For some display adapters
+     C000          Disk BIOS ROMs
+     C800          Disk BIOS ROMs
+     CA00          Disk BIOS ROMs
+     E000-FE00     System ROMs
+
+NOTE: If you have a WD8003E/A, WD8003ET/A or WD8003ST/A Micro Channel
+      card then this switch is ignored since the board parameters are
+      set at option configuration time.
+
+----------
+    REMOVE
+
+This switch removes WD8003.EXE from memory.  You must remove TSR programs
+in the opposite order they were loaded.  For example, if you loaded
+WD8003.EXE and then AILANBIO, you must remove AILANBIO before WD8003.EXE
+In addition, if you have more than one invocation of WD8003.EXE and
+AILANBIO you must use the MPX= switch on the command line to specify which
+copy of WD8003.EXE but not (AILANBIO) that you want to unload.  For
+example, if you load two copies of WD8003.EXE and AILANBIO:
+
+WD8003.EXE/MPX=C7
+AILANBIO/ADAPTER=0/MPX=C7
+WD8003.EXE/MPX=D7
+AILANBIO/ADAPTER=1/MPX=D7
+
+To unload these copies of WD8003.EXE and AILANBIO:
+
+AILANBIO/REMOVE
+WD8003.EXE/MPX=D7/REMOVE
+AILANBIO/REMOVE
+WD8003.EXE/MPX=C7/REMOVE
+
+The REMOVE option will remove the most recently run copy of AILANBIO.
+
+----------
+    VERBOSE
+
+This switch causes the WD8003 driver to be installed and detailed
+information about the configuration of the WD8003 driver to be displayed.
+See the messages section for a detailed description of the verbose output.
+
+----------
+    XEROX
+
+This switch causes all transmitted packets to be in the XEROX format
+instead of the IEEE 802.3 standard and WD8003 will receive both XEROX and
+IEEE 802.3 packets.
+
+
+WD8003 messages
+===============
+
+The WD8003 driver produces two types of messages: Informative and Error. 
+All error messages are preceded by the text "ERROR:" and cause the
+WD8003 driver to not be installed.
+
+--------
+MESSAGE:
+AI-LANBIOS WD8003 driver Vn.nn - (C) Copyright 1989 ARTISOFT Inc.
+
+This message is displayed each time the low-level driver is invoked.
+
+--------
+MESSAGE:
+                   ---- WD8003 driver installed ----
+
+This message is displayed after the low-level driver is successfully
+installed. 
+
+--------
+MESSAGE:
+                 ---- WD8003 driver NOT installed ----
+
+This message is displayed if the low-level driver is not installed.  The
+driver will not be installed if help information is displayed or an
+error occurred.
+
+--------
+MESSAGE:
+
+Command line             /verbose 
+IEEE 802.3 node address  0000C0C42210   Network packet size      1500 
+MPX interface number     C7             Machine bus type         PC/XT/AT     
+Shared memory size       8192           IO base address          0280 
+RAM base address         D000           Interrupt request (IRQ)  3 
+Bytes of memory used     1888           
+
+This message is displayed if the VERBOSE switch is specified.  The
+values displayed specify how the low-level driver is configured.  Some
+values may not agree with switch values you specified on the command
+line.  This will happen when you specify an IOBASE or RAMBASE switch
+value that is not a proper multiple of the allowed value.
+
+If you have a Micro Channel card, then the IOBASE and RAMBASE values
+will reflect the a memory size      ----xgewed value.
+gaCohDE switch
+value nwill reflect the a/1888 ry size  plas displayeommandVmmand line switches,
+but       spla     280
+
+of the E0
+ be 
+Thicima     2] 2of the 2 be 15
+
+Thil number     itch f the E
+ be FFcima     =C500 wo f the 00
+ be F Sysima     =
+The RET_SIZE=dddd [1 f the 552 be MPX i number     
+
+This    ?s    @ f the E be 2048acket 
+This option  is displayed if the w IOBASE  ?
+
+Thi is used the PC wheaes youidh file.  layumerhe w adapter llyptabhe f the swiyou spe(VER
+)e networkdres
+(ima
+Th numberyou wanwork must be in multe the Iacefollowi llyptabhe 
+This     8f the etaie der a ms ofte(@) layalsoyumerhee RAM basel driver is not installed.  The w IOBASch is used the PCy size  plasdisplayeommand                      8003 driver the mo
+
+This mess3.EXE
+In ad is not haen VIOBthe mo
+mory.  You m size  plas di and c003 ?
+
+Selue.
+WD8003.disea eac:ust reMicroissued8003 driver
+
+Thed line swailede instMicrnd          EXE
+In ad 
+WD800 The .  You m sizR
+Fodyc003Othe MssueBASch  line swae low-levs
+in t layu For e size  plasdi and c003 Can't option 03 driver pt numbered e- RAk003.disea eac:ust reMicroackempthange the mosEXE and then AILAN pt numbered    set at     by another applicagra,003ST/A Mid thewa prope-levean mgra set at     u For e sizR
+Fodyc003Rhe mos
+ggraayu For wae lowT/A Mid thexample, if you loaded set at     u FoST/A Mid theLANBIO, you md thust remove firve AILANB set at     O, you md thust specifyll rthe mosEXE and the size  plasdi and c003 Id.  The driver payedffhe nlonots-------sea eac:ust reMicrou For waonots--- WD8003 driverd thes
+in t ne.  et at     ackempthange the mos.
+mory.  You  w adapter
+
+Thedfile. 
+values et at     nots--- w adacopy ecifycedeackemptt enge the mosEXE and theiss et at     rope-lev
+thenots--- u wanwa pu For e sizR
+Fodyc003Rhe mosT/A Mid thew adapter
+thenots--- WD8003 s
+in t u wanwa  set at     u For e siz  plasdi and c003ber is in uhh layalrthey by anot- Trer applicais in ----sea eac:uMx (MPX) interrupt number to use hh laybet en  188her applic set at    tion or low-level
+drive 
+
+-------R
+Fodyc00Trer applicaber is in e siz  plasdi and c003Nress  0000C0butcks ofbFoS-l ctck and RAM line swon the cc set at    e adsettin----sea eac:uAckemptsion tinve aD8013 butcks ofcommandou ha'aybuilt-by dres set at    t 0000C0Microfescrifollowiaramet agrbrkdrd,003S-levwrobase a set at    e fullaybet en  18-----R
+Fodyc00MakevureBASE and RAM line switches,
+buponding jums closeste a set at    dresssetting on the card.  
+Multipl set at     the Western Digital User Installation Guide for more inform set at    tion about the con I/O base address on the cards.
+
+NOTE: I  plasdi and c003b You  roped bs nlo- Possibhe t with
+exist pplicaemodw    s--sea eac:uAckemptsion wriO base swrthet engoard -aramet  You  Microfescri set at    Tages You   agrbrkinto.  fulhs not aict with
+s003S morlapsexistinet at    g memory.  The f----R
+Fodyc00Trer an IOB base yalgitand Err=C500 wo values you se siz  plasdi and c003Nro cacket emodw    etown
+erroin a 16-bianotherpplicasoftw    s--sea eac:u003 driver emodw    c avoiinstallns
+tl reflect hannel
+      card th   dus will haessages are pplayed if the C40e
+WD800roin a 16
+
+N set at    ts roped bs nloerrorpplica WDce swisoftw    (possibher applic set at    
+
+--)d the t engoarcultipl sR
+Fodyc00l need to the getBASch s are pplave a Micro Channel card,  set at    mbus ty.00MakevureBe a Microemodw    WD8003.y ont engoarel
+ set at    drive 
+
+---u have 640K ofemodw    ed.  Theust spemakevure set at    pplicasoftw    a properlrthey e t ene acaemodw   e siz  plasdi and c003ITheg Invalues - ??????=nnnn s--sea eac:u003 values ??????=nnnn a proper r aogn   swon theipl sR
+Fodyc00l ne agr the  an IOBAheg Invaluesesreflect the a/1888 ry size  pladi and c003ITheg Inthiry sicate lowvalues n
+the- ??????xnnnn s--sea eac:u003 values ?????? a png lis188her nthiry sicapplicae inv"=" cc set at    ":"003S-levvalues doe prope-akeva you se sizR
+Fodyc00Othe 
+WD800rthiry sicsv"=" cc ":"0ify which
+values you spene.  et at    de instnwillrthiry sicsvte lowvaluesWD800ot de inst-akevyou spy size  pladi and c003Salues you sstalled8f the - ??????=nnnn set at    Vmmandf the ch isss cloeeee s--sea eac:u003 you sstnnn a propeed8multiplf thefollowiyou ssisss set at    red bs nlsngoarelQ)   llyptabhe you ssn AILAN you sseeee set at    red bs nlsngoarh89 Q)   llyptabhe you se sizR
+Fodyc00Lipacne acaf the swiyou speclosest llyptabhe f they size  pladi and c003ITheg IndUsereed8values you s - ??????=nnnn s--sea eac:uAn aTheg IndUsere(thiry sic)nwa penc a the Iacenwork mueric set at    values you se sizR
+Fodyc00l ne ove AIstrh
+e muerich numberiyou speclosest must be0-9----et at    l ne ove AIstrh
+eimaa numberiyou speclosest must be0-9sn AILAN set at    drtsicsvA-Fy size  pladi and c003Cantallon yoe der a ms of - @
+This opsea eac:u003 s of "s of"yll installon yr wapeneoe der a ms off----R
+Fodyc00T03 s of  ove g mem WD8003.aictneoall  188apeneoe der a ms off----meseemory.driver thturof Amor(essagedrive)==========
+
+Theeeeeeeeeeeeeeeeeeeeeeeeee--mel ne agrtQ)  003 driver thturof Amorple,ssagedriveacena drues s of balle t engoarIF  and LEVELM line sfollowing lisory.,ssagedriverecedethturoedmmand          INro,ssageha penc a the I.  driver installed ----
+nd     1chine er is in uked.l  1nd          ICutcks offescure set at3et atSalues ,ssag set at4    INros You  etown
+errs You  ,ssag set at5    INroemodw    etown
+erremodw    alrthey by ano set at6 003 ?
+
+Selue.
+WD8003. 003       Can't the mo,yedffhe nlonots---.
+WD8003. 003 8     Canlue.the mo,ypt numbered e- RAk003.     9      and c0Can't option 03 IOS WD8003 (R)rd d toed ----
+nd-------------------di plicCametPLUS layaittedemaet 03.EDigital User Iopsannel card, t

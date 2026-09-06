@@ -1,0 +1,5 @@
+[boot]
+description=F/F RAMDISK
+
+[boottypes]
+ffrpl=yes

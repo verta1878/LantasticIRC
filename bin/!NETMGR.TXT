@@ -1,0 +1,14 @@
+                     {NET_MGR Command Line Interface
+                     {==============================
+
+       The correct syntax for running NET_MGR is:
+
+             {NET_MGR [/switches] command arguments...
+
+       where "command" refers to any of the NET_MGR commands listed in the
+       {"Net Manager Commands"} section of this on-line manual.
+       "Switches" refers to any of the command line switches listed in the
+       {"Net Manager Switches"} section of this on-line manual.
+       "Arguments" refers to any switches or values that you want the
+       command to use.
+

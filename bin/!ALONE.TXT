@@ -1,0 +1,30 @@
+
+                             {ALONE Switches
+                             {==============
+
+  {PASSWORD=
+  {=========
+       This switch lets you specify the shutdown password for ALONE. This
+       is useful if you're running ALONE from a batch file and don't want
+       to specify a password each time the program is run. If you're
+       concerned about a user reading the password by accessing the batch
+       file, use the PROMPT_PASSWORD option.
+
+  {PROMPT_PASSWORD
+  {===============
+       This switch specifies that you want ALONE to be password-locked
+       when it's run. You're prompted for the shutdown password when ALONE
+       starts up.
+
+  {SCREEN_SAVE_SECONDS= [120] 0-600
+  {================================
+       This switch allows you to specify the number of seconds of idle
+       time before the built-in screen saver activates. The default
+       timeout value is 120 seconds. Setting this option to zero disables
+       the screen saver feature.
+
+  {SHOW_FILES
+  {==========
+       Enables the filename display when you run ALONE. By default this
+       option is disabled. This is the same as pressing the F2 key from
+       the ALONE main screen.

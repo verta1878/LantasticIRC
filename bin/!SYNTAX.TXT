@@ -1,0 +1,59 @@
+
+                       {NET Command Line Interface
+                       {==========================
+
+       The correct syntax for running the NET program is:
+
+             {NET[/switches] command arguments
+
+       where "command" refers to any of the NET commands given in
+       alphabetic order in the menu options {A-I}, {J-Q} or {R-Z} of this
+       on-line manual.  "Switches" refers to any of the three command line
+       switches listed in the next section, and "arguments" refers to any
+       switches or values that you want the command to use. You can
+       separate the arguments with either spaces or commas. For example:
+
+             {NET LOGIN \\SERVER1 USER SECRET
+
+       The arguments \\SERVER1, USER and SECRET instruct the NET program
+       that a user is trying to log in to the server computer \\SERVER1
+       under the account name USER with the password SECRET.
+
+       Some NET commands also have optional switches that you can use to
+       further customize the command. For example, to use the /BINARY
+       switch for the NET PRINT command you could type one of these
+       commands:
+
+             {NET PRINT/BINARY
+             {NET PRINT/B
+
+       Note that when a switch is associated with a command, there must
+       not be any spaces between the switch name and the command. In the
+       first command above, for example, there must not be any space
+       between the words PRINT and /BINARY.
+
+       You can customize the NET command line by embedding prompts,
+       omitting arguments and using special techniques in batch files.
+       Instructions appear in the {Using NET Commands in Batch Files}
+       section of this on-line manual.
+
+  {NET Switches
+  {============
+       You may abbreviate switch names down to as few letters as will keep
+       that argument distinct from any others.
+
+    {/MONO
+    {-----
+       Instructs the NET program to use display menus in monochrome.
+
+    {/NOERROR
+    {--------
+       Instructs the NET program not to display error messages. You can
+       then make use of advanced error-handling techniques. This is
+       especially useful in batch files.
+
+    {/SCREEN_SAVER
+    {-------------
+       Enables the screen saver. The screen blanks after two minutes of
+       keyboard and mouse inactivity.
+

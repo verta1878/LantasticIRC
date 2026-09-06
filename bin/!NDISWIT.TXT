@@ -1,0 +1,149 @@
+
+               {AI-NDIS AND TOKROUTE COMMAND LINE SWITCHES
+               {==========================================
+
+       Below are descriptions of the optional parameters you can include
+       on the AI-NDIS and TOKROUTE command lines.  For each you will see
+       the name, the valid range of options and a description of its
+       purpose.  If the switch does not mention a specific program name,
+       it works with both AI-NDIS.EXE and TOKROUTE.EXE.
+
+  {@switch-file
+  {============
+       This switch instructs the application to look for further options
+       in a switch file you've previously created.  You can place as many
+       command line switches in the file as you wish.  This is extremely
+       useful for reducing the length of the command line if you'll be
+       using many switches.  You may use any switches on the command line
+       after the switch filename.  The switch values given from the
+       command line will take precedence over those given in the switch
+       file.  You may invoke switch files from within switch files as
+       often as you wish.
+
+       The file should contain valid switches. You may also include
+       comments for each line of the switch file.  Comments must be
+       preceded by a semicolon (;) at the beginning of each line or after
+       switches.  For example:
+
+             {; AI-NDIS switch file ;
+             {BIND_TO=AEXNDIS_NIF    ; Bind to AEXNDIS driver
+             {IRQ=15                 ; MAC IRQ set to 15
+             {VERBOSE                ; Display verbose information
+
+  {ALL_ROUTES_BROADCAST [SINGLE_ROUTE_BROADCAST]
+  {=============================================
+       This TOKROUTE switch specifies that unknown addresses and broadcast
+       frames should be sent with all routes broadcasting source routing
+       information.  Using this switch also changes the activity of a
+       previously loaded source router.
+
+  {BIND_TO=module_name
+  {===================
+       Specifies the MAC driver module name to which AI-NDIS will bind.
+       The module_name is the one that appears in square brackets.  The
+       default is AEXNDIS_NIF.  The module name in the following
+       PROTOCOL.INI section is "MODULE_NAME."
+
+             {[MODULE_NAME]
+               {DriverName=NDISDRV$
+               {IOBase = 0x210
+               {Interrupt = 8
+
+  {HELP or ?
+  {=========
+       This switch displays information about the valid command line
+       switches for a LANtastic program but doesn't install the
+       application.
+
+  {IEEE
+  {====
+       This AI-NDIS switch causes all transmitted packets to be in the
+       IEEE 802.3 format instead of the XEROX format.  When using this
+       switch, AI-NDIS will transmit and receive only IEEE 802.3 packets.
+
+  {IRQ=d [none] 2 to 15 decimal
+  {============================
+       Specifies the interrupt level of the MAC driver to which AI-NDIS
+       will bind.  Normally the interrupt level can be read from the MAC
+       driver configuration table.  If you're binding AI-NDIS to a NDIS
+       1.0 MAC driver, or if the MAC driver incorrectly reports the
+       interrupt level, you must use this parameter.  Failure to do so can
+       cause lockup problems and/or seriously degraded performance.  If
+       you're unsure which IRQ setting AI-NDIS is using, run the VERBOSE
+       switch on the command line.
+
+  {MPX=hh [C7] C0-FF hex
+  {=====================
+       This switch specifies the DOS multiplex (MPX) number to use for
+       communication with the low-level driver.  You need to change this
+       value only if it doesn't match the value of the previously loaded
+       driver.  If you're using LANtastic/AI, this value is the one used
+       by the AI-NDIS PROTOCOL driver.  Multiplex numbers 00 through BF
+       are reserved for DOS use.  Use a multiplex number between C0 and
+       FF.
+
+  {NO_BIND
+  {=======
+       Instructs AI-NDIS not to bind to a MAC driver at load time.  If the
+       NO_BIND parameter is specified and a PACKET_SIZE other than 1514 is
+       desired, you must specify a PACKET_SIZE.  You must use the NO_BIND
+       switch when using PROTMAN.DOS V1.x.  When running PROTMAN.DOS V2.0
+       in static mode, specify this parameter if other modules need to
+       load before binding takes place.
+
+  {PACKET_SIZE=dddd [Ethernet=1514, Token Ring=4490, Arcnet=512]
+              {574-4300 decimal
+  {=============================================================
+       This AI-NDIS switch specifies the maximum size of transmitted IEEE
+       802.3 packets.  Even when you reduce the packet size, AI-NDIS can
+       still receive larger packets.
+
+  {PROTOCOL_ID=hh [00] 00-FF hex
+  {=============================
+       This AI-NDIS switch specifies the Token-Ring SNAP protocol ID that
+       some routers and bridges use to identify packets.  Some router and
+       bridge vendors refer to this as the SNAP organizational code or OUI
+       (Organizational Unique Identifier).  When using IBM 8209 bridges
+       and other vendor equipment, the default 00 should be used.  When
+       using Cisco equipment use F8.  Refer to the router/bridge
+       documentation for information on this setting.  This switch only
+       applies to Token-Ring and is only applicable if you are using a
+       bridge or router.
+
+  {RECEIVE_BUFFERS=dd [2] 0-30 decimal
+  {===================================
+       Specifies the number of receive buffers to allocate for AI-NDIS.
+       Each receive buffer will take up the amount of memory specified
+       with the PACKET_SIZE option.  The default is two receive buffers.
+       Increasing this value may reduce the amount of network disconnects
+       and increase network speed.
+
+  {REMOVE
+  {======
+       This switch removes the program from memory.  You must remove
+       Terminate and Stay Resident (TSR) programs in the opposite order
+       that they were loaded.  For example, if you load AI-NDIS and then
+       AILANBIO, you must remove AILANBIO before you can remove AI-NDIS.
+
+  {ROUTE_ENTRIES=ddd [8] 1 to 500 decimal
+  {======================================
+       This TOKROUTE switch specifies maximum number of entries in the
+       routing table.
+
+  {VERBOSE
+  {=======
+       This switch installs and displays detailed information about the
+       configuration of the program.
+
+  {XEROX
+  {=====
+       This switch causes all transmitted packets to be in the XEROX
+       format instead of the IEEE 802.3 standard.  When using this switch
+       AI-NDIS.EXE will receive both XEROX and IEEE 802.3 packets.
+
+       Refer to your NDIS driver documentation for information on the
+       valid protocol manager and MAC driver parameters.  Refer to the
+       {LANtastic Commands and Switches} section of this on-line manual
+       for information on the valid AI-NDIS and AILANBIO optional
+       parameters.
+

@@ -1,0 +1,668 @@
+APPEND {path} /switches
+ 
+  Allows programs to find data files in other directories.
+  Type APPEND ; to clear the appended directory list.
+  Type APPEND without parameters to display the appended directory list.
+       Example:  APPEND C:\DOS
+ 
+  path         Specifies a drive and directory to append.
+  /X:ON        Applies appended directories to file searches and
+               application execution.
+  /X:OFF       Applies appended directories only to requests to open files.
+               /X:OFF is the default setting.
+  /PATH:ON     Applies appended directories to file requests that already
+               specify a path.  /PATH:ON is the default setting.
+  /PATH:OFF    Turns off the effect of /PATH:ON.
+  /E           Stores a copy of the appended directory list in an environment
+               variable named APPEND.  /E may be used only the first time
+               you use APPEND after starting your system.
+ASSIGN letter1=letter2  /switch
+ 
+  Redirects requests for floppy drives to another drive.
+  Type ASSIGN without switches to clear all drives assignments.
+ 
+       /STATUS  Displays current drive assignments.
+      letter1   The drive letter to reassign (A or B). The colon is
+                not required.
+      letter2   The drive to redirect drive1 to.
+ATTRIB {+|-attribute} {path\filespec} /switch
+ 
+     Controls the attribute of a file or files.
+     Use ATTRIB and filespec only to display the attributes of files.
+     +   Sets an attribute.   -   Clears an attribute.
+     Example:  ATTRIB +R C:\AUTOEXEC.BAT
+     
+     Attributes are:
+     
+     R   Read-only          A   Archive 
+     S   System             H   Hidden 
+     
+     /S  Processes files in subdirectories in the specified path.
+BACKUP {path}filespec drive: /switches
+ 
+  Backs up files from one drive to another.
+ 
+  path\filespec      The drive and or path and files to back up.
+  drive:             The drive to backup to.
+  /S                 Include subdirectories.
+  /M                 Include only files that have the archive attribute set.
+  /A                 Adds backup files to an existing backup disk.
+  /F:{size}          Sets the size of the backup disk if unformatted.
+  /D:date            Include only files changed on or after 'date'.
+  /T:time            Include only files changed at or after 'time'.
+  /L:path\file       Creates a log file to record the backup operation.
+BREAK {ON-OFF}
+ 
+      Turns CTRL-C checking on or off.
+ 
+      Use BREAK without a parameter to display the current setting.
+BUFFERS=num1,{num2}
+ 
+      Sets the number of disk buffers.  If you use DOS=HIGH then up
+      to 47 buffers will load high with DOS.
+
+  num1     The number of read buffers (1-99).
+  num2     An optional number of read ahead buffers (1-8).
+CALL {path}filename {parameters}
+ 
+  Runs another batchfile, then returns to the calling file.  The CALLed
+  file must be in the current directory or the PATH.
+ 
+  parameters   Specifies any command-line information required by the
+                    second batch program.  Paramters are optional.
+CHCP {num}
+ 
+      Displays or sets the active code page number.
+      You must first use the COUNTRY and NLSFUNC commands.
+      Type CHCP without a parameter to display the active code page.
+
+      Some valid values of num are:
+
+      437   United States         850   Multilingual {Latin I}
+      860   Portuguese            852   Slavic {Latin II}
+      863   Canadian/French       865   Nordic
+CHDIR {path}
+ 
+  When used with path only, this changes the active directory of the
+  current drive.
+  When used with drive:\path, this changes the active directory of
+  another drive that you are not logged into, without changing drives.
+  CHDIR alone displays the name of the current directory.
+  CHDIR ..   changes to the parent directory.
+  CHDIR drive: to display the current directory of another drive.
+CD {path}
+ 
+  When used with path only, this changes the active directory of the
+  current drive.
+  When used with drive:\path, this changes the active directory of
+  another drive that you are not logged into, without changing drives.
+  CD alone displays the name of the current directory.
+  CD ..   changes to the parent directory.
+  CD drive: to display the current directory of another drive.
+CHKDSK {path\filespec} /switches
+ 
+  Checks a disk for File Allocation Table errors and displays a status
+  report.  It also optionally fixes the errors.  The FAT table stores
+  information about the files on disk and where they are located.
+  Use just CHKDSK to test the current drive.
+ 
+  path\filespec   Selects the drive, path and files to check.
+  /F              Fixes errors on the disk.
+  /V              Displays the full path and name of every file on the disk.
+ 
+CLS
+      Clears the screen and homes the cursor.
+COMMAND {path} {device} /switches
+ 
+  Starts or restarts the COMMAND.COM interpreter.
+ 
+  path            Sets the directory containing COMMAND.COM file.
+  device          Sets the device to use for command input and output.
+                  CON is the default.
+  /E:num          Sets the environment size (160-32768) in bytes. 256 is
+                  the default.  The environment is used to store DOS
+                  variables like PATH, COMSPEC and TEMP.
+  /P              Makes the new command interpreter permanent (can't exit).
+  /C string       Carries out the command specified by string, and then stops.
+  /MSG            Specifies that all error messages be stored in memory. You
+                  need to specify /P with this switch.
+COMP filespec1 filespec2 /switches
+ 
+  Compares the contents of two files or sets of files.
+ 
+  filespec1  Selects the file(s) to compare.
+  filespec2  Selects the file(s) to compare to.
+  /D         Differences are shown in decimal format. This is the default.
+  /A         Differences are shown in ASCII characters.
+  /L         Displays line numbers for differences.
+  /N=num     Compares only 'num' lines in each file.
+  /C         Cancels case sensitive operation of ASCII files.
+COPY filespec1 {filespec2} /switches
+  
+  Copies one or more files to another location.
+  To append files, specify a single file for destination, but multiple files
+  for source (using wildcards or file1+file2+file3 format).
+  If you use wildcards for the source, you can not use a name for target.
+ 
+  filespec1    Selects file or files to be copied.
+  filespec2    Sets the directory and/or filename for the new file(s).
+  /A           Indicates an ASCII text file.
+  /B           Indicates a binary file.
+  /V           Verifies that new files are written correctly.
+COUNTRY=num1,{num2},{path\filename}
+
+    Enables DOS to use international currency, case conversions, decimal
+    seperators, dates and times.
+
+    num1       Sets the country code {see CHCP}.
+    num2       Sets the code page.
+    filename   The file containing the country information.  This defaults
+               to COUNTRY.SYS.
+CTTY device
+ 
+  Changes the terminal device used to control your system.
+ 
+  device   The terminal device you want to use, such as COM1 or CON.
+DATE {date}
+
+      Displays or sets the date.
+
+      Type DATE without parameters to display the current date setting
+      and a prompt for a new one.  Press ENTER to keep the same date.
+DEBUG {path\filename} {parameters}
+
+  Runs Debug, a program testing and editing tool.
+
+  path\filename         Sets the file you want to test.
+  parameters            Sets command-line information required by
+                        the file you want to test.
+
+  After Debug starts, type ? to display a list of debugging commands.
+DEL filespec /switch
+
+  Deletes files from the drive.
+
+  filespec      Selects the file(s) to delete.  
+  /P            Prompts for confirmation before deleting each file.
+ERASE filespec /switch
+  
+  Deletes files from the drive.
+
+  filespec      Selects the file(s) to delete.  
+  /P            Prompts for confirmation before deleting each file.
+DIR {path\filespec} /switches
+
+  Displays a list of files and subdirectories in a directory.
+  Switches may be preset in the DIRCMD environment variable.
+
+  path\filespec   Specifies drive, directory, and/or files to list.
+  /P              Pauses after each screenful of information.
+  /W              Uses wide list format.
+  /A:attrib   Displays files with specified attributes.
+               D  Directories                R  Read-only files
+               H  Hidden files               A  Files ready for archiving
+               S  System files               -  Prefix meaning "not"
+  /O:sort     List by files in sorted order.
+               N  By name                    S  By size 
+               E  By extension               D  By date & time
+               G  Group directories first    -  Prefix to reverse order
+  /S          Displays files in specified directory and all subdirectories.
+  /B          Uses bare format (no heading information or summary).
+  /L          Uses lowercase.
+DISKCOMP drive1: drive2: /switches
+
+      Compares the contents of two floppy disks.
+
+      /1   Compares the first side of the disks.
+      /8   Compares only the first eight sectors of each track.
+DISKCOPY drive1: drive2: /switches
+
+      Copies the contents of one floppy disk to another.
+      The two floppy disks must be the same type.
+      You may specify the same drive for drive1 and drive2.
+
+     /1   Copies only the first side of the disk.
+     /V   Verifies that the information is copied correctly.
+DEVICE=path\filename {parameters}
+      
+      Loads into memory a device driver. The parameters are optional
+      settings that may be used by the driver.  You must use the
+      complete path and filename including the extension.
+DEVICEHIGH /switches =path\filename {parameters}
+      
+      Loads a device driver into high memory if it will fit,
+      otherwise loads it into conventional memory.  You must
+      use the complete path and filename including the extension.
+
+  /L:num1,{num2;...}  The upper memory block to load, conditionaly if
+                      the size num2 is met.
+  /S:num              The resident size of the TSR.
+  parameters          Specifies any command-line information required by the
+                      program you want to load.
+DOS=HIGH-LOW-UMB-NOUMB,{UMB-NOUMB}
+      
+      This CONFIG.SYS command specifies whether Dos is loaded in
+      conventional memory, or into the High Memory Area (HMA), and
+      optionally if Upper Memory Blocks will be used or not.
+DOSKEY /switches macroname=text
+
+  Loads the DOSKEY tsr into memory, which edits command lines, recalls
+  Dos commands, and creates macros.
+
+  /REINSTALL    Installs a new copy of Doskey.
+  /BUFSIZE=size Sets the size of the command history buffer.
+  /MACROS       Displays all Doskey macros.
+  /HISTORY      Displays all commands stored in memory.
+  /INSERT       Sets insert mode.
+  /OVERSTRIKE   Sets typeover mode.
+  macroname     Specifies a name for a macro you create.
+  text          Specifies commands you want to record.
+DOSSHELL /switches
+
+   Starts DOS Shell, an interface to Dos and menu program.
+
+  /T:mode#  Text mode. Values for mode are L for low, M for medium, and H
+            for high, and an optional # value setting the screen resolution.
+  /B        Sets black & white mode.
+  /G        Sets graphics mode.
+DRIVPARM=/switches
+
+  CONFIG.SYS command that sets parameters for hard and floppy drives.
+
+  /D:num          Sets the physical drive number (0-255), 0=A, 1=B etc.
+  /C              Indicates that the drive detects open/closed doors.
+  /WnamCEgec /d      /WnamCEgec /d                            progr0ogr68)/180/320.
+D360kprogr Sets1.2, ag                 progr Set720kp(s
+    )     progr5Hidde floetect                 progr6 CONap/d                   7Sets1.44, ag                 progrpareWORM               progr9rogr .88, ag    /H       Sets thiden(0-255)ggin     or a/ coreg infs276-99L      I       Indicates that tha 3.5"in     wps.BIl, doest).semo LisiS:num  N       Indicates that thnon-r
+  vores anda:num              ThemCEgec /d(0-255)ggi of eachory 
+DISK276-99L      T           ThemCEgec /d(0-255)ggi
+DISKchory sizeE fiCHO {    metON-OFF    DisplaySenderminal . V      C's be st'to thturg, echo   Che  thOFF  You mayt CHiCHO  parameters to display the current date se the scE fiDITfilename} {paramees macronaD:num She COMMAND menEmmaor,nfirma
+  t editingcthe  ediext file.
+  /B /D:num  B       ThemCEge white mode.
+  /G        Sets grhemCEgefatheptimeireCGA resoluHISTORY  Sets grhemCEgend a curn eachggiion.
+  /B      NOHIDisplays aOS to nd a-ce t opend-ll /WnamEDLINfilename} {paramees macrStarts DOS SheEdrec,MMANDformaemmaornfirmext file.
+  /B /D:num  B   he DOSKEY u wans. 2ile.
+e L , igno    Cend-of-ntainirs.
+  /Lns. iS:nuEMM386etON-OFF-AUTOmetW=ON-OFF    Dis DOS to erencaOS to exptined block tsemo Limust use theide ofin
+ Dis MM386.EXE DIRCMD SYS comman.ayt CHiMM386e parameters to displaycrockt    en rtatuo eres, deci disk.
+  You mfter DeUTO Sets grhWs switch.
+COMPsk.
+  You ded e fir
+     r M.
+
+             H  Hiddd by curEMS.
+  /INSERTW=    The resiurg, ummaryoff Wee.kf Doro /Nsary).mo LimnuEXE2BINfe includ1fe includ2ONFIG.Sons, She.EXE (executOS t)to be copieile.
+(.ive).
+  /A:atespec   clud1fts Dusing   /V     c   clud1fts Outpu
+  /B   EXIT   DisplayQuicode pagdate se that seoro /Nsary{iveMAND.ive}n optireturg, to Displaysical oriour mor   EXPANDec1 filespec2 /switc   DispExptinr more files te paTER ed
+  /B /D:num c   clud1fts  thidenn.
+  To optir a mggiar files tthe s and subopied                 proexptined.st us us a name ds for th     c   clud2Sets thiden( ofn.
+  To optes tr a mggian exptined  files to be /D:FA   PEN
+  You:=..} mees macrStarts    he DOSKEY Fathosedm you wanmory, which edits c
+DISKchtdenn.
+  To optionalflosedned
+  /B nfirmfathu dac /Ns ummctos by  sed by cu     /1   Co          T /d      th t55)ggi
+.
+    t.
+DISKCst us usy the sa                 pe files
+
+
+  /D:     p          iden(0-255)ggi  /B n(10-999)t.
+DISKe new fis
+
+  fil               p48
+ tachggiblock t used or not. newle.
+DIR {  This CO/x Uses lowercaExptined block t.
+in meSKEY u wancluds
+DISKfilesFCfe includ1fe includ2ees macronaD:num ys all Dos
+.
+    /Mase foretwes      1lename in    /1        Is or sets es
+  e ofes, racurn each newle.
+the s a    /Mase f        SetsPto 
+  ary file.
+c onlyis/B      Ce resiurg, ufonversst ope    c onlyis/B      Ldicates an ASCII text file.
+c onlyis/B      LB    mCEgec /dmaxtionsecutects    /Mase fo.
+    (0-255)ggin eac:num  N     ShowsMMANDforma(0-255direct text fic onlyis/B      Tsplays aOS to ions, e screabfo.
+8y tae f      Wmpares thTER esmode.
+ tae  (eabfocifiesae f)nfirmatonlyis/B            mCEgec /d(0-255)ggiionsecutectsn eachy be u the /A.
+il         ach sc yois /A.lesFY dr   DisplayShe COMMANDF    t you wa edits cationgur tha d flo    tfirm no Displayecifi menu prnlyty ifto conventlogive number /D:FILES=um2;   Disum2;  ThemCEgec /dmaxim   (0-255)ggi  /B n(80=A, hy be  usyed             osedmdrive dpe.
+    .CONFIG.ng thee, driverss COM1 orPRN,             LPT1,r CON,DeUXn opti    tf /B nlikeDeUTOEXEC.BATlesFCBS=um2;...}      DisplaySeEgec /d(0-255)ggintaini ofrolto loa     /1  um2;  Thiden(0-255)ggiFCBS276-=A, hyomman.
+ e block tfir. /1  um22  Thiden(0-255)ggio loa 276-=A, hkept osedmdrimand    o eal                 MANDfomie s aum2; i for croilesFINDees macrona"le."ec2 /switD:num Seng
+ach newaal . V      Crecto files to be /D:     V Displays all Doskey n eachNOTni ofain screen rd directo                    Is or sets es
+mand hunt)ggin eacni ofain screen r           N       Is or setsforma(0-255diws switey the cuedin eac:num  I       IIgno contentsversggiirs.
+  /Lnwps.seng
+ scr new fn r                 SpeTinal . V      CyomfinilesFOR %e.
+
+   INf(the)elle that seters}
+          Runtha rd directo that se newle.
+DIR Crectothe s and su/D:    %e.
+
+   ies a name foree cce
+   ers}
+   .atesry f/A.
+DIR ,il             ame %%e.
+
+  patngs t Specifies any commothe s amore files tnd su/rhWs for th used by thepatng that seifies any command historylaycark tamet newle.
+DIR {ameters        es any comers        s tt macrona new fn rd directo that slesFORMAT
+  You:hes
+
+   St   ThiF
+  /Aice d   tor drive1 ame dsifi me.ONFIG.alsay  curoDoskey timaatng date ss
+onsk.
+     /V     V:labeleifies any commandv.
+.
+label:num  Q          QuiSKe nembe  usyedr not. newust bel oriourlye nembethepatng/U   Uses lownonaly if
+ .
+  /A:peTinaUn nembe  history used a ned                
+   rd.
+DOou dtima{  Thigec         es any command the commanddisk to another(no head COM1                sr68)tc.8)tc320,D360,t720,s1.2,s1.44,r .88)          Uses baAan.
+ es
+ tae  onsk.
+ nembetheo    tfirmsythumtnd su,il             .
+t doesd a ni a neww fn rythumtnd su.         Displays a new crythumtnd su High Me    , usk   Crt 'bootOS t'      T          mCEgec /d(0-255)ggi
+DISKchory  anotsizeE fm  N          mCEgec /d(0-255)ggi of eachory 
+DISKE fm  1   DisplayF
+  /Aice s   lef the disaddisk to anoE fm  4   DisplayF
+  /Aice 5.25-ceOM1360Kddisk to anotrectomory dt opend
+
+  fil  mpareDisplayF
+  /Aicectors of eachory 
+DISKE fGOTO 
+  Loads tUsemory.y f/A.
+DIR  Higjumpther.
+    nn.
+  To edits c
+  arkhe
+ ds ta
+label :
+  L:peT   ta
+label To osforma
+  icoelf,ned  en scrdsifiad-ll  /L:num1       ST . V      C not.herg     h
+label for a E fGRAFTABL
+    es macrSt
+      This COAan.wsion.
+ned irs.
+  /Lndisadrd directo td  erg Crecs mode.fil      So.
+ettidsettins s aum2for :   Display437 lownitheoShe es
+   progrp50ogrM filforgu
+ .(L t e I) Display860ogrP Liugins             852  TSlaive.(L t e II) Display863aresanandan/FMaseh       865HidNOSSic   Display/  ITUSm ys all Dos
+.
+ td  erg Coelof hepatGRAPHICSeter metlename} {paramees macronSt   Thihe DOSKEY G mode.
+ you wa eman.w   Ct tolay o
+ yi se coluH s as mode.filameter    Specifihe physicalrce to     .  So.
+ettidsettins firmer  or lCOLOR1,il               pCOLOR4,pCOLOR8, HPDEFAULT, DESKJET, GRAPHICS, GRAPHICSWIDE,il               pLA   JET, LA   JETII, PAINTJET, QUIETJET, QUIETJETPLUS,il               pRUGGEDWRITER,pRUGGEDWRITERWIDE, THERMAL,DeNDeTHINKJET     c   cludecifihe physicantaini ofain scrtion requireummctmo Liedalrce tosfil               pT /d 
+    c
+ GRAPHICS.PROfil  mR           pRes, dcomeyi se(ode.
+th t55s umm whiteresolu). pT /d 
+    il               piu Higeyi se whiteon grhund ummode.
+bhitgrhund          Uses bagrPyi ss
+bhitgrhundCrec-ll / firmCOLOR4 optiCOLOR8alrce tosfil  /LCD Uses bagrPyi ss
+us    LCD ard dsedequifil  /PRINTBOX:etthe physicalrce  boxd the,
+ettned   Cei    nSTD s tLCDfilwitP { histor}St
+      This COProviee, n iprtion requirefirmmands, and cfilIF {NOT} onaly if1 onaly if2e that seters}
+         Pto 
+  aronaly if
+ .oro /Ns   Crecf/A.
+.
+
+   filameNOTn  Indicates that the drimandsramldycark tametmand history esil              iftmand haly ifpiu fals fil onaly if1  pT /dihumtHigh cu. ERRORLEVEL==arametaalrund haly ifpifil               h
+lathe you wanrunireturgedian exit
+ td   by
+ .Higirmg
+  teril               hanec /d(0-255)rd directoby onaly if2fil              EXISTycrockch newaaDIR  rd directoby onaly if2fil                    1==acrockch newaa /A.
+ws switeye.
+
+         2il               d directoby onaly if2fil onaly if2eCOAd(0-255, c   clud,1     eres.
+
+   High cu agai a fil onhat seifiihe physica historylaycark tametiftmand haly ifpiu    filIN  ILL=lename} {paraeters}
+          tUsemory.CMD SYS comman entloadwaa lock t coieentm you wanmory, whichfil   Prs        or lop if
+ ,.
+t y use theame sicanuewwlenalename includ,il   ng the screen on.
+s /B   JOINfi
+
+  1:metlenamees macrStartsJo  ice d   tor driher.o arof ea
+ons.
+    n
+
+  fil  t CHJOINf parameters to displaylithe date ss
+jo  ednumber /D:il  
+
+  1: Specifies any commod   tor drih dri usedappeng sr.o arof ea
+in                 prlena{ameterth   Specifihes any command arof ea
+laydits cy uswantmHigjo   
+
+  1. I il               pse theedrempendtingcus a nbe sicarootd arof eafil  /D            pCase lenu yal oriour JOINfs, and ca new fn rd directo
+
+  filKEYB { hde},..} metlename} {paramees macronSt     Ctiongur thsicakeybo flofirmsd direc
+largu
+gr /D:il  
+ td     pT /dkeybo floc L , uca newwnitheoShe es,msda newSpaec,Metc. /1  um2     pT /d td  erg .  SeD SHCPh newaalitheggiiod  /D:   e} {paraeT /dkeybo flo 
+in quirefIR { pT /d 
+    c
+ KEYBOARDmman.D:   /eUses lowert newlnhase ddkeybo fls ummXTyclat
+  a
+ s  /D:   /id      T /dkeybo flo(0-255)firmatuntri the drihaveiles t hanemor              l Damet(Frase , I alh ewnitheoK scdom)   LABELfi
+
+  :met        DisplayC
+  tes,mirsnges,mnewuelotcommandv.
+.
+label {paramedisad anoE fLA TDRIVE=th t55   DisplaySeEgec /dmory cu   You dth t55)(A-Z hy be  usyedr not. newac /Ns sc /1   Co    tor dr /D:LOADHIGHees macronalename} {paraeters}
+          Tri thentloadwaaTSRm you wanmory,c /dtmo55) lock tor afil              il  /L:um2;...}  ;...}  T /dtmo55) lock to loahentload,ronaly if
+ ypifil                       h
+ the um22 iu    filay/                  pT /d coieentm the commandTSR{ameters         Specifihes any comu yas, and -formation required byarotoby manil                       you wany uswantmHigload/D:LHees macronalename} {paraeters}
+          Tri thentloadwaaTSRm you wanmory,c /dtmo55) lock tor afil  il  /L:um2;...}  ;...}  T /dtmo55) lock to loahentload,ronaly if
+ ypifil                       h
+ the um22 iu    filay/                  pT /d coieentm the commandTSR{ameters         Ses any comu yas, and -formation required byarotoby manil                you wany uswantmHigload/D:LOADFIXalename} {para     he Dfixtiorrof sr.o yo
+  mnwpsre
+.
+
+     usy a nbe loademorytonum1 icante of64khggiblock .COProriour HigDOS 5.0w fiswasd a npoNs bR ,il  
+t dsifi OS=HIGHe conu/rhhe Dfixte ccehysicalrou wanmoiblock il  mory rt hane64k.oads tUsew fis historyifty usgeetmanderr fil/Nsrg C"pISKfiantaini rrupt"ds twps.try   Cyomrunisicalrou wa/D:MEMees macronSt    s all Dos
+.
+amhunt)ggi not.enamesol) lock tmoiy urmsythum /V     PROGRAM        Is or setsa ntuH s a.
+
+     date ss
+loademory, whichfil  /P/V     DEBUG           s or setsa ntuH s a.
+
+   , ce tone numberrsn opti
+    il  /D            p ation requir /V     CLA SIFY       pClat
+ny come
+
+    by  lock tusrg . Lithommand the co             I        you wasn proviee, adruista
+of) lock tmoi non optilithsil                   larg cu  lock to loahavail
+  patMIRRORfi
+
+  : ...} es macronSt    R
+DOfls tion requireabametmore files tust b/D:il  
+
+  :pecifihes any command r drive1 dits cy uswantmHigsaveition requir /Vm  1   Display Savets es
+mandlah cu  anotreon require(doesd a nbhitdtmil                yoriour reon requir)      T r dri    pLe DOSKEY uelotuir-
+DISK   Clrou wan new fn rd directo
+
+  fil   -entri thifihes any commaxim   (0-255)ggientri thry.CMD uelotuir-
+DISK   il               DIR {amet/U   Uses loewnle DOSKEY uelotuir-
+DISK   Clrou wafil  /PARTNisplay Savetsd flo    tnlyty iftreon requireher.odisk to anoh t5patMKDIRalena   DisplayC
+  tesr.o arof eapatMDalena   DisplayC
+  tesr.o arof eapatMODEfi
+river}eters}
+     ees macrStartCtiongur thrythumtdrivers,alrce tos, his o Lis,keybo fl,Mec filaila     Ds or setmand date ssa ntuH s aKEY ueiverfilailaExamp su:   Prce to o Li:pecMODEfLPT1: COLS=80 LINES=60oRETRY=bil                 MODEfLPT2 8)t60,mil Se
+l o Li:pec MODEfCOM1 BAUD=9600 PARITY=n DATA=8nSTOP=1oRETRY=pil                 MODEfCOM2: 4800,e,7,1,n   Re arof uir: pecMODEfLPT1:=COM2:artCtdePrg :       MODEfCON CPhPREPARE=860oc:\dos\iod DIR {cpiil Selof iiod :    MODEfCON CPhSELECT=860   Reesoshiiod :   MODEfCON CPhREFRESH   nmory, wOeesoshiioD=sp          6 Reesoshiitnmo ta
+uirecquif  M=sp     :RATE=20SKJLAY=4ODEfRErtCtir setsa ntmopmore fiolu).   usrunimlailaExamp su:   PrcTYPE AUTOEXEC.B  Y| EfRErt EfRE <FREADME.DOCODESCDEX macronSt     Ctiays a new cryt SYS D-ROM.
+s /B   igDOS 5.,byaof uir:lroa drive1t55   Di      h
+ot SYS DiverfilYou dth  neww fry.CMD SYS comman en     CLAD:decifihe p Necifiand r drivera E f  neww fry.CMD SYS comma  CLAM            gec /d(0-255)ggi offily muff,  /L:um2t55)(A-    gelsr.o d r drive1t55)(A-
+otloany cgnherg   SYS D
+NLSFUNCename} {paramees    CtiaysDOSKEYntri ty direc
+larn requirefirmmanNa
+ .oroLu
+gr /D S Lieda   PATHename}.}  T    Ctiaysr setsa ntrmetaalrus s.
+   Swlnhaxecu t'   su.       pT /dta
+lPATHe;ycarkl sr.apps s.-   Setar:lr      pT /dta
+lPATHerameters to displaylitd setmand date ssa na{ametePAUSEsplaySeEgudira ne /Ns   Crecad an.
+.
+
+   fitilitdl Dos
+.
+amhsrg C"pIsplaySeE"rios yas, bo ycarkaininue}   twNTBOX macronalenname} {paramee }  T    Ct ss
+us a   ereini rs ci rswanlop    LCD  n
+
+ 5.0and cfilIF sew fiNTBOX rameters to displaylitd setmand dataine
+us KEY ueie  boxqueue     CAD:verfilYs any commod  e  boxverfilaila/B:e co     gec /d(0-tone numbmuff,he,
+ettf/A.yt      /U          Waimand theirecto
+
+im   (0-255)ggientcahentlih newaa il                e to     otloanl
+  patMIRLAM          gec /d(0-im -255)ggi
+DISih nenu/takeigeyi se whas.
+  /LndMIRLA           .wsi the drifiolhedulefn rd directo
+
+255)ggientcahentlih n               waa tgrhundCrec se w LCMIRLAQ          gny command r im   (0-255)ggientsu.  n.w   ry.CMD SYSqueue    r       pRes, mov  n.w tsu.  nfromY ueie  boxqueue          I     e lenu y se w LC KEY ueie edke LC {paramee ilitsubsaroe
+u               wparamee     /P    I     AddsY ueie edke LC ilitsubsaroe
+u {paramee g   SYSe  boxqueue   GRAMPT       DisplaCges,mn  SYS 5.0and cfi
+
+ ndtIF sew fijeedrGRAMPT runi   tcalrou wndt g   SYS    c
+ etar:lr.  Ct swndt g ereyedr nommoril ientc
+  /Lnd yasd/aa il sd direcumb  /D: Displa$Q   = (
+ .Hig cgn)                lar$$lar$oesdlg cg cgn)spla$    Ce ssa nniml                   h$D   Ce ssa ndif spla$P   Ce ssa ndrive1cfi
+   Specifihes $Vaysr5.0sn oeher255)ggspla$N   Ce ssa ndrive1                 h$    > ( teril -ne64k cgn)spla$L   < (.  s-ne64k cgn)             h$ Use| (pipe)spla$HUseB   sKfil                   h h$EEXISscaptd  erg(ASCIId  erg27)spla$_   e rl ogeturgeditilithsnefeed  il  /QBASIC macronalenname} {paramee Displa esrc /d(0-QBaslar
+   fimCei  nvironmsa ailaExa   Uses bag.wsiwse sicad anmonochswnes theoditsi OSal / fir  fp cyusy r       EDITO     esrc /d(0-r5.0Edeodi      G bagrPyi see, adrante e y  anupdif cad anCGAiolu).       H     s or setsa nd r im   (0-255)ggienthsnesNs bR ,il waa rmsytlo  wlop      MBFI     eonsn c /d(0-built-CMDfunir: ps MKS$, MKD$, CVSptilitCVD um1 ic       MODEKSMBF$, MKDMBF$, CVSMBFptilitCVDMBFpti  sedeivell  /P/VNOHIs bag.wsiwsedtmo5sicad anmoneoditsi Otersy rt-to  /B tins Lieda   P/VRUplay SaRunand theirecto
+
+Baslar
+   fir nftust b/etmaCrecfa   P/{paramee  gny command r u wan newiHigh cdwaaTaa isi   RECOVERenamees{para     he Oflssn offilyt'   n requirefirmromYan.dwuelotfedeivenoE fLA Res       DisplayC
+ Ofls tioand e
+us (r
+uirks).CMDan.
+.
+wiHiguel comman en   RENAME/{paramee1/{paramee2   heRramee /{paramee1/g  {paramee2he Ywan a nbe eirectr a new
+   Swlnhrmsy he adr:larefIR { pT  REN/{paramee1/{paramee2   heRramee /{paramee1/g  {paramee2he Ywan a nbe eirectr a new
+   Swlnhrmsy he adr:larefIR { pT  REPLACEenamee1s{par sedenamee2s macronSt    R
+D{par sede   gec /d(0-smsyce
+wiHiguelsu.       amee2       gec /d(0-of ea
+layre
+.
+su.  n.re  otloarecehys       A    I     AddsYnew
+su.  nlitdadr:larefI. e lnbe loat.enasi OS  Duel/U  /PART    I      swndtsrmatuntgurquirefirmmanea.
+wiHi.aExa  R      pRes, cehysicfily 
+mansu.         Ds oiays a ne scrythubof ea
+lmmanKEY ueivedr:larefIRof eafil  /D         pCase l'e loat.enasi OS uei A acronS      W      pCasWaimanwlnhrmsnlit nen cd   tor  nftustrecehy:lr.  Ct  Uses loewn, cehysic
+mansu.  be  us.re old hane64ksmsyce
+wiHis  /D         pCase l'e loat.enasi OS uei A acronS   H  TfRE   :peciname} {paramees macronSt     he Ofs
+le /{par be  usw
+.
+bfiantal iby    LCD ueiBACKUP0and cfiil  
+
+  :pecifigec /d(0-orih drocfily d(0-bfial isu.  nfrometerth   SpeciT(0-orih dasd/aa su.  nlitrfs
+le       Ds oiay ne scrythubof ea
+lmma  /PART    I   swndtsr nftustres
+l LCDfily 
+mansu.  guelsu.  snges,mitsilen /D         pdlah cst-bfial i(y uapu we  if cat th ds  n.re eta    T rB:dif c Ofs
+le /
+mansu.  g cst-nges,mitfIRaa tnftust rd directo
+
+ ate      A:dif c Ofs
+le /
+mansu.  gnges,mitfIRaa aftefn rd directo
+
+ ate      E:niml  Ofs
+le /
+mansu.  g cst-nges,mit usmanearli hane64ks hinimlaila:um2niml  Ofs
+le /
+mansu.  gnges,mit usman cu hane64ksd directo
+
+nimlaila:uMs loewn, s
+le /
+mansu.  gnges,mitsilenpdlah cst-bfial   /P/VNs loewn, s
+le /
+mansu.  ge  usn cdws,mnhaxsiltfIR ueivedr:larefIRof fLA D          r setsa nsu.  gun d(0-bfial i tor e  usm
+.
+direc
+laarefIa  /RMalena   DisplayC
+ , mov  n(otcomma) arof eapatMODRDna   DisplayC
+ , mov  n(otcomma) arof eapatMODSETaramedi=      Displar setsa ,metaa,Taa i mov  nr5.0 nvironmsa  va  ibHis  /D w fiSETarameters to displaylitd setmand date ssa n nvironmsa  va  ibHis  /D w fiSETaamed=ycarkl sr. va  ibHiil  
+
+decifihe pgny command r  nvironmsa  va  ibHi
+deci  /D g ere     ratar.odiy cgn g   SYSva  ibHiil SETVERenamee {paramees   ;.. ;.s macronSt    R
+Dgec /d(0-sn oeher255)gg e  usr5.0reco c /do yo
+  afil  /PAw fijeedrSETVERelitd setmand date ssa n t'   .
+
+   , cil  
+   SpecifihP   Sale fioec /si theherKEY ueiSETVER.EXER {amet/U{paramee  
+Dgec /d(0-{paraetersine scCei  
+s /B   } KEY ueie    ,  /D         pCado yddwuelotcommnfromY ueiSETVERel patMIRL ;.. ;.     gec /d(0-r5.0sn oeher otloareco cherg   SYS
+  afil  /PBUGLETE     rtcommaksd directo
+
+u wan newromY ueil patMIRL/DIRLAQUIE       TeditofEY ueivisclaiml/Nsrg C"pId setmaenastrynges,Cei  /D         pCadueil pattri thryil SH=86 macronSt     he  DOSKEY uelSH=86 tsrtonumock .COProw fiSH=86  whic
+itaskCei  nvironmsa n     su.
+ a networksrg  rae'   su. tilitrfls t/si kCei o urmsythum /V     PROF: ;.     gec /d(0-e co f/A.yt   (20-32767)nwlnhail pattsavettust rd /D         pCaamee /KEY ueisi kntaini hhe D   c
+  hi2048aila:um2 ;.     T(0-255)ggi ofsu.  g(1-3000) e  usyedr nosi kntaaore finimlaila:        s or   c
+  hi20il SHELL=name} s{para  s to displa    CtiaysDOSKEYa new
+Cnd cfi
+to   e eu ha(su.
+ a Cnd cfi.and)he Moiltfften  Ctiayss hiongur .hum0and cfi
+isat.enalit nlu)asnpdlahEnvironmsa  sKfil  Ctiayst.enalitettustva  ibHisthsk
+lPATH, TEMPptilitGRAMPT.    Ctiays to displayyyy-e Mmanbe direc
+larg   SYSnew
+to   e eu h,-but                  lar pCaaequilmanwouldnbe  SYS    c
+    S(ay.CMDC:\r5.).                  lar pCaAlsonwouldnine sce acronSt  hsk
+l E:e co.  gee                  lar pCa2:aMANDnwlnhailsiltffD  n
+
+acronSt .    Ctiaysmp su: cifSHELL=C:\r5.\2:aMAND.2:aDC:\r5.l E:512ARTl SHIFT  CtiayssplayC
+  ges,mn  SYSs biheherKEYrecehys patt to displayCMDan.
+.
+wiHi     pT /d(0-{prsrs to displ
+isaotcommec  SYSr  ano weiby e fi255)gg     pT /Flnhax su: ttff AUTOEXEC.B  Yissumn  SYSand cfi
+"GO.B  Y5 10 15",    pT /cfi
+t(0-{prsrsand cfi
+in GO.B  YisaSHIFTc  SYn %1aaew holds  Ctiaysstt to displ "10".CaAlsonnbee e  us%0rs c.
+t.enalittainain  Ctiays"GO.B  "aaew holds "5".    CtiaysYwanmaanworksrsi OS
+mantent to displa,s%0rthswugh %9.CaIfhrmsnt.e  Ctiaysmtust redr10 un d(0-and cfi
+hsne/cfi
+t(0no5sicSHIFTc %9aaew holds  Ctiaysstt11 OSi /V   SORX macronalennand cfi} <name} {paramee1} >name} {paramee2 Displa o c /inpmorcfi
+writsicfisc
+srg   SYSolu). pti
+wiHi,Taa an  n
+
+verfilailExa  R      pReResn omaksd do cTaad h; e  usi ,meo c /Zrg  Ac  SYn 9rg  0aila:u+         gorc /d(0-{par acls t LCD otc
+  /Lnd yin  / umer255   P/{paramee1CaAewiHigh cbd do cs      {paramee2  gec /aewiHigh csefi
+t(0-do cs /inpmorto     and cfi
+Ys any commod  and cfi
+whosicamopmorisgh cbd do cs    STACKS=2551,2552   R
+Dgec /l i SYS yamelar5sicad datarewwcksrg  reddHiglo  wlop
+to   rudtsil  
+
+d551   lar pCaT(0-255)ggi ofewwckewrmee /(0-64).    2552   lar pCaT(0-e co  ofea.
+ewwckewrmee/(0-512).  SUBST   :peciname}s macronS  Ctiayssplagec /l ia drive1t55)(A-
+otreci    whan  n
+
+vrive1cfi
+   Prow fiSUBSTsplasi OSn c to displaylitd setmanailsiltffDte ssa nSUBST'd
+vrivesil  
+
+  :pe SpeciT(0-orih dt55)(A-
+otloany cgnhera new
+   eterth   SpeciciT(0-physlaHigorih dasd/aa    Srmsnwantr.odiy cgn.aExa  D      s or commns hiorih 'icfiof eaefI.  SWITCHES=/kl  
+
+Flnysicenh lend bo boa tioonumoconsnn
+ .orom eretertExa  kciT( hiiaksd 
+manacronSn.w   ry.  SYSiname}s   :pecDisplaCopimn  SYS 5.0hum /V
+su.  n.fi
+cnd cfi.andr.odin  n
+
+vrive1umocake /D g  us tor "bool pat".    Cth   SpeciciAs tor asd/aa    Se  usyainainn  SYSIOn en, MS 5.n en,               ilitC:aMAND.2:aDwiHis  /D   :pe SpeciT(0-orih dd(0-{par n.re  otloacopimdrto   TIME/{eter:mCe:sec}  CtiayssplayC
+ r setsa naa sec /d(0-eum /V
+nimlarow fiTIME/si OSn c to displa  Ctiayssitd setmand date ssa n iml u wndt wlnhainew
+e f.      Ctiayseter:mCe:sec pCaT(0-2ew
+ imlttf/A24naa 12Aeter requir   TREEiname}s macronSt    R
+Dor setsa nd r of ea
+laystrucgedicad anorih daa         PROFiay ne scryt SYSnmee /KEYsu.  nf/Aea.
+of eafil  /D  A   w fiASCIId 
+  /Lnd y
+mansaa il camopmo   TYPEnname} {paramee DiCtiayssplayC
+ Sefin  SYSano  /tscad ang erewiHigh c SYSolu).    UNUGLTEnname} {pardires macronSt    R
+DA5)(ndtsrlitrfs
+leie eviousmanotcommeewiHi(s)     PROS:  :pe SpDOSKEY uelr commnSri ty tsrtsaa il cdirecto
+
+ rih   /D  T rih -#SpDOSKEYr commnTrfianr tsrtsaa  rih  CaT(0-#iiaksd 255)ggi o               ri thry trfianec wromY1-999Exa  DO Ds oiay ne scr/
+mansu.  g sil
+
+by DO Exa  DT        Usnpdlahr commnTrfianr n re-
+otrelssn nsu.        DS        Usnpdlahr commnSri ty n re-
+otrelssn nsu.        ALLSpeciciA5)(ndtsrlitrflssn n   LCD.w  avail pattdishods.CaAlsonskCps               u wndt LCD uei5sirtsaa n requirefi. /d(0-{prsrst55)(A-ad a                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         

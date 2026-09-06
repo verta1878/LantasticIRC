@@ -1,0 +1,9 @@
+POSITION(9,6)
+HEADLINE("          NET Command Switches        ")
+SELECTION("  Syntax                             ", !syntax.TXT) 
+SELECTION("  A-I                                ", !A-I.TXT)     
+SELECTION("  J-Q                                ", !J-Q.TXT) 
+SELECTION("  R-Z                                ", !R-Z.TXT)     
+SELECTION("  Using NET Commands in Batch Files  ", !Miscnet.txt
+status("Use [Up] or [Down] Arrows then press [Enter] to view file. Press [ESC] to exit.")
+

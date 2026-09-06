@@ -1,0 +1,43 @@
+
+{                Installing and Using LANtastic with NDIS Drivers
+{                ================================================
+
+       LANtastic NDIS support lets you use Artisoft or third-party network
+       adapters and NDIS drivers with LANtastic.  Supported adapter types
+       include Ethernet, Token-Ring and ARCNET(R) adapters.  To function
+       with LANtastic, your adapter must have an NDIS MAC (Media Access
+       Control) driver.
+
+       {Note} For Token-Ring installations, refer to the {Source Routing
+              {Support with IBM Token-Ring Networks} section in the
+              LANtastic NDIS Support menu of this on-line manual.
+
+       To use an adapter with an NDIS driver in your LANtastic network:
+
+         1. Install the adapter in your PC as instructed in your adapter
+            documentation.
+
+         2. Install LANtastic as instructed in your LANtastic manuals.
+            When asked what type of adapter you're using, select "NDIS
+            Support for Network Adapters" and then continue with the
+            installation.
+
+         3. When prompted, place the diskette containing the NDIS driver
+            for your adapter into a floppy drive and type in the drive
+            letter.  This diskette is usually provided by the adapter
+            manufacturer.
+
+            You may also need to enter the directory where the NDIS
+            software is located on the driver diskette.  See your adapter
+            documentation for more information.
+
+         4. Proceed with the installation as instructed in your LANtastic
+            Manuals.
+
+       If you have problems with your installation, see the
+       {Troubleshooting} section in the LANtastic NDIS Support menu of
+       this on-line manual.
+
+
+
+

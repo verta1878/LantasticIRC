@@ -1,4 +1,0 @@
-Directory of C:\.
-LZH      OBJ              2,426 05-09-2026  3:05
-    1 File(s)             2,426 Bytes.
-    0 Dir(s)        262,111,744 Bytes free.

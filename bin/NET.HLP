@@ -1,0 +1,637 @@
+$Revision:   1.55  $
+`MA  Main Functions - LANtastic (R) NET Connection Manager
+ |Connect to Other Computers' Drives
+ This option allows you to set up a new drive connection or remove an
+ existing connection. When you've set up the connections you need, you'll
+ be able to use these drives as easily as you use the drives on your own
+ computer. For example, you'll be able to view edit or print files stored
+ on those drives as if those files were stored on your computer.
+
+~01 |Connect to Other Computers' Printers
+ This option allows you to set up a new printer connection or remove an
+ existing connection. When you've set up the connections you need, you'll
+ be able to send your print jobs to these printers in the same way you'd
+ send them to a printer attached directly to your own computer.
+
+ You can send print jobs to any printer that has been set up to be shared.
+ However, don't forget to check that your word processor or other
+ application is set up to use the printer to which you want to send your
+ print jobs.
+
+~02 |View Print Jobs
+ This option allows you to view the status of any print jobs that you've
+ sent to printers on your network. If you want, you can also check the
+ status of print jobs sent by other people.
+
+ When you or anyone else send a print job to a printer that's attached to
+ another computer, the job is sent first to a temporary storage location
+ on that computer. All the jobs are stored there in a queue of print jobs
+ until they can be sent to the printer. Note that each job is automatically
+ deleted from the queue when it has finished printing.
+
+ If you have the Q privilege, you can control all jobs in the queue. For
+ example, you can change the order in which jobs are printed, view
+ detailed information about each job, remove a job from the queue, put a
+ job on hold and give a job priority status so it's printed before other
+ less important jobs.
+
+~03 |Send and Receive LANtastic Mail
+ This option allows you to compose and send LANtastic Mail messages and
+ check any mail messages sent to you (including voice mail, if you have an
+ Artisoft Sounding Board (R) installed). If you have the M privilege, you
+ can control any item in the mail queue.
+
+ With LANtastic Mail, you compose and send messages and read messages sent
+ to you at a computer that's been set up as a post office. If you're part
+ of a large network, more than one post office may have been set up. To
+ check on your messages or to send a message you'll need to know the name
+ of the post office computer to which you must connect.
+
+~04 |Chat With Another User
+ This option allows you to establish a real-time text dialog with another
+ person on the network. If you have an Artisoft Sounding Board installed, 
+ you can also hold a real-time voice dialog with another person on the 
+ network.
+
+~05 |Login or Logout
+ This option allows you to log in and out of one or more servers at a
+ time.
+
+ You'll also use screens for logging in and out of servers when you want
+ to make new drive and printer connections, connect to a network post
+ office computer to use LANtastic Mail, or view print jobs in a queue on a
+ particular server.
+
+~06 |User Account Management
+ This option allows you to change your password on a server, disable your
+ account or check the access rights and privileges of your account.
+
+~07 |Monitor & Manage Network Activity
+ This option allows you to watch the activity of a select group of
+ computers. You can also synchronize the clocks on a select list of
+ servers.
+
+~08 |Monitor & Manage Server Activity
+ This option allows you to see who is logged in to a server and monitor
+ work on that server. You can also view a remote server's screen, issue
+ commands to be executed by the server and control server functions.
+
+ For example, you can schedule the server to shut down after a specified 
+ delay or control who's allowed to use the server. If the server is set up
+ for remote control, you can use your keyboard to type in commands you
+ want carried out by the server just as if you were typing the commands
+ directly on the server's keyboard.
+ 
+`ZD  Color Schemes
+ This screen allows you to specify the colors in which your LANtastic
+ screens are displayed. The default color scheme is Classic. If you want
+ to change to another color scheme, use the arrow keys to highlight the
+ one you want to use, then press |Enter|.
+
+`DC  Drive Connections to Other Computers
+ This screen allows you to set up connections to drives on other computers
+ and to cancel existing drive connections. When you've set up all the
+ connections you need, you can use these drives as if they were drives on
+ your own computer.
+
+ Note that if you want to set up a connection to check LANtastic Mail
+ messages or to send a mail message, you'll need to know the name of the
+ post office computer you want to use.
+
+ |Making a Drive Connection|
+ Use the arrow keys to select a drive letter that's listed on the screen
+ as |<<Available>>|. Press |Enter|. You then specify to which computer
+ you want to connect and select the drive you want to use on that
+ computer. When you've done this, the connection you've set up appears
+ alongside the drive letter on the computer that you selected. Press |Esc|
+ twice to exit to DOS or to the application you want to use to begin
+ working. Then, as an example, if you specified the F: drive, you'd go to
+ your F: drive and begin working just as if you were working on a drive on
+ your computer.
+
+ |Breaking an Existing Drive Connection|
+ To remove an existing drive connection, use the arrow keys to select the
+ connection, then press |Del|. Then press |Enter| to confirm that you want
+ to delete the specified connection.
+
+`QQ  Printer Connections to Other Computers
+ This screen allows you to specify the printer port on your computer that
+ you want to connect to a printer on another computer. You can also use
+ this screen to remove existing printer connections.
+
+ You'll have to specify this printer port from within your applications
+ when you want to print files. When you've set up all the connections,
+ you'll be able to use these printers just as if they were attached
+ directly to your computer.
+
+ |Making a Printer Connection|
+ Use the arrow keys to select a printer port that's listed on the screen
+ as |<<Available>>|. For example, you might choose the LPT1 printer port.
+ Press |Enter|.
+
+ You must then specify to which computer you want to connect and select
+ the printer on that computer where you want to print your files. When
+ you've done this, the connection you've set up appears alongside the
+ printer port you selected on your computer. If as an example, you'd
+ selected the LPT1 printer port, your print command would specify the LPT1
+ port. Press |Esc| twice to exit to DOS or to the application you want to
+ use to print your files.
+
+ |Breaking an Existing Printer Connection|
+ To cancel an existing printer connection, use the arrow keys to select
+ the connection, then press |Del|.
+
+`AC  User Account Management
+ This screen allows you to use the following options to modify the account
+ you used to log into this computer:
+
+~00 |Show Account Status
+ Displays the status of your account including the date your account
+ expires, the date you last logged in, the maximum concurrent log-ins
+ you're allowed and the times of day when you're allowed to log in.
+
+~01 |Switch to New Username
+ Effectively logs you into the computer under a new username. All your
+ drive and printer connections remain in effect, but you take on all the
+ restrictions and privileges of the new account.
+
+~02 |Change Password
+ When this option is selected you're prompted to enter your existing 
+ password. Then you're prompted to type in the new password you want to 
+ use. |Note| that you must remember the new password. Once you've entered
+ a password, there's no way to find out what you typed.
+
+~03 |Disable Account
+ Use this option to prevent further log-ins to this account. |Note| that 
+ this account can be restored only by using the NET_MGR program.
+
+`LI  Connect to Computer
+ This screen allows you to specify the computer to which you want to
+ connect. If the computer for which you're looking isn't listed, press the
+ |Ins| key, type in the name of the computer to which you want to connect
+ and press |Enter|.
+
+ Computers to which you're already connected appear at the top of the list
+ and have two backslashes ("\\") before the computer name. Computers to
+ which you're not connected appear in parentheses.
+
+ Only those servers with Send Server ID enabled will be on this list.
+
+ An A# in the title block of the window and numbers appearing on the
+ right side of the list indicate you have multiple adapters in your
+ computer. You'll receive server IDs from each network to which you are
+ connected. It's possible to have computers with the same name, but with
+ different adapter numbers, appearing on the list.
+
+ You can set up a default username and password by pressing |F2| and
+ answering the questions. When defaults are present, they'll automatically
+ be used for all subsequent log-ins, unless they're not valid for that
+ server. When REDIR is first started, the default username is the same as
+ your machine name with no password. To disable default log-ins, set the
+ username to blank.
+
+ You must log in to a server before you are able to use its shared drives
+ and printers. To do this, you must have a valid username and password on
+ the server.
+
+ To log in, select a server from the list and press |Enter| or press the
+ |Ins| key and enter the information requested. If you have a valid
+ default username and password set, you're logged in using the defaults;
+ otherwise, you're prompted for a valid username and password.
+
+ After you've successfully logged in, you're asked if you want to set the
+ clock in your computer to the server's clock. This is handy for those
+ networks that don't have a clock with a battery backup, or if you want
+ all workstations to synchronize their clocks.
+
+ Logging out breaks all connections with a server. To log out, use the
+ arrow keys to move the highlight bar to the appropriate server, then
+ press the |Del| key.
+
+`DR  Drive and Printer Connections
+ You can use this window to redirect local disk drives or printers on your
+ computer. This window can also be used to cancel redirections.
+
+ You may redirect a physical disk drive. This allows programs that only
+ work on a set drive, such as A: or C:, to work across the network. When
+ you break the network connection by pressing |Del|, your drive will
+ function as a physical drive again.
+
+ The printer devices, physical disk drives (usually A:, B: and C:) and the
+ logical disk drives (usually D: through Z:) are shown in this window.
+ Resources mapped by NetWare are also displayed, tagged with an N. To
+ attach your disk drive or printer to a network resource, use the arrow
+ keys to select the device or drive you want to use and press |Enter|.
+ You'll then be asked to select the server to which your drive will be
+ attached.
+
+ When you've logged in to a server, the available printer or disk
+ resources will be displayed in a window. Select the appropriate resource
+ by highlighting it and pressing |Enter|.
+
+`SD  Information About Drives That Are Available for Sharing
+ You've already selected the drive on your computer that you want to use
+ to set up a new drive connection. This screen shows you all the drives
+ and directories that are set up to be shared on the computer to which you
+ want to connect. Use the arrow keys to highlight the drive or directory
+ to which you want to connect, then press |Enter|.
+
+ This screen shows the following information:
+   1. The name of each shared drive or directory.
+   2. The access you have to each shared drive or directory. Each letter
+      corresponds to an access control list (ACL) privilege.
+   3. A description of each shared drive or directory (if a description wt ther, the  thsws se y s
+ youors
+ along. To loghe
+wove 
+   3. A dex dex dexsDtirectu You've alrefectively lomatioa nve or LDtirehe sta|Enter|. pr direcit to DOS or to the dyou're prompted for a valid username ansdrives
+ and directories  he at' Thely arrow keys to h|me olthey2to tomhre set up toe of the name ana shareLPT1
+hat you Note that if you `SPt Drives That Are AvPcomputer.r This sDisk drring
+ You've already selected the drive on your compresources wu can u want tat
+ you want to connect to a printou muyou all the drives
+ and direcpcomputer.r u can u wants To le shared on the computer to which you
+ want to connect. If the computer fo to highlight the drive or directoryrk reso/u want t to connect. Use the arrow ker|.
+
+ This screen sho the following information:
+   1. The name of each shared drive or directoryrk reso/u wants you have to each shared drive or directoryrk reso/u wants  correspond s to an access control list (ACL) privilege.
+   3. A description of each shared drive or directoryrk reso/u want wt ther, the  thsws se y s
+ youors
+ along. Trk reso/u want 3. A dex dex dexsDtirectu ged in to a acpforor a lock. This is han@DEVICEEnthan used for all . Sclect  To logve ue disk dr use the ag. Trk reso might choose ich OPY PFILE \\MAIN-AT\@PRINTERich OPY PFILE  |Esc| ou' yourhast aenal disk derver \\MAIN-AT\@PRINTERrenu co which youeys s thabtheyLPT1
+perThe r machine ical driave toyoueys s LPT1
+ ey when r a wind allecPFILE e ag. Tintetcomputer where your drivd drd MAIN-ATConnectMons to  Jobs screen all Slable>>| you to specify the computviyou' to  jobs  le sd dri aenase the abou selectelso dt's listed you've  
+
+~00 |Show Acctu gedd
+ default e yoQ (Super Qe ue. A descrip,nsdrivesys to se|F3e infoe aghat ye ag. Ts to  Job ViyouOhe accoto specin
+ port. P al can t to a printviyore pwith would specjobs log-insd specjobs se the ag.0 |Show Acct
+ this screen he nr to which f the whted. If you t to a prdow. Seletu ged in to a  ey w' to  jobs  ce, use the s liste, LANt maic s liss or dijob,re pwtly dt'you'ot vtilo logve ue  whpey    1jobs 0 |euseyall w sd si aenayou'rirectll haltelso dt'use the mcreen the
+ privileagve ue matioa ys to move the highlightlrefectivelitem.
+ You'll then be  evices, pount incluor di' to  jobk of theve ue st.
+
+ Ancate you ion:
+   ount  PRINTINGs
+  you jobk  |Sou're T_MGetion, use dtu YoMMtedATE
+  ycomputer wd si aenad onx deimdrd highs lisinter shesse y s
+        begunes.
+
+ |B thejobkins thatin t
+ snd directatawd si aene y s
+        se the ag. Trk reejobkve uetu YWAITINGs
+   you jobk  |waisintee comp, use dtTs to  jobs but you tao moveeeeeeeeeeeeeve ue  vtilo logmputer w thang
+ Youtu YHELDeeeeeeee you jobkd si aenaantwherhol day wwwith omp, use d  vtilonthaoveeeeeeeeeeeeerrefas dtu YDELETINGs
+  you jobk  |Getiondrefe dtTA jobk  |marserv sidrefe d pwithifoveeeeeeeeeeeeew sw sidrefe d o clhe comput
+ (ACL)te Getion, use dthavoveeeeeeeeeeeeenter|but you tadrefe d ount in vtiloa *CANCELED* u'rseenk  oveeeeeeeeeeeee, use dtu Y*RUSH*eeeeee you jobkd si aenagiv
+
+ Ti upeyaount ino dt'ord e, but witQoveeeeeeeeeeeee, uescripthav st.
+
+ electelso to usu can alid importions tttttttttttttjobsup a default uce at'  account incluaTrk reejobkGR program.
+ the highlighhe naefectiveljobpted toou'll then be  ed to sseattege.
+cluohe accoto winde atogram.
+ount inclu theve ue matiotu gedd
+ default e yoQ , uescripday wwe the arroivileo connhysical disk drIt's poanto t,ys to se|F8e infoe aghae ag. TL (usualSt drmcoto speelect a srroivilenr to ic s lisuter( you,h OMu,hetc.),ys to se|F7e infoe aviyore o seDisk dlStnt into speelectnectDeeDetg
+edTs to  Job Drives That>>| you to specglabledetg
+edTted. If you are Avg. Trk reejobkve alrefecedount  |Sless  dlNon th| -TA uniessg on thnx deor di' to  job. Jobs , but wis ttttttttttttttttttt:
+efaulless  dl on thnll autectels defatu Y|ch  all|ttttttttt- ch  alld you've  bwhich perslid usero saour compjob.t  |Sllldby|ttttttttt- Idlllo ieshich perslidwhoro saour compjob.t  |Mo pass|ttttttttt- Idlllo ieshich u want to ch perslidw siprogra along. s tttttttttttttttttttjobkw sio saour.t  |Dultsnf you|ttttt-  ycomputer w alme. Comjobk  |e comp, use dtt  |Spoo
+edTTou'|tttt- Daou/you'
+ along. Tjobkw sio saour.t  |Dulpoo
+TTou'|tttt- Daou/you'
+ along. Tjobkwt.
+
+ginhs lisintlid
+sabyou's ttttttttttttttttttt3. A r to i N. N/Alist.
+s Resource i ldtt  |S
+
+|tttttttttttt-  ycos
+
+ clu therk reejobk(i|, ytes)tu Y|chpies|tttttttttt-  yco on thncluchpies clu thejobk userst.
+
+ electeltt  |Stnt i|tttttttttt-  ycoSou're 
+ount inclu thejob,enr to ic all:s ttttttPRINTINGs
+   ycojobk  |Sou're T_MGetion, use dtu YYYYYYoMMtedATE
+   ycojobk  |Sou're T_Ms lisinter shlpoo
+intlu YYYYYYWAITINGs
+    ycojobk  |waisintee comp, use dtu YYYYYYHELDeeeeeeee  ycojobkd si aenahel day wlt th omp, use dtu YYYYYYDELETINGs
+   ycojobk  | comput
+ (ACL)te Getiondrefe dtu YYYYYY*RUSH*eeeeee  you jobk  |a
+ Ti upeyajobkay wwt.
+
+ electelsnext.t  |Duefe ?|ttttttttt- Wal can  de
+ sg. Tjobkwt.
+
+adrefe d afonds to an y s
+        betion, use dtu ctnecLS TL (usualSt drmcoDrives That>>| you to specg informatge.
+clus (usualst drmcose
+ to oggeddex d.aks alusualst drmco, tag|wayncluchoivillogra aconn@disk drIe your driv  oveify te  
+
+dulpoo
+t
+ this sc connectis (usualst drmhe arroivileanayouappuesd:)  resources wi wants Ornsdrivesys tntedcagedde ranters--oveia vrll er("*"l diskve a you marser("?")--ive connectis (usualst drmt ye a privileaggn ip  whpcomputer.r disk drelect B to usa jobk  |dulpoo
+ N. T your drivss sformatge.
+clust drmcos arhec be  al can m.
+ou drmhchoivillograquestetey oryrk resoes wu can u want   |be en Youdes will Youdthav ss sformatge.
+ounrsinte, butmatio 0lid
+rmathe nu drmh0 |en Youd. T your drivdulpoo
+stiveljobptd
+rmatnu drmh0 |ill Youd,re o seur drivwwith dulpoo
+tiveljobptdna vad. T your drivnter|but.tsourceu sel (ACL)ks thaesnext jobk of theve ue  eviceight choose  worrmatg (usualst drmhge.
+  ovs to an y 0: @NORMAL?.???  En Youds to an y 1: @LABELS?.???  Dll Youdovs t-insjobs se the a@NORMAL?.??? (to work @NORMALu,h@NORMAL2,er shlowhe) LPT1
+ it e|dulpoo
+ NtTAinsjobs se the a@LABELS?.??? LPT1
+
+ s e|dulpoo
+ Ntp a defaulPT1
+ys tst drmcos asimplo whde atogrark resoepapso might choose hifove@NORMAL?.??? jobs ys t8 1/2 bwh11ste di'apsoer sh@LABELS?.??? jobs ys ivesab
+ 'apso,shareLPT1
+ill Yourrmat@NORMAL?.??? st drmhprogram.
+|F5|the de,en, bcut wit'apso,s dr uen Yourrmat@LABELS?.??? st drmtp a d|Netc|ose
+ en Yointer shill Yointer st drmhd sisabefffectoong. Tjobkwindou're T_MGetiondulpoo
+ NtTB to ushareill Yourr st drm, mak tsume. Ca snd dwindou're  jobs , tafinisve logge`DS TSunt incluPcomputerr shThis sDisk dr>>| you to specify the computrroivilepcomputerr shu can u wantsfo to highove the highlightlrefectivelrk resoes wu can u want t, then press |ivileandu selhis screen shows Eaonnhysical/u want 3t.
+
+a coAncate you ion:
+   
+ountesount  DISABLEDeeeeee  ycohysical/u want 0 |ill Youd.aksMULTIPLE JOBS TS on the cdulpoo
+tmome. CacoAncajob.t  HALT AT EOJn y S on the cdulpoo
+tAncajob disk dr ustop (EOJ=E shuf Job)tu YPAUSEDeeeeeeee  ycohysical/u want d si aenaarirectp a d|Netc|ose
+ you CPSulPlumnrdow. Sestivelrhigh whpcomp   1. dde ranters perhe narrodptd
+rmatCPSurhighou 0,o logmputer w th
+ sn (Apsinter ydde rantersre p w thoff-oineptd
+rmattext (NOTYDESPOOLING) 0 |ill. Sele,isabjobs , tove ng
+ Youtu ge`IQ  C saointer s to  Joboun~00 |Urogram.
+LANt maic Edito winSrefectiv tho  thswifct to a printou 
+rmattext edito ose
+' | cclududs t, butLANt maic putrrmposection. ' to  job.s t~01 |UrograYwoulText Edito winSrefectiv tho  thswifct to a printou 
+ woulfav upeattext edito oso edit thatt cisointer a loe
+ to o a print' to .un~02 |By chpyinter  EcisointeText F a winSrefectiv tho  thswifct to a print ey watt cisointetext r a lockbou selecteltu ge`CQ  CcpfoText F a lockQe uews Eisted aarbut ce, es  r a ld drie compchpied e ag. Tinve a edeve uews lhiwoucutu ge`QK  Eistedg. Tsrbud driWalme.efauWa printCcpfog. TF a winAfy the computnr to which dultsnf youo which yopyate you i a lto ogghe naefeceltu ge`QC  CcoivillograquesSon your s to  Joba default uc |ivileanyi' to  jobk of themputer wve ue GR prograAncate youa dion:
+   
+youeys soun~00 |S int  Dow. Sestaddityouualted. If you are Avg. T on your ' to  job.s ~01 |Duefe t  Relthesvg. T on your ' to  job fromf theve ue  d
+rmatnon your jobk  windou're T_MGetionelectelsitenter|but you ta theve ue stbutaYDELETEDeount iwin vtiloa *CANCELED* u'rseenk  rdow. Selet un~02 |Hol winSuspey shpcomp   1ofvg. T on your ' to  job.  ycojobk  |hel d tao moveve ue  vtilo comissue d RELEASE
+youeys .s ~03 |Rrefas t  Reefas  |a
+hel d' to  job forhs lisintls ~04 |Viyore Dow. Sestivel defaaarrtncluaTrk reejobt
+ this scou 
+rm tho  thswghhe determinehich yoeteytsncluaTrk reejobt
+Netcloe
+ to olt th viyouaTrk rehe job o  dlw sd si agunes lisintls ~05Y|chpyich hpies ai' to  jobk o ce, i a .| you o  thswchpies  cei a  | cobsnfio modghove ndrint' to e
+s ResASCII modg.dd
+ def a print' to 
+ wouljobk ofbsnfioovemodg,ys to ses to  o  thst
+Netcloe
+ to olt th acpforo' to  jobko  dlw soved si agunes lisintls ~06 |Pk rehe P liss ai' to  jobk oobsnfio modg.dd
+ def a print' to 
+ wouljobk ofASCIIovemodg,ys to seCcpfoo  thst
+Netcloe
+ to olt th ou 
+rm tho  thswo  dlrmathe non your ' to  job d si agunes lisintls ~07 |Rushhe Glableai' to  jobk Ti upeyaooloe
+ ntha electelso to usu cansd tao moveve uet
+ thimus sd driQ , uescripdintou 
+rm tho  thstu ge`ML  sciloSr dk dr>>|LANt maic storesvg. Tmciloiecin , ta1ofvg. T o dri' rdowk.  yco ey erhe s thaesr topieo  s scdrefe vg. Tmciloitem.teanyiyou'tu gedd
+ default M A descrip,nsdrto sseattd direcmcilostore d tao mcmciloveve ue,su canwiu 
+ woto sseatpwithivelitems
+ default se ths tr telabltu ge`VW sSon yo   1Voant oulText MciloveAofArsisoft Souy    1Boagedd si aenadeteecelt
+ thimayn ey wa es  r a he s to saoudt'yext u'rseenk, but witmciloedito , s tythimaynr tor wa voantovem'rseentu ge`VV  Retor inter Voant sciloM'rseen>>| you to specify the computr tor wa voanttmcilou'rseenke compse the ove nu can ord t
+ thimus sd driaofArsisoft Souy    1Boagedina ifye d tove woulu want to utr tor wa m'rseent| you to specg informatgengbuto
+rmathe u'rseenk u minnt err shnarrods disk dros
+
+ clu theu'rseenk u  ytesthavovealoolg informatdou're  r tor wmodghay wwal can u walhisthswi |en Youd.a default uys to seion:
+   
+func thswighlighthelp r tor w woulm'rseenount  |Spac
+|ttTogga  |betwspecPAUSEDeay wRECORDwmodgsthSi  dlrmatmodgh  oveeeeeeeeiniti allcPAUSED,sharemus selhis rm thinfoe a
+ginhretor int.t  |Due|ttttCl.
+s anyiu'rseenkretor eshlowfa , lowythimaynounrs ther.t  |Esc|ttttDuefe s anyiu'rseenkretor eshlowfa , ay wreturns e ag. Telhviou oveeeeeeeeto spee
+Netmciloeatio isio saour.t  |creen ttTerminnteshretor int, lahesvg. Ton. mciloeatio,n ey su theu'rseen,oveeeeeeeeay wreturns  computg. Telhviou nto speele
+|F2|tttttAfy the computtogga |betwspecunc walhise day wl walhise dvoantoveeeeeeeedataostoreent|efault upwithen Youru walhisthsw
+ you 
+ginn   1ofoveeeeeeeeahretor int, li  dlw sistlies  ceyou whole m'rseent|Unc walhise oveeeeeeeevoanttdataoou ttore d
+ 8000  ytes per narrodptC walhise dvoantoveeeeeeeedataoou ttore d
+ 4000  ytes per narrod stbutaYsligh  r duc thsw toveeeeeeeetouy evealpey.ge`VRttP Seinter Voant sciloM'rseen>>| you to specify the computge.longo voanttm'rseenswifct tod driaooveArsisoft Souy    1Boage.  ycodow. Secg informatgengbuto
+rmatm'rseen>>| u minnt err shnarrods disk dros
+
+ clu theu'rseenk u  ytesthavealoohe n informat inemucuto
+rmatm'rseen d si aenaa Selehay wwal can  de
+ sg. he u'rseenk3. Aretor eshstbutu walhisthswen Youd.a default uys to seion:
+   
+func thswighlighthelp t to. Secrmatm'rseen:t  |Spac
+|ttTogga  |betwspecPAUSEDeay wPLAYwmodgsthBy defaultlrmatmodgh  oveeeeeeeePAUSED,slowythimus selhis rmrospac
+barighthearcrmatm'rseen.t  |Esc|ttttTerminntesh. Sebackeay wreturns  computg. Telhviou nto speele
+|Hou'|tttRe
+   su theu'rseen  ceyou 
+ginn   ele
+||ttttttAdvan drIe you'rseen bwhiwohnarrodsele
+||ttttttBacksn th(re
+   s)Ie you'rseen bwhiwohnarrodsele
+||ttttttAdvan drIe you'rseen bwhAncasmtd di  bute thstao mcvis:)  ss ln.t  ||ttttttBacksn the you'rseen bwhAncasmtd di  bute thstao mcvis:)  ss ln.t  |PgDu|tttAdvan drIe you'rseen bwhAncalarenk u bute thstao mcvis:)  ss ln.t  |PgUp|tttBacksn the you'rseen bwhAncalarenk u bute thstao mcvis:)  ss ln.t ge`RDwtRea inter Qe ue EisiooveWdr u wotre viyointer ve ue eatio,n wotre ify te  
+
+seatpwithivel defaove4Kate you i a lstao mcto spee
+d
+ defnee  
+
+seatmome, lahe you i a le ove nu can i a ldisk dr ulook 
+ nt stbutaYwor wel (ACLon  de, i a  viyoer.t ge`PIttDutcile  Drives That Are AvSr drivAc tvpey>>| you to specg infot to hooou g (ge d taoo T your drivdisk drowork eaonn  windou're T_MdoograAn T your dritu gedd
+ default quesS , uescripddisk drosr driv  e connecfs tr metcls |ivil,ove woult uperivesosr drivc |ivilefunc ths e o work viyointeg. T o dri' he no spe, lrhedulinteg. T o dri 
+
+sh Avdownvdiskelhvemp   1ord s fromives (g   1. doo T your dri.  ouperivesoanyite yous tfunc ths ,selhis sF2|tu ged to high|Due|tinfoe as (taYson your ord  e Avofvg. T o dri.dd
+ defaultre o seN A descrip,nsdrult uys to se|w mcvi
+oe as (tagepoo
+  Drivei That>>| you vg. T ucutr driv  e connnelectp a d|Netc|Scg infs That Are :||Netc|ID#|e  ycohysicuni,su id 1orfst Are Anumbsk dwengn
+seatm  win
+ thietc|ighrWalm|ohysicWalmeaYworwhiit'apsoe Avo d taoo T your drivdisrmatnon eeeeePAUSEEEEEEughrWalmconn?ythimearenisthemputer )ks thus   1. doo Tietc|M wich |cohysict to utr wefauWapsoe Avo d taoo Tietc|C .s ~0|cohysicl stys .s ~0Wapsoe Avoesoanyiecodow. s soun~01ofv:o an y AUDIn yNTRYtAdvan oe Avoau, so isio etorur.t  |cree
+sED* u SHUTDOWNan oiv  e cdowndiskes ede sisetoruIe yl |cree
+sHANGEED,SSWodgsn oe Avoograraoo  thsr hpso mssel (cree
+sHANGEEsloRNAMEsn oe Avoograraoo  thsr hpsoughrWalmcree
+sLOueyFIBS tAdvan oviyoeaenaa Selclos |cree
+sOMMIn FIBS tAdvaockQeou ttaenaa Selc soitt
+seatm  ycoree
+sONTROL QUEUEdvan o eatio,n wosetorthBrfs
+seesr topo
+ NtTB rsetoeeeeePAUSEEEEEEEEEEEEEilefuncl |cree
+sOPYyFIBS tAdvann oviyoero' tetor eedeve ueyour dritu gedde
+sREATEBLERtAdvann odi innt|ytaenaa Selcr.t  |cree
+sREATEBFIBS tAdva oviyoeaenaa Selcr.t  |crsisinter a loe
+  witmcileeeeePAUSEEEEEEEEEEEEEsalmcWalmcunrsquesSa Selt  |writt
+ncree
+sREATEBINLERECT rsisIe i innloe
+  torur.t  |cree
+sREATEBNEWBFIBS tAmciloviyoeaenaa Selcr.t  |cree
+EDeounBLERtAdvann odi innt|ytaenaa Sel vg. T|cree
+EDeounBFIBS tAdva oviyoeaenaa Sel vg. T|cree
+EEDeeee ACCOUNT rsissin  1t  toroud.aksMULTI BFIBS REAeeee  ycoDu ttaenaa Selr.tMULTI BFIBS WRITEee  ycoDu ttaenaa Selwritt
+ncree
+FINL
+EEDK SPACEsn oe Avo eedeve ueIf you are Avyou wholeam  1t us fg ieeeeePAUSEEEEEEEEEEEEE  yc
+barigcree
+FINL
+FIRSTBFIBS tAmve daaarrtnoeso are A toresoanyiecoree
+FINL
+NEXn FIBS tAAmve dan'rseoeso are A toresoanyiecoree
+FLUSH
+sECHE  ycohysici' rdowk.c wiSebwfauWfl Glecoree
+GET ACCOUNT rAdva in  1t If you are Aetor eedeve uoree
+GET INLERECT rcohysict sncluaTrk risIe i innloe
+  fauWns riev uoree
+GET  0 K INFOdvan oe Avo eedeve ueIf you are Avg. T aodi innt|ynt d sieeeeePAUSEEEEEEEEEEEEE ins thillogra Lngooree
+GET QUEUEdyNTRYtAQeatio,n wosIf you are Aetorob  Dn uoree
+GET loRVER TIMEsnTu're  r tori 
+
+sh imeAetorob  Dn uoree
+GET lTREAM tAdvan oe Avo eedeve ueIf you are Avg. T ao  1st l e
+s ReseeeeePAUSEEEEEEEEEEEEEstr.tmoree
+GET sloRNAMEsnvan oe AvWalmeator e riev uf theve uesin  1t | youree
+LOCK RANGEE tAdva oviyoer   e Aaenaa Sellock uoree
+LOGINEEEEEEEEEEEETpsoe Avoisthemputer )ks thus   1. doo TietcloSULTI-MODE OPENan ommati-  ovestao mpe A toresoanyiecoree
+OPENaFIBS tAdvann oviyoeaenaa Selmpe ecoree
+PRINTER STATUSe
+s  r torr wve ueiwin vAetor eedeve uoree
+RENAMEsFIBS tAdva oviyoeaenaa Selr taiecoree
+RUN
+sOMMAND tAdva ocls |ivghthogrk. s soun~Estr doo torsuboitt
+soree
+SEEK POSITIONAdva oviyoeomekA toresoanyiecoree
+SET ATTRIBUTEAdva oviyowk.attr br shnquesSa Selograraooree
+SET QUEUEdyNTRYtAle  Driveqeatio,n wosIf you are AetorthBrfs
+soree
+SET lTREAM tAdvanStr.tmsIf you are AetorthBrfs
+soree
+SHUTDOWNantAdvann oiv  e cdowndiskes ede sisetor allcPt
+soree
+TERMINATEee  ycoETpsoe Avointe ueo  jogrtmoree
+TRANSLATEePATH  tAmciteaonnpathWalmeatortranslPt
+soree
+UNIQUEsFIBS tAdva ociloviyoeaenaa Selcr.t  |taYwor wuni,su Walmcree
+UNLOCK RANGEE tAd oviyoer   e Aaenaa Selunlock uoree
+sloR STATUSe
+e
+ss ueiwin vAIf you are Aetorob  Dn uoree
+WRITEeW/sOMMIn coDu ttaenaa Selwritt
+nl walhisoitt
+seatm  ycoree
+GET RESOURCEE tAdD
+  Drivei That>>| yeyouor ieverceAetorob  Dn uoree
+TERMINATEesloR an oe Avoatortntesh. Sdncalaeso aovo eedeveoree
+SERVER sONTROL  rivAc tvilefunc clualmResAS fauWns riev ueesrecforee
+TRANSACTIONAdvaan oe Avo eedeve ueo
+  Driveiv  e co That>>| yoree
+GET QUEUEdSEQ#e
+If you are Aetorob  Dn uAvg. T ao jobk Ti ubas ueyoeeeeePAUSEEEEEEEEEEEEEitses ede sisnumbskoree
+SET loRVER TIMEsnTu'ri 
+
+sh imeAetorecforeetc|IOsthave|cohysicam  1t us ou ttonp T awal. Tp T ntha r driv  e chtoeeeeePAUSEEEEEesoanyiecr metapsoe Avu to spnumbsk unrsb:
+   
+fSdncala K, MeeeeePAUSEEEEEmetG. Keenanthinfoeiou'rseIOsthavethemKilothavet(1024sthave),eeeeePAUSEEEEEM (Megathave)EmetG (Gigathave). Fovoinamplrultod23Mconneucun,eeeeePAUSEEEEEinfoee Avohtoresoanyiecd23eengathave us I/Oietc|Reedevee|cohysicnumbsk us ivc |ivilsoun~01esoanyiecdsrmatmodghe Avo d taoeeeeePAUSEEEEE Tietc|Prips|EEEEEETpsocrip,nsdrsmodghe Avohtoodow. enanfoveeemputer ip,nsdreeeeePAUSEEEEEg. ResASis:eeeeePAUSEEEEE|A|EEEEACL.the  ivc |ivviyoer edeveef theve uee Avoby mssEACLeeeeePAUSEEEEEEEEEEwiScke
+||tteePAUSEEEEE|Q|EEEEQeati.ETpsoe Avoiste  
+
+seatpounipulPt
+r topo
+ NtTB reeeeePAUSEEEEEEEEEEawal  bur wve ueqeatio,n wcey|tteePAUSEEEEE|M|EEEEM'rs.ETpsoe Avos toounipulPt
+rev ryarewk.eati|tteePAUSEEEEE|U|
+e
+ss ueAu, s.ETpsoe AvounrsackcArsis,n wosIfve uesu, seeeeePAUSEEEEEEEEEEtrarseaYworNET AUDIn|tteePAUSEEEEE|S|
+e
+SthoemoounwhAr.ETpsoe Avoiste sthoemoounwhAr.|tteePAUSEEEEE|O|
+e
+Oeso aov.ETpsoe Avowi bub:n irfs
+seefl  busthoemeeeeePAUSEEEEEEEEEEerrory|tteePAUSEEEEE|DDuefe s NtTB r.ETpsoe Avos to ther.aocls |ivo
+ NtTB r|tteePAUSEEEEE|NDuefeNiteaonnounwhAr.ETpsoe Avos togepo  buswinter coe apseeeeePAUSEEEEEEEEEEbyur dritu gedde
+PAUSEEEEE|LDuefeLd taoo TiETpsoe AvoistfuAUSE d taoo T your drivdisk.eeeeePAUSEEEEEEEEEEatnLoist. heSecg ined,ve uee Avoisthemputer )ks teeeeePAUSEEEEEEEEEEus   1. doo TietcloPAUSEEEEE|RTerminnfoet to utr  d taoo T us. T o drcls |ivboor a lo.t ure`RDwtRTn c ttTeN A deumbsk us Merr shnBe me
+r topU AvoistLd taooOfeeee ttTeN A dnumbsk us  err shnus warnfovehooouabk (tagiesSa  me
+r tope Av minge d taoofvg. T o dri.dd
+ dTpsoe Avowi bu ineiesSesoihBrc warnfovrseenk3. Aoee1orlspac
+baecrfs
+se imeAhtorelaps |cdefaultrettTeNa valu theu0,seN A de Avowi bub: d taoofvg. T o dri.dd
+ imieccPt
+lyoreetc|N |i| ntha  fromiwi bub:u wal(taYsonay wr T imieccPt
+lyltod toiresin  1tsu canveiv  e cYso-in01ofvoud.a defdefaultrdon'touabk (tae  
+te yo fromi nu cYsonay wr Tis sF2|tu gecanveoud.akseiv  e cYso-in0`RDwtRSW c ttTeNa SowndiskeWarnfoveMn  ceyou SenseatpU Avseee ttTeN A den bwhAnhooouabk (tapops tresoihBrcaAUSE(tawarno fromi tha r d spev  e conngAn T  AvdownvdiskiETrrodaecr l ogrracResASaauWnscognlu |taYwo T seN Aore dr do:eeeeePAU|#|eior eackcAd  witmcildnumbsk us  err shncls Dne
+||tteePAU|$|eior eackcAd  witm to|s|Etod todnumbsk us  err shncls Dne
+|eeeeeeeePAUSE t. he1 ( metr )ppso lur.ge`V us " err s$").
+ default uabk (ta se|w mcltlrmatmwarnfoveen bwhA--"ivAc tvwi budownvdiskeioeee#  err s$"-- sF2|tutttT`RDwtRSC rivAc tvillogra Op,selh
+~00c|ScintegerivAc tvSowndiskou to spopare Av  
+mputg. Tebaecrfyd todnumbsk us  err shna  me
+r to spevr ord  iv  e cdownsvdisk,can  de
+ sg. heult uabk (tawarno fromivg. TseN A ddowndiskeanveucutult uabk ( dri 
+
+sh AvthswighliaftTeN sodownsvdisk`RDwt~01c|CIe ylrivAc tvSowndiskou to spopare Av  
+mputg. TeuIe ylte scintegedoiv  e cdowndisk`RDwt~02tutd.a d/Dud.akseLso-in0ou to spopare Aud.a dmputg. Tee  
+t sgd 1yte yociloYso-in01your drivr ord  spev  e fdenvdiesn'toaffinnle yoYso-in01ytha quesSalr.tMyaa Seleve.a iGleco etc|N |i| ntha ifl  bu fromiwiitmcildescripddisk Ysonfvg.wook 
+o-in01ofvetcoud.aksM, ( dri 
+
+shmurtnbuWns ther
+seatpg in.akseYso-in0`RD E win imeAr driv  e connether
+s,cYso-in01ofvoud.a defRDwt~03tu l Glmcilde 
+
+shhhhhhhhhhhhhhhou to spopare Ain0tructsur drivr ord ri 
+
+sh Avtl Glmitsec wiSe, 
+srfydu cain  1t If you are A met d taoo T usromivnvens etEitseswinter coiETpso spev  e cwi bualsoAin0tructte you de
+ev  e s us. T itsesin  1tsh Avtl GlmseN A irec wiSefRDwt~04c|C logra cilde 
+
+s
+ defar drivr ord ri 
+
+shonnecfs tr metcls |ivil,ove wlt uys to se|utgrmseNghtboarseatptypeo T ilsoun~01ult uabk carriaoofvg.byur dritu ge jurtntoeeeifault ufauWayp. T o drilsoun~01di innUSEyour dritu ge'sNghtboars`RDwtRSH  ScintegerivAc tvSowndiskou~00c|Merr shnU1orlsSowndiskou to spopare Av  
+mputg. Tebcintegeracdowndisk`default uabk (tagiesSusromiu calogracyou ve iGlmcilireeaonn walhlos mcilireviyoswlt uys tobaecrfyd tou cnumbsk us  err shna  me
+r to iv  e cdownsvdisk`default leuesSo drvalu  spevk (tazero, ( dri 
+
+shwi budownvdiskeimieccPt
+lyoreet~01c|AftTeNSowndiskou to spopare Av  
+mputg. Tebaecrfydwtha ult uabk ( dri 
+
+sh AvdoiaftTeN s sphtordownvdiskiEigh|Due|t ttTeoe as (tatd tlsSa tw SelDue|
+   
+f. T o g ieeeopare s:eeeeePAUSREBOOT rco-hysict to utr reboory|tteePAUSsONTINUEdv-hysict to utr il,oerrshncunnfoveaste eaonswintoTietcloPAUSHALT rAdva-hysict to utr Secg insracdowndiskeen bwhAiEToWns thereeeeePAUSEEEEEEEEEEEEtsict to utr ult' buquesS(tapsF2|tuCtrl+Alt+Del|`RDwt~02tuN irfypU Avseeeto spopare Av  
+mputg. Tebaecrfydwt  de
+ sg. he fromiwi bub:warnaooseN Aha r driv  e cimivg. TS(taberdownvdiskiEefaultrettTeN"Yosw"l  bu fromiseNwho1ofvo d taoo Tyour drivdiskowi bu ineiesSesoihBrc warnfovs. T o drseNpe dfovedowndisk`RDwt~03tuWarnfoveMn  ceyeee ttTeN A den bwhAnhooouabk (tapops tresoihBrcaAUSE(tawarno fromi tha r d spev  e conngAn T  AvdownvdiskiETrrodaecr l ogrracResASaauWnscognlu |taYwo T seN Aore dr do:eeeeePAU|#|eior eackcAd  witmcildnumbsk us  err shncls Dne
+||tteePAU|$|eior eackcAd  witm to|s|Etod todnumbsk us  err shncls Dne
+|eeeeePAUSEEEist. he1 ( metr )ppso lur.ge`V us " err s$").
+ wtRCEE Critst l Erroretc|Re wos A deiteaon, D yc
+metD d sieoeso are etcA Remptsur droeso are Aaga TiEFarrt,EwiSck ifl vtloppyE  yc
+driesSdooreeeeeempe Aorees iomeAu de
+ ermetr )aksmys us uer drerroriEefaso, cor innl tou cr )aksmyvnvens wos A doeso are oreet~01c|Farlspac
+eiteaon, D yc
+metD d sieoeso are etcCIe ylsur droeso are A T  jogrF2|tvnvens urn01your drlartnscg in. You spehouluer dn cor innle yor )aksms
+mettypeoutttTS(tainte r dricg in.RDwt~02tuIgnme
+r to error, il,oerrs  witm jogrtmetcCl,oerrs torthought. hhfovehappe ecoc|N |i| ntha r droeso are Awi bu. hebou cr )esoUSEt tog.  uAvnveunrsleudh Avth ureEerrory
+Ifrthsk casoswlt u spehoulue. heivr orN Aoreopare `RDwt~03tuAboer.NET vnvens urnh AvDOSeimieccPt
+lyeee xitsur dr jogrtmeimieccPt
+lyoreet`CH
+ssfoveCthaeeeLANtaer cwk.ctha o.t ureAv  
+mpteamciteaonn fromi nrilsounicPt
+r witeeee winu de
+byuryp. T enk3. AoiEefabu dn fromiquesSan Arnteoft S  1de
+|eeeBoarseevk (tafuAU-duog.x   ovehemputirct to utrs, ( dyys toalsoActhaeeeus. T o dircS  1de
+|eBoarsehun~0etefRDwt Youys to se|r drt                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   E 1…|‘#igÍ««ˆµmH'Äﬂ«µ+Á]î$ı# ~ î$Éº$⁄~ïQ  o9]ÍºªÖ…∆ãÍºª·òj˚]≠ˇ(ª…e Gz[ 1áF√≈ìe˘Í[Y ≠% j $ÖX¿]nS±  ÷  +Áp≠πL¬≈k¿ÿ;‚ ı$2˚A m|ä µ±»á¨âeâ HH îÎ4 ¶Èp |)- Yπp |Ç ; ‘∏ ‚Ö~ ªBâó
+äBâó
+äBâ«ò‚ß1 -ó ~ãHÏY ~ãHÏYS61|ó~ù     Ë ∏      $  BqÙ3åe//¡π≈ç ánâµp !n9(ßâÍlBjXâ¿EÇ«Ça⁄)! gm ;(Çl;+ˇI˜◊L √ov
+qÚ Ï‚p eWp2ù·« Nâ  Ωnµ ˚≠1˘‚MZ        vÖ7I–±[3ZÍ É¬q 3˚  ì  ËP«ƒ WÚ/Z≈Ú ˘ S„MXáSm   1vm∞ ≠   IÔH…á èBµ M9#  ‚H˙9W±]29W±ìä˛0e7 y~L˛0e7 y~Lﬂ Ïπf / ãòvÖÚ2eqAä¢xïÙS~ d/BÚÁL˚[–ÁÑë˘˙|$xó ∂X;;$Íã$ Z1‹⁄eÖ RîÍ ≠ ˚Ì⁄§Mám@∞ Ì<§ı˘$  ì3Îµ  å˘ºı)ı!∆ÎÁ56 (á¨˚‚HÏÙxLó ~ãHÏäH[aCPo]…6¢⁄ ª«„ Á YPÎ6  £  ΩìB]Ù‚l ‹˚q¿º(«ß§Z«G;Z  SÙZ 'A·W (ÙlN[gnòx’¢÷‚≠[Ú'ù »√| 2B  ò[±èá$Ú'$ /M[ä3L‹˙ ¬ ˘‹{«Mò4 õ/ 3z SÁÌ Í mM 3 ËÖQ39 Ì Y ÉXs¡ è ◊W§@ãa/ãEáæLH˙9W±#n $§√ fã   @ºÎ –1öÍ3§I]√ ≠6ÍÎ|√/ e≠ >)Á|ãvÎ§∞≠›ß4  Ç° ßÍ¿7˚èÚ∂6†C%2L`GönµNâ»ºı≈˘˚‘9îÔ Ô∞ $fm⁄È[âJ ëÇm◊9 —Ü—WÍ Fµâ»1˙*vÌP6[«ãá˘  mﬂ«ßfÚåî ã ß iÈ ⁄ÚÏI√ÃÎ%1…±ÍäW6ej ∂ßç˚≠ ∑  XQ~C@6ÖÚ«g(Á%Ï[…ÁxÇ$˙2[
+ ÷ÃÇó±ıWÖ $°ë 76;™ãﬂ˛ ˚ ≠ ˚Ì⁄§M Ôª( §o˚°dµ
+≤n ˙jF$2T ÷± »õ ¬ W p ÍnÎ;  ÎÇµHª¿Ö  ¿H ÎÁ⁄HÄÍXq ˚äB[Ö√Ì9ìÔ ¨ßπÉ( ÷n$3ıeã |P  '!º@x |Ù] x*£F  ÎLg §» É  |/ x∞îÖpÖ ◊ | ÇΩ/Ö’â ﬁEC9XìºÖ Î†$|  ◊6 |óòè≈¬6Bkx ≤ﬁåB‹ 3Í≈  B/∏BH»1Éá˚ª9 ˘ãeäÍœº±  ( ]√%Ú(m1 ¨ §¢g YjgÉ‚±9$¢X˘ ÁâıºaÔ≤g  ‚˘Ù   êıè ò ˙(—˘ıß÷Ì∑mW ó(y+á˚ 9»Á gÁe_eq‘‘˘¨eXì  ª«U≈ª@ΩáäÚ q  ·¨º2T  )]ª# ]nò¯îÍB˘Î9SƒxÎ∂◊Y ≠˚v ! m@†áWn$3G‰Ye ÷3>Ù‚qÇßÙ åÁeÏ†  pBÚ(X˙o‘¢L |Ì; åÚªyì~ «µßÌ£ ’pª  X 4Ÿ ä1ÿ ¨ıÁ;qzÿ ¨$H4¢pÚÖBm~mÚPâ ÖJSLSìSåÈ@ √ ˙§W{⁄1~√@>[   Æ±k¿ÆS#˙3ÇªL~rÉq j LGµÇSá≈ySªB1êÄ≠âóæ›x3Î˛g  HmáT HmáT HmáTeﬂ[¯m‚Áá  d§P wªÚL[Yz≠ ∆≤4°è#Î;ó˘Úp —q(vK~˙˙∆≤ ≠⁄KÜ ÷|S÷ö Ç
+÷|S ›[˘ó ’‚äÁ≠@(ß  |3ÑP~~ ¨  ôza   ı3 Á√åÚ ÜÉ≈öi 	9Ú1|dä≠á Ç / õ¯îÍB˘Î9S˙ 6 ‘ Ö6ìxJ√ ≠º ~p9/{ª9 É  «µßÌ£ iY≈ååì≈Ë  ¢è S ≈ ¯ÆÖ(¿˚Ö∆ﬂ∑WÎÖ˙£ Ïs˙]˙3vW6ÉªªÖX Yâ¿⁄ S H*n⁄ﬁ@ì+Ω ≈AœP xÉ≠Òs>n¨≠ááä-iÍÚ≠ááÇHk   3HGHkY9»ÌﬁÉ gÎ˛gG ãâ(∆—Ì»L±¿ Ù«ª$±@#HSm@[Ç ˜ı ≠˚|î±;ã +®˘«Yp  ˚a £/ºèmÎ≠Axáµâ∑ e˚( ¿;ÃÁ d÷eﬂ[¯m‚Á|SÉå#è-|˙ÖPYH$J§âmLz  ’˛MπM≠˘PH9Ë ìók9Ë ·3 69ì œı[ WÇ[vH3 ì«Ì◊/ﬁ£ ÁµX›Í([≈Y √åÚ ÜÉ≈ö˘Í ≈’˚9≠//ïeYì≈Ë  Ù ¿  k M√ I∑M„Æ … ÍW-◊œp§ ·æS‚/e¶Hã
+˙Î«BÎá≠ ãò	·»Ö B6ùYUSeFt√  ÉWµ¯ﬂÌ˘gLlx#á ¸ |Í †Y‘ ¨  ]*ÍµG˙]U—m  ]ΩÎ˜ª ⁄ˇ {– ·eM1î¸Hﬂ_$ B Áj;ª∂q%ﬂÍºÏeß;πëﬁ‚ âçóP
+  P# ¶ QU~  !L÷ımÍ˚Bp  ÷[$ﬁ« §3Æ ﬁ« §]÷ƒb>ıï≈˘9xL ƒm$ Úªı∞eÁì¯˙¡	õ|%ÙBoÚ Í  (ﬁ âÍ«Î[Inºå9yò˚ÿHﬁ∫ãY‚e¿LB èAÃÈQ
+¸3H/›nî n⁄gM /Ö6Æ  ìL  y7ª «{á3  | ì% qB ¨d   ¶¶ÌÅ ∑˙⁄[â1‰ÕÁ⁄[â1‰ÕÁ⁄ ìHM  xãL É»≠Ë⁄( ¯A[‰É åYÍm«  PPK≤B9±Wçîâ‘ ¨  ]*ÍµGºÌ ó  ]vYº∑a»å á¨ áS ◊ç3 %ã   Z õ∂îLÌ;ó»√≈ k… 	‚≤@(9lx#á ¸ |@Y óº  ;°»»1ı3ª[1M±   ∂ ¿Ìáä ÷âÌ9 (¿W÷ä]W`§)ã63 ]ˇ X2ÁJ»ÎM…ıﬁå/˘ èÆè2 äTL÷ımÍß ;Q√‚Reá÷ımÍ˚BpªáÚ Ú HiîK˙» +!§3ó≠/±$/mk∑‹]µ7H¡âá˚|Ú…ÌÙBoÚ Í¬⁄≠«ÚΩÎÌ≠«ÚΩÎ#≠Ç|¨òM Í∂µN ± n· WïÙ÷∂Qã÷ S òÌ]µ˙Èe§>ãÙìe˛‚[ ù'{HƒÚò≈ı èËB Y5m4 ç√« ;»+ÃóÁ≠˙Bì { vÖ≠g‚  ˘ 9»≠  è3ı¡˙è3ı¡˙è3ı13 {óIÇâ[É‚≈◊~Q m|YW  e˚ã˛mµ á ≈gÎF ±XpCî ;~µiv ¿gY ä E˚ª X  Öıﬂ–U|~Ä|ß6+ä
+Ölz≈Ö@mÜÁ ÁÇè Mr 	‚≤@(9è† g[¨µ˝nC÷⁄»µ˝nÍìkôq§3ó  j 6èç Æ–…¿QÄÙ M 1åèUxX i ˘˙X Ú®YR+ S X nÏ»Á√ eº‰Í |îp «@ /ãZ˚ UÎ$±ÙxèìßgeÉã`†µŸ nﬁ ˚êªßx˚êªßx˚êªßxMÁ[ [Ù>]Ù ÷m÷ım≈xóóå˛W÷)/˘ ΩW9BòBùI °ç(  âı mJm∞Y*/‚° WÑ÷B¬£-]#ÚPX †«m È)m †«¶3påoC¬1 áÃ64 R W   oõ› ô—≤› ôı«6> è«/»G3 r∆41  ôªk◊gôÑµ6  >√…Î√« ;»+Ãó«Á„º 6èâHÏ   pÙsn« GÁ˙zLX  ê~X3rXNqÙÌK˚x6mÖ GwÄ Gä¿|  Ö±)ì /¢n(É  'ì∞»≠  è3ı M 1å‹÷M ¿ |9 √óFL1ª@p   ;§ Wp-ò îBS Ö[†è'ä Ç‚ß  lá˘(òSó@Ï»Á√ e|3  ’Úª6Éi∏(∂mx √~˙á  BX? ·[eΩHãWlÍTÚ'  @ã˝j(Ì ÷6 /Y√ 1~g1óålX¿1çá⁄ıê~Ò ìU áª»Éq 3ııÚ S'xQÍ?5[Ìá>q Éá>q Éá 6Ö∑S÷[Æó  ˇ‚ LÆy ˘RLÆy ˚⁄Ì ÍÁ…¿f’H/ª]XóıœÉ  p  î;)É6ìH;◊ 3>ä]˙/‘ L m±ıeL  7;R≠ Ì òÌ|âó~ !÷ó ÷pÙß°`np„-˘eºÏ§L˘ ‘Îå æâS  ná   î9˘⁄n …[ Éâ ó[ Éâ ó[âÁäÃã«»ìg   $/Pâa5Yóì P˝˚√¯öì∏yº‚6ZèÖF;    ±∆(≈ BX≠áÉH gHÙ÷_«˜3ı M 1å‹ó˚m◊’œ˚Ì(◊’œ˚Ì(@g /Î¶µ˘¡«3è9SHÎW«‹˘¨v ⁄H$≈∏ Hg ÷Çën-e±÷Çë á'xQäóÈıMZ‘â3Ö4NÆ3~ì·§ìXZ  £M»òò* LÆy ˘Rˇçe/m ºã|  >MªY–‚±˙Si£ ˝–gr≠(Ñp ~  â†P  â†P  YÌA SQXxeá§~g1Z  ¿§ÚH |M ÜÈemªª«  C];¬BFn ß±«Ú 6»Hn[g  mÈÁ⁄Úã[jì/ºiM PâaSká … Mq‚ùxìYëâπ[qƒË›ÌÔ‚6T#X ¿âHÿ`Ñè»÷]p3[óp≈P…L –Íã⁄î√ {˘‹ »î≈  èòåÍ   ¸  É˘+ım∂B Ì¡õ÷Ù m«§9  Ù m«§9  Ù Bµ¬6»ÖÍÔ√˚ X ÷ îggë Ç Æãï3;∞„«Î ÷áî  ò ±W÷  ˚ [eB˚ÁƒMv [(ˇáßã [(ÖT‚9Ìﬁnˇõ]»z W ez W ez f‚‰Ù L÷ ]Ñã Éâ≈Ñã òÈ W~[á°Îß £eﬁMmSïv £Á T å˜S ˚÷|p§ »ÖÍ§ »m˚¬√Ôëpÿßg{LLBÚß;˚⁄S 3òeYª (q˚x˘¡ÉfH√`3±ıvã§xeã§xeã§°¨§∂m ∆ §á˚≤ Ìó !|Íäe#HèJ X  nl‚@  C «≠QÑâå äΩ÷»6†√;∂ § ä»AP[6Bäè$á§  ºp(«Á;E|Öò	ºã@Éx• Ëƒå 3f§î   ¸  É q‚≤ãèq⁄So±y÷n eS ~∫d4»]èßò;¿è]èßò;p∂√‚‚Ì √ É˘+ımÙ2˙ Î M[eîYáâ ˝î ∂B‚  ˝î÷]¸Ba[ÆÇÑªa[Æyè˚ºS¢ã ÇpÙä«Ö õL 6¡1 …Bá/  áPè‹]3 ›˚Ì˚W⁄3 äU≠ ı 3E«[
+ ~nW ⁄S Ìåß §[ ‚~ÍªïP1‚…40ÌÇÖå ‹åóÖå Î°Îß`Ωânºg¶ Í ÇÌõ]¶ Í ÇÌõª≤ ∂ 36á¿
+HYÎ6¢îLÎ6¢îLÎ Xna>É º ßBB 7 zßBB 7 zßBBèJ X  nl‚EmÑm~èm§°GX¿q S m pß K≈Y‚]#ëë âYBﬁ Lªß+ LÉ fªnÚ|∆—≈√3‘√‰T'm1ë¸  ±ã Ç∆Úékå±pã Î¡Më¯≠Sd≤ª√ Í∑≠ Ä≠ ⁄≈«L@◊  …º˘ /RR ÿâ[ »x √ªãµ ±Q ò{~/‚96¿J5(µèá ⁄ {«AîY ‚ /!ºã@É!ºãå(æãÌ1É/õ  á ~≈áº˛ ì 3/±ì 3ô2L ªõ÷9ÖXä§  ˘‚Úsî@IMW« ª∞«¶BoÚﬁÉä Cô‚ﬂ˙÷f˚Çx»r;/ /emYëGA¸XÌâ„±¬‚⁄ ¿áiX*ºáii±3N√î·‚ Á÷ãâèÎÇ‘ @É∞≠⁄g á¿
+6…L3znÖq ¶’ßﬁM  ÚÙË5 M]ó  6º˚ß$;√geWµqqπµ»(ó-# f¬M eÁg Î  ó@Iï⁄ã1#  µ  L·» µq÷ÄΩ] »⁄Ql ö◊eZÖ :ªL≠vÑ¢É∆ 1  ˘˚Yè˜  ≠Sd(2òÉB¶Uê√xHîC(–kHî–kHî–kHîxYÁ| pyK$ Z2z6o3 Z2ﬁ˚â	°√å⁄˘ ï4pâ Rßòã [ıÙ˚1Hî 9mB[âÇ∆Ú7 »ÉÿÚMª ô{ ˚XB¿@‹pXÙÚnÌp≈ ºáÖÇ⁄xª˘ ⁄ª¢m ÷Ω Á¿Mì »‚K‚º xÙ˜Çî≠  C≈;m  j»$`…|µ˘ ±   √õıÜ3[±wƒÚìÉH ~l« ª∞«¶Bo 'QõME{⁄≈X±x¶1MZB/¸–˝°¨ »pªä ÷∏)ÖJªä ÷∏¸¢x dPxMÁ$ÉÚ/≈ ˚~9Ñﬂî¬ÔËâãÁ¬ÔËâãèe]; æ«ÍqX§˘$ƒäµ6W≈ ¢¨ó » [§  |¯  N»BxﬂWx ˚] |  ßÎ º ÷¿≤É  L º˚ÈìvB ∆á ¿Ú…¬˙±ìm¸Aç 
+3 Ùî#9[ «Ù z…ò◊  ÷ ÄmèIÍH †…J ΩXl¬ëÇïnÈÈ  5y$≠k  Ö ¨ÎY‡(ã» @É ï=∆ŸÖeM‚ 9 ⁄Í»π*â/ ?@áµ4«ãQùòâˇ ª¨BeMΩÉß¨Ω6 ı(ò~;‹`±5 eåp—˚B Ô«Lº˚Ù gÌ˝/Ì‹n ‚ ˚á9$gµô ‚6@+ ª e/» q qìãn ⁄   ‘H nÍ~;µãM;‚ ôSìª] –ì$ôH |ı≈ 9S2/è »‚K‚º  ⁄
+w S][ ‹~q;º	 ≠HÌÁ nW@5qx-9¶⁄@ -9¶⁄@  ı  äW Ù≈≠j  Ì Rı|√§ ÍÎ ?4 «»åì6 îg¿SÇP®1nqQÚ;≤ªQáèxLªQáèn ÿﬁ‘µ ì‚ ≈q+‚ Qß ’^TÇÆ≠ ±º˙pó˘≈R ∑æå|C˘`∑ g] 6B  /√«§  P≈ ˛÷â’Tı»Ùr»√ n3£É[  |Ço»†â( îÆY3Wâò π     ÖYäÎÉeM/ $öºÇ ; (m ¿Öáqj§Öáqj§Öáqjóß‚ ìÍ§ ¯˙±e1xÁ¶ Î Î˚ L(p˚ L(p˚ L(ååóä ˚‘ È(3-YÙ W;aÉ@6 9ÇŸ ÉÇ  Íä[nSì]e âg ⁄á H ≠xg Ö»q …;£ %9Wág Ù˚ ºF®‚6@+ ªƒqÆÍ◊¸x@⁄
+w~66à
+÷ç‚ª6W(ß⁄A Ç (Á£Áï9¢s 
+º ßX Ç+  -ò–ß»{e‚[ Ïe∂ßì9Ú áQ°µª3€X võ ≠(‚Ì∂Y∏  ;Ùâ Ù‚~åp‚nÖ≈(⁄9n~(®°÷WWÁÏÁZô⁄dªW â«ÜÖ∑£‹~q≈åB˚ã …|¶’~ó»q yY§Ç36É ;»Ù’Ÿ; [-$ŸMÍ÷˚Î˚Y±pB3g[Ìâ…	mÄ† ]÷ « 1«…ãµ6SJ(|∂Ö~æ(‚ ª  B`Ïì6ì1ìå«1N∑ß(Q]  xÔ  3∑  X òd9óH ;WîE?Î‰ògIÎ‰ògIÎ‰òáZÜÿÇeº< RêÔ nµò£Eã¿Úö≤è«Eã¿ı áS#≠{eIWRÙÚ÷¡;˙xKÚ M÷M $ÙJ÷ß ≈õÎÇ¢g]÷ H1[  ∂… @®πÚ`L3pã®πÚ`L3pã®πYx—≈(⁄9H;|  «≠YX|ÎÚäÜ(òYÙﬂ[  µl% (9«GÉ µ ‚±Hq‹z ù!L |»JÁY/ ö]‚  ¿è¸®ç ®» eÙ q è_1mŒL ±ÖÖ ± Ì˙—»± ‹≠» M ‹≠@ ˙˜é òªºQı –|9~p_ÉX   /ÚpgÙ 	  P  Hı∞ +◊ÜÙ≈ı nM ⁄  ò§FŸ ⁄  œ¸åò Ççznm…ì[§KnÖÎpÁ˚$ ˝ ˚Ìâ äŸMÍ9 §±∞  îäLq¬*(ıÙÔó~ ¿§ /N∑ßÇóß Ö/Ÿ å  U@|aê∆ÇòﬁS  [å5ÙÜC‘⁄Í«—ª≠W¯Î@#  3ÇÖâ#   Z˘ﬂ R†Ä$ ∑ÉÍÎ»±âóWÇ ïg5·1  ˝Fìê∆É≠9 #e åÍ#
+  ÷Çr4Äæ*˝1/gL|;eL/ n⁄  —3S£ ˚HSÉµ ‚#≈eÌW;—XéãW>    ¿ΩÇ¿ì6ˇ  g µ˚ä/YæçB WNâ—¸ª¿§FŸ ⁄   á˘£]m¬@Ì » ÷√Wµm%•mWµm®º»Yπ¡e › ((˜ He(QÈè Sã3≠gáı∆ 1 ¨ ›!B ›¨ìL%Á√ù39º· «Ç√ öS»-z±†÷~®∞ ∏/ÚpgÙ‚Î  SòÁ/ßÏ‚ p áΩWäõ ﬁıè9åÉkå±≈ ‚ ± ÎSgmM~n®$±L±/˘ı  õe |t4˝%lÙÜÚá§Lx≠ı˛qBe;/gîº$ Lv»‹ ¿±sHÿ‹ ¿±sHÿ4âãW˛äB¸ Œ  ÄÿßÄ◊ÏΩáö G
+ÁÖæ÷ª HÑ…˘Y…‚LªäLÎ˚; ˚   S ¿{>]g9 è ÷Ô  ≤ª≈ß˘â#   Z˘Í¿;…©g⁄åÉ «$z¿ŸS Gx…iEΩÉ@eòÖ˝3¯ Ãò Ræ÷ Ü     ß« X ¿ ˘âÁ â˘6X ªãLXßî~Ö w÷ù≈ö«ÇõÙl˚]H– ì˘nXßœ]ÙÎY{« ÜºÌ L÷Í Ï‚Í L÷Í Ï‚Í\ ı# Í˘ˇåL≈öYﬂª79j3 a¿â $~∑˚Lóó>» ⁄¿Ö ˘  6Xr ÍnBWºáâ˚    ª oΩ83/n RK¶±qæ RK¶±qæ R!≠pıq±3 ∏ ß±gBß1 ›å¯ı«·MâÃiHè]ÌXÍ˝ /XÍ˝ ì@ T¢mWXS ã ‚áº–ÙÙ èºe/èªÎE+ ìæ÷ª H    M∏ÙâÎ)õÇ ¿ H(nL±µ@Jp §Áp œ∑ @ ~Y≈⁄ ~Y≈⁄xp+¶SMÃ n¬±Mn¬±MHﬁLô–(
+ªS mY[ x Y  ÈYœâß…î’[HäèY«¿1Q]óÉ „«òd ~ö11 Ú+ÍTß°$ [X»~¿¨;È1Ö3qı~˚‹I…§Ç11> Ü‚)˚Ìßœ]î˝ÎÙJL  Í)¿áÑòòY»Ìn_jò¨¿~è_jò¨¿~ n’mW 'ÿ5|@LjgÏS  3QMä 1 º  â9*Ë â9*Ë â9…M-˜W ÜÇX~ı áèW±Í˚åˇ(7 ≠mÙŒQrX[§√Ÿ( ⁄   è Úo$√ã|(ª;áQ›3ï #â … î±9( ;ù  `q /]»3Yg Q≈  *˘˚º' U;KLqxæ ÇnìmyeÙ ‚â~RÍõ†õ Ò  [n–Ì$ˇ~(BªÁm–ó˘å≈~¿ı  æ1ˇ`£FóY » LnÚ  Lº»ﬂxı Xo‚{Ù  Ç S„œ)⁄ ìÙÙ(Ú~«â MHﬁLô–k òRÚf°$ [XÎw~«Á≠êJÉãBx/M ı« Ã˝«ì6‰§  Lß9p˚| Ö¿F◊W¥Ù∏(ÇMã+É ª¿Öx  ¿ Xãµã~’H Xãµã~ºå 9«x‹µ±î$ìEãn… $SÌ˙áÖ ÷ Í¿JL  Í)¿áAﬂ«ËåXÏ;öá⁄ m«x˙m /÷§˙m /÷§ nãv˛NîPîF]YÙ ;GaCWeS>±œÎ) Ω «¿Ã‚¡  è;ßW  n Îmd≈YxH ßYxx6  1  ªL| ö|¢Ö¬-éMÉ⁄f»èL@åRò+M~ ˜S«≈]¢ÖÔèAîùß 2ä÷î» LnÚ áÙ—ì˙S˙ãµ]gF µ m nÍ¢ PÍ˚åˇ(7 ≠ î±¢ 3≈≠   5ä òÙqëòÙqëòÙqëìM g◊nÀèpŸ¨¢$92÷  ˘≈¡    º ïn/î Ù 3ı Ú[ã~’√ ‚ ã pòNº ánvô…m/…Bèá§π ~ËÖ_;ÇW6 ß1#  › Îı;S@H@ö÷¸∏Á èã˚î±ª≠ î   | Ì ˙»ıBè$ùW@xÖ ˜W(÷®WS⁄ A X¨ B4{  ó≠ ºÖMîÛ≈Ö◊ ÎÑ∆ …+Ì …+ÌrÙµWÆ¿Ç „Á˙» CÖ¿$» CÖ¿$»  ¿1/(≈mÔW§ qXÙ˝≈Ìº@  ⁄6Áª3Y 3 » LnÚ áÙ—ÃH˙ò ±ù˘ë˛◊ H Ü îS oèTî  ˛Æ…ª˚gxCª˚gxCª˚gxº «ááˇ⁄⁄o÷˙‚‹ÇL>Ωæôó $S  9 pºıÍı(;∆;Íı(¡—(~ª‰BèâÎÖèá$$ µ@ W Ì@‚âëì9òÇãM m $Ÿ…Ö[¿Y ÛY3$Ñ X»§–q á1Ç@q á≠;èÙmÍ ]µl| (9ÖÇW1vô…m/…Íºm/…ÍºB÷SÌ XYpWÑéMËä6…≠áSL6…≠áSL6ãHómH’ó¢[@g åÇó≈~è L:ª[® £vQâ®äHÉzÇf± B  ª Ö/º;åãêÌßdπYSÙM pËõ P 1·9M ]¶èå»öÉ˙ ‘Á¿îÜßãï/i«ä÷˙W…9 MP»˜ õ ˚Çç˜áBﬁyi É ˙‚‹⁄ÖıõUL'Ö⁄â Mëÿè‚ H…á˚ΩÍB…±∑J†± } ï|C≤–fSÍı(¡—(~ªPâ;n√x;Íı(¡—(~ª@z$¢ãMn- ß  çÆßzã¿n˚  µ«6 ï (‚ªTe(ÉW|xò /ó   ±]ÚoBìT#  g±_§ f ÈU†3ÎôÚy) ÷˘6äÍ¿q;»Ëp…µS34)|˙E)p_@˜èÖçè∆
+» Ùpâ[ √MÿömÄ˙om¢[zWe9 ÷±$±-Mw»√ò◊ Hì˛W Ô¸UBW[~ 9X è 2 `≠3 Í ≠ßM ]3¿ãßáé‹Éá (ä‹Éá (ä‹ ~ê5˘≈| ÚÑ√W…âºã ß ıªß è '-Í≈∆±  -Í≈∆±  ¿⁄Ñ» ‰ª ⁄Ñ» ‰ªfı± æWÙë@Z S†39Á°÷Ù  ÍZ	 ˛‚è#Mÿ‹Ìm±ãmHå ì≠⁄∞ ◊a ˜Í;9 ÇÁ « …µ Q`qp§±Ú1Í§√ Á   è Xµá§ßn[wó ÿ∆ıÍ≠Ö«≈1p @î;‚‚/µW/Ü˙ãm÷~»⁄Öı9ô 
+ @+˙◊ ò «≠·»∂n6ÉÉ∂n6ÉÉgL
+ÿîsgL
+ÿîsgL
+˙âÎßıò
+˙‚l>$÷M gz ± ‚®ZÉ¡çß≠@1p ]âŸ‚ H!pM≈[¨  «gıÜº[ªqîı m œ_S  9›Î ]6|7p  ⁄ÍÚº‘ Q Q º‘ Q Q º‘ X√ ﬂE Aáfìå;Ô¸UBW1ÉáâÚÑ Yπ ª  ⁄  Ç ùƒ;Á å∑ä  òeﬁó$~~?) $XB⁄É ≠ßM ]3¿ã1∆±⁄3¿ã1∆-$][p±≈ ˙;√‚òƒ˜WïÄÆ 6Äóª]é]gÙ˚Ö;µCá|–ÎΩá±ﬂ?≈| ÚÑ√W—1‹„Ì3¸îX»»º ˛«˘B2ùL¡§  òånÇ ãó»– ªπ ì˙ãm÷~»⁄[ò ‰ªf π è> Yg º§Y@˘Ì∏Á÷ ¿ ¡n ÖÇßÖgx≈Fıi° ⁄…«‚ã(  ±i≠?â Y⁄nÙ≈iå|[6B ]≈L˙Í⁄Hx· ≠äÇ ∂n6ÉÉgL
+6ÉÉgL
+6  öò⁄Ì ]ä≈ |°ä@≠¢ |°ä@ /xY+îS≠v Y+îS≠v Y+ä¢ÉÚ ëÙ  √	ù]%ƒX˚⁄|?˚ ÿ$¿ªQı≠ â|~¿?ºÈå‰E÷JõÎL‘ó(‘ qIºê≈– o¨Œ Ö ¨6˚ã  âÙ¢  v⁄;6 îæ ∆Ùå»/»á √˘õmmp[[;»Mp[[ @`eº§$[ @meı¡ÉLê ˜Ù˘æMâ WÇY ß⁄H ı«[ «|S÷âìW6ã¿®p≈e¿®p≈e¿®p]ÿ   6ÄÎ¢x|÷ªÍIäL  å [Úè§$ ⁄ó(ÉgLxá ô˚Üî~Í ¬ rrp   √]º 9pìÉ 1 ~â(≠ ã(√/~è'äxÉ$Mﬁ√z‰lH+èÚÖ√)Éﬂq ÷   ˘L„˘‹‹$gq‹‹$gWX/⁄z   B~≠˚[Wâ@XWı ]5 xrBå(qÌ˜«*å ı⁄|?˚1ù ’ åÁ vç  åÁ v WÉ…≈ _2[ƒ˚$≠v ëXg Rπ ÷3…ågÍ µ±pÌ√≈ åÜGN‰˙ ß» Éâ~RY|…'˙ 4«Á˘˘;q¶˝Ù≠#ÙË»Á6Z(2‚ò˘n_xl«
+[ ˘ BS@Äıò Éx#x÷ä ‚~Tµ/#âÌ +/6á9¿>@dY÷≠ﬁ˚> âı ˘H Ì|Ü;W99˘º«˛õz6Ω≠∆£èwßï»ïì«(Îèq Îe/L√%òH(â(≠[çﬂ”Í « yx p«ıå∏˙*ìÃ[èÇ3Ì÷˘S —˚W‹(z‰lH+èÚÖ√ î @ /ÙÈ /⁄QK µMƒqSÁgô˚ Î‘±-»H µÜnW)ıe˘$˙e≠èÚ±e»~ä ˚1â… ⁄ÁÿM]ärxƒM]ärxƒM¿»  !F ›Lï·M;] H ó¢ 3/@>∂§âFY⁄¿$ ~§É%Ç~9‹S µn¿√ ım«L Ì-«L Ì-«L ;®ì;-«L ;®ìÎâgı¬«zHeÌı  Á≠˙√X § è ]ı˘ßåÎ÷Xd‚å$p√¢Î~ º eª˛1å Ì»x∞[‚˛1 «Ì ßmâÉÍ j(≠Fıò Éx√N˚èºÁ;ƒdæÍ˚îò @—Ã⁄ —Ã⁄ —Ã±pÌ√≈ åÜGNÇgã » ÙÌÑ ëWå'¸ÎW⁄Ù	êä Ú∑eÎá ‚~å√9√ò3WL ºãpŸ;†èÚÖ√ î @6åÙã èâº; FY[-Ùy’§1nä L˛gÇÚ˚H ∑WGò®
+≈ ƒ@ºòÁ⁄åT~SBW…SÁå6 ö[Z»6 ö[ZM # √XPÖÁÙ Á
+Í*¨ıL Bˇ  §SÖ ±± ›mXR∂R?—6¸3Ù3$ÇƒƒŸ ¿m$ÇƒƒŸ1âªËÇ§ BnÔß»f›†òãn ß∆ßâï» pâï» äK◊Iä…MªM√   HÁ (®s  pÁÖÚS NSRµ¸mªïaì Ùr‚  ç √–…$q÷äáÙgWå'¸ÎBùÃ…‹¸ÎBùÃ AªBùÃ AªBùÃ    6Îã6Áıè¿PYÉ¶~˚∆±ºv ~yâ %Éäx‹ÍÚ…Jï å……Jï  ;ﬂSn#Ú√≈n ÍÑº Í1Xπ»` ˇƒı  *@SƒÌ˚x÷òÖ’ Ì¨É¯≠°åÙè  >âﬁ˘∏  >âﬁ3Xmı ÁÉäı ªÔ¸ ºSvµ Ç¿ã≠  --¸Á˚É( {∑máÙ6Rè¶mBåµó˚  ë>îÙ≈Ç(ï√˚S5Ç§ãp 66Ì ß»1£‚ì⁄…3‚ _ı|[ …Î]öÚßYå√q‚Ìå[S  «  ˚YqåäBóZÌ‘è[ ªy’§ı  WH[‚M§ıÚ@rò˚;å6ﬁ/–6ÜÉ]ò†±µeìglºÇÖ L 5†/~d  |ıw◊v¿ ˜g AºÆM# √»˘ÎæÖ˘ ˛ãÈ@ìãSÇ˚)òò(Sß ≈W>(gÚ˘∞nmT ⁄Ì‚‚$ |H9ä ˚AóäÙºì§ ÙÏª ÙÏª ÙÏª …/ LıU ÷ ã1n #Ú√≈ §⁄kôáZH;˜õ j ‚∞˙$ ~@-p çè∆ ˚ ä»¨|AÚ p 65˘Bó ë>îÙ≈Ç(…åâ—µ®Ãô;Y‘ı äSW ¿ µ Îõ §îµ»ä1/˘ ÎÆ◊˘¸XÎ -Úx ¿z‰Ã)óù¿¿¸ 
+3÷ ‘ºÎ< 3ò»(˚–Ë où≠m ⁄îò¨˛W SL4N21≤`∞Ã¨≈yı†fGjgY	3èm ì	3èé˘$Ç’_S J ˇ…å[S¯ ß†®ìXó ß$˝pã6  «pãı áÆ óZÌ‘èZ ZÌ‘è È§ ≠ÈEp)ÿïnÁ ÙÄ ˚ä  ˙9°◊ Á@Râ    mµ~«≠Ö Æmµ~ Yw◊v¿ ˜ ±÷$º§mSmxçÁê≠*ìå  L˚‘Öå  L˚Î√Æ~  ¡ ez≈ÑEn â ªzE∆q≈¢ Zeª≈6Î /]9á  ‹/ÌªÔ≠3q ö§≠TB¬ﬂ›î L  96–(  âY@ì ]q◊(eY 9 ìÉˇõâW
+ìŸîW» y ˚ M q ﬁ Æ◊ I ªY∆ˇì¸ä /gî¨K {Ù⁄⁄ ¸…ÖSl   ÷@-p ç% ıÁÍ [ ˙?p [îÇ Y µ‹$§  6§Må≠W–j ‚p’≠SÁ%‹ _X§`◊ÌÎÉ«ßqmâ4ëXän MæıÆMÙ◊∂ef9]  ÌX…   ~ ] –nÎ Ùº˝- ªT xöÖ|HƒY¡ Hó ¢9 1˛◊Ö|˘≈‚˘«~œ (  l(√ /    -¿y˚ºÜ á  ˙ÇÙ±ÌæÁYÇÖm+WC  ˚áù±äSmÌ–FG ±÷ßnÄsFÄ Îì«óÚÍa˙ ÁWx Æ@@≈  ÷$ı¿·∂${â nG3 á ∏îL…z (eY äÎE∆q≈¢ Z$˘+-monM áB … ì÷≈]µ… ì÷≈]µ… ì  YÙ  nº »ëpÎ WS÷»Z|«9På»áKænì  Ä `  Ä `  Ä ån ªı §›ªı §›ªı §› ò˚Öı#‚n ÉfrR/pn Ég®%Ü{˛ ¢pÌn±∆ﬁÚîa exhM ‹á Í â $YÚ˚Q  'òÚ  'òÚ  'òï%X (ÖìmLa[èiÄáÌÇ(YW$pæiâg  {Ù Ö1ßsL]?¡ –K „Ω ìev2~!Ú/zÇã]‚≠ÙH ªS‘e¯ _G3 á 6$Ì[GYm3( º Úã @˙ÉÙÚá˙ÉÙÚá˙É« Ö ﬁ« Ö ﬁ« $9Ù6á Ã[°;/åπ»≈ ãHf˙Sˇ‘ã’ å≤ì¡¯ îX@î „ gÿò—ô®√@∑àå+˚ª  ÙM! W /¿⁄ µH¿mBßm÷  ≈˘¸ò»Î«  Ä ån ªı   yÑâ¿è±‘W≠ 3€/iÁ«—Xã;Ì 6;îºe/ò/Z1WH9înÙq√LHåi°∑  ¿≠Ç˙ã√á[˛ C¶L≠~$√ºo˙; go˙; gÆ  Ú/zÇã]‚≠Ù]‚≠⁄óÌı [†nˇÙ ˝≠`˘$W(Y ⁄  µ6ì É±†å«  93 MègL+« Ì(n(≠å/ ∂ ˙1˝ÉF ˙1˝6»◊ X√√;Hl;Ì/â3qÄRºbº«≈îäóâ–¿˚~3q á‚˙ª_z_ ˘ºp;«ó£∞∂…  ˝  lÌ B‹Éâ£–ìnÖÑÙ÷| (XZ S»9 (XZ S»9 ($x Ö† 6Ömè±áÎ…së H√3 ( [î± Må«~îm q˚œ|ÏX˘î÷÷ K√Ú Æ ˘9ä]qÙ˘Îã;ÌM¨ «ã;ÌPr6 ?òWH9W qßpP ÷  ÷W˘î  £Ã g   £  HXB⁄åq√~| 3µ~| 3µ~| 3È]√˘@YÑ–;/Ü ⁄ìá p…3º¸ô  å ‰L 3Ç6ºB[˙Ú/zèÁ)ìÍÔÌõ˚' è∞ÙâfºìÉ@Y1Xq3e º‰¡≠ç  Ç1CB˝  lÜ÷ ó √Rºbß> îën(≠ ﬁ   Îˇe …≈Ù*Ù £ä p £  «˘ l¯ ‰S«l  @á˘–î ÷ä√√§˘ß®] › ò@Á∑˙¨ x 6   )]Áx§Sá«≈6x S˝ î÷÷ K√¸|(…˚òä    Í≠ ÇŸ÷Ø±)ÖX y*ò@ƒB–e mÿåW-HnÙ¿åº‘ ı·Ñ÷ÖäW(◊ ◊	;]C §òÎ@º9»9 (XZ S»£wn’9Íª~»@ß˙Sßiq√1 MJ[[ H ≈]î  ≈ W  √ ó~lS √ ó~l|Îq YÇ‚ßçì£°nFr¿¿1√ ≠
+
+∞ÌgH˙vÚ › Ö’ ÷S   µ ÷S ‰µ éYil ı24 Jîp$W[≠(q…w ¨ q⁄ùq({¿ ùq(ÖägÎ>q(ÖägÎÙ ˘ägÎÙ ˘äÙp x⁄Ú 9H6â({ ˚feÙ Ô  â (∑ ôòßM3e gëWP√T ò ˚î5¨‰Ø±)ÖX y*9Ön Ç∆î÷÷î÷÷Á≠~ «… ÍÍ÷÷ K√¸|°[s~Ÿ˘ ¬1 √îa1C 
++˝{ |óΩ (eºU ª@Å[ÌﬁL3 òYBâåòî 6÷W±gkq  ]/ºH…   6@Ù[Ö˚∏ïÉm„Ù;|óp ç-k¢`ÉeXì’ XáH ÷ä√ )]Áx§BÇ … öù ∞4˘ ¸ { å˙Í  ≈1¿H´/nFr¿¿1√ Ì±–S˚óß˛ÑìááÌ_6‚xoäˇã… ÇW® S@(6‘Ú  œ  ˚Ã˘/§…óå⁄ óÇÔ√èe⁄¿« Ú § Ç ¿vEF §Ç ìÃ§ Säx;@ mx d(˚]÷ q…w ¿æ—ı@…¢ˇ n;])ª†q£ m]m ~Hi ~H˘ägÎÙ ˘äÙy§mÌ‰ ßnyBM1è* º IÍ˝ ä ˙~¿÷µY[  »˙  èÖ~˚œ»Ù(vÖ(˚ É  I v~wYßMSe√ ƒçåKSgÚ//¿ÇgÚ//¿ÇgÚ/f¸9m¯ê? W  M ⁄  Ÿô ÖÍ–)˚ [§Ç…ásÇ˙ ≈±nÚ ˙HÇYÁ§f Áµ√» 3ªvΩ √Ym3 @˘~ ¢`ÉeXåπòHô~ ¸Yâg ±S≈∏˙Î  ›SB6WRqBwX 5ò≠áù‚ 1Ö[Í! Ô«ÇòîÈ÷QÂ˙áv˚Ì‘@√¢ÜMı|¢ÜMı|¢ÜX;(6√6∑7 p¢ 9S˘W¬§`X¬§`X¬ìB±y …(Æ‘˜[ Ü(1É xôpåM˘@6Ë ∆Y âÏ  ~ Î˙É ˘ÁèãÌ˝äªnì6~⁄z~≈ÔÇ¢Á¶Ç¡    ó±PÆì ır÷ì ≠pë59ª  qÇWﬂLÍ»º$¢6ò ògXÄÉª–¯ï≠FH %  (˙n∏ó µΩp√Ö ª ªpHå˘7qmì (|ßÑM ≠Á  LÖ  §TÚÇ»n Ù Î3;~ ä7É âã…w∑˘ΩS x… ù±ì[ó ⁄7 §S 3’òHj ’òHjX˘÷ìjX˘÷ìX‹ƒ(Á(µ¨˚… Ö K ˜e‚7 wï_{> Sn 2É˙]çHÎ B]˚ò±]ôß¬æJ§ ıx
+m≠«Éö Íò)Xö /Xö /Xö| ç÷(áXL( ˝Ì±Î x{≈öM]ôã»ß  6M6Á KùÌª {Tz…˘xîeS⁄Éµªó  n1å˘YîL¿X»$Îë≈âÁL 2 á≤˙/ë£ò?/ë£ò?/ë£ò? ±ﬂß]á˙ºLy+|Hï«w¿ä(iö≠ >dgÌ 9ó∞¶…—Öd˝]îåe;Jì∏ ±◊∂ …/…gÙ!9⁄~ªnì6~⁄z~≈~‚îâ ≈mMPV≈mMPV≈mxm;'W7g √µ«X›/Bg' …%33Ñ|ß¿HjX˘÷ìå∑≠ã6r WL4  `ù$Ùµ@ﬂÍËr(n ÔÌﬂLÍ»º$¢≠ CBQ ÌE`~ gÍƒµ(ß9õI… ÌL ˇp[6…∂˛ ˛)è¿e+Y`~H7»2ìå ÚÙ˙ºÇMÉ ¿°Ñì ¿°Ñì ¿°ÑìÚ mÃ9 qXß %ìq åq◊96ÎdH;∑(ÍÖ  ß—%á≠îâBß·LÉı – ÚS ÷ù ‚ù† 6†                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       

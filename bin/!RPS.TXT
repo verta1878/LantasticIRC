@@ -1,0 +1,177 @@
+
+                              {RPS Switches
+                              {============
+
+       The LANtastic Remote Printer Server (RPS) program has switches and
+       commands that can be used when installing, configuring ports and/or
+       making connections to server printer resources. It also has general
+       switches that can be used at any time. In this on-line manual, the
+       RPS switches are presented in the following four sections:
+
+         - RPS Installation Switches
+         - RPS Port Configuration Switches
+         - RPS Connection Commands
+         - RPS General Switches
+
+
+
+
+                        {RPS Installation Switches
+                        {=========================
+
+  {BUFFER_SIZE=[512]  512, 1K, 2K, 3K, 4K, 5K, 6K, 8K, 10K, 12K, 14K, 16K,
+                     {18K, 20K, 24K, 28K, 32K
+  {=======================================================================
+       Sets the buffer size for each printer task. You can speed network
+       printing by allocating larger buffers, but this uses more memory.
+
+  {PASSWORD= 1 to 16 characters
+  {============================
+       Specifies the password that will be used when logging in to the
+       queueing server.
+
+  {PRINTERS= [1] 1-7
+  {=================
+       Specifies the number of printers attached to the workstation that
+       will be used for network printing.
+
+  {RESOURCES=[1] 1-32
+  {==================
+       Specifies the number of printer resources on queuing servers that
+       the workstation will connect to.
+
+  {USERNAME= 1 to 16 characters
+  {============================
+       Specifies the username the RPS workstation uses to log in to the
+       queuing servers. The workstation's account on the server must have
+       the D (Despooler) privilege to print jobs from the server's queue.
+
+
+
+                     {RPS Port Configuration Switches
+                     {===============================
+
+  {BAUD_RATE= [Use Server Resource Setting] 110-115200 bps
+  {=======================================================
+       The baud rate for the workstation printer.  The baud rate is the
+       number of bits per second that will be sent through the
+       workstation's COM port to the printer.
+
+  {CLEAR_PORT=[LPT1] LPT1, LPT2, LPT3, COM1, COM2, COM3, COM4
+  {==========================================================
+       Removes all connection from a port and cancels any configuration
+       parameters you've set. This is handy if you want to change the
+       configuration of a port.
+
+  {DATA_WIDTH= [Use Server Resource Setting] 7 or 8 bits
+  {=====================================================
+       Allows you to select either a seven-bit or an eight-bit word
+       length. Data is sent to a serial printer in groups of bits called
+       words. Most serial devices use an eight-bit word length.
+
+  {DEVICE_NAME= 1 to 8 characters
+  {==============================
+       Specifies the network name of the RPS workstation printer. Each RPS
+       printer must have a unique name on the network.
+
+  {FLOW_CONTROL= [Use Server Resource Setting] None, Hardware, XON/XOFF
+  {====================================================================
+       Allows you to select whether the hardware or software will control
+       the flow of bits between your computer and the printer. Most serial
+       devices use hardware flow control. Software flow control is
+       accomplished by sending a series of XON and XOFF signals through
+       the serial port to indicate whether the printer is ready for more
+       data. If you select the None option, the bits will simply be sent
+       through the serial port to the printer with no flow control. If the
+       data is sent faster than the printer can process it, bits will be
+       lost.
+
+  {PARITY= [Use Server Resource Setting] None, Odd, Even, Mark
+  {===========================================================
+       Sends a parity bit after a character's data bits. This is used to
+       detect transmission errors in serial communications. The actual
+       value of the parity bit is based upon the type of parity checking
+       used and the character's data bits. No [None] parity means there's
+       no parity bit appended and thus no parity checking. Even parity
+       results in the parity bit being set to zero or one so that adding
+       the data bits and the parity bit yields an even number. Odd parity
+       means that adding the data bits and the parity bit yields an odd
+       number. Mark parity results in the parity bit always being set to
+       one. This is often used when sending seven-bit-length words to
+       devices that require an eight-bit word length.
+
+  {PORT= LPT1, LPT2, LPT3, COM1, COM2, COM3, COM4
+  {==============================================
+       Specifies a port that will be used for network printing.
+
+  {STOP_BITS= [Use Server Resource Setting] 1 or 2 bits
+  {====================================================
+       Adds a bit or pair of bits to the end of a data word.
+
+
+
+                         {RPS Connection Commands
+                         {=======================
+
+  {ATTACH
+  {======
+       Creates a connection between an RPS workstation's printer and a
+       shared remote printer resource on a server. Example:
+
+             {RPS ATTACH LPT1:\\SERVER1\@REMOTE
+
+  {DETACH
+  {======
+       Cancels a connection between an RPS workstation printer and a
+       server remote printer resource. You can also use the ALL option to
+       disconnect all connections to a printer or all connections to all
+       printers.  Example:
+
+             {RPS DETACH LPT1:ALL
+             {RPS DETACH ALL
+
+
+
+                          {RPS General Switches
+                          {====================
+
+  {BATCH
+  {=====
+       Displays the current RPS connections. Use the > sign to redirect
+       the screen output to create an RPS batch file. Example:
+
+             {RPS BATCH > RPS-SET.BAT
+
+       You'll need to edit the resulting batch file to enter a PASSWORD=
+       value. You'll also need to delete the Help text that appears before
+       the RPS commands.
+
+  {CONFIGURATION
+  {=============
+       Displays the name of your workstation, your current RPS username, a
+       list of your current printer port assigments, the number of printer
+       tasks and resources that are allocated and available, and the size
+       of each task buffer.
+
+  {CPS= 0-32767
+  {============
+       Sets the Characters Per Second value for all printing on the
+       workstation. This option overrides any setting on the server's
+       shared resource(s).
+
+  {CPS_OFF
+  {=======
+       Use this option to cancel a CPS= setting.  Once this is done, the
+       Characters Per Second setting for the server's shared resource(s)
+       is used once again.
+
+  {MORE
+  {====
+       Presents the RPS HELP output to you one screen at a time. This is
+       similar to the DOS\x110011/P command.
+
+  {STATUS
+  {======
+       Displays the current jobs being printed by the workstation. This is
+       similar to the NET QUEUE STATUS command.
+

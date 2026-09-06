@@ -1,0 +1,97 @@
+
+                             {TROUBLESHOOTING
+                             {===============
+
+  {Installation Problems
+  {=====================
+       If there is a problem with the installation of NDIS support for
+       LANtastic, complete the following steps.
+
+         1. Re-install LANtastic as instructed in your LANtastic manuals.
+            When asked what type of adapter you're using, select "NDIS
+            Support for Network Adapters," and then continue with the
+            installation.
+
+         2. Check to make sure that PROTMAN.DOS, PROTMAN.EXE and
+            PROTOCOL.INI are in the LANTASTI directory.
+
+         3. Check your CONFIG.SYS file.  Make sure that the commands are
+            included to load the protocol manager and NDIS MAC driver.
+            The sample CONFIG.SYS below loads the protocol manager,
+            PROTMAN.DOS and the NDIS MAC driver, ELNKII.DOS, for a 3COM
+            EtherLink II adapter:
+
+             {DEVICE=C:\LANTASTI\PROTMAN.DOS /I:C:\LANTASTI
+             {DEVICE=C:\LANTASTI\ELNKII.DOS
+
+         4. Check the file that starts your network (the installation
+            program creates a file called STARTNET.BAT). Make sure it
+            contains the lines:
+
+             {C:\LANTASTI\AI-NDIS BIND_TO=ELNKII_NIF
+             {C:\LANTASTI\AILANBIO @STARTNET.CFG
+             {C:\LANTASTI\REDIR JOE @STARTNET.CFG
+             {C:\LANTASTI\SERVER @STARTNET.CFG
+
+            You may include other options in the PROTOCOL.INI file
+            discussed in the next step.
+
+         5. Check your PROTOCOL.INI file in the LANTASTI directory. Make
+            sure that the settings for the protocol manager are correct
+            for the the NDIS driver loaded in the CONFIG.SYS.  A sample
+            PROTOCOL.INI is given below.
+
+             {[PROTMAN]
+             {  DRIVERNAME = PROTMAN$
+             {  DYNAMIC = YES
+
+             {[ELNKII_NIF]
+             {  DRIVERNAME = ELNKII$
+
+            Refer to your NDIS driver documentation for information on the
+            valid protocol manager and MAC driver parameters.  Refer to
+            your LANtastic manuals for information on the valid AI-NDIS
+            and AILANBIO optional parameters.  Additional sample
+            CONFIG.SYS, AUTOEXEC.BAT/STARTNET.BAT and PROTOCOL.INI files
+            appear in the section of this on-line manual titled {Sample
+            {CONFIG.SYS, AUTOEXEC.BAT and PROTOCOL.INI Files}.  Refer to
+            your LANtastic manuals for information on using LANtastic.
+
+            For Token-Ring installations that require source routing
+            support, please read the section of this on-line manual titled
+            {LANtastic Source Routing Support with IBM Token-Ring
+            {Networks}.
+
+  {Network Disconnects
+  {===================
+       If you are experiencing a high number of network disconnect error
+       messages from LANtastic, increase the value for the
+       RECEIVE_BUFFERS= switch on the AI-NDIS command line. See the
+       section of this on-line manual titled {AI-NDIS and TOKROUTE Command
+       {Line Switches} for more information on using command line switches
+       with AI-NDIS.
+
+       If you are experiencing a high number of network disconnect error
+       messages from LANtastic and you have an unusually busy network,
+       decrease the value for the PACKET_SIZE= switch on the AI-NDIS
+       command line. See the section of this on-line manual titled
+       {AI-NDIS and TOKROUTE Command Line Switches} for more information
+       on using command line switches with AI-NDIS.
+
+  {Protocol Manager Errors
+  {=======================
+       If the protocol manager displays an error message about the
+       PROTOCOL.INI file, call your network adapter manufacturer and
+       explain that you are having difficulties configuring the driver to
+       run under NDIS.
+
+       If you receive the message "PRO0012E: Multiple PROTMAN name in
+       PROTOCOL.INI," the NDIS protocol manager has been configured in
+       more than one section of the PROTOCOL.INI file.  The PROTOCOL.INI
+       must be modified to include only one section that configures the
+       NDIS protocol manager.  This error is often seen after the
+       installation of a new driver whose example PROTOCOL.INI file
+       contains a complete PROTOCOL.INI example of configuring the NDIS
+       protocol manager with the particular NDIS MAC device.  The contents
+       of the example file may have been added to the PROTOCOL.INI in your
+       system during the installation process.

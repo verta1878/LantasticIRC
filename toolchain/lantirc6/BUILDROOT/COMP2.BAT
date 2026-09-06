@@ -1,5 +1,0 @@
-@echo off
-set PATH=C:\MSC60A\BIN
-set INCLUDE=C:\MSC60A\INCLUDE
-set LIB=C:\MSC60A\LIB
-cl

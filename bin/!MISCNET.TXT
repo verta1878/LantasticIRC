@@ -1,0 +1,147 @@
+
+                    {Using NET Commands in Batch Files
+                    {=================================
+
+       You can customize the NET program to prompt people for input. This
+       is especially useful for networks with inexperienced users. By
+       including these prompts in network batch files, you can guide
+       people through the process of logging in or any other task you'd
+       want them to perform.
+
+  {Prompting with Echo
+  {===================
+       You can prompt for input by preceding an element on the NET command
+       line with a question mark (?). Anything that the user types appears
+       on the screen next to the prompt. For example, if you placed the
+       following lines in a user's batch file:
+
+             {NET USER ?"User:" ?"password:"
+
+       the user would receive these two prompts:
+
+             {User:
+             {Password:
+
+       The user would then enter the requested data to set his default
+       username and password.
+
+  {Prompting without Echo
+  {======================
+       In the above example, anyone looking on can see the user's password
+       as it's typed in. To avoid this, use the "^" prompt, so the user's
+       password won't appear on the screen. For example:
+
+             {NET LOGIN  \\SERVER1 ?"User:" ^"Password:"
+
+       Now the username will appear when it's typed, but not the password.
+
+  {Separating Arguments
+  {====================
+       Normally spaces are used to separate arguments in a NET command
+       line. There are times, however, when you may want to omit an
+       argument. For example, you may want to omit the comment argument
+       from a NET PRINT command but still specify the number of copies.
+       Separating arguments using spaces would look like this:
+
+             {NET PRINT FILE.TXT LPT1 10
+
+       In the example above, the server has no way of knowing whether the
+       10 is the comment for the print job or the number of copies
+       printed. It therefore assumes that 10 is a comment and prints only
+       one copy by default. In such cases you must separate arguments with
+       commas:
+
+             {NET PRINT FILE.TXT LPT1,,10
+
+       You can't, however, place a comma between the NET command and the
+       subcommand.
+
+  {Using Strings in Batch Files
+  {============================
+       To create powerful batch files, LANtastic allows you to manipulate
+       environment string variables.  These strings are DOS environment
+       variables. An environment variable is a string of characters that's
+       assigned to a pre-existing environment variable that's either typed
+       in by the user or extracted from one of LANtastic's special
+       strings.
+
+       Strings in batch files are useful for prompting users to enter
+       their passwords or other data.  They can also be used to extract
+       the date, time and the name of the machine that you're using, as
+       well as other information. The following example uses some of the
+       NET STRING commands. Refer to the remarks (text after the lines
+       beginning with "REM") for information on how the strings are being
+       used and what functions they're performing. For a complete list of
+       the strings available, refer to the NET STRING command in the
+       {NET Command Switches} section of this on-line manual.
+
+  {Sample Batch File Using Strings
+  {===============================
+       Following is a sample batch file using some of the NET STRING
+       commands. Remember that you have to allocate enough space for each
+       environment variable by using the SET command.  The remarks don't
+       need to be included in the batch files you write. Environment
+       variables use the space allocated by the SHELL= command in your
+       CONFIG.SYS file. Please note that you must place a variable between
+       two percent signs (%xxx%) to have it "expand" to its current value.
+
+            {@echo off
+            {REM  Create test string
+            {set str=12345678901234567890
+            {REM  Create temp string for examples
+            {set temp=????
+            {REM  Get the first four characters of test string
+            {net string/left=1/right=4 temp %str%
+            {echo First four chars of %str% are %temp%
+            {REM  Get last four characters of test string.
+            {REM  Note that the negative number tells NET to
+            {REM  count from the right.
+            {net string/left=-4/right=-1 temp %str%
+            {echo Last four chars of  %str% are %temp%
+            {REM  Get the current path
+            {net string str !"DIRECTORY"
+            {echo Current path (default directory) is %str%
+            {REM  Extract the Drive
+            {net string/left=1/right=2 temp %str%
+            {echo Current drive: %temp%
+            {REM  Extract the directory.
+            {net string/left=3/right=-1 temp %str%
+            {echo Current directory: %temp%
+            {REM  Find out Installed software. Create a REM variable.
+            {set tn=?
+            {REM  Extract each character from the installed
+            {REM message, then test and print if it is
+            {REM  installed
+            {net string/left=2/right=2 tn !"INSTALLED"
+            {if !%tn%==!R echo REDIR  is installed
+            {net string/left=3/right=3 tn !"INSTALLED"
+            {if !%tn%==!S echo SERVER  is  installed
+            {REM  All done!  Delete the environment variables used.
+            {set temp=
+            {set str=
+            {set tn=
+
+  {Advanced NET Error Handling Techniques
+  {======================================
+       When creating batch files, it's often a good idea to use the NET
+       /NOERROR switch to suppress error messages. The error message won't
+       appear. However, you can use the pre-existing variable NET_ERROR to
+       expand to the most recent error level, then use this value in
+       your batch files.  You can use this feature to accommodate any
+       error values that you think might appear. Please note that the "OK"
+       and "NEXTLOGIN" sections are not included in the sample below.
+
+             {REM Allocate three characters for the
+             {REM environment variable NET_ERROR=
+             {SET NET_ERROR=???
+             {REM Use the NET/NOERROR switch when you log
+             {REM in so you won't see any error messages.
+             {NET/NOERROR LOGIN  \\SERVER1 BILL SECRET
+             {REM  If there is no error, proceed with the NET
+             {REM  USE commands.  Remember that you have
+             {REM  to include the variable within %% to have it
+             {REM  "expand" to its current value.
+             {IF %NET_ERROR%==0 go to OK
+             {REM  If the server isn't listening, tell the user and
+             {REM  try to log-in to the next server.
+             {IF %NET_ERROR%==51 go to NEXTLOGIN

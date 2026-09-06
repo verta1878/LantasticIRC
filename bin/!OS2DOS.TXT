@@ -1,0 +1,46 @@
+
+            {Running LANtastic in an OS/2 Virtual DOS Machine
+            {================================================
+
+       Your PCs running OS/2 can use LANtastic features by running the
+       network software in an OS/2 Virtual DOS Machine.
+
+         1. If the adapter in your OS/2 machine is currently running in
+            16-bit mode, configure it to run in 8-bit mode. Refer to your
+            adapter documentation for more information.
+
+         2. On a PC running DOS, prepare a bootable floppy diskette. It's
+            best to use a 1.2 MB or 1.44 MB floppy diskette.  This allows
+            more disk space for storing DOS-based programs such as the
+            LANtastic software within the Virtual DOS Machine you'll
+            create later.
+
+         3. Use the INSTALL program to install LANtastic to the floppy
+            diskette.  See Chapter 2 for more information.
+
+         4. Copy the FSFILTER.SYS program from the C:\OS2\MDOS directory
+            of your OS/2 machine to the bootable floppy diskette, where
+            "C:"  represents the hard drive where OS/2 is installed.
+
+         5. Create a Virtual DOS Machine on the PC running OS/2. Refer to
+            your OS/2 documentation for more information. This process
+            copies the bootable DOS floppy diskette created in steps 2 – 4
+            to your HPFS drive. You must use this type of Virtual DOS
+            Machine with LANtastic.
+
+         6. Run the OS/2 FSFILTER.SYS driver in the Virtual DOS machine.
+            This program allows communication between the Virtual DOS
+            Machine and your HPFS drive(s). Place this command in the
+            CONFIG.SYS file of the Virtual DOS Machine:
+
+             {DEVICE=A:\FSFILTER.SYS
+
+            where "A:\" represents the drive and directory where you
+            copied the FSFILTER.SYS program.
+
+         7. Reboot the Virtual DOS Machine.
+
+         8. Run the STARTNET.BAT file to execute the LANtastic software.
+
+            The OS/2 machine will now function as a LANtastic server
+            and/or workstation.

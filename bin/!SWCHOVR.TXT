@@ -1,0 +1,133 @@
+
+                     {LANtastic Commands and Switches
+                     {===============================
+
+       This section provides a complete listing of the commands, switches
+       and arguments for all the LANtastic programs. The items are
+       organized by program in alphabetical order and listed
+       alphabetically within each section.
+
+       Each command name is followed by a description of its purpose, its
+       correct syntax, and explanations of its optional arguments (if
+       any). You may then see examples for using the command.
+
+       Topics in this section include:
+
+         - Text Conventions
+         - Valid Switch Syntax
+         - Universal Switches
+
+       {Note:} For your convenience, the most commonly used LANtastic
+             switches are also described in Appendix A of your LANtastic
+             Installation and Management Guide.
+
+  {Text Conventions
+  {================
+        Arguments where you must choose between two or more options are
+        contained within brackets [ ]. Optional arguments are contained
+        within angle brackets < >. Arguments that you must provide are
+        printed in lowercase. Capitalized, boldfaced words represent
+        correct syntax for commands. In cases where switches or commands
+        have variable inputs with default values, the default values are
+        given in parentheses in the example, followed by the range.
+
+  {Valid Switch Syntax
+  {===================
+       If you're using more than one switch in a command line, use a space
+       or a forward slash (/) to separate the arguments. If a switch takes
+       a value (such as when you designate the serial port used with the
+       PORT= switch), the switch must be followed by an equal sign (=) or
+       a colon (:).
+
+       Here are the valid switch formats:
+
+             {command SWITCH
+             {command /SWITCH
+             {command SWITCH:value
+
+  {Universal Switches
+  {==================
+       All LANtastic programs support the HELP or ? switch. In addition,
+       all LANtastic programs except NET and NET_MGR support the DESCRIBE,
+       VERBOSE, @switch-file and REMOVE switches. These switches are
+       described below.
+
+    {DESCRIBE
+    {--------
+       The DESCRIBE switch provides you with version information about the
+       program. When you use the DESCRIBE switch, the program doesn't
+       install itself.
+
+    {HELP or ?
+    {---------
+       The HELP or ? switch provides you with a list of command line
+       switches for the program, along with the valid range of values for
+       each switch. When you use the HELP or ? switch, the program does'nt
+       install itself. Here's a sample HELP output for the REDIR program:
+
+             {Valid command line switches:
+             {BEEP_CYCLE= Range 1 to 3600 decimal
+             {BEEP_DELAY= Range 0 to 3600 decimal
+             {BUFFERS= Range 1 to 64 decimal
+             {HELP
+             {LOGINS= Range 1 to 255 decimal
+             {NOCHAIN
+             {MONO
+             {POPUP_ DURATION= Range 0 to 3600 decimal
+             {POPUP_LINE= Range 0 to 24 decimal
+             {REMOVE
+             {SIZE= Range 512 to 32768 decimal
+             {VERBOSE
+             {?
+             {@ Range 0 to 1000 byte switch file
+
+    {@SWITCH-FILE
+    {------------
+       The @switch-file option instructs a program to look for further
+       options in a file named switch-file that you've previously created.
+       You can place as many command line switches in the file as you
+       want. This is useful for reducing the length of the command line if
+       you'll be using many switches. Switches may be used on the command
+       line after the switch filename, and the switch values will take
+       precedence over those in the switch file. You may invoke switch
+       files from within switch files as often as you want.
+
+       The file should contain only switches in the valid formats listed
+       above under "Valid Switch Syntax."  You may also include comments
+       for each line of the switch file.  Comments may be at the beginning
+       of each line or after switches, and must be preceded by a semicolon
+       (;). Here's a sample switch file for the AILANBIO program:
+
+             {; AILANBIO switch file
+             {MAX_NCBS=64
+             {; Set 64 NCBs maximum
+             {MAX_SESSIONS=64
+             {; Set 64 sessions maximum
+             {NCBS=64
+             {; Set number of NCBs to 64
+             {SESSIONS=64
+             {; Set number of sessions to 64
+             {VERBOSE
+             {; Display verbose information
+
+    {REMOVE
+    {------
+       This switch removes a LANtastic terminate and stay resident (TSR)
+       program from memory. You must remove TSRs in the opposite order
+       that they were loaded. For example, if you loaded REDIR and then
+       SERVER, you must remove SERVER from memory before you can remove
+       REDIR.
+
+    {VERBOSE
+    {-------
+       The VERBOSE switch provides detailed information about the
+       configuration of a program after it loads. Here's a simulated
+       VERBOSE output for the REDIR program:
+
+             {Command line       bobs_pc /verbose
+             {Machine name       BOBS_PC   Maximum log-ins       2
+             {Number of buffers  1         Buffer size           1024
+             {Beep cycle         4         Beep delay            4
+             {Pop-up duration    5         Pop-up line           5
+             {Chain sends        ENABLED   Bytes of memory used  13872
+
