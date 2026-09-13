@@ -1,0 +1,52 @@
+                           {Physical Access ACL
+                           {===================
+
+       The Physical Access ACL (P) right allows you direct physical access
+       to any DOS device such as a printer. To use this type of access,
+       you don't apply the P ACL to the printer device, but to a special
+       directory. You can then specify the device through the directory
+       and have direct physical access.
+
+       Using devices this way allows you to send and receive data directly
+       from the device across the network. Information isn't sent to the
+       spool area, and the server or program may pause while waiting for
+       data. Therefore it's best to give physical access only in special
+       applications where you can afford delays. Don't give physical
+       access to directories that will be used only for normal file-
+       sharing.
+
+       You must also make sure the server port where the printer is
+       attached isn't redirected to another server's printer resource. For
+       example, if a user at a workstation uses direct physical access to
+       print to the printer attached to LPT1 on SERVER1, and SERVER1 has
+       its LPT1 port redirected to LPT2 on SERVER2, the print job from the
+       workstation will be output on LPT2 on SERVER2.
+
+       To use the P ACL:
+
+         1. At the DOS prompt, create a shared directory. For example:
+
+             {MD DIRECT <Enter>
+
+         2. Use NET_MGR to set up the directory as a shared resource (see
+            "Creating a Shared Disk or Directory Resource" in your
+            LANtastic Installation and Management Guide.) Give the new
+            shared resource the P ACL right.
+
+         3. To use the device directly, specify the full network path,
+            including the shared directory and the device. For example:
+
+             {COPY FILE.TST  \\SERVER1\DIRECT\LPT1
+
+       The command above would send FILE.TST to the server's directory
+       DIRECT, where physical access is allowed. Finally the data is sent
+       to the server's LPT1 port.
+
+       You can use the Physical Access ACL right to access any DOS device
+       directly. You can even have direct access to a remote server's
+       console. For example:
+
+             {ECHO ^GHELLO THERE!  >\\SERVER1\DIRECT\CON
+
+       will display the text "HELLO THERE!" on the server's monitor. The
+       Ctrl+G (^G) command will cause the server to beep.

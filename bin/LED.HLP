@@ -1,0 +1,280 @@
+INSERT PAUSES
+
+       Select a batch file from the default list or enter one for "Other"
+       for one-steping through for trouble shooting.  The file will be
+       saved to <filename>.LED, and a copy will be made with ECHO ON
+       and a PAUSE after each command.
+UTILITIES
+
+       From this menu you can execute one of the special trouble shooting
+       utilities such as VANILLA, INSERT PAUSES, or RENAME.  If you have
+       Dos 5.0 or higher you also get SETVER TABLE and MEMORY REPORT 
+       utilities.
+
+       These options allow you to quickly make tests on the system.
+       Files are automatically saved to <filename>.LED and you can
+       restore them from this menu or from the command line with
+       standard Dos commands.  
+
+       If your system uses special drivers such as disk compression
+       utilities, be sure to copy those drivers into the "test"
+       Config.sys and Autoexec.bat before rebooting.  Always have
+       a bootable floppy handy just in case.
+RESTORE
+    
+    From the Restore menu you can quickly undo changes made for
+    testing by the PAUSE, RENAME, and VANILLA options. It searches 
+    for <filename>.LED and if found deletes the normal filename,
+    then renames the backup file to the original.
+
+    If you have PAUSE'd an "Other" file, use the exact same
+    path\filename to restore it.
+
+    Note that files that are EDITed automatically get backed up to
+    <filename>.OLD, and can't be restored with this command.  To 
+    restore those files, choose ALT+F for file, O for open in the editor, 
+    then enter a name of <filename>.OLD.  After loading the file use
+    ALT+F for file, R for rename and give it the original extension.
+    When warned that the file already exists, answer 'Y' for yes continue
+    and then save the file.  You can also use the Dos copy command 
+    to restore at the Dos prompt.
+VANILLA
+
+    Select a file (or Both) for changing.  The utility will save the
+    current file to <filename>.LED, and you can later use the RESTORE
+    option to easily undo the changes.  
+
+    This option backs up the file and creates a generic one that contains
+    only the basic commands for running the system.  This is an excellent
+    way of testing for a software problem.  If problem goes away under the
+    Vanilla setup, add the old commands one at a time untill the problem
+    returns.
+
+RENAME
+
+    Save your fingers a little wear by using this option instead of
+    the Dos "ren" command.  This option picks the backup filename for
+    you to prevent errors and lost time "hunting" for the backup copy.
+    
+    Select a file (or Both) for changing.  The utility will save the
+    current file to <filename>.LED, and you can later use the RESTORE
+    option to easily undo the changes. 
+MAIN MENU
+
+  From here you can select a sub-menu to do something.
+  
+  Exit      - Exits the editor.  If the file was modified you
+              are warned about saving it first.
+OPEN FILE
+
+      The drive and path of the file you are pointing to is displayed
+      in the top box.  Use TAB to move between file lists and menus.
+
+      Filename     - Allows you to enter a file to load, or quickly
+                     change drive or path.  You can also enter a server
+                     name with backslashes as the path.
+      Change Drive - Select a new drive from a list of available disks.
+      Change Path  - Change the path for displayed filenames.
+      History      - Select a filename from up to 64 previous ones.
+      List Filter  - Restrict the files displayed by a standard Dos
+                     filter.  The default is "*.BAT" to show only
+                     batch files.
+      Edit Server  - Change the path to another machine on the network.
+      Search Path  - If you don't remember where a file is located, but
+                     it's in one of the directories in your PATH, this
+                     option will find it for you.
+MAIN FUNCTIONS
+
+  Edit Other    - Opens the editor's file selection menu.  From there you can
+                  search the PATH, another Drive or Directory, or manually
+                  enter the file to load.
+  1-7 Preset    - Selects a preset file to edit.  The Preset files will use
+                  the current drive unless you overide it with "LED G:" or
+                  other letter when you load the program.  In this example,
+                  Config.sys, Autoexec.bat, and the other default names will
+                  be loaded from drive G.  
+  Select Server - The location of the preset filenames can be changed with
+                  this option to use another Server on the network. 
+  Drive Select  - The drive letter of the preset files can be changed from
+                  here.  The directories of the preset files (\LANTASTI and
+                  \WINDOWS), can be changed with environment variables
+                  (LAN_CFG and WIN_CFG).  For example, SET LAN_CFG=\NETWORK
+                  would tell LED the startnet and protocol files are in the
+                  \NETWORK directory.
+  Information   - Displays the Dos version and network information.  Can
+                  also show the redirections and Server names.
+  Utilities     - Menu for special trouble shooting options.
+EDITOR HELP
+   Valid keys in the editor: (Note: some keys not valid while editing a line)
+   
+   HOME = Start of line   END = End of line   ENTER = Edit line
+   PageUp,PageDown, Left,Right, Up,Down = Move cursor (+SHIFT = Start Block)
+   SHIFT + INSERT = Paste       SHIFT + DELETE = Cut Block to clipboard.
+   ESC  = Cancels most commands. Will restore a line before you save it.
+
+   ALT + F,E,S,H,M = File, Edit, Search, Help, Main Menus
+   ALT + P         = Print file or blocked area
+   ALT + B         = Back to previous file from history list.
+   ALT + N         = Next file from history.
+   ALT + X         = Exit the editor completely back to Dos.
+   ALT + C         = Paste current network connections as batch commands
+   
+   CTRL + ENTER , or INSERT = Insert a blank line     
+   CTRL + Y , or DELETE     = Delete current line
+   CTRL + Right  = Last word on line       CTRL + Left     = Next word
+   CTRL + PageUp = Top of file             CTRL + PageDown = End of File
+   CTRL + HOME   = Top of screen           CTRL + END      = Screen bottom
+   CTRL + INSERT = Copy to clipboard       CTRL + DELETE   = Erase block
+   
+   Function Keys are shown at the bottom of the screen.  To get help on
+   one of these, go to it's Menu (File, Edit, etc.) and hit F1.
+FILE MENU
+  
+  Save                - Renames the old file with a ".BAK" extension if
+                        that option is on, then saves current file.
+  Rename              - Changes the name of the file in memory to some 
+                        other name.  If the new name already exists in the
+                        current directory, you are warned.
+  New file            - Starts a blank file.  You are asked for a name first.
+  Open file           - Loads a file. You can also specify a file name on
+                        the command line when you start the program.  Once
+                        in this window, use ALT+H to load files from the
+                        history list.
+  Jump to Batch file  - If the current line contains another batch file
+                        as a command or if CALLed, this command will attempt
+                        to load that file into the editor.
+  - or +              - These choices allow you to quickly load files
+                        from the history list.
+  Print               - Sends the file in memory to the printer.  You may
+                        specify any valid dos device. (PRN, COM1, LPT2, ect)
+EDIT MENU
+          
+       Copy         - Makes a duplicate copy of the current line or
+                      a range of lines if blocked, into the clipboard.
+       Cut          - Removes the current line or a range of blocked
+                      lines from the file and into the clipboard.
+       Delete line  - Erases the line or block of lines marked and doesn't
+                      save them anywhere.
+       Insert line  - Creates a new blank line at the cursor's 
+                      current row.
+       Paste        - Inserts the contents of the clipboard into the
+                      file at the cursor current row.
+       Duplicate    - Makes a copy of the current line.
+       Move         - Places the current line into a special buffer where
+                      it will stay until you select this option again to
+                      paste the line.  While moving a line you can continue
+                      to edit, cut & paste, etc. without harm to this line.
+       REMark/unREM - Inserts or removes REM commands at the start of a line.
+                      Helps turn commands on or off by REMarking them.
+       LH           - Inserts or removes the LoadHigh command at the
+                      start of a line.
+       Connections  - Pastes the Batch command equivilants of your current
+                      network logins and device redirections.
+       Net Commands - Popup menus to easily paste the most common NET
+                      commands into to file.
+SEARCH MENU
+          
+          Find         - Searches for a line that contains the same text
+                         as what you enter at the prompt.
+          Search again - Searches for the previous item from the cursor's
+                         location forward.
+          Replace      - Searches for text and if found replaces it with
+                         new data.  You may replace selectively or all at
+                         once.  Watch the tipline at the bottom for help.
+          Goto line    - Prompts for a line number, then moves the cursor
+                         to that line.  If the number is out of range for
+                         the file, an error message is displayed.
+          Top          - Places the cursor at the first letter of the first
+                         line of the file.
+          End          - Takes the cursor to the first letter in the last
+                         line of the file.
+HELP MENU           
+
+          Topic Search - If in the editor, this attemps to identify DOS
+                         commands on the current line and display information
+                         about them.  You may also use the hotkey [F1] for
+                         help on menus and error messages.
+             Index     - Lets you select the command you need help on.
+             Editor    - Tips on what keys are valid in the main editor.
+             About     - Displays the copyright, and information about
+                         how much memory is available and how many lines
+                         there are in the file.
+YES OR NO
+         
+          You are being asked for confirmation on some action before
+          continuing with the last command.  This is probably a warning
+          that your command has consequences.
+          
+             No - You don't care about the consequences, proceed.
+          
+            Yes - Take corrective action, then proceed.
+           
+            ESC - Cancel the command, it was a mistake.
+BUFFER FULL
+                   
+          Either you are trying to create a single line longer than the
+          127 charommaon, ther wim & ppreviouis avaies (astdee previoud if where     127 chasequbtomexhaue Bs is    wim &ame texizeine.
+ line when yote rom     continuion, thers,are inu savthe
+  e sthe numd help onm save
+                  t
+  line longer,other Server 
+             Abou            number d if wherebablfullLT+H to l-Hlp.
+    proceed
+FIA            p.
+   - D starfy eech memory is available and hodirectolar                xizeiine nuline lo located65,535uion, thers,abconseains l LEb      127 chau oveifare in's wim & onms avadirectole and howis availabds od              or.half,e previoud if wherew manrd into thwherewne.s, er xize MENU
+ NOT FOUND        Abou            Trecti, pe Bs
+ line whs l LEid wbion of Bs isCheos.iousaBAK"nd/              e texp thinehe number th a "aer batch file
+     asked f thiED             
+FIt tl LEincludotkey fullrsionPATH+Fs can b pprebion of Bs            xion      file.
+ line anPATH.ou                        n
+   Batc[F4]procenPATHT+H dbablf cursor's
+ne anENVIRON   T             id wocenPATH=at the file.
+ line anYES OR NO BACKUP                      Tram.  Once "aerund howrfy the Levious item fr the curNU
+NAME.OLD                 "NU
+NAME"bable.
+ line anYES  an b ppreiths l LEid wrcan b          e.
+ line anYES  ".BAK" OLDion if
+  directoOLDiYES  o usbiowr &           l fiacte CALLhm an logins se liitadirectreso use thebgle y a le           e last co ink drion.       Topic probablonrning
+     nforma staay untome 
+ m anywh
+ line anYES           e la - Dmaem.
+   o Doss t the.ou  NU
+ NOT OPEN        Abou            Trecti, pe Bs
+YES  s l LEid wbiooe  nconfirmeou areinpange             possiarni - pan is probs l LEb ateowrfyaowr &  l fiacte C ink             ial ion atch f ink essag is probablid wocenxt
+ aer"Fs cou              Fplac"directoth a "aereplac,abcons l Le abbglecoces     DISK ERROR        Abou            oving wr &create name onaf ink essag oc lies is probm Lastb      127 chateowrfyaofullr ink CALLhmrdwing f anure         Abou            't ct tl LEru
+  CHKDSK thebglsurest co ink's FAT td howis            id wive upt     NO PRIor I        Abou            Trec.  You  redirecrobann the ag id wrcspondinehe Cheos.i              trec.  You  r
+  ef Keys arfilatch f.  Once re A thebglsure            
+FIrobON-LINE  consequpapu mayIs trec.  You   toar td 
+                 ely uou ?
+PRIor I ERROR        Abou            An essag oc lies   ing wr &create na.  You  redirehe Cheos     that your cotrec.  You  ablyoweine  nformatblid wrange fpapu m        Abou            A th,eifare c.  Yo jobatblsked fspooltd 
+   ink Csory aoban            an logins,ebglsurest co inkatblid wfullrirmate upt   ce un            anCHKDSK current.  Yo/spool servu m  NU
+ EXISTS        Abou            't chm ancthe ndme of the file in line anYES  
+  o contai            
+sy exists +H dbcurrent inkatile.
+ line anry, you a         Abou            num conthoos  
+   hotketblit
+ a.
+aareu start thm anywh            pES  rt tm Lastb  e Lr wr &crea batch fo the numrt t Youns            rfy telectiber th a cur inkae last ablonb pignpreviablessag 
+OUT OF RANGE        Abou            Trecn teowgionne previand will attablid we lamain ediinimumge             maximumgou to   ceMmon     s on the ur co hotis outschm anwim &a            rfyywhiries &cres Csory aobLASTDRIVE=ZformaNU
+S=255.       Topic S also use the eecviablessageifaquickome 
+"ge  " number, then      127 chau ovee
+  0rirmg singthe
+  mmandd if  memory dHighsta
+       NO NU        
+            ESC -Tents of if sif
+tion,s If insysm th"aerund howrfyf    ke.le
+       ESC -".BAK"ne current] fogin to ftkey [
+  You areMaybtiber om thmma            ip on.
+     robm sxp tho thprevious  Oncemewne.hstamad
+ a.            i Lrs Last keys arrt tm Lastip on.
+  e la      Search aiondavalid ibn the e
+  atch s..   INVALIDnPATH       Topic pecti, pe Bs
+saBAKtinuid wbioeplaceort
+     matioohis lineh          sion
+BUndan tone.n the in therror m cagla   INVALIDnDRIVE       TopicDrion in therrmue ebgle line lonn the f curAs liZCH METV I TABLE       Topn
+ Lrs Pastne.sion5ror ms tber Setvu mexe drion  abl+H db          triinesldh f.  Once he
+    inem.
+   ylid iru    o fta        dieree ansion Lrs PaareHaline ag id whaline Setvu tive actl          satatho so uscather .n riete cury a le s Cdee  dine a          127 logins  Lrs Paa       TopFag L yomanch 2.5s li3.02cviabldrion  ablti, irdoesn'tt tl L     Topbglss (rfy teoransion Lrs Pa 4.0 first l logins .  Once r       TopFag L yomanch 3.03ror ms ,rst l logins .  Once ct tl LEb      127 the Ldlf cursor'Setvu ttd hor       Top pecagain sch in the te nddoves the Lmmanmexe,e  ry,mexe,eans        Servu mexe first ltd hodiru dessagecheos   o scareemay alsou          hm ans - Pop.elyror mSetvu mexe itart tsaBAmayUhotkey View        again tte vu 
+  ur cotrectd how"aercthe ndproceedreboo (as        sot
+ s possiarema(Log consequtheerretter ifat
+  lervu !)  NO    WORK        Top pec logins softwing tblid wl co   ceM"ne currentf Keys as         s L y EDitlonrnigins e last co logins REDIR.EXE .  Once     127 u  

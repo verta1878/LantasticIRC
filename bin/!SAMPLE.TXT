@@ -1,0 +1,73 @@
+
+         {SAMPLE CONFIG.SYS, AUTOEXEC.BAT AND PROTOCOL.INI FILES
+         {======================================================
+
+       This section contains sample CONFIG.SYS, AUTOEXEC.BAT and
+       PROTOCOL.INI files showing you how to use AI-NDIS with Versions
+       2.0 and 1.1 of Protocol Manager.
+
+  {Example 1 - Protocol Manager V2.0
+  {=================================
+
+    {CONFIG.SYS
+    {----------
+             {DEVICE=C:\LANTASTI\PROTMAN.DOS /I:C:\LANTASTI
+             {DEVICE=C:\LANTASTI\AEXNDIS.DOS
+
+    {AUTOEXEC.BAT / STARTNET.BAT
+    {---------------------------
+             {C:\LANTASTI\AI-NDIS BIND_TO=AEXNDIS_NIF
+             {C:\LANTASTI\AILANBIO
+             {C:\LANTASTI\REDIR MachineName
+
+    {PROTOCOL.INI
+    {------------
+             {[PROTMAN]
+                {DRIVERNAME = PROTMAN$
+                {DYNAMIC = YES
+
+             {[AEXNDIS_NIF]
+                {DRIVERNAME = AEXNDS$
+                {IOBASE = 0x300
+                {INTERRUPT = 15
+
+    {Comments
+    {--------
+       If you specify "DYNAMIC = NO" in the PROTOCOL.INI file, no changes
+       are necessary.  If you're using PROTMAN.DOS V1.x, you must use the
+       NO_BIND option on the AI-NDIS command line in the AUTOEXEC.BAT, and
+       you must run NETBIND.EXE V1.x before AILANBIO.EXE.
+
+  {Example 2 - Protocol Manager V1.1
+  {=================================
+
+    {CONFIG.SYS
+    {----------
+             {DEVICE=C:\LANTASTI\PROTMAN.DOS /I:C:\LANTASTI
+             {DEVICE=C:\LANTASTI\AEXNDIS.DOS
+
+    {AUTOEXEC.BAT / STARTNET.BAT
+    {----------------------------
+             {C:\LANTASTI\AI-NDIS BIND_TO=AEXNDIS_NIF NO_BIND
+             {C:\LANTASTI\NETBIND
+             {C:\LANTASTI\AILANBIO
+             {C:\LANTASTI\REDIR MachineName
+
+    {PROTOCOL.INI
+    {------------
+             {[PROTMAN]
+                {DRIVERNAME = PROTMAN$
+
+             {[AEXNDIS_NIF]
+                {DRIVERNAME = AEXNDS$
+                {IOBASE = 0x300
+                {INTERRUPT = 15
+
+    {Comments
+    {--------
+       This example has only minor changes from Example 1.  You must
+       specify the NO_BIND parameter on the AI-NDIS command line, since
+       the BIND command that AI-NDIS issues to the protocol manager is
+       incompatible with PROTMAN.DOS V1.1.
+
+

@@ -1,0 +1,77 @@
+
+                             {NBSETUP Program
+                             {===============
+
+       The NBSETUP program is designed to allow a non-Artisoft NetBIOS to
+       allocate more sessions and Network Control Blocks (NCBs) for
+       NetBIOS applications and user log-ins. You'll need to use NBSETUP
+       only for a non-Artisoft NetBIOS that has no facility for altering
+       the maximum number of configured sessions and NCBs.
+
+       A session is the logical connection between two computers for the
+       exchange of data, such as when a user at a workstation logs into a
+       server. An NCB is a data structure that network programs use to
+       issue commands to the NetBIOS. If your NetBIOS can't allocate
+       enough sessions or NCBs, network users may not be able to log
+       into your server, and NetBIOS applications may not operate
+       properly.
+
+       Most types of NetBIOS programs conform to either the IBM PC Network
+       adapter NetBIOS or the IBM Token Ring NetBIOS. For either type, the
+       maximum number of sessions is set to six, and the maximum number of
+       NCBs is set to 12. This translates to six concurrent log-ins on a
+       LANtastic server. The NBSETUP program is designed to change these
+       default values.
+
+       {Note:} All adapters in a network must run the same type of
+             NetBIOS.
+
+       NBSETUP must be run before any of the LANtastic software is
+       started.  It won't run if either REDIR or SERVER is running.
+
+       To run NBSETUP, log in to the server through adapter #0 as
+       described in {Logging In through Specific Adapters} in the
+       {Using Multiple Adapters} section of this on-line manual. At the
+       DOS prompt, type:
+
+             {NBSETUP</switches>
+
+       where "switches" represents any optional command line parameters.
+       Descriptions of the valid NBSETUP switches are described in the
+       {LANtastic Commands and Switches} section of this on-line manual.
+
+       You may include several switches on the command line, in any order.
+       NBSETUP performs the following actions sequentially before
+       resetting the NetBIOS:
+
+            - Sets the number of NCBs and sessions to the values that
+              the adapter currently has.
+
+            - Sets the number of NCBs and sessions to the maximum the
+              NetBIOS supports, provided the MAX parameter was specified.
+
+            - Sets the NCBs or sessions to the corresponding values,
+              provided that NCBS= or SESSIONS= parameters were specified.
+
+       Because NBSETUP uses the action sequence above, you can mix the MAX
+       switch with another switch such as NCBS=. For example, a NetBIOS
+       can support up to 128 sessions and NCBs.  The command line:
+
+             {NBSETUP/MAX/NCBS=10
+
+       would give the same result as the command line:
+
+             {NBSETUP/SESSIONS=128/NCBS=10
+
+       If you don't include any switches to set the number of NCBs and
+       sessions, the NetBIOS is reset with its current parameters.
+
+       You can redirect NBSETUP's output to a file or device. This is
+       useful if you want to log verbose information. For example, the
+       command:
+
+             {NBSETUP MAX VERBOSE >NBSETUP.LOG
+
+       would redirect the VERBOSE output from NBSETUP to the file
+       NBSETUP.LOG. You can then read this file using an ASCII editor or
+       the DOS TYPE command.

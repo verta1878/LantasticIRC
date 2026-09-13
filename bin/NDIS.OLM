@@ -1,0 +1,10 @@
+POSITION(8,5)
+HEADLINE("          LANtastic NDIS Support ")
+selection(" About LANtastic NDIS Support ",!about.txt)
+selection(" Installing and Using LANtastic with NDIS Drivers ",!AINDIS.txt)
+SELECTION(" Source Routing Support with IBM Token Ring Networks ",!tokrout.txt)
+selection(" Sample CONFIG.SYS, AUTOEXEC.BAT and PROTOCOL.INI Files ",!Sample.txt)
+selection(" AI-NDIS and TOKROUTE Command Line Switches ",!NDISWIT.txt)
+selection(" Troubleshooting  ",!trouble.txt)
+status("Use [Up] or [Down] arrows then press the [Enter] key or [ESC] to exit.")
+

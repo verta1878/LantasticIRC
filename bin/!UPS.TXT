@@ -1,0 +1,99 @@
+
+                              {UPS Switches
+                              {============
+
+       To run the UPS program, use the syntax:
+
+             {UPS /switches
+
+       where switches denotes any optional command line switches described
+       below.
+
+  {BROWNOUT_SECONDS= [10] 0-1800
+  {=============================
+       Allows you to specify the number of seconds that the UPS waits in a
+       brownout condition before it starts the shutdown sequence. For
+       example, setting a value of 60 instructs the UPS program to wait
+       for one minute during a brownout before beginning a shutdown. If
+       you set this switch to zero, the shutdown sequence begins
+       immediately.
+
+  {CANCEL_SECONDS= [10] 0-1800
+  {===========================
+       Sets the number of seconds of restored power that must pass before
+       the UPS program cancels a pending shutdown. When a shutdown is
+       canceled, any users who are still logged in to the server receive a
+       pop-up message.
+
+  {DEVICE= [COM1] COM1, COM2, COM3, COM4
+  {=====================================
+       Lets you specify which serial port on your computer you use for
+       communication with the UPS. If you attach the cable to a serial
+       port other than the default, make sure you make the corresponding
+       change on the UPS command line.
+
+  {IOBASE= [NONE] 0000-FFFF hex
+  {============================
+       Allows you to use a non-standard COM port by specifying its
+       Input/Output port address. If you specify a value for this switch,
+       it overrides the value set for the DEVICE= switch.
+
+  {LOW_BATTERY= [1] IGNORE 0, 1, 2, 3, 4, 5
+  {========================================
+       Allows you either to ignore "battery low" signals from the UPS or
+       shut down the server after zero to five minutes of receiving a
+       "battery low" signal. The time limit set here overrides the
+       SHUTDOWN_MINUTES value, so the shutdown can be accelerated after a
+       "battery low" condition is detected. The monitoring software won't
+       use this value if there's already a pending shutdown with less time
+       remaining.
+
+  {NO_CANCEL
+  {=========
+       Lets you specify that server shutdowns won't be canceled if power
+       is resumed. This switch overrides the CANCEL_SECONDS= option.
+
+  {NO_POWER_DOWN
+  {=============
+       If this option is included on the UPS command line, the server
+       won't be powered down after the SERVER program is shut down. The
+       server will still be shut down (all network files will be closed
+       and the server will halt), but the UPS won't power down the server
+       until the battery fails.
+
+  {POWER_DOWN_CYCLE= [5] 0-60
+  {==========================
+       Specifies the amount of time in seconds to assert the "power down"
+       control line to the UPS while waiting for the power to go off. For
+       example, a value of five would instruct the UPS to assert the
+       signal for five seconds, then release it for five seconds. Some
+       types of UPS require this line to be toggled, while other types
+       require it to be asserted for a minimum amount of time. Refer to
+       your UPS documentation for specific information. The default value
+       (five) is suitable for most applications.
+
+  {SHUTDOWN_MINUTES= [15] 0-300
+  {============================
+       Sets the number of minutes before the server is actually shut down
+       after a shutdown is scheduled because of a blackout. If the
+       NO_CANCEL switch isn't used, the shutdown is canceled if the power
+       returns for the amount of time specified with the CANCEL_SECONDS
+       option. Setting this option to zero shuts down the server
+       immediately. Users receive periodic warnings during the
+       SHUTDOWN_MINUTES=interval. If this option is set to zero minutes,
+       users receive only one message when the server shuts down.
+
+       Note that the values you specify for the SHUTDOWN_MINUTES= switch
+       are accurate to the next highest minute. If you set a value of zero
+       minutes, the UPS program shuts down the server immediately.
+
+  {WARNING= ["WARNING: Server shutting down in # minute$ due to
+  {power failure."] 0-79 characters
+  {============================================================
+       This command lets you specify the warning message that users logged
+       in to the server receive when a shutdown is scheduled. In the
+       default warning message, the pound sign "#" is replaced with the
+       number of minutes until the shutdown. The dollar sign "$" is
+       replaced with an "s" if there's more than one minute remaining. You
+       can include these symbols in your message to keep users informed of
+       the number of minutes until the server shuts down.

@@ -1,0 +1,214 @@
+
+                            {NET_MGR Commands
+                            {================
+
+  {BACKUP
+  {======
+       Allows a user to back up a server's control directory to a
+       specified file.
+
+             {NET_MGR </P=password> BACKUP path target-file
+
+         {password}    Password of the control directory from which
+                     the account is copied.
+
+         {path}        Control directory that you'd like to back up.
+
+         {target-file} Name of the target backup file.
+
+       Example:
+
+             {NET_MGR BACKUP LANTASTI.NET LANTASTI.BAK
+
+       The command above instructs the NET_MGR program to back up the
+       control directory LANTASTI.NET to the file LANTASTI.BAK.
+
+  {COPY
+  {====
+       Allows you to copy existing individual accounts, wildcard accounts,
+       ACL groups, resources or Server Startup Parameter settings.
+
+{             <NET_MGR> </C=path1> </P=pw1> </DC=path2> </DP=pw2> COPY
+{             [ACLGROUP INDIVIDUAL RESOURCE STARTUP WILDCARD] <source>
+{             <destination>
+
+         {path1}       Control directory from which to copy.
+                     Defaults to \LANTASTI.NET on the current drive.
+
+         {pw1}         Password of the control directory from which to
+                     copy.
+
+         {path2}       Destination control directory. Defaults to same as
+                     path1.
+
+         {pw2}         Password for the destination control directory.
+                     Defaults to same as pw1.
+
+         {source}      Name of the individual or wildcard account, ACL
+                     group or resource that you'd like to copy.
+
+         {destination} Destination name for the copied item. Defaults to
+                     same as source.
+
+       Examples:
+
+        {NET_MGR COPY INDIVIDUAL OLIVIA JIM
+        {NET_MGR /C=C:\LANTASTI.NET /DC=C:\LAN.DIR COPY WILDCARD SALES-*
+        {NET_MGR /C=C:\LANTASTI.NET/DC=E:\LANTASTI.NET COPY ACLGROUP MKTG
+        {NET_MGR /C=C:\LANTASTI.NET /DC=C:\CTRL.DIR COPY RESOURCE @PRINTER
+        {NET_MGR /C=C:\LANTASTI /DC=W:\LANTASTI.NET COPY STARTUP
+
+       You can use a wildcard character to specify that you'd like to copy
+       multiple individual accounts, wildcard accounts, ACL groups and
+       resources. To copy multiple wildcard accounts, use two wildcard
+       characters. For example:
+
+         {NET_MGR /C=C:\LANTASTI /DC=W:\LANTASTI.NET COPY INDIVIDUAL *
+         {NET_MGR /C=C:\LANTASTI /DC=W:\LANTASTI.NET COPY WILDCARD **
+         {NET_MGR /C=C:\LANTASTI /DC=W:\LANTASTI.NET COPY RESOURCE @*
+
+       When you use a wildcard character, items copied to the destination
+       directory have the same names as the originals.
+
+  {CREATE
+  {======
+       Allows the administrator to create an individual or wildcard
+       account with default parameters.
+
+              {NET_MGR </C=path> </P=pw> CREATE [INDIVIDUAL WILDCARD] name
+
+         {path}        Control directory where the new account will be
+                     created. Defaults to \LANTASTI.NET on the current
+                     drive.
+
+         {pw}          Password of the control directory. Defaults to no
+                     password.
+
+         {INDIVIDUAL}  Specifies an individual account.
+
+         {WILDCARD}    Specifies a wildcard account.
+
+         {name}        Name of the account you'd like to create.
+
+       Examples:
+
+             {NET_MGR CREATE INDIVIDUAL JIM
+             {NET_MGR CREATE WILDCARD SALES-*
+             {NET_MGR/C=\DEV.NET CREATE INDIVIDUAL JIM
+
+  {DELETE
+  {======
+       Allows the administrator to delete an individual or wildcard
+       account.
+
+            {NET_MGR </C=path> </P=pw> DELETE [INDIVIDUAL WILDCARD] name
+
+         {path}        Control directory with the account you want to
+                     delete. Defaults to \LANTASTI.NET on the current
+                     drive.
+
+         {pw}          Password of the control directory.
+
+         {INDIVIDUAL}  Specifies an individual account.
+
+         {WILDCARD}    Specifies a wildcard account.
+
+         {name}        Name of the account you'd like to delete.
+
+       Examples:
+
+             {NET_MGR DELETE INDIVIDUAL JOHN
+             {NET_MGR/C=\CONTROL.NET DELETE WILDCARD ACCT-*
+
+  {RESTORE
+  {=======
+       Allows a user to restore a control directory that has been backed
+       up.
+
+             {NET_MGR RESTORE [/P=pw] backup-file path
+
+         {pw}          Password of the control directory from which the
+                     account is copied.
+
+         {backup-file} Name of the backup file.
+
+         {path}        Control directory that you'd like to restore.
+
+       Example:
+
+             {NET_MGR RESTORE LANTASTI.BAK LANTASTI.NET
+
+       Instructs the NET_MGR program to restore the control directory
+       LANTASTI.NET from the file LANTASTI.BAK.
+
+  {SET
+  {===
+       Allows users to set the attributes for an individual or wildcard
+       account. You can set from one to four of the account attributes,
+       and they may be placed in any order on the command line.
+
+             {NET_MGR </C=path> </P=pw> SET [INDIVIDUAL WILDCARD] name
+             {<attribute=value>
+
+         {path}        Control directory in which the account exists.
+                     Defaults to \LANTASTI.NET on the current drive.
+
+         {pw}          Password of the control directory.
+
+         {INDIVIDUAL}  Specifies that you want to change an individual
+                     account.
+
+         {WILDCARD}    Specifies that you want to change a wildcard
+                     account.
+
+         {name}        Name of the account you want to change.
+
+         {attribute}   Attribute you want to set. You may specify more
+                     than one. The valid attributes are:
+
+             {USERNAME}    Account name (up to 16 characters).
+
+             {PASSWORD}    Account password (up to 16 characters).
+
+             {LOGINS}      Number of concurrent log-ins allowed (0-255).
+
+             {PRIVILEGES}  Account privileges (AQMUSOD). Set to NONE to
+                         disable all privileges.
+
+             {ACCT_EXP}    Account expiration date. The format used may be
+                         either dd-mmm- yyyy (e.g., 21-FEB-1999) or
+                         month/date/year (e.g., 2/21/1999).
+
+             {PW_EXP}      Password expiration date. The formats accepted
+                         are the same as those for ACCT_EXP above.
+
+       Examples:
+
+             {NET_MGR SET INDIVIDUAL BILL USER=BILL_G LOGINS=10
+             {PRIVILEGES=AQMUSOD
+
+  {SHOW
+  {====
+       Allows users to view individual or wildcard account status.
+
+             {NET_MGR </C=path> </P=pw> SHOW [INDIVIDUAL WILDCARD] name
+
+         {path}        Control directory in which the account(s) exists.
+                     Defaults to \LANTASTI.NET on the current drive.
+
+         {pw}          Password of the control directory.
+
+         {INDIVIDUAL}  Specifies that you want one or more individual
+                     accounts displayed.
+
+         {WILDCARD}    Specifies that you want a wildcard account
+                     displayed.
+
+         {name}        Name of the account you'd like to view. To display
+                     more than one individual account, you may include a
+                     wildcard character.
+
+       Examples:
+
+             {NET_MGR SHOW INDIVIDUAL jim
+             {NET_MGR/C=\dev.net SHOW INDIVIDUAL J*

@@ -1,0 +1,12 @@
+POSITION(5,8)
+HEADLINE("Select a printer")
+SELECTION("LPT1 - Printer 1 with ending Form feed",)
+SELECTION("LPT2 - Printer 2 with ending Form feed",)
+SELECTION("LPT3 - Printer 3 with ending Form feed",)
+SELECTION("=========================================",)
+SELECTION("LPT1 - Printer 1 without ending Form feed",)
+SELECTION("LPT2 - Printer 2 without ending Form feed",)
+SELECTION("LPT3 - Printer 3 without ending Form feed",)
+status("Use [Up] or [Down] arrows then press [ENTER] key or press [ESC] to exit")
+
+

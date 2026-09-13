@@ -1,0 +1,30 @@
+
+                            {NET_MGR Switches
+                            {================
+
+
+       In addition to the universal HELP or ? switch, the NET_MGR command
+       supports the switches listed below.
+
+       {Note} You may abbreviate switch names as long as the
+            abbreviation is unique to that switch.
+
+  {/CONTROL=
+  {=========
+       Allows you to specify which control directory the NET_MGR program
+       will use. A control directory is where shared resource and user
+       account information is kept. The default directory is
+       C:\LANTASTI.NET on the current drive. You can also set the default
+       directory for NET_MGR and SERVER by setting the LAN_DIR environment
+       variable. For example:  SET LAN_DIR=C:\LANTASTI.
+
+  {/MONO
+  {=====
+       Instructs NET_MGR to use a monochrome display. This is especially
+       useful for computers that use color emulation on a monochrome
+       screen.
+
+  {/SCREEN_SAVER
+  {=============
+       Enables the screen saver. The screen blanks after two minutes of
+       keyboard and mouse inactivity.

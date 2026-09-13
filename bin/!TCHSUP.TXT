@@ -1,0 +1,139 @@
+
+                       {Artisoft Technical Support
+                       {==========================
+
+       Artisoft offers individualized technical support for all of its
+       products. Outside the United States, please contact your Artisoft
+       representative.
+
+    {Calling Technical Support
+    {-------------------------
+
+       Artisoft Technical Support is available Monday through Friday from
+       7:00 a.m. through 5:00 p.m. Mountain Standard Time, excluding
+       holidays. For express response in the domestic United States, call
+       1 (900) 555-TECH (555-8324). The rate is $2.50 per minute. If you
+       don't have a touch-tone phone, stay on the line to reach an
+       Artisoft operator, who will direct your call to the Artisoft
+       Technical Support Phone group.
+
+       During the same hours of operation, Artisoft also offers free
+       Technical Support at 1 (602) 670-7000.
+
+       Before calling Artisoft Technical Support, please take a moment to
+       collect the following information.
+
+         - The version of your LANtastic program and the type of network
+           adapter being used – for example, NodeRunner 2000/C.
+
+         - The versions of DOS and Windows running on your computer and a
+           description of the hardware involved.
+
+         - The name and model number of your computer.
+
+       In addition, complete the following steps:
+
+         - Write down any error messages you've received, and a brief
+           description of the problem.
+
+         - Put your phone as close to the computer as possible.
+
+         - Have your network adapter instructions handy, along with this
+           manual.
+
+         - Write down the serial number from the label of Disk Number 1 of
+           your LANtastic diskettes.
+
+    {Faxing and Mailing Technical Support
+    {------------------------------------
+
+       You may fax technical questions to Artisoft Technical Support. Send
+       your fax, addressed to the Technical Support Department, to 1 (602)
+       884-8665.
+
+       You may also mail technical questions to the following address:
+
+       Artisoft, Inc.
+       Technical Support Department
+       2202 N. Forbes Blvd.
+       Tucson, Arizona 85745
+
+    {Arti-Facts Electronic Bulletin Board
+    {------------------------------------
+
+       Artisoft maintains its own 24-hour Bulletin Board Service, the
+       Arti-Facts BBS, that is available for all registered users of
+       Artisoft products. The BBS number is 1 (602) 884-8648. The
+       communication settings for the Arti-Facts BBS appear below:
+
+         - 1200 – 9600 baud (V.32) or 38,400 baud (US Robotics HST modems)
+         - 8 data bits
+         - 1 stop bit
+         - No parity
+         - Full duplex
+
+       Files available for downloading include:
+
+         - Compatibility bulletins that describe how to install other
+           manufacturers' software with LANtastic.
+
+         - Software programs such as LAN Radio that include networking
+           features.
+
+    {Arti-Facts BBS Tips
+    {-------------------
+
+         - When you dial up to the BBS, you're asked to enter your first
+           and last name. If this is your first dial-up session and you're
+           prompted for a password, try entering your name in a different
+           way – for example, Thomas Stone instead of Tom Stone.
+
+         - If you press Enter at the prompt to scan the message base, you
+           can select and read messages from other LANtastic users.
+
+         - The message base is also available from the Arti-Facts main
+           menu, along with many other information resources. For help
+           with any command on this menu, select the command and press the
+           H key.
+
+         - To get the most from your first dial-up session, download the
+           following files:
+
+           BLTS.ZIP, which gives you all technical bulletins in one
+           compressed file.
+
+           BBSLIST.TXT, which lists all files that are available from
+           the BBS.
+
+    {CompuServe Electronic Bulletin Board
+    {------------------------------------
+
+       Artisoft also maintains a forum on CompuServe which can be accessed
+       from the ! prompt by typing:
+
+             {GO ARTISOFT
+
+    {Artisoft FaxReturn
+    {------------------
+
+       Artisoft maintains an electronic facsimile system, the Artisoft
+       FaxReturn(SM) system. This menu-driven system automatically
+       downloads current technical bulletins and sales information to your
+       fax machine. To use this service, call 1 (602) 884-1397 from the
+       phone attached to your fax. Listen to the menu and choose up to
+       three faxes per call. After you've selected your faxes, wait for
+       instructions on how to receive them.
+
+    {Calling Sales and Customer Service
+    {----------------------------------
+
+       Artisoft provides a toll-free number for Sales and Customer
+       Service. Dial 1 (800) 846-9726. Follow the voice instructions and
+       press:
+
+         - 2 for Sales
+         - 3 for Customer Service
+
+       Hours are Monday through Friday from 7:00 a.m. to 5:00 p.m.
+       Mountain Standard Time, excluding holidays.
+

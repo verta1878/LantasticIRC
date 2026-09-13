@@ -1,0 +1,17 @@
+POSITION(8,5)
+HEADLINE("         LANtastic Commands and Switches       ")
+SELECTION(" Overview                                ", !swchovr.TXT)
+SELECTION(" AILANBIO                                ", !AILANBO.TXT) 
+SELECTION(" ALONE                                   ", !ALONE.TXT) 
+SELECTION(" LANCACHE                                ", !LANCHE.TXT) 
+SELECTION(" LANPUP                                  ", !LANPUP.TXT) 
+SELECTION(" NBSETUP                                 ", !NBSWCH.TXT) 
+SELECTION(" NET                                     ", NET.olm)
+SELECTION(" NET_MGR                                 ", NETMGR.olm)    
+SELECTION(" REDIR                                   ", !REDIR.TXT)
+SELECTION(" RPS                                     ", !RPS.TXT) 
+SELECTION(" SERVER                                  ", !SERVER.TXT)     
+SELECTION(" UPS                                     ", !UPS.TXT)
+status("Use [Up] or [Down] Arrows then press [Enter] to view file. Press [ESC] to exit.")
+
+

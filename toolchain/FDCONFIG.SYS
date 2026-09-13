@@ -1,0 +1,7 @@
+!MENU  1 - LANTIRC6 (LANtastic v6 / MSC 6.0a)
+!MENU  2 - 386MAX   (386MAX build / MSC 7.0)
+!MENU  3 - BARE     (minimal, real-mode only)
+
+!DEFAULT=1
+!TIMEOUT=5
+SHELL=A:\FDOS\COMMAND.COM A:\FDOS /P /E:512

@@ -1,0 +1,313 @@
+                             {SERVER Switches
+                             {===============
+
+       To run the SERVER program, use the syntax:
+
+             {SERVER control-directory /switches
+
+       where "control-directory" represents any control directory that you
+       want to use. The default control directory is LANTASTI.NET.
+
+  {Enabling SERVER Modules from the Command Line
+  {=============================================
+       To enable SERVER modules from the command line, you must first set
+       all of the desired Server Startup Parameters for that module in
+       LANtastic's NET_MGR program.  The SERVER modules which can be
+       enabled or disabled from the command line are Printing, Security
+       and Send ID, Server Control, Auditing, Notification, Floppy Direct,
+       Remote Booting and Non-DOS Disk Support.  The values set on the
+       command line will override the values set in the Server Startup
+       Parameters.
+
+  {ACCOUNT_SERVER=server-name
+  {==========================
+       Specifies the name of another LANtastic server whose account
+       information this server will use. This allows you to keep all your
+       user account information on one or more account servers. This can
+       make managing your user accounts much easier since you don't need
+       to create user accounts on each server. You may use this switch up
+       to eight times on the SERVER command line to specify multiple
+       account servers.
+
+  {ACL_SUPPORT= (Enabled/Disabled)
+  {===============================
+       Specifies whether or not you want ACLs to be checked before other
+       people are allowed to use a given resource. If you disable this
+       option, anyone who successfully logs in to this server will have
+       full access to all this server's resources. Enabling this option
+       sets up another level of security for this server.
+
+  {ADAPTERS= [6] 1-6
+  {=================
+       Tells the SERVER program the maximum number of adapters to look for
+       in your computer. Normally a server has only one NetBIOS adapter
+       installed. You may, however, install up to four LANtastic
+       NodeRunner, Artisoft AE-2 or AE-3 Ethernet adapters, six Artisoft
+       NE-3 Ethernet adapters, six Artisoft 2Mbps adapters, or a
+       combination of these adapters. Unless you have LANtastic
+       Interchange, each adapter will then service an independent network.
+
+  {AUDITING= (Enabled/Disabled)
+  {============================
+       Specifies whether or not you want this server to audit specified
+       events on this server. Note that you must specify which events you
+       want this server to audit by setting the options on the Event
+       Auditing screen in the NET_MGR program's Server Startup Parameters.
+       You can't specify which events you want to audit from the command
+       line.
+
+  {DESPOOLER_STOPPED= [No] Yes or No
+  {=================================
+       Allows you to specify the initial state of despooling when the
+       server is started. When set to Yes, despooling won't begin until
+       the NET QUEUE START or the NET QUEUE SINGLE command is given.
+
+  {FILE_LEVEL_ACLS= (Enabled/Disabled)
+  {===================================
+       Specifies whether or not you want file-level ACLs to be checked
+       before other people are allowed to use a given resource's files.
+       Enabling this option sets up another level of security for this
+       server.
+
+  {FILES= [0] 0, 50-5100
+  {=====================
+       Normally the number of files that can be open simultaneously is
+       controlled by your CONFIG.SYS file with the FILES= command.
+       However, DOS limitations mean the maximum number of open files you
+       can specify in CONFIG.SYS is 255. If you want to open more files
+       for network users, you can set this switch to allow from 1 to 5100
+       additional open files. This causes the server to allocate its own
+       separate files for network users rather than those allocated
+       through the CONFIG.SYS file. When this switch is set to zero (the
+       default), the network users and local user use the files= value in
+       the CONFIG.SYS file.
+
+  {FLOPPY_DIRECT= [Yes] Yes, No
+  {============================
+       Allows you to enable or disable direct access to a floppy diskette.
+       When this option is enabled, a remote user can issue DOS FORMAT and
+       CHKDSK commands on the diskette. If you enable direct access, make
+       sure that no one reformats a diskette while it's being accessed by
+       another user.
+
+  {GROUP_ACLS= (Enabled/Disabled)
+  {===============================
+       Specifies whether or not you want group ACLs to be checked before
+       other people are allowed to use a given resource. Enabling this
+       option sets up another level of security for this server.
+
+  {IMMEDIATE_DESPOOLING= (Enabled/Disabled)
+  {========================================
+       If you've set up resources for immediate despooling and want jobs
+       to start printing before the entire file is spooled, enable this
+       option. This switch is also handy if you want to disable immediate
+       despooling on all resources.
+
+  {LOCK_HOLD_TIME= [9] Disabled, 2 3 4 5 9 13 18 27 36 45 54 63 72 81 90
+{                  108 126 144 162 180
+  {=====================================================================
+       Specifies the length of time in ticks (1/18 sec.) that the server
+       will wait for a record lock before assuming the request has failed.
+       A higher value in this field can help increase server response time
+       if you have a lot of user requests within a database. The default
+       value should be adequate for most applications.
+
+  {LOGIN_ACCOUNTS= (Enabled/Disabled)
+  {==================================
+       Specifies whether or not you want accounts to be checked before
+       other people are allowed to log in to this server. If you disable
+       this option, anyone will be able to log in to this server. Enabling
+       this option sets up another level of security for this server.
+
+  {LOGINS= [5] 1- 500
+  {==================
+       Specifies the maximum number of users who can be logged in to the
+       server simultaneously. Increasing the value in this field increases
+       the amount of memory the server must dedicate to the network. If
+       you increase this value, you must also make sure that you have
+       enough NetBIOS sessions allocated to allow workstations to
+       establish log-ins, and for the server to log in to other servers.
+       If you're using an Ethernet adapter, refer to the {AILANBIO}
+       switches section of this on-line manual for descriptions of the
+       SESSIONS= and MAX_SESSIONS= switches. If you're using an Artisoft
+       2Mbps or A2Mbps adapter, refer to your network adapter
+       documentation for descriptions of the LANBIOS2 or LANBIOS3
+       SESSIONS= switch.
+
+  {MAINTENANCE= (Enabled/Disabled)
+  {===============================
+       Specifies whether or not you want this server to periodically check
+       how heavily it's being used, how much disk space is available and
+       whether the file that controls all server printing will be rebuilt.
+       Note that you can't set this switch in the NET_MGR program. You
+       must set this switch from the command line.
+
+  {MONOCHROME
+  {==========
+       Instructs SERVER to display the server shutdown screen in
+       monochrome mode.
+
+  {NAME_SPACE= [2] 1-600KB
+  {=======================
+       You can use this switch to set the number of bytes of file-sharing
+       space you want this server to support. Note that this is equivalent
+       to the DOS SHARE /F switch. Also, you must enable the SHARE_SUPPORT
+       switch for the NAME_SPACE switch to work.
+
+  {NETWORK_BUFFER_SIZE= [4K]  2K, 3K, 4K, 5K, 6K, 8K, 10K, 12K, 14K,
+  {                     16K, 18K, 20K, 24K, 28K, 32K, 40K, 48K, 56K
+  {=================================================================
+       Sets the buffer size the server uses for network communications.
+       Setting larger buffers increases performance but also uses more
+       memory.
+
+  {NETWORK_TASKS= [1] 1-32
+  {=======================
+       Specifies the number of concurrent user requests the server can
+       perform. Each network task requires a buffer, so increasing this
+       value increases the amount of memory the server uses.
+
+  {NO_ACCOUNT_SERVER
+  {=================
+       Specifies that the server isn't to use account information from any
+       of its predefined remote account servers. When you use this switch,
+       the server checks only its local individual and wildcard accounts
+       when users attempt to log in and use server resources.
+
+  {NONDOS_LOOKUPS= [0] 0-2400
+  {==========================
+       Lets you specify the number of files stored on non-DOS disks for
+       which location and other information is cached. You don't need to
+       enable this cache if this server isn't sharing a CD-ROM, WORM,
+       OS/2, NetWare, LAN Manager or any other type of non-DOS disk with
+       the network. If you create any non-DOS shared disk resources, this
+       option is automatically set to 100.
+
+  {NOTIFICATION= (Enabled/Disabled)
+  {================================
+       Specifies whether or not you want this server to notify all
+       logged-in users with the O (Operator) privilege about specified
+       events on this server. Note that you must specify which events you
+       want this server to notify users about by setting the options on
+       the Operator Notification screen in the NET_MGR program's Server
+       Startup Parameters. You can't specify which events you want to
+       notify users about from the command line.
+
+  {PARK
+  {====
+       Instructs the SERVER program to park the hard drive after
+       SERVER is shut down. (With the hard drives on some IBM PS/2
+       computers and other PCs, the parking operation prevents any further
+       local drive operation until the PC is restarted.) Regardless of
+       whether or not you use the PARK option, all server caches and
+       LANcache are flushed as in a normal server shutdown.
+
+  {PRINTER_BUFFER_SIZE= [512]  512, 1K, 2K, 3K, 4K, 5K, 6K, 8K, 10K,
+{                       12K, 14K, 16K, 18K, 20K, 24K, 28K, 32K
+  {=================================================================
+       Sets the buffer size for each printer task. You can speed network
+       printing by allocating larger buffers, but this uses more server
+       memory.
+
+  {PRINTER_TASKS= [1] 0-7
+  {======================
+       Sets the number of simultaneous printers that the server is able to
+       handle. Each printer task requires a printer buffer, so the more
+       tasks you allow, the more server memory is used. When the value is
+       set to zero, despooling is disabled.
+
+  {PRINT_STREAMS= (Enabled/Disabled)
+  {=================================
+       Specifies whether or not you want to control your printers through
+       streams. Note that you must set up your print streams using the
+       stream option on the NET program's View Print Jobs screen.
+
+  {PRINTING= (Enabled/Disabled)
+  {============================
+       Specifies whether or not you want this server to support network
+       printing. Note that this option must be enabled for the LANtastic
+       Mail feature of the NET program to work. (However you set this
+       option, you'll still be able to run other mail packages.)
+
+  {RPS_SUPPORT= (Enabled/Disabled)
+  {===============================
+       Specifies whether or not you want this server to allow remote print
+       servers access to remote resources.
+
+  {REQUEST_SIZE= [32] 32-65535 bytes
+  {=================================
+       Allows you to increase the size of the buffer the server uses when
+       "listening" for a user request. If a request requires more space
+       than the request buffer can hold, the request must be handled with
+       two network operations instead of one. By increasing the size of
+       this request buffer, you can allow more memory for user requests.
+       This can improve performance for operations such as file lookups
+       and small random-Write requests. Increasing the size of the request
+       buffer also uses more server memory. For best performance on
+       Ethernet LANs, set this value to the same setting as the
+       workstations' INITIAL_SEND_SIZE setting. Note that the size of this
+       buffer also determines which requests thnt this seorevents uf   local  Note that"burst"
+
+   ( seburst
+
+   valefor th){REQUEST_SSOURCE_CACH 3232
+  {5=========================
+      Allows you to increas number of bytes oresources.
+
+  he sizs uf       enough questto remotion is cach You donIng this
+     to the rovegny nl   of its e the size of tworksizsquesta can
+     se timed accounsts.
+       OS/2, Ne
+ce questto remotion is cachest bne.e comis used.of one. By     server simult Prperat{REQUEST_PL32-d)
+  {=led, 2 3 4 /Disabl===============================
+       Allows you to increasyour prver is ableafer, oot. If you distion must be    set to zero, d (EBLED, resourctions to
+    this swr, oot.im
+
+ on non-DO  this requestto allow r oot. prvOS SHARE /erflogan spe handfirst
+any non     worksta oot.im
+
+ rmak blloratitions to
+      u abthisresourc ootte thF    which lmory tion is cac to the {AILANBtation for dese sizs normclud
+       two netint sBoot.PERM, Kit{REQUEST_UN_SIZE= [512]  565530-1024
+  {=================================
+        Allows you to increasythe number  the buffer the serhen oratigram_UN  computers ne.ou're usinble toissus
+ ous i allgram_UNers ne.oow re  server simult,stion must beow more memus i allrs ne.oow r to
+ un oup      you increaswed tobethe
+     lgram_UNers ne. NETtwork adaptean allow   server k ruceount of memory the sers more docatver is ableby k ruc
+       stream othis
+      the seu create s value tncreas, despool   lgram_UN  stream  of the bled.
+
+  s server. Note tREQUEST_UN_SIRST-600KB
+255=========================  Specifies the maximum number of users w   all(1/0K,n ofrdle server is abl  and smald to aloow rerf remo operatis. IncreasAfk reque ttiingexpre s,      server simultare th      ance onger bive oou alasA buffeto the  LANta    option is automs the amo operatis.timesizeiings ussu to mand liand o's  perform. Each 
+   serbive oou alaREQUESTSEEK_CACH 32[LOOE] LOOEK, 3K, 4K,410K,
+{ 2 18K, 20K, 28K, 32K
+ QUE              K, 48K, 56K
+  {==K, 4================================================================
+       Sets thes the maximum the buffer re fluhen oeasyn no-Write rto rem  local drive automson is caconInlmost
+ae am,g as the
+ buffersre fl  of its e the sisze of tworksizsquestWrite lesadther Pequesme IBa simult P  documentourcow mbnd lialet  {PRINT_SZE sets shu_ID32[YES] Yam,gNo===============================
+   Instructfwitch in the Ns zero, dY s,     simult Prntingappearis serv   enough ques Prng" rs wle and
+   operati. When yoIfle thatreasNs zero,   Note that, request handkn meber otingbuffer is able mak blloin and us{PRINT_SZE shu_CONTROLed/Disabled)
+  {=================================
+       Specifies whether or not you want to contail papeopun oth to run ot  computersour prrver. Note 'sces.
+
+  hy
+    ail pa liand o NET prorv   enough . If you  larger  prveestto allo LANresourcrsour praou to o      local dpeopun othwn. (Withrveestto all,d as irrver. Note 'scand
+ ,  computersour prwhmore seveestto alloer Prsour prrver. Note 'sckeyboounts    LANcach
+
+  {PRINTINUPPORT
+     led/Disabled)
+  {=================================
+       Specifies whether or not you want to contruestto allow rs swal ithrouna   logged-okup- a CD-ROMne acck b-biverati of thethat you must set up efor t  this requestis auto NAME_SPACE switch Mne UPPORTLOCKS in theloow r
+  {NETWORKUPPORTLOCKS  510
+  {=9000inecim
+l===============================
+       Specifi speed ns switch,
+    reas number of bytes oreous printerbive       want this server to notify  networthat this option valemoro teontrolrv   enough RE /UPPOR /L,
+    an spe handtermit up efor tRVER pPPORT
+       LANcach
+    r LANta   UPPORTLOCKS in theow r
+  {NETWORKUPUTDOWN_KEY32-dEL] A-Z, Del==========================
+       Specifi speed ns switch,is autow ressigET prokeyoptoke     hwn. rger With  the server checks.an NBtefaus okeyoptoke  shedCtrl+Alt+Del.an NBCtrl+Alt  Specifikeyoit up resa marsos tnthis us allow mossigETkeyoiAh
+      Zl  Note thatplacngbuffer DelTkey.an impin the Ns s sfulsers aer or a moftwar   than the rumbrapsdCtrl+Alt+Dellrs ne.o,ts any fr a t sey
+                              

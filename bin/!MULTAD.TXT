@@ -1,0 +1,75 @@
+
+                         {Using Multiple Adapters
+                         {=======================
+
+       Sometimes it's useful to install more than one network adapter per
+       computer. Two of the most common reasons are creating a backup
+       network and enhancing security. Having a backup network allows your
+       network computers to continue sharing resources should an adapter
+       or section of cable fail. You can enhance security by setting up a
+       second set of adapters and cables that include computers not linked
+       to the main network. This prevents unauthorized persons from
+       accessing the server if their computers aren't part of the secure
+       network.
+
+       Note that when you have two adapters installed in one computer,
+       each will be part of a separate network, unless you have LANtastic
+       Interchange installed. Computers connected to the independent
+       networks running through that computer can't communicate with each
+       other unless they belong to the same network.
+
+       Both networks, however, can use the common server simultaneously.
+       To transfer files between the networks, place the files on the
+       server's disk in a directory shared by both networks. People from
+       the other network can then copy the files to their own computers.
+
+       Guidelines for using more than one adapter in a computer appear
+       below.  Refer to your network adapter documentation for more
+       information on using multiple adapters.
+
+  {NetBIOS Requirements
+  {====================
+       You must load the Artisoft NetBIOS (AILANBIO) for each adapter.
+       When you do this, be sure to specify a unique adapter number by
+       including the ADAPTER= switch on the AILANBIO command line. The
+       ADAPTER= switch is described in the {LANtastic Commands and
+       {Switches} section of this on-line manual.
+
+  {Server Startup Parameter Settings
+  {=================================
+       You must specify the number of network adapters installed in your
+       computer. Use the NET_MGR Server Startup Parameters menu to set
+       this value. The default setting for the Number Adapters field is
+       six. For more information, refer to your LANtastic manuals.
+
+  {Logging In through Specific Adapters
+  {====================================
+       If you have two adapters installed in your computer, and one is
+       faster than the other, it's advantageous to log in through the
+       faster adapter. This is especially true if your computer and the
+       remote server have both Artisoft A2Mbps and Artisoft Ethernet
+       adapters installed.
+
+       To log in through a specific adapter, use the syntax:
+
+             {NET LOGIN \\server-name username password adapter#
+
+       For example, to log in to adapter #0 (the first adapter in the
+       machine):
+
+             {NET LOGIN \\SERVER1 USER SECRET 0
+
+       If there's no password for the user account, use commas to separate
+       the arguments rather than spaces. For example:
+
+             {NET LOGIN\\SERVER1 USER, ,0
+
+       This ensures that the value zero isn't used as the password for the
+       log-in attempt.
+
+  {Using Chat and Linkbook
+  {=======================
+       If you have two adapters installed in one computer, you can chat
+       only with computers connected through adapter #0. Likewise you can
+       only cut and paste into the Linkbook on computers through adapter
+       #0.

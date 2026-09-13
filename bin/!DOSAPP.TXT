@@ -1,0 +1,265 @@
+
+               {DOS and Application Program Considerations
+               {==========================================
+
+       The constraints written into certain DOS and application programs
+       can affect network performance. This section provides information
+       about the following topics:
+
+            - DOS SHARE Program
+            - DOS FASTOPEN Program
+            - Copy-protected Programs
+            - Single-user Programs
+            - Hardware-specific Programs
+            - Disk-specific Programs
+            - Network Versions of Application Programs
+
+  {DOS SHARE Program
+  {=================
+       The SHARE program is included with DOS V3.1 and higher.
+       Understanding SHARE can be vital to the success of your network,
+       especially if you're running a multi-user database or a similar
+       application that works with several files at a time.
+
+       SHARE gives applications an easy, well-defined way to keep users
+       from writing to the same files or the same regions of files
+       simultaneously. Once SHARE has been run, an application can use it
+       to "lock" a file or region so that only one person at a time can
+       make changes. Most multi-user and network software packages use
+       SHARE for their file and record locking.
+
+  {How SHARE Works
+  {===============
+       SHARE maintains the following two tables in memory:
+
+            - The FILES table, which contains the complete pathname of
+              each file that has been opened, plus other information.
+
+            - The LOCK table, which contains a list of internal file
+              handle numbers and corresponding information on the various
+              areas of each file that are locked.
+
+       SHARE checks these tables whenever an application asks to open or
+       use a file or a region of a file, and lets the application know
+       whether or not the file or region is available.
+
+       SHARE uses at least one entry in each table for each file that's
+       opened.  The more files your computer opens and locks, the more
+       space SHARE needs for its internal tables. You can control the size
+       of SHARE's internal tables with the /F and /L command line options
+       described below.
+
+  {The /F Parameter
+  {================
+       The /F parameter controls the size (in bytes) of the table that
+       SHARE reserves for filenames and handles in the FILES table. It
+       uses this syntax:
+
+              {SHARE /F:n
+
+       where "n" is any number from zero to approximately 62,000. The
+       default is /F:2048.
+
+       You can find the maximum amount of space required by multiplying
+       the number of files in your CONFIG.SYS file by 91 (80 bytes for the
+       longest possible DOS path plus 11 bytes for other information).
+       For a system with FILES = 255 in its CONFIG.SYS, that means that in
+       the worst case, with all 255 files open, SHARE will require over
+       18,100 bytes for the FILES table.
+
+       On a network server, you'll need to allocate enough space for all
+       the files that will be opened by all the users on the network. The
+       default value is 2048 bytes plus or minus enough to hold the
+       information for 66 files with paths averaging 20 characters, or
+       about 28 files with maximum-length DOS names and file paths. If you
+       know that paths on your machine average more than 20 characters, or
+       if you'll be opening many files, you may need to use the /F
+       parameter to allocate more space for the SHARE FILES table.
+
+  {The /L Parameter
+  {================
+       The /L parameter controls the number of simultaneous locks that
+       SHARE can make. It uses this syntax:
+
+             {SHARE /L:n
+
+       where "n" is any integer between one and approximately 3,800. The
+       default is /L:20 that is, 20 locks. On a network like LANtastic,
+       which can have up to 5,100 files open on a server, 20 locks may not
+       be enough.
+
+       Opening a file on a server requires at least one lock. In addition,
+       most network programs use several more locks per file. They lock
+       individual records, and even individual fields within records. On a
+       network, that has several users opening each file, SHARE's default
+       20 locks can be used almost instantly.
+
+       To resolve this problem, use the /L parameter to increase the
+       number of locks allowed on your LANtastic servers. The /L setting
+       should be at least the number of files you've specified in your
+       CONFIG.SYS file or in the Server Startup Parameters (whichever is
+       larger). If you're running a multi-user program that opens many
+       files, consider setting /L to at least twice the number of open
+       files allowed.
+
+  {DOS FASTOPEN Program
+  {====================
+       This program is available with DOS V3.3 or higher. It allows you to
+       open files more quickly.
+
+       You can run FASTOPEN on both servers and workstations. It is
+       especially useful on servers, since network requests to open files
+       can be performed more rapidly.
+
+       For convenience, you may want to run FASTOPEN from within a batch
+       file, so you don't have to enter the FASTOPEN command every time
+       your computer boots. FASTOPEN should be run before the network
+       software. For more information on the FASTOPEN program, consult
+       your DOS manual.
+
+  {DOS SETVER Program
+  {==================
+       The SETVER program allows DOS to report a specific version number
+       to an application program. This is useful for applications that
+       require a specific version of DOS to run. Unless you require this
+       program for another application, delete the command running SETVER
+       in your CONFIG.SYS file.  The command will be similar to this:
+       DEVICE=C:\DOS\SETVER.EXE. If you must run SETVER, type the
+       following commands at the DOS prompt:
+
+              {SETVER /D REDIR.EXE
+              {SETVER /D NET.EXE
+
+  {Copy-Protected Programs
+  {=======================
+       Defeating the copy-protection mechanism of a program is a violation
+       of licensing agreements. It is strongly recommended that you abide
+       by the constraints of your application program's licensing
+       agreements.
+
+       Many copy-protected programs can be used on networks if you
+       transfer the copy-protection device or disk to the machine from
+       which it will be run. This allows you to run only one copy of the
+       program at a time. Make sure that sharing the application in this
+       way doesn't violate any licensing agreements.
+
+  {Single-User Programs
+  {====================
+       Many programs are designed to be accessed by only one user at a
+       time.  This can lead to problems when you try to share them across
+       the network.
+
+       The DOS SHARE program keeps two users from accessing such a program
+       if their requests are entered at the same time. This can be
+       advantageous, since it keeps two users or programs from
+       simultaneously writing to the same file created with an application
+       program. The disadvantage is that when two users want only to read
+       the same file, they're also denied access. The next section
+       describes a scheme for allowing concurrent readings of a file.
+
+  {Read-Only Files
+  {===============
+       You can use the DOS ATTRIB command to give a file Read-only
+       attributes.  The SHARE program will then allow more than one user
+       to run the program. For example, the command:
+
+              {ATTRIB +R PROG.EXE
+
+       would allow Read-only access to the executable program PROG.EXE.
+       When setting up files as Read-only, it's a good idea to create a
+       common directory for programs that are frequently run. You can then
+       give users only the R, L and E (Read, Look-up and Execute) access
+       privileges to that directory.
+
+       Sometimes the above method doesn't work. For example, some programs
+       write data to the same directory from which they read. A program
+       can't write to a file that has Read-only access. Also, some
+       programs use specific temporary files when reading data. If this
+       file has already been opened by another user, the second user is
+       denied access.
+
+  {Hardware-Specific Programs
+  {==========================
+       Some programs make direct reference to hardware ports or devices
+       that may not exist on a remote workstation but do exist on the
+       server where the software is installed. The most common types are
+       programs that are configured for a specific type of monitor, a math
+       coprocessor or COM ports.
+
+       For example, a server may have a VGA monitor and an application
+       program that's configured to work with that type of monitor. If you
+       were to try to execute that application from a workstation with a
+       monochrome monitor, you'd get an error message, or the program
+       wouldn't execute.
+
+       Many application programs allow you to specify different display
+       setups without having to re-install the software. In such cases,
+       you can use the different display setup to execute the application
+       program from your workstation.
+
+       Nonconfigurable programs that make requests to hardware ports or
+       devices not installed in your computer won't run unless you install
+       the corresponding hardware. Some modem communications packages fall
+       into this category, since they directly interface to the
+       communications port hardware.
+
+       Some disk management programs won't run on a network drive. If you
+       attempt to make them do so, they may lock up your computer. Many
+       application and utility companies sell special network versions of
+       their software. You're strongly encouraged to use these if you want
+       to run their software on a network computer.
+
+  {Disk-Specific Programs
+  {======================
+       Some programs are hard-coded to use certain disk drives. You may
+       need to make adjustments to your disk organization when running
+       such programs in a network environment.
+
+       For example, some programs always access the C: drive to read and
+       write to files. If you're located on a workstation that already has
+       a C: drive, you'll have to redirect your C: drive to the server's
+       C: drive in order to use these programs.  If you do this, your
+       local files will no longer be available.
+
+       To avoid this problem, try installing the program on a network
+       drive on a server. Have everyone use the program from the server.
+       That way all access to a local C: drive occurs on the server
+       computer.
+
+       If the above solution isn't possible, re-map your C: drive to
+       another drive letter, then redirect your C: drive to the server. To
+       accomplish this, use the DOS SUBST command.  For example:
+
+             {SUBST D: C:\
+
+       This remaps the C: drive to the D: drive. You can now attach the C:
+       drive to the server using the command:
+
+             {NET USE C: \\SERVER\PROGRAM
+
+       You may also need to change your PATH command to specify D:
+       instead of C:. For example, if your previous path statement was:
+
+             {PATH C:\;C:\DOS;C:\APPS;C:\LANTASTI
+
+       you'd now change iomma inervH    This reesscy inHmplish thisyour co. thisyYou ca   your c   ograms   Oed vccompld to cha, sin Fotive occurs 's confe
+   SPEC=his, use te DOS SUBST command.  For exampnd:   SPEC=cy    MAND.   rver
+       ce th
+       files drive sub altu the
+netwods w   asrogramsm a workstFor conveni inlud   accple:
+ chao need to chsfiles you've specAUTOecuC.BATncurrent readN  such Vsell speci
+  {Hardware-Specific Programs
+  {====
+  {====================bypase SETVay haddrme pppl-livelke adj
+       can now acategoruser at 
+       ad. A lock   ed vclapplneir     hat yos within records.the netwoCHKDSKtection mechan as RS SUBSTu to rir tram Pits to hardwa traes are
+rograms wo adjat bedriv programsd up v pramss than oe-map your ionhe rnsome monitor, you'      wouldn't exompanies sell specixecute.
+
+       ManyOS to ru or higher. It  withoutu can
+       serv cha,aesrogras, you  Thaograms won't res
+  {==========anothblems u can
+  e copy ofcha,aess, yourcan
+  rmetecial network vhem across
+       tSwhenompanies sell spe   vead data.r ionhu ide thedri;NTAn-ling the program sell spe
+   .the OGRAM
+licgram at a   writts oism of                                                             

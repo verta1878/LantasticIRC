@@ -1,0 +1,51 @@
+
+                            {NBSETUP Switches
+                            {================
+
+  {CHECK
+  {=====
+       Displays the same items as VERBOSE but won't alter any NetBIOS
+       parameters. Use this switch to check the current NetBIOS
+       parameters.
+
+  {MAX
+  {===
+       Sets the number of network control blocks (NCBs) and sessions to
+       the maximum the NetBIOS will support. Many NetBIOS implementations
+       support a maximum of 32 sessions and NCBs. Use MAX along with the
+       VERBOSE switch to determine the maximum number of NCBs and sessions
+       your NetBIOS interface supports. You can mix the MAX option with
+       other options such as NCBS= or SESSIONS=.
+
+       Examples:
+
+             {NBSETUP VERBOSE MAX
+             {NBSETUP MAX NCBS=45
+
+  {NCBS= [32]
+  {==========
+       NCBS= sets the maximum number of network control blocks (NCBs) that
+       the NetBIOS will support. The value you specify for NCBs must be in
+       the range that your NetBIOS supports. Most types of NetBIOS will
+       reset to their default NCB and session values when either value
+       isn't in range or either value is zero.
+
+       Example:
+
+             {NBSETUP NCBS=34
+
+  {SESSIONS= [32]
+  {==============
+       Sets the maximum number of sessions that the NetBIOS will
+       recognize. The value you specify must be in the range that your
+       NetBIOS supports. Most types of NetBIOS reset to their default NCB
+       and session values when either value isn't in range, or either
+       value is zero.
+
+       Examples:
+
+             {NBSETUP SESSIONS=100
+             {NBSETUP/NCBS:32/SESSIONS:32
+             {NBSETUP SESSIONS=0
+
+
