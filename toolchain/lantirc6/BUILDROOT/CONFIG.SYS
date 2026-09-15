@@ -1,12 +1,39 @@
-[MENU]
-menuitem=LANTIRC6, LANtastic v6 (MSC 6.0a)
-menuitem=M386, 386MAX build (MSC 7.0)
-menuitem=BARE, Bare boot (minimal)
-menudefault=LANTIRC6,5
-[COMMON]
+[menu]
+menuitem=PWA, PCB PWA (Borland C++ 3.1) [default]
+menuitem=DELTA, Delta 15.4 (OpenWatcom)
+menuitem=IRC1541, IRC 15.41 (ow2irc)
+menuitem=PCBKMS, PCBKMS test (MSC 7.0 + HDPMI32) - Route A
+menuitem=386MAX, 386MAX via CONFIG.SYS - Route B (86Box/PCem only)
+menuitem=BARE, Bare boot (real-mode only, no extenders)
+menudefault=PWA,10
+menucolor=7,0
+
+[common]
 FILES=40
-BUFFERS=20
+BUFFERS=30
 LASTDRIVE=Z
-[LANTIRC6]
-[M386]
+DOS=HIGH,UMB
+
+[PWA]
+REM Borland C++ 3.1 - HDPMI extender loaded from AUTOEXEC (later)
+REM Real-mode + optional 16-bit DPMI via HDPMI16
+
+[DELTA]
+REM OpenWatcom - HDPMI extender loaded from AUTOEXEC (later)
+REM Real-mode + optional 32-bit DPMI via HDPMI32
+
+[IRC1541]
+REM ow2irc (fpc264irc + 1541 stack) - real-mode baseline
+REM Extender selection pending 1541 build config
+
+[PCBKMS]
+REM MSC 7.0 Route A - HDPMI32 loaded from AUTOEXEC
+REM No CONFIG.SYS memory manager needed
+
+[386MAX]
+DEVICE=C:\386MAX_S\BIN\386MAX.SYS
+REM Route B - only takes effect under 86Box/PCem/QEMU (not DOSBox-X)
+
 [BARE]
+REM Real-mode compile only (TC, TASM, real-mode BCC)
+REM No extenders, no memory manager

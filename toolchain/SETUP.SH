@@ -1,5 +1,5 @@
 #!/bin/bash
-# SETUP.SH — install DOSBox-X on Ubuntu/Debian host and helpers for the lantirc6 bundle
+# SETUP.SH — install DOSBox-X on Ubuntu/Debian host and helpers for the pcbirc bundle
 set -euo pipefail
 
 usage() {
@@ -11,7 +11,7 @@ usage: SETUP.SH [--make-floppy]
 USAGE
 }
 
-# FreeDOS floppy contents at toolchain/ root (flat, DOS-style):
+# FreeDOS floppy contents at dosbox-x/ root (flat, DOS-style):
 #   KERNEL.SYS FDCONFIG.SYS FDAUTO.BAT FDOS/
 FLOPPY_FILES="KERNEL.SYS FDCONFIG.SYS FDAUTO.BAT"
 FLOPPY_DIRS="FDOS"

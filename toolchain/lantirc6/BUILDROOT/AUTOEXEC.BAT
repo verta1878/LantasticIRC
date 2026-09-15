@@ -1,0 +1,82 @@
+@ECHO OFF
+REM ---------------------------------------------------------------
+REM AUTOEXEC.BAT - route dispatcher, paired with CONFIG.SYS menu
+REM %CONFIG% is set by the CONFIG.SYS [menu] block to one of:
+REM   PWA | DELTA | IRC1541 | PCBKMS | 386MAX | BARE
+REM ---------------------------------------------------------------
+
+SET TMP=C:\TMP
+SET TEMP=C:\TMP
+IF NOT EXIST C:\TMP MD C:\TMP
+DEL C:\TMP\*.TXT > NUL
+ECHO CONFIG=%CONFIG% ROUTE=%ROUTE% > C:\TMP\BOOT.LOG
+
+REM If we came via A:\FDAUTO.BAT, ROUTE is set. If direct-C: boot,
+REM CONFIG is set (MS-DOS style CONFIG.SYS menu). Prefer ROUTE.
+IF NOT "%ROUTE%"=="" SET CONFIG=%ROUTE%
+
+IF "%CONFIG%"=="PWA"     GOTO PWA
+IF "%CONFIG%"=="DELTA"   GOTO DELTA
+IF "%CONFIG%"=="IRC1541" GOTO IRC1541
+IF "%CONFIG%"=="PCBKMS"  GOTO PCBKMS
+IF "%CONFIG%"=="386MAX"  GOTO M386
+IF "%CONFIG%"=="BARE"    GOTO BARE
+GOTO PWA
+
+:PWA
+ECHO Route: PCB PWA - Borland C++ 3.1
+ECHO Route: PCB PWA - Borland C++ 3.1 >> C:\TMP\BOOT.LOG
+SET PATH=C:\BC31\BIN;C:\FDOS\BIN;C:\
+SET INCLUDE=C:\BC31\INCLUDE
+SET LIB=C:\BC31\LIB
+GOTO END
+
+:DELTA
+ECHO Route: Delta 15.4 - OpenWatcom (deferred, PATH placeholder)
+ECHO Route: Delta 15.4 - OpenWatcom >> C:\TMP\BOOT.LOG
+SET PATH=C:\WATCOM\BINW;C:\FDOS\BIN;C:\
+SET INCLUDE=C:\WATCOM\H
+SET LIB=C:\WATCOM\LIB286;C:\WATCOM\LIB386
+GOTO END
+
+:IRC1541
+ECHO Route: IRC 15.41 - ow2irc (deferred, PATH placeholder)
+ECHO Route: IRC 15.41 - ow2irc >> C:\TMP\BOOT.LOG
+SET PATH=C:\OW2IRC\BIN;C:\FDOS\BIN;C:\
+GOTO END
+
+:PCBKMS
+ECHO Route A: PCBKMS - MSC 7.0 + HDPMI32
+ECHO Route A: PCBKMS - MSC 7.0 + HDPMI32 >> C:\TMP\BOOT.LOG
+C:\HX\HDPMI32.EXE -r
+SET PATH=C:\MSC70\BIN;C:\BC31\BIN;C:\FDOS\BIN;C:\
+SET INCLUDE=C:\MSC70\INCLUDE
+SET LIB=C:\MSC70\LIB
+SET TMP=C:\TMP
+GOTO END
+
+:M386
+ECHO Route B: 386MAX via CONFIG.SYS
+ECHO Route B: 386MAX >> C:\TMP\BOOT.LOG
+REM 386MAX.SYS loaded by CONFIG.SYS [386MAX] block; only takes effect
+REM under 86Box/PCem/QEMU with real DOS or FreeDOS - not DOSBox-X.
+SET PATH=C:\MSC70\BIN;C:\BC31\BIN;C:\FDOS\BIN;C:\
+SET INCLUDE=C:\MSC70\INCLUDE
+SET LIB=C:\MSC70\LIB
+GOTO END
+
+:BARE
+ECHO Bare boot - real-mode tools only, no extenders
+ECHO Bare boot >> C:\TMP\BOOT.LOG
+SET PATH=C:\TC201\BIN;C:\BC31\BIN;C:\FDOS\BIN;C:\
+SET INCLUDE=C:\TC201\INCLUDE
+SET LIB=C:\TC201\LIB
+GOTO END
+
+:END
+ECHO.
+ECHO Ready. Route=%CONFIG%
+ECHO   CD \BUILD ^& MAXBLD1 ^&^& MAXBLD2    REM 386MAX build (Route PCBKMS or BARE)
+ECHO   CD \BUILD ^& BLDKMS                 REM PCBKMS toolkit build (Route PCBKMS)
+ECHO   CD \BUILD ^& BUILD all              REM full SDK dispatch
+ECHO Ready > C:\TMP\READY.TXT

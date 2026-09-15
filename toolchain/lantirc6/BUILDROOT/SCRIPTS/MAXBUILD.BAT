@@ -1,7 +1,7 @@
 @ECHO OFF
 REM ===========================================================================
 REM  MAXBUILD.BAT - Build 386MAX 8.03 (sudleyplace GPLv3) under TASM 3.1
-REM  Part of lantirc6. Runs inside DOSBox-X guest booting PCBBLDBT.IMG.
+REM  Part of pcbirc. Runs inside DOSBox-X guest booting PCBBLDBT.IMG.
 REM  Reads clean sudleyplace source, transforms on the fly, assembles + links.
 REM  See MAIN/build/386MAX-BUILD.md for the sysop guide.
 REM ===========================================================================

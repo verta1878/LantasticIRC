@@ -1,7 +1,19 @@
-!MENU  1 - LANTIRC6 (LANtastic v6 / MSC 6.0a)
-!MENU  2 - 386MAX   (386MAX build / MSC 7.0)
-!MENU  3 - BARE     (minimal, real-mode only)
+!COUNTRY=001,858:\FDOS\COUNTRY.SYS
+!LASTDRIVE=Z
+!BUFFERS=30
+!FILES=40
 
-!DEFAULT=1
-!TIMEOUT=5
-SHELL=A:\FDOS\COMMAND.COM A:\FDOS /P /E:512
+!MENUCOLOR=7,0
+!MENUDEFAULT=1,10
+!MENU
+!MENU  pcbirc build routes:
+!MENU
+!MENU  1 - PWA      (PCB PWA / Borland C++ 3.1) [default]
+!MENU  2 - DELTA    (Delta 15.4 / OpenWatcom)
+!MENU  3 - IRC1541  (IRC 15.41 / ow2irc)
+!MENU  4 - PCBKMS   (MSC 7.0 + HDPMI32, Route A)
+!MENU  5 - 386MAX   (386MAX via CONFIG.SYS, Route B)
+!MENU  6 - BARE     (real-mode only)
+!MENU
+
+123456?SHELL=\FDOS\COMMAND.COM \FDOS /E:2048 /P=\FDAUTO.BAT
