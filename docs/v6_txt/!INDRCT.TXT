@@ -1,0 +1,111 @@
+
+                             {Indirect Files
+                             {==============
+
+       Indirect files allow you to have access to a file without
+       explicitly referencing its directory or changing your path
+       statement. An indirect file is created on a network drive and is
+       linked to another file located on the same server. The file to
+       which the indirect file is linked can reside on any resource on
+       the same server. Any operation made on the indirect file will be
+       made on the file to which it points.
+
+       For example, suppose you have a file you reference often, such as
+       a batch or an include file. This example uses the file ORIGINAL.BAT
+       which resides in the root directory of the server HOST1. The
+       physical path of this file is as follows:
+
+             {C:\ORIGINAL.BAT
+
+       Using this example, you'd do the following to create an indirect
+       file:
+
+         1. Make sure the network drive where you'll create the indirect
+            file has the indirect file (I) access right enabled. For
+            information on setting ACL rights, refer to your Installation
+            and Management Guide.
+
+         2. Log in to the server and redirect one of your drives to
+            C-DRIVE on HOST1. You can perform these functions through the
+            NET menu, the command line or the Windows interface.
+
+         3. Change to the directory on the network drive where you'd like
+            to place the indirect file, in this example UTIL:
+
+             {CD UTIL
+
+         4. Create the indirect file using the syntax:
+
+             {NET INDIRECT pathname actual-name
+
+            where "pathname" represents the name of the indirect file
+            you'd like to create and "actual-name" represents the resource
+            name and DOS path of the file to link with the indirect file.
+
+       In this example, the indirect file is named INDIRECT.BAT:
+
+             {NET INDIRECT INDIRECT.BAT  \C-DRIVE\ORIGINAL.BAT
+
+       If you use the DIR command for the subdirectory, you'll see the
+       indirect file INDIRECT.BAT listed with the other files there.
+
+                   .            <DIR>      5-29-90   8:35p
+                   ..           <DIR>      5-29-90   8:35p
+                   BOOT     BAT     1096   4-24-90  10:04a
+                   BOOT     RTF     3054   4-24-90   2:32p
+                   BOOTLONG BAT     1478   4-24-90  10:05a
+                   STRING   BAT     2910   4-23-90   4:16p
+                   INDIRECT BAT      128  15-00-0107  18:60p
+                   SAM          <DIR>      8-0190   11:07a
+                           8 File(s)   4571136 bytes free
+
+       Notice that the date and month of the indirect file can't possibly
+       exist. Indirect files will have this date and time to distinguish
+       them from regular DOS files. The NET DIR command also helps
+       distinguish indirect files, as shown in the following example:
+
+                   .             --D----          29-May-1990  20:36:40
+                   ..            --D----          29-May-1990  20:36:40
+                   BOOT.BAT      -A-----    1096  24-Apr-1990  10:04:26
+                   BOOT.RTF      -A-----    3054  24-APR-1990  14:32:26
+                   BOOTLONG.BAT  -A-----    1478  24-Apr-1990  10:05:46
+                   STRING.BAT    -A-----    2910  23-Apr-1990  16:16:52
+                   INDIRECT.BAT  IA-----          \C-DRIVE\ORIGINAL.BAT
+                   SAM           --D----           1-Aug-1990  11:07:54
+
+       Notice that the NET DIR command displays the "I" in the file
+       attributes display as well as the name of the file to which
+       INDIRECT.BAT points. You may now access ORIGINAL.BAT from the UTIL
+       subdirectory. If you want to see the contents of ORIGINAL.BAT,
+       issue a TYPE command for INDIRECT.BAT:
+
+             {TYPE INDIRECT.BAT
+
+       Since INDIRECT.BAT is a batch file, you can execute it by typing:
+
+             {INDIRECT
+
+       The result is the same as if you had typed:
+
+             {C:\ORIGINAL
+
+      {Note}  The DEL, REN and ATTRIB functions are always performed on
+            the indirect file, not on the file to which the indirect file
+            points.
+
+       You can link other indirect files to INDIRECT.BAT and have access
+       to ORIGINAL.BAT from other subdirectories. For example, you could
+       create another indirect file called IND2.BAT in the APPS
+       subdirectory and link it to INDIRECT.BAT. To do this, change to the
+       APPS subdirectory and type the command below.
+
+             {NET INDIRECT IND2.BAT \C-DRIVE\UTIL\INDIRECT.BAT
+
+       Any requests to IND2.BAT would be performed on ORIGINAL.BAT.
+
+       When using indirect files, the NET EXPAND command can help you keep
+       track of which file an indirect file finally references. It will
+       also give you the network or physical path to either the indirect
+       file or the file referenced. Refer to the {LANtastic DOS Commands
+       {and Switches} of this on-line manual for information on using the
+       NET EXPAND command.

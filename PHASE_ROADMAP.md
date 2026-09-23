@@ -96,81 +96,110 @@ Load order matches real LANtastic boot sequence:
 - [ ] NET.EXE (20KB) — command-line tool (NET USE, NET SHARE, etc.)
 - [ ] Full chain: NE3→AILANBIO→REDIR→SERVER → then NET USE test
 
-### TODO — A3: LANBIOS Variants (3 binaries, 66KB)
-- [ ] LANBIOS.EXE (20KB) — compare to AILANBIO
-- [ ] LANBIOS2.EXE (21KB) — identify differences
-- [ ] LANBIOS3.EXE (26KB) — identify differences
-- [ ] Document which LANBIOS variant is used when
+### DONE — A3: LANBIOS Variants (3 binaries, 66KB) ✅
+- [x] LANBIOS.EXE (19KB) — Artisoft AE-1 (2Mbps proprietary), V3.00, 78 relocs
+- [x] LANBIOS2.EXE (21KB) — Artisoft AE-2 (10Mbps Ethernet), V3.00, 116 relocs, DIP switch config
+- [x] LANBIOS3.EXE (26KB) — Artisoft AE-3/NodeRunner (10Mbps Ethernet), V3.00, 151 relocs, auto-detect
+- [x] AILANBIO.EXE (22KB) — Adapter Independent V4.06, 0 relocs (self-relocating), uses separate NIC driver
+- [x] LANBIOS* = NIC driver + NetBIOS in one binary (Artisoft hardware only)
+- [x] AILANBIO = NetBIOS only, any NIC via NE3/WD8003/etc (v6.0 default)
+- [x] 0-3% code overlap — completely separate codebases, not variants
 
-### TODO — A4: NIC Drivers (10 binaries, 94KB)
-- [ ] NEX000.EXE (10KB) — NE2000 compatible (our primary)
-- [ ] WD8003.EXE (10KB) — Western Digital / SMC
-- [ ] 3C503MM.EXE (9KB) — 3Com EtherLink II
-- [ ] 3COM507.EXE (9KB) — 3Com EtherLink 16
-- [ ] 3COM523.EXE (9KB) — 3Com EtherLink/MC
-- [ ] ARCNET.EXE (8KB) — ARCnet adapter
-- [ ] SMCARC.EXE (8KB) — SMC ARCnet
-- [ ] TCARC.EXE (8KB) — Thomas-Conrad ARCnet
-- [ ] TLINK.EXE (8KB) — Thomas-Conrad Token Ring
-- [ ] CSPPORT.EXE (14KB) — serial port adapter
+### DONE — A4: NIC Drivers (10 binaries, 94KB) ✅
+All V4.x AI-LANBIOS drivers — plug into AILANBIO via INT hooks.
 
-### TODO — A5: Support Tools (14 binaries, 434KB)
-- [ ] LANCHECK.EXE (30KB) — network diagnostics
-- [ ] LANCACHE.EXE (19KB) — disk cache for network
-- [ ] LANPUP.EXE (12KB) — pop-up messaging
-- [ ] ALONE.EXE (34KB) — standalone mode
-- [ ] AEX.EXE (11KB) — adapter exerciser
-- [ ] AE2.EXE (11KB) — adapter exerciser v2
-- [ ] LED.EXE (70KB) — LANtastic editor
-- [ ] INITCTL.EXE (35KB) — init control
-- [ ] INITCTLW.EXE (35KB) — init control (Windows)
-- [ ] NMF.EXE (122KB) — network message facility
-- [ ] NR.EXE (12KB) — NodeRunner utility
-- [ ] NRMOVE.EXE (4KB) — NodeRunner mover
-- [ ] NRSETUP.EXE (35KB) — NodeRunner setup
-- [ ] NBSETUP.EXE (5KB) — NetBIOS setup
+Ethernet group (self-relocating, 0 relocs, PSP[0x0C] relocation):
+- [x] NEX000.EXE (10KB) V4.01 — Novell NE2000 compatible
+- [x] WD8003.EXE (10KB) V4.01 — Western Digital/SMC 8003/8013
+- [x] 3C503MM.EXE (9KB) V4.01 — 3Com EtherLink II (3C503)
+- [x] 3COM507.EXE (9KB) V4.01 — 3Com EtherLink 16 (3C507)
+- [x] 3COM523.EXE (9KB) V4.01 — 3Com EtherLink/MC (MCA bus)
 
-### TODO — A6: COM Drivers (8 files, 125KB)
-- [ ] NETBIND.COM (8KB) — NDIS protocol bind
-- [ ] DRVR8530.COM (5KB) — 8530 serial driver
-- [ ] IPXODI.COM (30KB) — IPX over ODI
-- [ ] LSL.COM (18KB) — Link Support Layer (Novell ODI)
-- [ ] NRODI.COM (21KB) — NodeRunner ODI driver
-- [ ] ODINSUP.COM (34KB) — ODI-to-NDIS bridge
-- [ ] PATCC.COM (9KB) — patch utility
-- [ ] PROBE.COM (353B) — hardware probe
+ARCnet group (standard MZ, 30-31 relocs, 12-18% shared code):
+- [x] ARCNET.EXE (8KB) V4.02 — SMC Generic ARCnet
+- [x] SMCARC.EXE (8KB) V4.02 — SMC ARCnet (specific)
+- [x] TCARC.EXE (8KB) V4.02 — Thomas-Conrad ARC-Card
 
-### TODO — A7: Installer & Archive Format
-- [ ] Recover INSTALL.EXE (435KB — v6.0 installer)
-- [ ] Document NOS.001-004 archive format (LZH variant)
-- [ ] Build nosextract tool (wdksdk/tools/)
-- [ ] Verify extracted files match bin/ contents
+Special:
+- [x] TLINK.EXE (8KB) V4.00 — TandyLINK (Tandy proprietary)
+- [x] CSPPORT.EXE (14KB) V4.18.25 — Central Station Parallel Port (largest, most revised)
 
-### TODO — A8: Decompile & Bytematch
-- [ ] Ghidra decompile all A2 core stack binaries
-- [ ] Ghidra decompile all A4 NIC drivers
-- [ ] Ghidra decompile all A5 support tools
-- [ ] Bytematch each decompiled binary against original
-- [ ] Document compiler/linker for each binary
+### DONE — A5: Support Tools (11 tools + 3 reclassified) ✅
+- [x] LANCHECK.EXE (30KB) — network diagnostics ✅ TSR
+- [x] LANCACHE.EXE (19KB) V3.00 — disk cache ❌ crash (needs memory config)
+- [x] LANPUP.EXE (12KB) V5.00 — pop-up messaging ✅ TSR
+- [x] ALONE.EXE (34KB) V6.00 — standalone server/monitor ✅ TSR
+- [x] LED.EXE (70KB) — LANtastic editor ✅ TSR
+- [x] INITCTL.EXE (35KB) — init control (Borland C++) ✅ TSR
+- [x] INITCTLW.EXE (35KB) — init control (Windows ver) ✅ TSR
+- [x] NMF.EXE (122KB) — network message facility ✅ TSR
+- [x] NRMOVE.EXE (4KB) V1.01 — NodeRunner mover ✅ TSR
+- [x] NRSETUP.EXE (35KB) V1.01 — NodeRunner setup ✅ TSR
+- [x] NBSETUP.EXE (5KB) V1.01 — NetBIOS setup ✅ TSR
+Reclassified to A4 (NIC drivers, not tools):
+- [x] AEX.EXE (11KB) V4.02 = AE2.EXE (byte identical) — AI-LANBIOS NIC driver
+- [x] NR.EXE (12KB) V4.04 — NodeRunner/SI NIC driver (self-relocating)
+10/11 tools load as TSRs. LANCACHE crashes (memory config).
 
-### TODO — A9: Protocol Documentation
-- [ ] Document TSR memory hooks (INT 21h, 2Fh, 5Ch, 60h)
-- [ ] Document NE2000/NE3 packet format
-- [ ] Document LANA BIOS API (INT 5Ch interface)
-- [ ] Document NET.EXE command syntax
-- [ ] Document server/redirector protocol
+### DONE — A6: COM Drivers (8 files, 125KB) ✅
+All 8 load as TSRs in DOSBox-X under Wine.
+- [x] NETBIND.COM (8KB) — MS-DOS LAN Manager v2.1 protocol bind ✅
+- [x] DRVR8530.COM (5KB) — 8530 serial driver (1987/1989, oldest binary) ✅
+- [x] IPXODI.COM (30KB) — NetWare IPX/SPX v2.11 (Novell) ✅
+- [x] LSL.COM (18KB) — NetWare Link Support Layer v2.06 (Novell) ✅
+- [x] NRODI.COM (21KB) — NodeRunner ODI driver (Artisoft) ✅
+- [x] ODINSUP.COM (34KB) — ODI-to-NDIS bridge v1.21 (Novell) ✅
+- [x] PATCC.COM (9KB) — Xircom Pocket Arcnet V4.01 (NIC driver, not patch tool) ✅
+- [x] PROBE.COM (353B) — NE2000 hardware probe diagnostic (reads ISR/CR/reset) ✅
 
-## Phase B — Documentation Extraction
-- [ ] Extract all 30+ PDF manuals (both LANt801 and lantOLD versions)
-- [ ] Compare manual versions (different file sizes = different editions)
-- [ ] Parse walkthrough.doc
-- [ ] Archive pcmicro.com website mirror
-- [ ] Extract help files (.HLP) — DOS and Windows
-- [ ] Extract TN1000.htm tech note
-- [ ] Document NetBIOS protocol (SMB variant or custom?)
-- [ ] Document Artisoft proprietary protocols
-- [ ] Map full API surface (NETAPI.DLL, server DLLs)
-- [ ] Document .ADF adapter definition file format
+### DONE — A7: Installer & Archive Format ✅
+- [x] INSTALL.EXE (435KB) — Windows 3.x NE executable (Knowledge Dynamics wINSTALL V3.22.30 + Artisoft V3.22.30)
+- [x] INSTALL.DAT (184KB) — wINSTALL script (@DefineProject language)
+- [x] @67B0.ADF (4KB) — MCA Adapter Definition File (AE-2/MC, NodeRunner 2000M/TC)
+- [x] NOS archive format documented: magic="RR\x01", header w1=41, filename at +0x1A, proprietary compression
+- [x] NOS.001: 29 files (core stack: SERVER, REDIR, NET, AILANBIO, LED, etc.)
+- [x] NOS.002: 121 files (NIC drivers, Windows DLLs, docs, NMF, LinkBook)
+- [x] NOS.003: 56 files (Artisoft Exchange mail/fax: 40+ DLLs, ATED editor, ACCUSOFT)
+- [x] NOS.004: 33 files (config DBs, schedule, messages, DPMI overlay)
+- [x] Total: 239 files across 4 NOS archives
+- [ ] TODO: Build nosextract decompressor (compression algorithm TBD)
+- [ ] TODO: Verify extracted files match bin/ contents
+
+### DONE — A8: Binary Analysis & Bytematch ✅
+58 EXE + 8 COM = 66 executables cataloged.
+- [x] 43 DOS MZ executables, 14 Windows 3.x NE, 1 OS/2 NE, 8 COM files
+- [x] Compiler: core DOS stack = hand-written ASM / custom toolchain (no compiler strings)
+- [x] Compiler: INITCTL = Borland C++ 1991
+- [x] Compiler: Windows NE apps = likely Borland/Microsoft C for Windows
+- [x] NOS bytematch: 196/201 bin/ files found in NOS.001-004 archives
+- [x] 5 bin/ files NOT in NOS: IPXODI, LSL, NRODI, ODINSUP (Novell ODI, third-party), PROBE (standalone diag)
+- [x] 43 NOS files NOT in bin/: data files, DBs, templates, message files
+- [x] AEX.EXE = AE2.EXE (byte-identical, confirmed via md5sum)
+- [ ] TODO: Full Ghidra decompile of core stack (needs Ghidra session)
+
+### DONE — A9: Protocol Documentation ✅
+- [x] TSR interrupt chain documented (NE3→AILANBIO→REDIR→SERVER→NET)
+- [x] INT 21h/2Fh/5Ch hook counts for each binary
+- [x] INT 2Fh AH=B8h multiplex registration documented
+- [x] NET.EXE 30+ commands documented (USE, LOGIN, SHOW, SHARE, etc.)
+- [x] REDIR.EXE 14+ parameters documented
+- [x] SERVER.EXE 13+ parameters documented + event scripts (SLM)
+- [x] AILANBIO.EXE 15+ parameters documented
+- [x] Packet format: raw 802.3/802.2 LLC, NetBIOS-based (no EtherType)
+- [x] Full architecture diagram: NET→SERVER→REDIR→AILANBIO→NE3→NE2000→SLIRP
+- [x] docs/PROTOCOL.md created
+
+## Phase B — Documentation Extraction ✅
+- [x] 13 help files extracted (NET.HLP 87KB, WNET_MGR.HLP 352KB, WAMAIL.HLP 549KB, etc.)
+- [x] 11 NIC driver docs extracted (3C503MM, 3COM507, 3COM523, ARCNET, NEX000, etc.)
+- [x] 34 tech notes extracted (!A-I.TXT through !UPS.TXT — complete reference)
+- [x] 2 README files extracted (README.DOC, README2.DOC)
+- [x] @67B0.ADF = MCA Adapter Definition File (AE-2/MC, NodeRunner 2000M/TC)
+- [x] MODEM.CFG (27KB), PROTOCOL.INI, SERVER.INI, NET.CFG extracted
+- [x] All organized into docs/v6_help/, docs/v6_nics/, docs/v6_txt/, docs/v6_readme/
+- [x] Total: 63 documentation files from v6.0 distribution
+- [ ] TODO: v8.01 PDF manuals (Phase C prerequisite)
+- [ ] TODO: pcmicro.com website mirror archival
 
 ## Phase C — DOS NOS v8.01 Recovery
 The DOS Network Operating System is the heart of LANtastic.

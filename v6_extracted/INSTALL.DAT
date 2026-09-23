@@ -1,0 +1,5480 @@
+
+
+
+
+
+
+
+
+
+@DefineProject
+  @Name = "LANtastic"
+  @Version = "6.00"
+  @Subdir = "\\LANTASTI"
+  @OutDrive = C
+  @InDiskBell = @True
+  @AssumeHardDisk = 1
+@EndProject
+
+@If (@False)
+ @Display
+  Copyright (c) 1994 by Artisoft, Inc.
+ @EndDisplay
+@EndIf
+
+@DefineVars
+  @Integer @RunWindows = (@Platform == 3)
+  @If (@RunWindows)
+     @Qstring @Beta         = "ß"
+     @Qstring @Registered   = "®"
+     @Qstring @Copyright    = "©"
+     @Qstring @Trademark    = "(TM)"
+  @Else
+     @Qstring @Beta         = "á"
+     @Qstring @Registered   = ""
+     @Qstring @Copyright    = "(c)"
+     @Qstring @Trademark    = "(tm)"
+  @EndIf
+  @Qstring @Reg = "®"
+
+  @Qstring @SLverMajor      = "6"
+  @Qstring @SLverMinor      = "00"
+  @Qstring @SLverMinorMinor = "020"
+  @Integer @MemAvail        = (@RAMAvail/1024)
+  @Integer @MemNeeded       = 450
+  @Integer @MemExtra        = 60
+  @Qstring @NameWin         = "@Name for Windows"
+  @Integer @CutVersion      = @True
+  @Integer @Time0           = @SystemDate
+  @Integer @Time1           = 0
+  @Integer @Time2           = 0
+
+  @If (@Strlen("@CommandLine") > 0)
+    @Qstring @s0 = @StrConvert("@CommandLine","UC")
+    @Integer @InstallWindows = (@RunWindows || (@StrFind(@s0,"/WIN") >= 0))
+    @Integer @Describe = (@StrFind(@s0,"/DESC") >= 0)
+    @Integer @Help = ((@StrFind(@s0,"?") >= 0)
+	     ||(@StrFind(@s0,"/H") >= 0)
+	     ||(@StrFind(@s0,"HELP") >= 0))
+    @Integer @InfHelp = (@StrFind(@s0,"INF") >= 0)
+    @Integer @ExtractMode = (@StrFind(@s0,"EXTRACT") >= 0)
+    @Integer @ToFloppyOK  = (@StrFind(@s0,"FLOPPY") >= 0)
+    @Integer @ToNetworkOK = (@StrFind(@s0,"REMOTE") >= 0)
+  @Else
+    @Integer @InstallWindows = @RunWindows
+    @Integer @Describe = @False
+    @Integer @Help     = @False
+    @Integer @InfHelp  = @False
+    @Integer @ExtractMode = @False
+    @Integer @ToFloppyOK = @False
+    @Integer @ToNetworkOK = @False
+  @EndIf
+  @Integer @Red        = @RGB(255,0,0)
+  @Integer @Green      = @RGB(0,255,0)
+  @Integer @Blue       = @RGB(0,0,255)
+  @Integer @Black      = @RGB(0,0,0)
+  @Integer @Grey       = @RGB(255,255,255)
+  @Integer @Yellow     = @RGB(255,255,0)
+  @Integer @Magenta    = @RGB(255,0,255)
+  @Integer @Cyan       = @RGB(0,255,255)
+  @Integer @White      = @Grey
+  @Integer @V          = @VideoCard
+
+  @Qstring @DosHeadingText = "   @Name  Version @Version  INSTALLATION   "
+  @Integer @DosHeadingRow  = 0
+  @Integer @DosHeadingCol  = 16
+  @Integer @DosHeadingCol1 = 5
+  @If (@ExtractMode)
+    @Integer @WinColor   = @Cyan
+    @Integer @DosHeadingColor = 11
+  @Else
+    @Integer @WinColor   = @Red
+    @Integer @DosHeadingColor = 14
+  @EndIf
+  @Integer @DebugColor   = @Magenta
+  @Integer @FColor       = @Red
+  @Integer @BColor       = @Blue
+  @Integer @DosColor     = 73
+@EndVars
+
+@BackgroundMode(3,@WinColor,@Black)
+@PleaseWait("- Initializing")
+
+@FastGoto = @True
+
+@If (@RunWindows || (@MemAvail >= @MemNeeded))
+  @Goto ENOUGH_FOR_MENU
+@EndIf
+
+MEMORY_ABORT:
+@Display
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+  This program needs @Eval(@MemNeeded + @MemExtra)@!K of available memory to install
+  @Name or extract @Name files and @MemNeeded@!K to run
+  the @Name SETUP Menu. Your computer only has @MemAvail@!K.
+
+  Please remove drivers or TSRs to make more DOS memory available.
+  @FlushKeyboard() @Pause
+@EndDisplay
+@Exit
+
+ENOUGH_FOR_MENU:
+
+@DefineVars
+
+@If(@InstallWindows)
+  @Qstring @TTEnable   = "@GetINI("TrueType","TTEnable")"
+  @Qstring @DiskAccess = "@GetINI("386enh","32BitDiskAccess","system.ini")"
+  @Qstring @MDriver    = "@GetINI("boot.description","mouse.drv","system.ini")"
+  @Qstring @NetDriver  = "@GetINI("boot","network.drv","system.ini")"
+  @Qstring @NetName    = "@GetINI("boot.description","network.drv","system.ini")"
+  @Qstring @DispDriver = "@GetINI("boot","display.drv","system.ini")"
+  @Qstring @WinShell   = "@GetINI("boot","shell","system.ini")"
+  @Qstring @WallPaper  = "@GetINI("desktop","wallpaper")"
+  @Qstring @ScreenSave = "@GetINI("windows","ScreenSaveActive")"
+  @Qstring @PSwapFile  = "@GetINI("386Enh","PermSwapDOSDrive","system.ini")"
+  @Qstring @PSwapSize  = "@GetINI("386Enh","PermSwapSizeK","system.ini")"
+  @Qstring @DefaultWDevice = " @GetINI("windows","device","win.ini")"
+@Else
+  @Qstring @TTEnable   = "N/A"
+  @Qstring @DiskAccess = "N/A"
+  @Qstring @MDriver    = "N/A"
+  @Qstring @NetDriver  = "N/A"
+  @Qstring @NetName    = "N/A"
+  @Qstring @DispDriver = "N/A"
+  @Qstring @WinShell   = "N/A"
+  @Qstring @WallPaper  = "N/A"
+  @Qstring @ScreenSave = "N/A"
+  @Qstring @PSwapFile  = "N/A"
+  @Qstring @PSwapSize  = "N/A"
+  @Qstring @DefaultWDevice = " "
+@EndIf
+
+
+  @Qstring @InfHeader = ""
+
+  @Qstring @InfMode   = ""
+  @Qstring @InfType   = ""
+  @Qstring @InfComputerName = ""
+  @Qstring @InfInstallPath  = ""
+  @Qstring @InfExecutePath  = ""
+  @Qstring @InfWindows = ""
+  @Qstring @InfShare   = ""
+  @Qstring @InfLogouts = ""
+  @Qstring @InfLogins = ""
+  @Qstring @InfMail    = ""
+  @Qstring @InfPOname  = ""
+  @Qstring @InfSyncMail = ""
+  @Qstring @InfNcp     = ""
+  @Qstring @InfSmb     = ""
+  @Qstring @InfInstallServices = ""
+  @Qstring @InfAdapter = ""
+  @Qstring @InfConnect = ""
+  @Qstring @InfDrive1  = ""
+  @Qstring @InfDrive2  = ""
+  @Qstring @InfPrinter1 = ""
+  @Qstring @InfPrinter2 = ""
+  @Qstring @InfChangeSystemFiles = ""
+  @Qstring @ComputerName = ""
+  @Qstring @InstallDir   = ""
+  @Qstring @SharePath    = ""
+  @Qstring @XSharePath   = ""
+  @Qstring @NOSdir       = ""
+  @Qstring @CTLdir       = ""
+  @Qstring @InstallPath  = ""
+  @Qstring @ExecutePath  = ""
+  @Qstring @LicensePath  = ""
+  @Qstring @POname       = ""
+  @Qstring @MailPath     = ""
+  @Qstring @MailDataPath = ""
+  @Qstring @MailInstallPath = ""
+  @Qstring @MailInstallDataPath = ""
+  @Qstring @MailDirectDataPath  = ""
+  @Qstring @MailTempPath = ""
+  @Qstring @ScriptTempPath = ""
+  @Qstring @TempPath     = @GetEnv("TEMP")
+  @Qstring @LinkPath     = ""
+  @Qstring @NdisInstallPath = ""
+  @Qstring @AnsiInstallPath = ""
+  @Qstring @AnsiExecutePath = ""
+  @Qstring @AnsiMailTempPath = ""
+  @Qstring @WindowsPath  = "@WindowsDrive:@WindowsDir"
+  @If ("@StartupDir" == "\\")
+    @Qstring @StartupPath = "@StartupDrive:"
+  @Else
+    @Qstring @StartupPath = "@StartupDrive:@StartupDir"
+  @Endif
+  @Drive @ScriptDrive    = (@StrIndex("@ScriptFile",0))
+  @Qstring @ScriptPath   = @StrHead(@ScriptFile,@StrRFind(@ScriptFile,"\\"))
+  @Integer @ScriptXfered = @False
+  @Integer @DD360        = @False
+  @Integer @HighDensity  = @False
+  @Integer @LowDensity   = @False
+  @Integer @NumDisks     = 0
+  @Integer @NewTemp      = @False
+  @Qstring @LibName      = ""
+  @Integer @NetEnabled   = @True
+  @Qstring @DisabledFile = "DISABLED"
+  @Integer @ShareEnabled = @True
+  @Qstring @NoShareFile  = "NOSHARE"
+  @Integer @NcpEnabled   = 0
+  @Integer @SmbEnabled   = 0
+  @Integer @InstallServices = @False
+  @Integer @MailEnabled  = @False
+  @Integer @NetMail      = @False
+  @Integer @MailServer   = @False
+  @Integer @NewMailServer = @False
+  @Integer @ClearMailData = @False
+  @Integer @FaxEnabled   = @False
+  @Integer @SetConnect   = @True
+  @Qstring @DriveLetter1 = ""
+  @Qstring @DriveServer1 = ""
+  @Qstring @DriveName1   = ""
+  @Qstring @DriveLetter2 = ""
+  @Qstring @DriveServer2 = ""
+  @Qstring @DriveName2   = ""
+  @Qstring @PrintPort1   = ""
+  @Qstring @PrintServer1 = ""
+  @Qstring @PrintName1   = ""
+  @Qstring @PrintPort2   = ""
+  @Qstring @PrintServer2 = ""
+  @Qstring @PrintName2   = ""
+  @Qstring @DefaultWPrintName = "@StrToken("@DefaultWDevice",0,",")"
+  @Qstring @DefaultWPrintPort = "@StrHead("@StrToken("@DefaultWDevice",2,",")",4)"
+
+  @Qstring @ValidDrives  = "DEFGHIJKLMNOPQRSTUVWXYZ"
+  @Qstring @ChosenDrives = ""
+  @Qstring @AvailableDrives = ""
+  @Qstring @ExistingFloppy = ""
+  @Qstring @ExistingRemote = ""
+  @Qstring @FirstAvailable = ""
+  @Qstring @SecondAvailable = ""
+  @Qstring @ValidPorts   = "LPT1 LPT2 LPT3 LPT4 COM1 COM2 COM3 COM4"
+  @Qstring @ChosenPorts  = ""
+   @Qstring @InstallProg  = "INSTALL.EXE"
+  @Qstring @InstallScript = "INSTALL.DAT"
+  @Qstring @InstallInfo   = "INSTALL.INF"
+  @If (@RunWindows)
+    @Qstring @InitControlProg = "INITCTLW.EXE"
+  @Else
+    @Qstring @InitControlProg = "INITCTL.EXE"
+  @EndIf
+  @Qstring @InitControlArg = "-K"
+  @Qstring @DiskID         = "DISK.ID"
+  @Qstring @ArtiDocProg    = "ARTIDOCS.EXE"
+  @Qstring @ArtiDocDir     = "ARTIDOCS"
+  @Qstring @SLconfigFile   = "LANTASTI.CFG"
+  @Qstring @Config         = "@BootDrive:\\CONFIG.SYS"
+  @Qstring @AutoExec       = "@BootDrive:\\AUTOEXEC.BAT"
+  @Dir @Root               = "\\"
+
+  @Qstring @AdapterNif   = ""
+  @Qstring @AdapterName  = ""
+  @Qstring @AdapterProg  = ""
+  @Qstring @AdapterArgs  = ""
+  @Qstring @AdapterProgX = ""
+  @Qstring @AdapterArgsX = ""
+  @Integer @Our2mb       = @False
+  @Integer @OurMport     = @False
+
+
+  @Integer @Aopt = 0
+  @Qstring @AdapterName1a = "Simply LANtastic Internal Network Adapter"
+  @Qstring @AdapterName1b = "LANtastic NodeRunner 2000 Series Ethernet Adapter"
+  @Qstring @AdapterProg1  = "NR.EXE"
+  @Qstring @AdapterName2  = "LANtastic NE-3 Ethernet Adapter"
+  @Qstring @AdapterProg2  = "NE3.EXE"
+  @Qstring @AdapterName3  = "LANtastic AE-2 Micro Channel Ethernet Adapter"
+  @Qstring @AdapterProg3  = "AE2.EXE"
+  @Qstring @AdapterName4  = "Artisoft AE-2 or AE-3 Ethernet Adapter (ISA)"
+  @Qstring @AdapterProg4  = "AEX.EXE"
+  @Qstring @AdapterName5  = "Central Station PC to Ethernet node"
+  @Qstring @AdapterProg5  = "CSPPORT.EXE"
+  @Qstring @AdapterName6  = "LANtastic Dial-Up Remote Node"
+  @Qstring @AdapterProg6  = "MPORT.EXE~LDU-MGR.EXE"
+  @Qstring @AdapterNameMB1 = "OLDLB LANtastic Original 2Mbps Adapter (ISA)"
+  @Qstring @AdapterProgMB1 = "LANBIOS.EXE`IRQ=5 ADDRESS=D800"
+  @Qstring @AdapterNameMB2 = "LANBIOS LANtastic 2Mbps MC (Micro Channel)"
+  @Qstring @AdapterProgMB2 = "LANBIOS.EXE"
+  @Qstring @AdapterNameMB3 = "LANBIOS2 Enhanced LANtastic 2Mbps Adapter (ISA)"
+  @Qstring @AdapterProgMB3 = "LANBIOS2.EXE`IRQ=3 IOBASE=280 RAMBASE=D800"
+  @Qstring @AdapterNameMB4 = "LANBIOS3 LANtastic A2Mbps Adapter (ISA)"
+  @Qstring @AdapterProgMB4 = "LANBIOS3.EXE`IRQ=3 RAMBASE=D800"
+  @Qstring @AdapterNameOther = "Other LANtastic Compatible Adapter"
+  @Qstring @AdapterProgOther = "ECHO.`Insert @AdapterNameOther here.~ECHO.`DRIVER.EXE IRQ=? IOBASE=??? RAMBASE=????"
+  @Qstring @AdapterName7  = "3C503MM 3COM 3C503 Ethernet Adapter"
+  @Qstring @AdapterProg7  = "3C503MM.EXE`IRQ=3 IOBASE=300 TRANSCEIVER_TYPE=ON-BOARD"
+  @Qstring @AdapterName8  = "3COM507 3COM 3C507 Ethernet Adapter"
+  @Qstring @AdapterProg8  = "3COM507.EXE"
+  @Qstring @AdapterName9  = "3COM523 3COM 3C523 Ethernet Adapter"
+  @Qstring @AdapterProg9  = "3COM523.EXE"
+  @Qstring @AdapterName10 = "ARCNET SMC ARCNET Compatible 8-bit or 16-bit"
+  @Qstring @AdapterProg10 = "ARCNET.EXE"
+  @Qstring @AdapterName11a = "NEX0MC Novell NE/2 Micro Channel or Compatible"
+  @Qstring @AdapterProg11a = "NEX000.EXE"
+  @Qstring @AdapterName11b = "NEX008 Novell NE1000 8-bit ISA bus or Compatible"
+  @Qstring @AdapterProg11b = "NEX000.EXE`IRQ=3 IOBASE=300"
+  @Qstring @AdapterName11c = "NEX016 Novell NE2000 16-bit ISA bus or Compatible"
+  @Qstring @AdapterProg11c = "NEX000.EXE`16-BIT IRQ=3 IOBASE=300"
+  @Qstring @AdapterName12 = "PATCC Xircom PA02B6 Pocket ARCNET"
+  @Qstring @AdapterProg12 = "PATCC.EXE`IRQ=7 LPT=1"
+  @Qstring @AdapterName13 = "PE Xircom PE10B2 Pocket Ethernet"
+  @Qstring @AdapterProg13 = "PE.EXE`IRQ=7 LPT=1"
+  @Qstring @AdapterName14 = "SMCARC SMC ARCNET 220, 500WS (short)"
+  @Qstring @AdapterProg14 = "SMCARC.EXE`IRQ=2 IOBASE=2E0 RAMBASE=D000"
+  @Qstring @AdapterName15 = "TCARC Thomas-Conrad ARC-CARD/CE /AT & /MC"
+  @Qstring @AdapterProg15 = "TCARC.EXE`IRQ=2 RAMBASE=D000"
+  @Qstring @AdapterName16 = "TLINK Tandy TandyLink Adapter"
+  @Qstring @AdapterProg16 = "DRVR8530.COM~TLINK.EXE SPEED=HIGH"
+  @Qstring @AdapterName17 = "WD8003 SMC (Western Digital) WD8003/WD8013 Ethernet Adapters"
+  @Qstring @AdapterProg17 = "WD8003.EXE`IRQ=3 IOBASE=280 RAMBASE=D000"
+
+
+  @Qstring @AdapterNameAEX = "\"AEX\" NDIS Support for Artisoft Adapters"
+  @Qstring @AdapterProgAEX = "AEXNDIS.DOS"
+  @Qstring @AdapterNifAEX  = "AEXNDIS_NIF"
+  @Qstring @AdapterNameNdis = "NDIS Support for Network Adapters"
+  @Qstring @AdapterProgNdis = ""
+
+  @Qstring @NetbiosProg = "AILANBIO.EXE"
+  @Qstring @NdisProg    = "AI-NDIS.EXE"
+  @Qstring @ProtmanProg = "PROTMAN.DOS"
+  @Qstring @ServerProg  = "SERVER.EXE"
+  @Qstring @RedirProg   = "REDIR.EXE"
+  @Qstring @EditProg    = "\\DOS\\EDIT.COM"
+  @Qstring @ShareProg   = "\\DOS\\SHARE.EXE"
+  @Qstring @ShareArgs   = ""
+
+  @Qstring @DefaultNetPath = "C:\\LANTASTI"
+  @Qstring @SysDrive    = ""
+  @Qstring @SysDir      = ""
+  @Qstring @SysFile     = ""
+  @Qstring @WinIni      = ""
+  @Qstring @WinFileIni  = ""
+  @Qstring @SystemIni   = ""
+  @Qstring @ArtmailIni  = "ARTMAIL.INI"
+  @Qstring @StartPath   = ""
+  @If (@RunWindows)
+    @Qstring @InfPath   = "@StartupPath\\@InstallInfo"
+  @Else
+    @Qstring @InfPath   = "@ScriptPath\\@InstallInfo"
+  @EndIf
+  @Qstring @NdisPath    = ""
+  @Qstring @LoginParam  = ""
+  @Qstring @NetbiosParam = ""
+  @Qstring @DDEstring   = ""
+  @Integer @SysBuffers  = 20
+  @Integer @SysFiles    = 50
+  @Integer @Ncbs        = 13
+  @Integer @LinkExtra   = 10
+  @Integer @Sessions    = 20
+  @Integer @RxBuffers   = 10
+  @Integer @Logouts     = 15
+  @Integer @Logins      = 10
+  @Qstring @ParamFile   = ""
+  @Qstring @ParamPath   = ""
+  @Qstring @SetPath     = ""
+  @Qstring @ConnectPath = ""
+  @Qstring @SamplePath  = ""
+  @Qstring @Loadhigh    = ""
+  @Qstring @Echo        = ""
+  @Qstring @Call        = ""
+  @Qstring @Illegal     = "*?/%;:+=.,[]|><'\"\t\\"
+  @Qstring @Illegal0    = "*?/%;:+=,[]|><'\"\@\t"
+  @Qstring @Illegal1    = "*?/%;+=,[]|><'\"\t"
+  @Qstring @BadChar     = " You typed a character that isn't allowed."
+  @Integer @Qemm        = @False
+  @Integer @Add         = @False
+
+  @Qstring @Ext         = ""
+
+  @Integer @InstallMode = @False
+  @Integer @NewInstall  = @False
+  @Integer @KeepInstall = @True
+  @Integer @SyncMail    = @True
+  @Integer @MenuMode    = @False
+  @Integer @ArtiDocMode = @False
+  @Integer @ForceName   = @False
+  @Integer @ChangeSystemFiles = @True
+  @Integer @AlreadyKeep = @False
+  @Integer @MailSupport = (@CPU >= 386)
+
+  @Integer @FromFloppy  = @False
+  @Integer @FromHard    = @False
+  @Integer @ToFloppy    = @False
+  @Integer @ToHard      = @False
+  @Integer @ToNetwork   = @False
+  @Qstring @EnvLanCfg   = @GetEnv("LAN_CFG")
+  @Qstring @EnvLanDir   = @GetEnv("LAN_DIR")
+  @Qstring @AnsiEnvLanDir = ""
+
+  @Integer @DebugMode    = @Exists("@StartupPath\\DEBUG")
+  @Integer @EditMode     = @Exists("@StartupPath\\EDIT")
+  @Integer @NoRebootMode = @Exists("@StartupPath\\NOREBOOT")
+  @Integer @NoWindowsMode = @Exists("@StartupPath\\NOWIN")
+  @Integer @NoFilesMode  = @Exists("@StartupPath\\NOFILES")
+  @Integer @AlphaMode    = @Exists("@StartupPath\\ALPHA")
+  @Integer @InfFileMode  = @Exists("@InfPath")
+
+  @Integer @DosInstalled = @False
+  @Integer @WinInstalled = @False
+  @Integer @PrevNOS      = @False
+  @Integer @SimplyNOS    = @False
+  @Integer @AutoExecChanged  = @False
+  @Integer @ConfigChanged    = @False
+  @Integer @StartNetChanged  = @False
+  @Integer @SystemIniChanged = @False
+  @Integer @WinIniChanged    = @False
+  @Integer @WinFileChanged   = @False
+  @Integer @ProtocolIniChanged = @False
+  @Integer @ProgmanIniChanged  = @False
+  @Integer @WnetIniChanged     = @False
+  @Integer @WnetMgrIniChanged  = @False
+  @Integer @MailIniChanged = @False
+  @Integer @Share          = @True
+  @Integer @ShareExe       = @False
+  @Integer @NdisSelected   = @False
+  @Integer @AexNdisSelected = @False
+  @Integer @NOSdate         = 0
+
+  @Qstring @AutoExecMsg   = ""
+  @Qstring @ConfigMsg     = ""
+  @Qstring @StartNetMsg   = ""
+  @Qstring @SystemIniMsg  = ""
+  @Qstring @WinIniMsg     = ""
+  @Qstring @ProtocolIniMsg = ""
+  @Qstring @ProgmanIniMsg = ""
+
+  @Qstring @Param    = ""
+  @Qstring @Options0 = ""
+  @Qstring @Options1 = ""
+  @Qstring @Options2 = ""
+  @Qstring @SyncFlag = ""
+  @Qstring @s1  = ""
+  @Qstring @s2  = ""
+  @Qstring @s3  = ""
+  @Qstring @s4  = ""
+  @Qstring @s5  = ""
+  @Qstring @s6  = ""
+  @Qstring @s7  = ""
+  @Qstring @s8  = ""
+  @Qstring @s9  = ""
+  @Qstring @s10 = ""
+  @Qstring @s11 = ""
+  @Qstring @x1  = ""
+  @Qstring @x2  = ""
+  @Qstring @x3  = ""
+  @Qstring @x4  = ""
+  @Qstring @x5  = ""
+  @If (@RunWindows) @Qstring @key = "click on  \"OK\" " @Else @Qstring @key = "press ENTER" @EndIf
+  @Qstring @Warning  = "W A R N I N G        W A R N I N G"
+  @Qstring @Underline10 = "__________"
+  @Qstring @Underline20 = "_____________________"
+  @Qstring @Underline40 = "@Underline20@Underline20"
+  @Qstring @AtSign      = "@@"
+  @If (@RunWindows) @Qstring @AndSign = "or" @Else @Qstring @AndSign = "&" @EndIf
+  @Qstring @action = ""
+  @Qstring @your   = "your"
+  @Qstring @my     = "my"
+  @Qstring @keep   = ""
+  @Qstring @increase = ""
+  @Qstring @setmax = ""
+  @Integer @t = 0
+  @Integer @b = 0
+  @Integer @i = 0
+  @Integer @k = 0
+  @Integer @n = 0
+  @Drive   @d = Z
+
+  @Qstring @Ex1 = ""
+  @Qstring @Po1 = ""
+  @Qstring @Nd1 = ""
+  @Qstring @Dv1 = ""
+  @Qstring @Dv2 = ""
+  @Qstring @Dv3 = ""
+  @Qstring @Pt1 = ""
+  @Qstring @Pt2 = ""
+  @Qstring @Pt3 = ""
+
+  @Integer @MinDosMajor = 3
+  @Integer @MinDosMinor = 1
+  @Integer @MinWinMajor = 3
+  @Integer @MinWinMinor = 1
+
+  @Qstring @PromptName  = ""
+  @Qstring @PromptNdis  = ""
+  @Qstring @PromptSub   = ""
+
+@If (@RunWindows)
+  @Qstring @S100  = "    "
+  @Qstring @S400  = "      "
+  @Qstring @S500  = "     "
+  @Qstring @S600  = "      "
+  @Qstring @S700  = "      "
+  @Qstring @S800  = "   "
+  @Qstring @S801  = "   "
+  @Qstring @S900  = "   "
+  @Qstring @S901  = "   "
+  @Qstring @S999  = "       "
+
+  @Qstring @Sdrive = "      "
+  @Qstring @Sxxdir = "    "
+  @Qstring @Sxname = "   "
+  @Qstring @Sshare = ""
+  @Qstring @Scolor = "  "
+  @Qstring @Sadapt = "     "
+  @Qstring @Sopt1  = "       "
+  @Qstring @Sopt2  = "                "
+  @Qstring @Sprint = "   "
+  @Qstring @Swin = "   "
+  @Qstring @Sdos = "   "
+  @Qstring @Sbw  = "    "
+  @Qstring @Sinf = "     "
+  @Qstring @Sflp = ""
+  @Qstring @Snet = ""
+  @Qstring @Sext = ""
+  @Qstring @Sf1  = "   "
+  @Qstring @Sf2  = "    "
+  @Qstring @Sf3  = "    "
+  @Qstring @Sf4  = "     "
+  @Qstring @Sf5  = " "
+  @Qstring @Sf6  = "      "
+  @Qstring @Sf7  = ""
+  @Qstring @Sf8  = "   "
+@Else
+  @Qstring @S100 = ""
+  @Qstring @S400 = ""
+  @Qstring @S500 = ""
+  @Qstring @S600 = ""
+  @Qstring @S700 = ""
+  @Qstring @S800 = ""
+  @Qstring @S801 = ""
+  @Qstring @S900 = ""
+  @Qstring @S901 = ""
+  @Qstring @S999 = ""
+
+  @Qstring @Sdrive = ""
+  @Qstring @Sxxdir = ""
+  @Qstring @Sxname = ""
+  @Qstring @Sshare = ""
+  @Qstring @Scolor = ""
+  @Qstring @Sadapt = ""
+  @Qstring @Sopt1  = ""
+  @Qstring @Sopt2  = ""
+  @Qstring @Sprint = ""
+  @Qstring @Swin = ""
+  @Qstring @Sdos = ""
+  @Qstring @Sbw  = ""
+  @Qstring @Sinf = ""
+  @Qstring @Sflp = ""
+  @Qstring @Snet = ""
+  @Qstring @Sext = ""
+  @Qstring @Sf1  = ""
+  @Qstring @Sf2  = ""
+  @Qstring @Sf3  = ""
+  @Qstring @Sf4  = ""
+  @Qstring @Sf5  = ""
+  @Qstring @Sf6  = ""
+  @Qstring @Sf7  = ""
+  @Qstring @Sf8  = ""
+@EndIf
+
+  @Qstring @NifList = ""
+  @Qstring @NifPath = ""
+  @Qstring @NifDir  = ""
+  @Qstring @NifFile = ""
+  @Integer @NifFound = @True
+  @Integer @NifVersion = 0
+
+  @Qstring @NdisDriver = ""
+  @Qstring @NdisDevice = ""
+  @Qstring @NdisTitle  = ""
+  @Qstring @NdisType   = ""
+  @Qstring @NdisDDir   = ""
+  @Qstring @NdisCopyFiles = ""
+  @Qstring @NdisDriverPath = ""
+  @Qstring @NdisDriverDir = ""
+  @Qstring @NdisDriverFile = ""
+
+  @Qstring @NdisProtocolFile = "PROTOCOL.INI"
+  @Qstring @NdisProtocolDir  = ""
+  @Qstring @ProtocolOrg = ""
+
+  @Integer @HeaderFixed = @False
+  @Integer @NdisOK      = @False
+
+@EndVars
+
+
+
+@If (@DebugMode)
+  @Simulate
+  @EndSimulate
+@EndIf
+
+
+
+@If ((@OSMajor < @MinDosMajor) ||
+     ((@OSMajor == @MinDosMajor) && (@OSMinor < @MinDosMinor)))
+  @BackgroundMode(3,@Red,@Red)
+  @Display
+     @Cls
+     The version of DOS running on this computer -- @OSMajor.@OSMinor -- is
+     not sufficient for installing or running @Name Version @Version.
+
+     You should upgrade your DOS to at least version @MinDosMajor.@MinDosMinor.
+     @FlushKeyboard() @Pause @Abort
+  @EndDisplay
+@EndIf
+
+@If ((@OSMajor < 3) ||
+     ((@OSMajor == 3) && (@OSMinor < 3)))
+   @Echo = "echo"
+@Else
+   @Echo = "@@echo"
+   @Call = "call "
+@EndIf
+
+
+@CutVersion = @False
+
+
+
+@If (@Describe)
+  @BackgroundMode(3,@Green,@Black)
+  @Display
+    @Cls
+
+    @Name INSTALL Version @Version.@SLverMinorMinor
+    Artisoft Install Version @RevMajor.@RevMinor.@RevSub
+    @If (@CutVersion)@!(DOS-only 360K-diskette Version) @EndIF
+    @FlushKeyboard() @Pause @Exit
+  @EndDisplay
+@EndIf
+
+
+@If (@Help)
+ @BackgroundMode(3,@Green,@Black)
+ @Display
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+   The following options can used with @Name @Registered INSTALL:
+
+     /HELP or ?  View this screen
+     /INF      @Sinf  Information about syntax of INSTALL.INF file
+     /BW       @Sbw  Run INSTALL using black and white (no colors)
+     /MONO       Run INSTALL on monochrome (MDA) monitors
+     /DOS      @Sdos  Force "text-mode" install under DOS
+     /WIN      @Swin  Force installation of @NameWin
+     /FLOPPY   @Sflp  Select DOS floppy workstation install
+     /REMOTE   @Snet  Select partial install to network drive
+     /EXTRACT  @Sext  Get @Name files from distribution disk
+   @FlushKeyboard() @Pause
+ @EndDisplay
+ @ChDrive( @StartupDrive )
+ @Exit
+@EndIf
+
+
+@If (@InfHelp)
+ @BackgroundMode(3,@Green,@Black)
+ @Display
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @Name installation can be customized by placing a file named
+  INSTALL.INF on the installation diskette or in the installation
+  directory. The syntax of INSTALL.INF is similar to that of WIN.INI.
+
+  If [LANtastic]  Mode=Fast, get values in [LANtastic].
+  If [LANtastic]  Mode=Name or Mode=ForceName, prompt for
+          "ComputerName", then get values in [ComputerName].
+  Except If [ComputerName]  Type=XXXX, get values in [XXXX].
+
+  Mode= (fast*/name)             @Sf1    ComputerName= <15 letters>
+  Type= <header>                 @Sf2    Logouts= <number>
+  InstallPath= <path>            @Sf3    ExecutePath= <path>
+  Share= (yes*/no)               @Sf4    Windows= (yes/no*)
+  InstallServices= (yes/no*)     @Sf5    Logins= <number>
+  Ncp= (yes/no*)                 @Sf6    Smb= (yes/no*)
+  Mail= (yes/client/po/net/no*)  @Sf7    POname= <30 letters>
+  Connect= (yes/no*)             @Sf8    SyncMail= (yes*/no)
+  Drive1=   Drive2=   <computer name>,<drive name>,<drive letter>
+  Printer1= Printer2= <computer name>,<printer name>,<printer port>
+  @FlushKeyboard() @Pause
+ @EndDisplay
+ @ChDrive( @StartupDrive )
+ @Exit
+@EndIf
+
+
+@If (@ToFloppyOK)
+  @EnvLanCfg = ""
+  @EnvLanDir = ""
+@EndIf
+
+@If (@StrLen(@EnvLanCfg) < 2)
+  @EnvLanCfg = @StrToken(@EnvLanDir,0,".")
+  @If (@StrLen(@EnvLanCfg) < 2)
+    @If ("@Subdir" == "")
+       @EnvLanCfg = "@DefaultNetPath"
+    @Else
+       @EnvLanCfg = "@OutDrive:\\@Subdir"
+    @EndIf
+  @EndIf
+  @Subdir = "@StrMid(@EnvLanCfg,2,100)"
+@Else
+  @s1 = @EnvLanCfg
+  @If ("@StrMid("@s1",1,1)" == ":")
+    @d = (@StrIndex(@s1,0))
+    @If (@DriveExists(@d))
+      @OutDrive = @d
+    @EndIf
+    @Subdir = "@StrMid(@s1,2,100)"
+  @Else
+    @Subdir = "@s1"
+  @EndIf
+@EndIf
+
+@NOSdir = @GetEnv("LAN_CFG")
+@If (@StrLen(@NOSdir) < 2)
+  @If (@DirExists("@DefaultNetPath"))
+    @NOSdir = "@DefaultNetPath"
+  @Else
+    @NOSdir = ""
+  @Endif
+@EndIf
+
+@CTLdir = @EnvLanDir
+@If (@StrLen(@CTLdir) < 2)
+  @If (@DirExists("@DefaultNetPath.NET"))
+    @CTLdir = "@DefaultNetPath.NET"
+  @Else
+    @CTLdir = ""
+  @Endif
+  @EnvLanDir = @CTLdir
+@EndIf
+
+@If ((@Strlen("@NOSdir@CTLdir") > 0) && @Exists("@NOSdir\\@RedirProg"))
+  @DosInstalled = @True
+  @If (@InstallWindows)
+    @If ( @StrFind(@StrConvert(@NetDriver,"uc"),"LANTNET.DRV") >= 0 )
+  @WinInstalled = @True
+    @Else
+  @WinInstalled = @False
+    @EndIf
+  @Else
+    @WinInstalled = @False
+  @EndIf
+@Else
+  @DosInstalled = @False
+@EndIf
+
+@If (@DosInstalled)
+  @NOSdate = @FileDate("@NOSdir\\NET.EXE")
+  @If (@NOSdate < @StrToDate("1993/11/01"))
+    @PrevNOS = @True
+  @Else
+    @If (@StrLen(@FindLines("@NOSdir\\@InstallScript","Simply LANtastic",1,20,"")) > 0)
+      @SimplyNOS = @True
+    @EndIf
+  @EndIf
+@EndIf
+
+@If  ((@Strlen("@DefaultWPrintPort") != 4)
+   || (@StrFind("@ValidPorts", "@DefaultWPrintPort") < 0))
+   @DefaultWPrintPort = ""
+@EndIf
+
+
+@If (@RunWindows)
+  @ScriptDrive = @StartupDrive
+  @ScriptPath  = @StartupPath
+@Else
+  @If (@StartupDrive != @ScriptDrive)
+     @StartupPath  = @ScriptPath
+  @EndIf
+@EndIf
+@If (@DiskSize(@ScriptDrive) < 400000) @DD360 = @True @EndIf
+
+
+@i = 0
+@k = @StrLen("@ValidDrives")
+AVAIL_LOOP:
+  @d = (@StrIndex("@ValidDrives",@i))
+  @b = @True
+  @If (@DriveExists(@d))
+    @If (@DriveRemote(@d))
+      @ExistingRemote = "@ExistingRemote@d "
+    @Else
+      @b = @False
+    @EndIf
+  @EndIf
+  @If (@b)
+    @AvailableDrives = "@AvailableDrives@d "
+  @EndIf
+  @i = (@i + 1)
+@If (@i < @k) @Goto AVAIL_LOOP @EndIf
+
+@FirstAvailable  = @StrToken("@AvailableDrives", 0)
+@SecondAvailable = @StrToken("@AvailableDrives", 1)
+
+@If (@DriveExists(A) && (@ScriptDrive != A))
+  @If (@Removable(A)) @ExistingFloppy = "A " @EndIf
+@EndIf
+@If (@DriveExists(B) && (@ScriptDrive != B))
+  @If (@Removable(B)) @ExistingFloppy = "@ExistingFloppy@!B " @EndIf
+@EndIf
+
+
+@If (!@DriveExists(@ScriptDrive))
+  @Display
+    The drive the install program started on -- @StartupDrive: --
+    has a problem."
+    @FlushKeyboard() @Pause @Abort
+  @EndDisplay
+@Else
+
+  @LibName = "@ScriptDrive:\\NOS.001"
+  @If (@Exists("@LibName"))
+    @HighDensity = @True
+    @NumDisks = 4
+    @If (@Exists("@StrToken(@LibName,0,".").002"))
+      @FromHard = @True
+    @Else
+      @FromFloppy = @True
+    @EndIf
+  @Else
+    @LibName = "@ScriptDrive:\\NOS360.001"
+    @If ((@Exists("@LibName") || @DD360) && !@InstallWindows)
+      @LowDensity = @True
+      @NumDisks = 4
+      @FromFloppy = @True
+    @Else
+      @LibName = ""
+      @MenuMode = @True
+    @EndIf
+  @EndIf
+
+  @If (@FromFloppy) @IgnoreDiskID = @False @EndIf
+@EndIf
+
+@If (@DebugMode)
+@BackgroundMode(3,@DebugColor,@Black)
+@Display @Cls
+  DosInstalled:     @DosInstalled
+  WinInstalled:     @WinInstalled  --> @WindowsPath [@WindowsDir]
+  PrevNOS:          @PrevNOS   (Simply? @SimplyNOS)
+  NOSdir:           @NOSdir
+  CTLdir:           @CTLdir
+  NOSdate:          @NOSdate = @DateToStr(@NOSdate)
+  NetDriver:        @NetDriver
+  Network Name:     @NetName
+  Printer Name:     @DefaultWDevice
+  InDrive:          @InDrive: @If (@Removable(@InDrive)) REMOVABLE @Else FIXED @EndIf @If (@DriveRemote(@StartupDrive)) NETWORK @EndIf
+  Startup Drive:    @StartupDrive: @If (@Removable(@StartupDrive)) REMOVABLE @Else FIXED @EndIf @If (@DriveRemote(@StartupDrive)) NETWORK @EndIf
+  StartupPath:      @StartupPath
+  ScriptDrive:      @ScriptDrive: @If (@Removable(@ScriptDrive)) REMOVABLE @Else FIXED @EndIf @If (@DriveRemote(@ScriptDrive)) NETWORK @EndIf [@DiskSize(@ScriptDrive)]
+  ScriptFile:       @ScriptFile  @If (@InfFileMode) Using @InstallInfo @EndIf
+  ProgramFile:      @ProgramFile  ~@CommandLine~
+  Install Revision: @RevMajor.@RevMinor.@RevSub
+  Memory:           @HeapAvail bytes remaining out of @HeapTotal (@RamAvail)
+  Available Drives  @AvailableDrives
+  Network Drives    @ExistingRemote  [Floppies = @ExistingFloppy]
+  @FlushKeyboard() @Pause
+@EndDisplay
+@EndIf
+
+
+@If (@CutVersion && !@LowDensity)
+  @BackgroundMode(3,@Red,@Red)
+  @Display
+     @Cls
+
+     @Name INSTALL Version @Version.@SLverMinorMinor
+     The DOS-only 360K-diskette version of the install
+     script cannot be used with full NOS distribution.
+
+     @FlushKeyboard() @Pause @Abort
+  @EndDisplay
+@EndIf
+
+
+@If (@MenuMode && !(@ExtractMode || @DebugMode)) @Goto MAINMENU @EndIf
+
+
+@If ((!@RunWindows) && (@MemAvail < (@MemNeeded + @MemExtra)))
+  @Goto MEMORY_ABORT
+@EndIf
+
+
+@If (@ExtractMode)
+  @If (@MenuMode)
+    @BackgroundMode(3,@Red,@Red)
+    @Display
+       @Cls
+
+       @Name distribution library not found.
+       To extract @Name files, run INSTALL
+       from a distribution diskette or from the
+       Installation Services 'resource'.
+       @FlushKeyboard() @Pause @Abort
+    @EndDisplay
+  @EndIf
+  @InfFileMode = @False
+  @Time1 = @SystemDate
+  @Goto EXTRACT
+@EndIf
+
+
+
+@If (@InfFileMode)
+  @PleaseWait("- Using INSTALL.INF configuration")
+  @InfHeader = "@Name"
+  @InfMode   = @StrConvert(@GetINI(@InfHeader,"Mode",@InfPath),"uc")
+  @ForceName = ("@InfMode" == "FORCENAME")
+  @If ( ("@InfMode" != "NAME") && !@ForceName )
+    @InfComputerName = @StrConvert(@GetINI(@InfHeader,"ComputerName",@InfPath),"uc")
+  @EndIf
+@EndIf
+
+@If (@ToFloppyOK && ("@ExistingFloppy" == ""))
+  @Display
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+   You chose /FLOPPY to install @Name to a floppy
+   diskette but no floppy drives are available.
+   Ignoring the option...
+
+   @FlushKeyboard() @Pause
+  @EndDisplay
+  @ToFloppyOK = @False
+@EndIf
+@If (@ToFloppyOK)
+  @DosInstalled = @False
+  @EnvLanCfg = ""
+  @EnvLanDir = ""
+@EndIf
+
+@If (@ToNetworkOK && ("@ExistingRemote" == ""))
+  @Display
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+   You chose /REMOTE to install @Name to a network
+   drive but no network drives are available.
+   Ignoring the option...
+
+   @FlushKeyboard() @Pause
+  @EndDisplay
+  @ToNetworkOK = @False
+@EndIf
+
+@If ("@InfWindows" == "YES")
+  @InstallWindows = @True
+@ElseIf ("@InfWindows" == "NO")
+  @InstallWindows = @False
+@EndIf
+
+@If (@InstallWindows && !@RunWindows)
+ @DosHeadingColor = 94
+
+ @If (@DD360 || @Exists("@ScriptDrive:\\SL360.001"))
+  @Display
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+   The /WIN option to force installation of @NameWin
+   is not supported from 360K DD distribution diskettes.
+   Only @Name for DOS can be installed from these
+   diskettes.
+
+   @FlushKeyboard() @Pause  @Exit
+  @EndDisplay
+ @EndIf
+
+ @If (@CPU < 286)
+  @Display
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+   The /WIN option to force installation of @NameWin
+   is not supported on 8086 or 8088 computers.
+   Only @Name for DOS can be installed here.
+
+   @FlushKeyboard() @Pause  @Exit
+  @EndDisplay
+ @EndIf
+
+ @If (@DirExists("@WindowsPath") && @Exists("@WindowsPath\\WIN.COM")
+   && @Exists("@WindowsPath\\WIN.INI") && @Exists("@WindowsPath\\SYSTEM.INI"))
+ @Else
+  @Display
+    @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+    Windows does not appear to be installed on your computer.
+    To install @NameWin, you must first install
+    Windows.  Or install @Name for DOS now, then install
+    @NameWin later after Windows is running on
+    your computer.
+
+    @FlushKeyboard() @Pause @Exit
+  @EndDisplay
+ @EndIf
+@EndIf
+
+@Time1 = @SystemDate
+@If (@InfFileMode) @Goto INSTALL @EndIf
+
+
+@BackgroundMode(3,@WinColor,@Black)
+
+@If (!@DosInstalled)
+@Display
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+  Congratulations!  You have purchased @Name @Registered Version @Version!
+  We at Artisoft feel it is the most complete Network Operating
+  System (NOS) software available for DOS and Windows@Trademark.
+  You can use @Name for simple file and printer sharing, but it
+  is equally suited to setting up complex networks with security,
+  auditing, and electronic mail.
+
+  @If (@RunWindows)@!To continue, click on  "OK". @EndIf
+
+  Copyright @Copyright 1994 by Artisoft, Inc.
+  @FlushKeyboard() @Pause
+@Enddisplay
+@EndIf
+
+
+@BackgroundMode(3,@WinColor,@Black)
+
+@Display
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+ @If (@DosInstalled)
+  @Name@Registered  Version @Version  Copyright @Copyright 1994 by Artisoft, Inc.
+  @Underline40@Underline20
+  You are installing @Name Version @Version onto your computer,
+  which already has a copy of @Name on it. You will be asked
+  a few questions about how you would like to set up @Name.
+  We suggest that you accept the default answers.
+ @Else This program will begin to install @Name onto your computer.
+  @Underline40@Underline20
+  You will be asked a few questions about how you would like to set
+  up @Name.  We suggest that you accept the default answers.
+
+  Your installation will go more smoothly if you know ahead of time the
+  names you want to give your computers and the drives and printers
+  that are available on each one.
+ @EndIf
+  Please remember that after you successfully install the @Name
+  software, you will need to REBOOT your computer.
+@If (@RunWindows)@!@Underline40@Underline20
+  Note:  You can quit the @Name Installation at any time by
+  clicking on  "CANCEL".  Or you can accept whatever selection
+  you have made on the current screen by clicking on  "OK".
+@EndIf @FlushKeyboard() @Pause
+@EndDisplay
+
+
+@If (!@MenuMode) @Goto INSTALL @EndIf
+
+MAINMENU:
+
+@If (@RunWindows)
+  @Delete("@WindowsPath\\LOAD.EXE")
+@EndIf
+
+@NewInstall = ("@FindLines("@EnvLanCfg\\STARTNET.BAT","DISABLED",4,20,"W")" != "")
+@NetEnabled = (!@Exists("@EnvLanCfg\\@DisabledFile"))
+
+@Share= (@Exists("@EnvLanCfg\\@ServerProg") && @NewInstall)
+@ShareEnabled = (!@Exists("@EnvLanCfg\\@NoShareFile"))
+
+@WinColor = @Blue
+@DosHeadingColor = 15
+@BackgroundMode(3,@WinColor,@Black)
+
+@ArtiDocMode = @Exists("@EnvLanCfg\\@ArtiDocDir")
+@If (@DebugMode) @t = 7 @b = 11 @Else @t = 7 @b = 10 @EndIf
+@If (@ArtiDocMode) @b = (@b + 1) @EndIf
+@If (@NewInstall) @b = (@b + 1) @EndIf
+@If (@Share) @b = (@b + 3) @EndIf
+@DlgCtrlSize(0,@t,0,@b,66)
+
+@ClearOption(100)
+@ClearOption(400)
+@ClearOption(500)
+@ClearOption(600)
+@ClearOption(700)
+@ClearOption(800)
+@ClearOption(801)
+@ClearOption(900)
+@ClearOption(901)
+
+@DlgCtrlSize(0,@t,0,@b,60) @FlushKeyboard()
+
+@GetOption @Prompt = "---- SETUP MENU ----"
+ @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText) @If (!@RunWindows) @LOCALWINDOW(12,40) @Endif
+ @If (@DebugMode)
+  Proceed with the installation of @Name by selecting
+  "INSTALL" below.  Or choose one of the other functions...
+ @Else
+  @If (!@RunWindows)                          ²²²² SETUP MENU ²²²²
+
+  @Endif @If ("@EnvLanCfg" != "")             >> @Name Directory is @EnvLanCfg @EndIf
+  @If ("@EnvLanDir" != "")              >> Control Directory is @EnvLanDir @EndIf
+
+                Select one of these actions: @EndIf
+ @If (@DebugMode)   @Option 100 = "INSTALL...@S100 @Name onto My Computer" @EndIf
+ @If (@Share)       @Option 400 = "ADD...    @S400 @Name Default Resources"
+                    @Option 500 = "RESET...  @S500 @Name Control Directory" @EndIf
+                    @Option 600 = "VIEW....  @S600 Information About My Computer"
+ @If (@ArtiDocMode) @Option 700 = "READ....  @S700 @Name On-line Documentation" @EndIf
+ @If (@NewInstall)
+  @If (@NetEnabled) @Option 800 = "DISABLE...@S800 @Name on Next Reboot"
+  @Else             @Option 801 = "ENABLE... @S801 @Name on Next Reboot" @EndIf @EndIf
+ @If (@Share)
+  @If (@ShareEnabled) @Option 900 = "DISABLE...@S900 Server on Next Reboot (to stop sharing)"
+  @Else             @Option 901 = "ENABLE... @S901 Server on Next Reboot (to share your files)" @EndIf @EndIf
+                    @Option 999 = "EXIT....  @S999 from @Name Setup"
+@EndOption
+
+@If      (100 [= @Option) @WinColor = @Red     @Goto INSTALL
+@ElseIf  (400 [= @Option) @WinColor = @Grey @Add = @True  @Goto INITIALIZE_RESOURCES
+@ElseIf  (500 [= @Option) @WinColor = @Grey @Add = @False @Goto INITIALIZE_RESOURCES
+@ElseIf  (600 [= @Option) @WinColor = @Magenta @Goto CONFIGURATION
+@ElseIf  (700 [= @Option) @WinColor = @Magenta @Goto ARTI_DOC
+@ElseIf  (800 [= @Option) @Goto ENABLE_DISABLE_NET
+@ElseIf  (801 [= @Option) @Goto ENABLE_DISABLE_NET
+@ElseIf  (900 [= @Option) @Goto DISABLE_SHARE
+@ElseIf  (901 [= @Option) @Goto ENABLE_SHARE
+@ElseIf  (999 [= @Option) @Exit
+@EndIf
+
+@Goto MAINMENU
+
+
+ENABLE_SHARE:
+@Delete("@EnvLanCfg\\@NoShareFile")
+@Goto MAINMENU
+
+DISABLE_SHARE:
+@Write("@EnvLanCfg\\@NoShareFile", "wt", "Sharing disabled @DateToStr(@SystemDate)\n")
+@Goto MAINMENU
+
+ENABLE_DISABLE_NET:
+@If (@InstallWindows)
+  @x1 = "@GetINI("windows","load","win.ini")"
+  @x1 = @StrTrim("@x1")
+  @x2 = "WNET"
+  @s3 = ""
+  @If (@Strlen(@x1) <= 0) @Goto MMSCAN_DONE @EndIf
+
+  @i = 0
+MMSCAN_WNET:
+  @x3 = @StrToken(@x1,@i)
+  @If (@Strlen(@x3) <= 0) @Goto MMSCAN_DONE @EndIf
+
+  @If (@StrFind(@x3,@x2) == -1)
+    @If (("@s3" == "") || ("@x3" == "")) @x4 = "" @Else @x4 = " " @EndIf
+    @s3 = "@s3@!@x4@!@x3"
+  @EndIf
+  @i = (@i + 1)
+  @Goto MMSCAN_WNET
+
+MMSCAN_DONE:
+  @If ("@s3" != "") @s3 = "@s3 " @EndIf
+@EndIf
+
+@If (801 [= @Option) @Goto ENABLE_NET @EndIf
+
+DISABLE_NET:
+
+@Write("@EnvLanCfg\\@DisabledFile", "wt", "@Name disabled @DateToStr(@SystemDate)\n")
+
+@If (@InstallWindows)
+  @SetINI("boot.description","network.drv"," ","system.ini")
+  @SetINI("boot","network.drv"," ","system.ini")
+  @SetINI("386Enh","network"," ","system.ini")
+
+  @SetINI("windows","load","@s3","win.ini")
+  @SetINI("windows","spooler","yes","win.ini")
+@EndIf
+@Goto MAINMENU
+
+ENABLE_NET:
+
+@If (@InstallWindows)
+  @SetINI("boot.description","network.drv",
+      "@NameWin Version @Version","system.ini")
+  @SetINI("boot","network.drv",
+     "@EnvLanCfg\\LANTNET.DRV","system.ini")
+  @SetINI("386Enh","network",
+     "*vnetbios,@EnvLanCfg\\LANTASTI.386","system.ini")
+
+  @SetINI("windows","load","@s3@!@EnvLanCfg\\WNET.EXE","win.ini")
+  @SetINI("windows","spooler","no","win.ini")
+@EndIf
+
+@Delete("@EnvLanCfg\\@DisabledFile")
+@Goto MAINMENU
+
+CONFIGURATION:
+
+
+@BackgroundMode(3,@WinColor,@Black)
+
+@If(@RunWindows)
+@Display
+Configuration of Your @cpu-based Windows Computer:
+
+Your processor is an ............................. 80@CPU
+Your co-processor is ............................. @If(@NDP)@!PRESENT @Else@!NOT PRESENT @EndIf
+Total DOS memory ................................ @Eval(@RAMTotal/1024)K  (@Eval(@RAMAvail/1024))
+Total EXT memory ................................. @If (@CPU < 286)@!NONE @Else@!@Eval(@EXTTotal/1024)K  (@Eval(@EXTAvail/1024)) @EndIf
+Total EMS memory ................................. @Eval(@EMMTotal/1024)K  (@Eval(@EMMAvail/1024))
+Drive @OutDrive: is .............................................. @If(@Removable(@OutDrive))@!REMOVABLE @Else@!NON-REMOVABLE @EndIf
+Drive @OutDrive: formatted capacity ................... @Eval(@DiskSize(@OutDrive)/1024000) Megs
+Drive @OutDrive: free space remaining ............... @Eval(@DiskFree(@OutDrive)/1024000) Megs
+CD-ROM Drive ....................................... @If(@CDRomTotal < 1)@!NOT PRESENT @Else @CDRomFirst@!: Driver @If(@CDRomMajor == 0)@!NOT PRESENT @Else @CDRomMajor.@CDRomMinor@! @EndIf@!@EndIf
+DOS version .......................................... @OSMajor.@OSMinor
+Windows version .................................. @WindowsMajor.@WindowsMinor
+Windows is located in ........................... @WindowsPath
+Windows current mode of operation ..... @If(@WindowsMode == 1)@!STANDARD @ElseIf(@WindowsMode == 2)@!ENHANCED @Else@!REAL @EndIf
+True Type Fonts are .............................. @If("@TTEnable" == "1")@!ENABLED @else@!DISABLED @EndIf
+Mouse Driver is .................................... @MDriver
+Network Driver is .................................. @If(@StrLen("@NetDriver") < 1)@!NOT INSTALLED @Else@!@NetDriver @EndIf
+Display Driver ....................................... @DispDriver [Screen Saver @If ("@ScreenSave" == "1") ON] @Else OFF] @EndIf
+Printer Driver ....................................... @DefaultWDevice
+SHELL is ............................................... @WinShell
+@FlushKeyboard() @Pause
+@EndDisplay
+@Else
+
+@Display
+ @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+ Configuration of Your @cpu-based DOS Computer:
+
+ Your processor is an ............................. 80@CPU
+ Your co-processor is ............................. @If(@NDP)@!PRESENT @Else@!NOT PRESENT @EndIf
+ Total DOS memory ................................. @Eval(@RAMTotal/1024)K  (@Eval(@RAMAvail/1024))
+ Total EXT memory ................................. @If (@CPU < 286)@!NONE @Else@!@Eval(@EXTTotal/1024)K  (@Eval(@EXTAvail/1024)) @EndIf
+ Total EMS memory ................................. @Eval(@EMMTotal/1024)K  (@Eval(@EMMAvail/1024))
+ Drive @OutDrive: is ...................................... @If(@Removable(@outdrive))@!REMOVABLE @Else@!NON-REMOVABLE @EndIf
+ Drive @OutDrive: formatted capacity ...................... @Eval(@DiskSize(@outdrive)/1024000) Megs
+ Drive @OutDrive: free space remaining .................... @Eval(@DiskFree(@outdrive)/1024000) Megs
+ CD-ROM Drive ..................................... @If(@CDRomTotal < 1)@!NOT PRESENT @Else@!@CDRomFirst@!: Driver @If(@CDRomMajor == 0)@!NOT PRESENT @Else @CDRomMajor.@CDRomMinor@! @EndIf@!@EndIf
+ DOS version ...................................... @OSMajor.@OSMinor
+ Windows version .................................. @If("@GetEnv("windir")" == "")@!NOT RUNNING @Else@!DOS BOX @EndIf
+ @FlushKeyboard() @Pause
+@EndDisplay
+
+@EndIf
+
+@Goto MAINMENU
+
+INITIALIZE_RESOURCES:
+@BackgroundMode(3,@WinColor,@Black)
+
+@If ("@EnvLanDir" == "")
+  @If ("@EnvLanCfg" == "")
+    @If ("@Subdir" == "")
+       @EnvLanCfg = "@DefaultNetPath"
+    @Else
+       @EnvLanCfg = "@Subdir"
+    @EndIf
+  @EndIf
+  @EnvLanDir = "@StrToken(@EnvLanCfg,0,".").NET"
+@EndIf
+@If ("@EnvLanCfg" == "")
+  @EnvLanCfg = @StrToken(@EnvLanDir,0,".")
+@EndIf
+
+@Display
+  @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+@If (@Add)
+  Add default resources to the Control Directory
+  at the "@EnvLanDir" path.  This will also
+  restore existing default resources to their original
+  settings and add a wildcard account.  To add security
+  to these resources and to the wildcard account once
+  they are created, use the NET_MGR program.
+@Else
+  Initialize Control Directory for shared drives and
+  printers  at the "@EnvLanDir" path.
+
+  This will run the program @InitControlProg to create
+  and initialize the control directory.  Any existing
+  accounts and resources will be lost.
+
+  Please do NOT do this unless something is wrong with
+  your current Control Directory.
+@EndIf
+  If you do NOT want to do this, @If (@RunWindows)@!click on  "CANCEL"  @Else@!press  "ESC"  @Endif@!now.
+  @FlushKeyboard() @Pause
+@EndDisplay
+
+@ComputerName = "80@CPU"
+@s6 = "@EnvLanCfg\\@InitControlProg"
+@s7 = "@s6 -A -n@ComputerName -c@EnvLanDir -p@EnvLanCfg @InitControlArg"
+@If (!@Add) @s7 = "-O @s7" @EndIf
+
+@If (@Exists(@s6))
+  @If (@RunWindows)
+
+    @WINEXEC(@s7,2)
+    @Delay(2)
+  @Else
+    @If (@SPAWN(@s7) != 0)
+      @Display
+
+  Unable to initialize @Name Control Directory.
+
+  (@MemAvail@!K of memory available)
+       @FlushKeyboard() @Pause
+      @EndDisplay
+    @EndIf
+  @EndIf
+@Else
+  @BackgroundMode(3,@Red,@Red)
+  @Display
+
+     Unable to initialize @Name Control Directory.
+
+     The program @InitControlProg was not found in @EnvLanCfg.
+     @FlushKeyboard() @Pause
+  @EndDisplay
+@EndIf
+
+@Goto MAINMENU
+
+ARTI_DOC:
+@BackgroundMode(3,@WinColor,@Black)
+
+@s1 = "@EnvLanCfg\\@ArtiDocDir\\@ArtiDocProg"
+
+@If (@Exists(@s1))
+  @ChDir("@EnvLanCfg\\@ArtiDocDir")
+  @If (@RunWindows)
+    @WINEXEC(@s1,1)
+    @Display
+
+     Artidocs On-Line Documentation Viewer
+
+     Click on  "OK"  to return to Setup Menu.
+     @FlushKeyboard() @Pause
+    @EndDisplay
+  @Else
+    @If (@SPAWN("@s1") != 0)
+     @Display
+
+ Unable to run Artidocs On-Line Documentation Viewer
+
+ (@MemAvail@!K of memory available)
+      @FlushKeyboard() @Pause
+     @EndDisplay
+    @EndIf
+  @EndIf
+  @ChDir("@StartupPath")
+@EndIf
+
+@Goto MAINMENU
+
+EXTRACT:
+@InstallMode  = @False
+
+
+@FlushOptions()
+
+@ChangeSystemFiles = @False
+
+@ToFloppy  = @False
+@ToHard    = @False
+@ToNetwork = @False
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,7,15,11,30) @FlushKeyboard()
+
+@GetOutDrive @OutDrive @Prompt = "Enter target drive"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @If(!@RunWindows) @LOCALWINDOW(14,39) @EndIf
+  @If (@ToFloppyOK) @Suppress(0,(16+4)) @ElseIf (@ToNetworkOK) @Suppress(0,(16+1)) @Else @Suppress(0,(16+4+1)) @EndIf @If (@Removable(@ScriptDrive)) @Suppress(@ScriptDrive) @EndIf
+  You have chosen to "extract" files from the @Name distribution
+  disk.  Please select the drive where you want @Name files
+  to be loaded on your computer.
+@EndOutDrive
+
+@Goto NEWDIR
+
+INSTALL:
+@InstallMode = @True
+@AlreadyKeep = @False
+
+
+@FlushOptions()
+
+@ChangeSystemFiles = @True
+
+@ToFloppy  = @False
+@ToHard    = @False
+@ToNetwork = @False
+
+@If (@ToFloppyOK || !@DosInstalled)
+  @KeepInstall = @False
+  @NewInstall = @True
+  @Goto CHECK_DONE
+@EndIf
+
+
+
+ASK_KEEP:
+
+@If (@WinInstalled)
+  @s1 = "@NetName"
+@Else
+  @If (@PrevNOS)
+    @s1 = "a prior version of LANtastic"
+  @ElseIf (@SimplyNOS)
+	 @s1 = "Simply LANtastic"
+  @Else
+    @s1 = "@Name for DOS"
+  @EndIf
+@EndIf
+
+@If (@InstallWindows && !@WinInstalled)
+   @s2 = "\n  @NameWin will also be installed on your computer."
+@Else
+   @s2 = ""
+@EndIf
+
+@If (@RunWindows) @s3 = "" @Else @s3 = "\n  " @EndIf
+
+
+@If (@KeepInstall) @SetOption(11)
+@Else @SetOption(12) @EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,17,1,20,58) @FlushKeyboard()
+
+@GetOption @Prompt = "Keep or replace current @Name settings?"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText) @If(!@RunWindows) @LOCALWINDOW(21,40) @EndIf
+  @s3@!INSTALL found @s1 on your
+  computer.  You can  "KEEP"  all of your current @Name settings
+  or  "REPLACE"  them with new settings generated by this INSTALL.
+
+  If you choose  "KEEP", no changes will be made to STARTNET.BAT or
+  any system files such as AUTOEXEC.BAT or CONFIG.SYS.  Accounts,
+  resources, and the "server" configuration also will be preserved.
+
+  Choosing "REPLACE" creates a new STARTNET.BAT and changes
+  CONFIG.SYS and AUTOEXEC.BAT after saving the original versions.
+  Accounts, resources and the "server" configuration will be preserved
+  but you must merge special setup information (such as multiple
+  adapter configuration or non-default adapter driver settings) into
+  the new STARTNET.BAT using a text editor.
+  @s2
+  @Option 11  = "KEEP     all previous @Name setup information"
+  @Option 12  = "REPLACE  existing @Name setup with \"new style\""
+@EndOption
+
+@NewInstall = @True
+@KeepInstall = @False
+@ChangeSystemFiles = @True
+@AlreadyKeep = @True
+
+@If (11 [= @Option)
+  @NewInstall = @False
+  @KeepInstall = @True
+  @ChangeSystemFiles = @False
+  @InfFileMode = @False
+@EndIf
+
+@If (@KeepInstall)
+  @If ("@StrMid("@EnvLanCfg",1,1)" == ":")
+    @d = (@StrIndex(@EnvLanCfg,0))
+    @If (@DriveExists(@d))
+      @OutDrive = @d
+    @Else
+      @Display
+      W A R N I N G
+
+      Drive @d is not available!  Using C:
+      @FlushKeyboard() @Pause
+      @EndDisplay
+      @OutDrive = C
+    @EndIf
+    @Subdir = "@StrMid(@EnvLanCfg,2,100)"
+  @Else
+    @Subdir = "@EnvLanCfg"
+  @EndIf
+  @InstallDir = "@Subdir"
+@EndIf
+
+@PleaseWait("- Looking up computer name")
+
+@If ("@ComputerName" == "")
+  @s1 = @FindLines("@BootDrive:\\AUTOEXEC.BAT","REDIR",1,100,"IW")
+  @If ("@s1" != "")
+    @s3 = @StrConvert(@s1,"uc")
+    @i = @StrFind(@s3,"REDIR")
+    @s5 = @StrMid(@s3,@i,30)
+    @ComputerName = @StrToken(@s5,1," ~")
+  @Else
+    @s2 = @FindLines("@EnvLanCfg\\STARTNET.BAT","REDIR",1,100,"IW")
+    @If ("@s2" != "")
+      @s4 = @StrConvert(@s2,"uc")
+      @i = @StrFind(@s4,"REDIR")
+      @s6 = @StrMid(@s4,@i,30)
+      @ComputerName = @StrToken(@s6,1," ~")
+    @EndIf
+  @EndIf
+  @If (("@StrHead(@ComputerName,1)" == "%")
+     && ("@StrTail(@ComputerName,1)" == "%"))
+    @i = (@StrLen(@ComputerName) - 2)
+    @If (@i > 0)
+      @ComputerName = @GetEnv("@StrMid(@ComputerName,1,@i)")
+    @Else
+      @ComputerName = ""
+    @EndIf
+  @EndIf
+@EndIf
+
+CHECK_DONE:
+
+
+COMPUTER_NAME:
+
+@If ((@KeepInstall) && ("@ComputerName" != ""))
+  @Goto NAME_DONE
+@EndIf
+
+@If (@InfFileMode && ("@InfComputerName" != ""))
+  @ComputerName = "@InfComputerName"
+  @Goto NAME_DONE
+@EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,12,2,13,30) @FlushKeyboard()
+
+@GetString @ComputerName
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+    Each computer in the @Name network requires a
+    name.  No two names in one network should be the same.
+    Usually, people use some variation of their own name
+    for their computer.  Or computers could be named by
+    location (e.g. UPSTAIRS) or function (e.g. GAMES).
+    Please name your computer now with a word containing
+    up to fifteen letters with no spaces.
+
+    @PromptName
+    @Prompt = "Enter computer name"
+@EndString
+
+@If (@StrLen(@ComputerName) < 1)
+  @PromptName = ">>> You need to enter a name for your computer.<<<"
+  @Goto COMPUTER_NAME
+@ElseIf (@StrLen(@ComputerName) > 15)
+  @PromptName = ">>> The name you typed was longer than 15 letters.<<<"
+  @Goto COMPUTER_NAME
+@ElseIf (@StrFind(@ComputerName," ") >= 0)
+  @PromptName = ">>> The name you typed contained spaces.<<<"
+  @Goto COMPUTER_NAME
+@ElseIf (@StrFind("@Illegal","@ComputerName") >= 0)
+  @PromptName = ">>> The character  @ComputerName  is not allowed.<<<"
+  @Goto COMPUTER_NAME
+@ElseIf (@StrLen("@StrToken("@ComputerName",1,"@Illegal")") > 0)
+  @s9 = @StrMid("@ComputerName",@StrLen("@StrToken("@ComputerName",0,"@Illegal")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @PromptName = ">>> The character  @s9  is not allowed.<<<"
+  @Goto COMPUTER_NAME
+@ElseIf ("@StrToken("@ComputerName",0,"@Illegal")" != "@ComputerName")
+  @PromptName = ">>>@BadChar<<<"
+  @Goto COMPUTER_NAME
+@ElseIf (@InfFileMode && @ForceName)
+  @If ("@FindText(@InfPath,"[@ComputerName]","IW")" == "")
+    @PromptName = ">>> See your system administrator for a valid name.<<<"
+    @Goto COMPUTER_NAME
+  @EndIf
+@EndIf
+
+NAME_DONE:
+@PromptName = ""
+@ComputerName = @StrConvert("@ComputerName","uc")
+
+@If (@InfFileMode && ("@InfHeader" != ""))
+  @If (("@InfMode" == "NAME") || @ForceName) @InfHeader = @ComputerName @EndIf
+  @InfType = @StrConvert(@GetINI(@InfHeader,"Type",@InfPath),"uc")
+  @If ("@InfType" != "") @InfHeader = @InfType @EndIf
+
+  @InfInstallPath = @StrConvert(@GetINI(@InfHeader,"InstallPath",@InfPath),"uc")
+  @InfExecutePath = @StrConvert(@GetINI(@InfHeader,"ExecutePath",@InfPath),"uc")
+  @InfWindows  = @StrConvert(@GetINI(@InfHeader,"Windows",@InfPath),"uc")
+  @InfShare    = @StrConvert(@GetINI(@InfHeader,"Share",@InfPath),"uc")
+  @InfLogouts  = @StrConvert(@GetINI(@InfHeader,"Logouts",@InfPath),"uc")
+  @InfLogins   = @StrConvert(@GetINI(@InfHeader,"Logins",@InfPath),"uc")
+  @InfMail     = @StrConvert(@GetINI(@InfHeader,"Mail",@InfPath),"uc")
+  @InfPOname   = @StrConvert(@GetINI(@InfHeader,"POname",@InfPath),"uc")
+  @InfSyncMail = @StrConvert(@GetINI(@InfHeader,"SyncMail",@InfPath),"uc")
+  @InfNcp      = @StrConvert(@GetINI(@InfHeader,"Ncp",@InfPath),"uc")
+  @InfSmb      = @StrConvert(@GetINI(@InfHeader,"Smb",@InfPath),"uc")
+  @InfInstallServices = @StrConvert(@GetINI(@InfHeader,"InstallServices",@InfPath),"uc")
+  @InfChangeSystemFiles = @StrConvert(@GetINI(@InfHeader,"ChangeSystemFiles",@InfPath),"uc")
+  @InfConnect  = @StrConvert(@GetINI(@InfHeader,"Connect",@InfPath),"uc")
+  @If ("@InfConnect" == "YES")
+    @InfDrive1   = @StrConvert(@GetINI(@InfHeader,"Drive1",@InfPath),"uc")
+    @InfDrive2   = @StrConvert(@GetINI(@InfHeader,"Drive2",@InfPath),"uc")
+    @InfPrinter1 = @StrConvert(@GetINI(@InfHeader,"Printer1",@InfPath),"uc")
+    @InfPrinter2 = @StrConvert(@GetINI(@InfHeader,"Printer2",@InfPath),"uc")
+  @EndIf
+
+  @If ("@InfChangeSystemFiles" == "YES")
+    @ChangeSystemFiles = @True
+  @ElseIf ("@InfChangeSystemFiles" == "NO")
+    @ChangeSystemFiles = @False
+  @EndIf
+@EndIf
+
+
+
+NEWDRIVE:
+
+@If (@KeepInstall)
+  @Goto PATH_DONE
+@EndIf
+
+@If (@InfFileMode && ("@InfInstallPath" != ""))
+  @If ("@StrMid("@InfInstallPath",1,1)" == ":")
+    @d = (@StrIndex(@InfInstallPath,0))
+    @If (!@DriveExists(@d))
+      @InfInstallPath = ""
+      @Goto NEWDRIVE
+    @EndIf
+    @OutDrive = @d
+    @Subdir = "@StrMid(@InfInstallPath,2,100)"
+  @Else
+    @Subdir = "@InfInstallPath"
+  @EndIf
+  @InstallDir = "@Subdir"
+  @Goto PATH_DONE
+@EndIf
+
+@If (@RunWindows) @s1 = "" @Else @s1 = "          " @EndIf
+@s2 = "Please select the drive where you want @Name to be"
+@s3 = "installed on your computer.  Any available drive can"
+@If (@ToFloppyOK)
+  @s2 = "Please select the floppy drive where you want"
+  @s3 = "@Name DOS workstation files to be installed."
+  @s4 = ""
+@ElseIf (@ToNetworkOK)
+  @s4 = "be used.  The current network drives are: @ExistingRemote"
+@Else
+  @s4 = "be used, but we suggest Drive C:"
+@EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,7,15,12,30) @FlushKeyboard()
+
+@GetOutDrive @OutDrive @Prompt = "Enter target drive"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText) @If(!@RunWindows) @LOCALWINDOW(11,40) @EndIf
+  @If (@ToFloppyOK) @Suppress(0,(16+2)) @ElseIf (@ToNetworkOK) @Suppress(0,(16+1)) @Else @Suppress(0,(16+4+1)) @EndIf @If (@Removable(@ScriptDrive)) @Suppress(@ScriptDrive) @EndIf
+  @s1@!@s2
+  @s1@!@s3
+  @s1@!@s4
+@EndOutDrive
+
+
+
+NEWDIR:
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,9,2,10,37) @FlushKeyboard()
+
+@If (@ExtractMode)
+  @s1 = "extracted files to be placed"
+@Else
+  @s1 = "@Name files to be installed"
+@EndIf
+
+@GetSubdir @Subdir @Prompt = "Enter directory"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @If(!@RunWindows) @LOCALWINDOW(10,25) @EndIf
+  Please select the directory on Drive @OutDrive where
+  you want @s1. @If (@StrLen(@InstallDir) < 1) Most people
+  @key to accept the default directory. @EndIf
+
+  @PromptSub
+@EndSubdir
+
+@InstallDir = @StrConvert("@Subdir","uc")
+
+@If (@StrLen(@InstallDir) < 1)
+  @PromptSub = ">>> You need to specify a directory on Drive @OutDrive:.<<<"
+  @Goto NEWDIR
+@ElseIf ("@StrMid("@InstallDir",2,1)" == ":")
+  @s9 = @StrMid("@InstallDir",1,1)
+  @InstallDir = @StrMid(@InstallDir,3,100)
+  @If ("@s9" == "@OutDrive")
+    @If (@StrLen(@InstallDir) < 1) @InstallDir = "\\" @EndIf
+    @Subdir = "@InstallDir"
+  @Else
+    @PromptSub = ">>> No drive needed, type directory only.<<<"
+    @Subdir = "@InstallDir"
+    @Goto NEWDIR
+  @EndIf
+@EndIf
+
+@If ( ("@InstallDir" == "\\") )
+  @PromptSub = ">>> Do not install @Name in root directory: @OutDrive:\\ <<<"
+  @Goto NEWDIR
+@ElseIf (@StrFind(@InstallDir," ") >= 0)
+  @PromptSub = ">>> The directory you typed contained spaces.<<<"
+  @Goto NEWDIR
+@ElseIf (@StrFind(@InstallDir,"\\\\") >= 0)
+  @PromptSub = ">>> The directory you typed contained '\\\\'.<<<"
+  @Goto NEWDIR
+@ElseIf (@StrLen("@StrToken("@InstallDir",1,"@Illegal0")") > 0)
+  @s9 = @StrMid("@InstallDir",@StrLen("@StrToken("@InstallDir",0,"@Illegal0")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @PromptSub = ">>> The character  @s9  is not allowed.<<<"
+  @Goto NEWDIR
+@ElseIf ("@StrToken("@InstallDir",0,"@Illegal0")" != "@InstallDir")
+  @PromptSub = ">>>@BadChar<<<"
+  @Goto NEWDIR
+@ElseIf ((@StrLen("@StrToken("@InstallDir",0,".\\")") > 8)
+       ||(@StrLen("@StrToken("@InstallDir",1,".\\")") > 8)
+       ||(@StrLen("@StrToken("@InstallDir",2,".\\")") > 8))
+  @PromptSub = ">>> Directory names must be 8 letters or less.<<<"
+  @Goto NEWDIR
+@ElseIf (@Exists("@OutDrive:@InstallDir"))
+  @If (!@DirExists("@OutDrive:@InstallDir"))
+    @PromptSub = ">>> @OutDrive:@InstallDir is not a valid directory.<<<"
+    @Goto NEWDIR
+  @EndIf
+@EndIf
+
+PATH_DONE:
+@If ("@StrTail("@InstallDir",1)" == "\\")
+  @n = (@StrLen("@InstallDir"))
+  @InstallDir = @StrHead("@InstallDir",(@n-1))
+  @Subdir = "@InstallDir"
+@EndIf
+
+@InstallPath = "@OutDrive:@InstallDir"
+
+@If ("@InstallPath" == "@StartupPath")
+  @PromptSub = ">>> You tried to reinstall @Name in @OutDrive:@InstallDir.<<<"
+  @Goto NEWDIR
+@EndIf
+
+@PromptSub = ""
+
+@If (@Removable(@OutDrive))
+  @ToFloppy = @True
+@ElseIf (@DriveRemote(@OutDrive))
+  @ToNetwork = @True
+@Else
+  @ToHard = @True
+@EndIf
+
+@If (@ToHard && @InstallMode && !@AlreadyKeep)
+  @If (@Exists("@InstallPath\\@RedirProg"))
+    @PrevNOS = @True
+    @KeepInstall = @True
+    @NewInstall = @False
+    @Goto ASK_KEEP
+  @EndIf
+@EndIf
+
+@If (@ExtractMode) @Goto EXTRACT_FAMILIES @EndIf
+
+@If (@ToHard || @KeepInstall)
+  @your = "your"
+  @my   = "my"
+  @ExecutePath = @InstallPath
+  @Goto XPATH_DONE
+@ElseIf (@ToFloppy)
+  @If ("@ExecutePath" == "") @ExecutePath = "A:@InstallDir" @EndIf
+  @s5 = "floppy"
+  @s6 = "INSTALL will set up a @Name for DOS workstation on Drive @OutDrive."
+  @s7 = "for"
+  @your = "the"
+  @my   = "the"
+@ElseIf (@ToNetwork)
+  @If ("@ExecutePath" == "") @ExecutePath = "C:@InstallDir" @EndIf
+  @s5 = "network"
+  @s6 = "A network drive is a hard drive on another computer."
+  @s7 = "to"
+  @your = "the"
+  @my   = "the"
+@Else
+  @Abort
+@EndIf
+
+
+EXEDIR:
+
+@DlgCtrlSize(0,17,0,18,35) @FlushKeyboard()
+
+@GetString @Ex1
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+  You are installing @Name to a @s5 drive.
+  @s6
+
+  Please select the drive and directory where @Name
+  will run on the computer you are installing @s7.
+
+      >>  You need to do this because the "path"
+      >>  -- @InstallPath -- you are installing
+      >>  to on your computer may not be on the
+      >>  same drive as it will be running from
+      >>  on the other computer.
+
+ @If ("@PromptSub" == "") To use the default below, @key now. @EndIf
+  @PromptSub
+  @Default = "@ExecutePath" @Prompt = "Enter path on target computer"
+@EndString
+
+@ExecutePath = @StrConvert(@Ex1,"uc")
+@If (@StrLen(@ExecutePath) < 1)
+  @If ("@PromptSub" == "")
+    @PromptSub = ">>> You need to enter a path for your other computer.<<<"
+    @Goto EXEDIR
+  @EndIf
+@ElseIf (@StrFind(@ExecutePath," ") >= 0)
+  @PromptSub = ">>> The directory you typed contained spaces.<<<"
+  @Goto EXEDIR
+@ElseIf (@StrFind(@ExecutePath,"\\\\") >= 0)
+  @PromptSub = ">>> The directory you typed contained '\\\\'.<<<"
+  @Goto EXEDIR
+@ElseIf (@StrLen("@StrToken("@ExecutePath",1,"@Illegal1")") > 0)
+  @s9 = @StrMid("@ExecutePath",@StrLen("@StrToken("@ExecutePath",0,"@Illegal1")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @PromptSub = ">>> The character  @s9  is not allowed.<<<"
+  @Goto EXEDIR
+@ElseIf ("@StrToken("@ExecutePath",0,"@Illegal1")" != "@ExecutePath")
+  @PromptSub = ">>>@BadChar<<<"
+  @Goto EXEDIR
+@ElseIf ((@StrLen("@StrToken("@ExecutePath",0,".\\")") > 8)
+       ||(@StrLen("@StrToken("@ExecutePath",1,".\\")") > 8)
+       ||(@StrLen("@StrToken("@ExecutePath",2,".\\")") > 8))
+  @PromptSub = ">>> Directory names must be 8 letters or less.<<<"
+  @Goto EXEDIR
+@ElseIf ("@StrMid("@ExecutePath",1,1)" != ":")
+  @If (@ToFloppy) @x1 = "A" @Else @x1 = "C" @EndIf
+  @PromptSub = ">>> Path must begin with drive (e.g. @x1:).<<<"
+  @Goto EXEDIR
+@ElseIf ("@StrMid("@ExecutePath",1,1)" == ":")
+  @If (@ToFloppy) @x1 = "A B" @Else @x1 = "C D E F G H" @EndIf
+  @x2 = @StrHead(@ExecutePath,1)
+  @If (@StrFind(@x1,@x2) < 0)
+    @PromptSub = ">>> Drive @x2: out of range, use @x1:<<<"
+    @Goto EXEDIR
+  @EndIf
+  @If ( (@StrLen(@ExecutePath) == 3) && ("@StrTail(@ExecutePath,1)" == "\\"))
+    @PromptSub = ">>> Please do not run @Name in @ExecutePath.<<<"
+    @Goto EXEDIR
+  @EndIf
+@Else
+  @If (@ToFloppy) @x1 = "A" @Else @x1 = "C" @EndIf
+  @PromptSub = ">>> Path must begin with drive (e.g. @x1:).<<<"
+  @Goto EXEDIR
+@EndIf
+@PromptSub = ""
+
+XPATH_DONE:
+@If ("@StrTail(@ExecutePath,1)" == "\\")
+  @n = @StrLen(@ExecutePath)
+  @ExecutePath = @StrHead(@ExecutePath,(@n-1))
+@EndIf
+
+@If (@NewInstall || ("@EnvLanDir" == "") || @ToNetwork)
+  @SharePath  = "@StrToken(@InstallPath,0,".").NET"
+  @XSharePath = "@StrToken(@ExecutePath,0,".").NET"
+@Else
+  @SharePath  = @EnvLanDir
+  @XSharePath = @SharePath
+@EndIf
+
+
+@If (!(@RunWindows || @ScriptXfered))
+  @If (!@ToFloppy)
+   @If (@Removable(@ScriptDrive)
+      && ((@DiskFree(@OutDrive)/1024) > 200))
+    @s2 = "@ScriptFile"
+    @b = @StrRFind("@s2","\\")
+    @If (@b >= 0)
+      @s2 = @StrMid(@s2,(@b+1),20)
+    @EndIf
+    @ScriptTempPath = "@OutDrive:\\TEMP"
+    @s3 = "@ScriptTempPath\\@s2"
+    @If (!@DirExists(@ScriptTempPath))
+      @MkDir(@ScriptTempPath)
+      @NewTemp = @True
+    @EndIf
+    @PleaseWait("- Copying Install script to hard drive")
+    @Copy("@ScriptFile","@ScriptTempPath")
+
+    @If (@Exists("@s3"))
+      @ScriptXfered = @True
+      @PleaseWait("- Resuming script on hard drive")
+      @Chain("Hard Drive","@s3","XFER_RESTART")
+    @EndIf
+   @EndIf
+  @EndIf
+@EndIf
+
+XFER_RESTART:
+
+
+SHARE:
+
+@If (@KeepInstall)
+  @Share= @Exists("@EnvLanCfg\\SERVER.EXE")
+  @Goto NOSHARE
+@EndIf
+
+@If (@ToFloppy)
+  @Share = @False
+  @Goto NOSHARE
+@EndIf
+
+@If (@InfFileMode)
+  @Share = ("@InfShare" != "NO")
+  @Goto NOSHARE
+@EndIf
+
+@ClearOption(11)
+@ClearOption(12)
+@If (@Share) @SetOption(11) @Else @SetOption(12) @EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,11,1,14,51) @FlushKeyboard()
+
+@GetOption @Prompt = "Share drives and printers?"
+  @If (!@RunWindows)
+    @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    @LOCALWINDOW(15,40)
+  @EndIf
+  In order for other computers in your @Name network
+  to use the drives and printers on @your computer
+  "@ComputerName", you need to enable "sharing" now.
+  (This will make @your computer into what is called
+  a "server", since it will service requests from other
+  computers while you continue to use it.)
+
+  Do you want to share @your disk drives or printers?
+
+  @Option 11 = "SHARE @my computer's drives or printers"
+  @Option 12 = "DO NOT share @my computer's drives and printers"
+@EndOption
+
+@Share = @False
+@If (11  [= @Option)  @Share = @True  @EndIf
+
+NOSHARE:
+
+
+
+
+
+MAX:
+@If (@KeepInstall)
+  @Logouts = 15
+  @Goto OPTIONS
+@EndIf
+
+@If (@InfFileMode && ("@InfLogouts" != ""))
+  @Logouts = @StrToInt(@InfLogouts)
+@EndIf
+@If (@InfFileMode && ("@InfLogins" != ""))
+  @Logins = @StrToInt(@InfLogins)
+  @Goto OPTIONS
+@EndIf
+
+@If (!@Share) @Goto OPTIONS @EndIf
+
+@If (@RunWindows)
+  @s5 = "click on"
+@Else
+  @s5 = "arrow down to"
+@EndIf
+
+@s9 = "maximum connected computers"
+@keep     = "KEEP      @s9 at"
+@increase = "INCREASE  @s9 to"
+@setmax   = "SET  @s9 to"
+
+@ClearOption(11)
+@ClearOption(12)
+@ClearOption(13)
+@ClearOption(14)
+
+@If (@Logins > 60) @SetOption(14)
+@ElseIf (@Logins > 30) @SetOption(13)
+@ElseIf (@Logins > 10) @SetOption(12)
+@Else @SetOption(11) @EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+
+@If (@Logins <= 10)
+ @DlgCtrlSize(0,13,1,18,51) @FlushKeyboard()
+ @GetOption @Prompt = "More than 10 computers using @your drives and printers?"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @If (!@RunWindows) @LOCALWINDOW(16,35) @EndIf
+  If @your computer  "@ComputerName"  will NOT share drives and
+  printers with more than 10 other computers, @key
+  now to  "KEEP"  the maximum number of computers at 10.
+
+  But if this computer  "@ComputerName"  WILL share with more
+  than 10 other computers, @s5  the desired "INCREASE"
+  in the box below, then @key to allow those other
+  computers to use your drives and printers at the same
+  time.  (This will result in an increase in the amount of
+  memory @Name uses on @your computer.)
+
+  @Option 11 = "@keep 10"
+  @Option 12 = "@increase 30"
+  @Option 13 = "@increase 60"
+  @Option 14 = "@increase 100"
+ @EndOption
+@Else
+ @DlgCtrlSize(0,8,1,13,48) @FlushKeyboard()
+ @GetOption @Prompt = "Set number of computers using yours at one time"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @If (!@RunWindows) @LOCALWINDOW(12,35) @EndIf
+  Select the approximate number of computers on your
+  @Name network that you want @your computer  "@ComputerName"
+  to share its drives and printers with.  (The larger the
+  number you select, the more memory @Name will
+  use on @your computer.)
+
+  @Option 11 = "@setmax 10"
+  @Option 12 = "@setmax 30"
+  @Option 13 = "@setmax 60"
+  @Option 14 = "@setmax 100"
+ @EndOption
+@EndIf
+
+@If     (11  [= @Option)
+    @Logins = 10
+@ElseIf (12  [= @Option)
+    @Logins = 30
+@ElseIf (13  [= @Option)
+    @Logins = 60
+@ElseIf (14  [= @Option)
+    @Logins = 100
+@EndIf
+
+
+OPTIONS:
+
+@If (@ToFloppy || @LowDensity) @MailSupport = @False @EndIf
+
+@If (@InfFileMode)
+  @If (@MailSupport)
+    @If (("@InfMail" == "NO") || ("@InfMail" == ""))
+    @Else
+      @SetOption(160)
+    @EndIf
+  @EndIf
+  @If ("@InfNcp" == "YES") @SetOption(180) @EndIf
+  @If ("@InfSmb" == "YES") @SetOption(190) @EndIf
+  @If (@HighDensity && !@ToFloppy)
+    @If ("@InfInstallServices" == "YES") @SetOption(112) @EndIf
+  @EndIf
+  @Goto OPTIONS_DONE
+@EndIf
+
+@If (@MailEnabled)     @SetOption(160) @EndIf
+@If (@NcpEnabled & 1)  @SetOption(180) @EndIf
+@If (@NcpEnabled & 2)  @SetOption(181) @EndIf
+@If (@SmbEnabled & 1)  @SetOption(190) @EndIf
+@If (@SmbEnabled & 2)  @SetOption(191) @EndIf
+@If (@HighDensity && !@ToFloppy)
+  @If (@InstallServices) @SetOption(112) @EndIf
+@EndIf
+
+@MailEnabled = @False
+@NcpEnabled  = 0
+@SmbEnabled  = 0
+@InstallServices = @False
+
+@BackgroundMode(3,@WinColor,@Black)
+@t = 8 @b = 13
+@If (@MailSupport) @b = (@b + 1) @EndIf
+@If (@HighDensity && !@ToFloppy) @b = (@b + 1) @EndIf
+@DlgCtrlSize(0,@t,1,@b,51) @FlushKeyboard()
+
+@GetOption @Checkbox @Prompt = "Select all that apply"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @If (!@RunWindows) @LOCALWINDOW(16,35) @EndIf
+  Select one or more (or none) of the following additional
+  @Name features listed below if you need them. @If (@NewInstall) (Each of
+  these features takes up additional memory or disk space
+  on @your computer if they are installed.) @Else (Any features
+  you select will be added to your current installation.) @EndIf
+
+  @If (!@RunWindows)
+        >> Use the SPACE bar to toggle the selections below   <<
+        >> Press ENTER to accept the selections you have made << @EndIf
+@If (@MailSupport)
+ @If (@InstallWindows)
+  @Option 160 = "Artisoft Exchange - Mail and Scheduler"
+ @Else
+  @Option 160 = "Artisoft Exchange - Mail Post Office"
+ @EndIf
+@EndIf
+  @Option 180 = "Client to Novell @Registered 3.11 File Server"
+  @Option 181 = "Client to Novell @Registered 4.01 File Server"
+  @Option 190 = "Client to Windows@Trademark for Workgroups"
+  @Option 191 = "Client to Microsoft @Registered LAN Manager"
+@If (@HighDensity && !@ToFloppy)
+  @Option 112 = "Load files to enable \"Install Services\""
+@EndIf
+@EndOption
+
+
+OPTIONS_DONE:
+@If (160 [! @Option)
+  @MailEnabled = @False
+  @NetMail     = @False
+  @MailServer  = @False
+  @NewMailServer = @False
+  @ClearMailData = @False
+  @FaxEnabled  = @False
+  @Goto NOMAIL
+@EndIf
+
+
+
+@If (@InfFileMode)
+  @ClearOption(160)
+  @MailEnabled = @False
+  @NetMail     = @False
+  @MailServer  = @False
+  @NewMailServer = @False
+  @ClearMailData = @False
+  @FaxEnabled  = @False
+  @If     (("@InfMail" == "PO")
+       || ("@InfMail" == "SERVER"))
+       @SetOption(170)
+       @Goto CHECK_PO
+  @ElseIf (("@InfMail" == "YES")
+       || ("@InfMail" == "CLIENT"))
+       @SetOption(160)
+  @ElseIf ("@InfMail" == "NET")
+       @SetOption(161)
+  @EndIf
+  @Goto MAIL_DONE
+@EndIf
+
+@ClearOption(160)
+@If     (@NetMail)    @SetOption(161)
+@ElseIf (@MailServer) @SetOption(170)
+@Else @SetOption(160) @EndIf
+@MailEnabled = @False
+@NetMail     = @False
+@MailServer  = @False
+@NewMailServer = @False
+@ClearMailData = @False
+@FaxEnabled  = @False
+
+@If (!@InstallWindows)
+  @SetOption(170)
+  @ClearOption(160)
+  @Goto CHECK_PO
+@EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,16,7,20,58) @FlushKeyboard()
+
+@GetOption @Prompt = "Select Artisoft Exchange Mail option"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  @If (!@RunWindows) @LOCALWINDOW(18,40) @EndIf
+  You need to set up ONE computer on your @Name network
+  as an Artisoft Exchange Mail Post Office.  This should
+  be a speedy machine with a large hard drive.
+
+  All of the other computers on the network should be set up as
+  either a  "Mail Client"  or a  "Network Mail Client".  If you
+  choose "Mail Client", the Artisoft Exchange programs will be
+  copied to @your computer and will take up disk space there.
+  If you choose "Network Mail Client", the programs will be run
+  from the post office computer.  They will run more slowly, but
+  will not take up any space on @your computer's hard drive.
+
+  Select one of the Artisoft Exchange Mail options listed below:
+
+  @Option 160 = "Artisoft Exchange - Mail Client"
+  @Option 161 = "Artisoft Exchange - Network Mail Client"
+  @Option 170 = "Artisoft Exchange - Mail Post Office"
+@EndOption
+
+@If (170 [! @Option)
+  @Goto MAIL_DONE
+@EndIf
+
+CHECK_PO:
+@s1 = @StrConvert("@InstallPath\\AMAIL","OEM")
+@If (!@Exists("@s1\\GACC.DB"))
+  @NewMailServer = @True
+  @Goto MAIL_DONE
+@EndIf
+
+@SetOption(11)
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,11,5,14,46) @FlushKeyboard()
+
+@GetOption @Prompt = "Clear out @your existing mail data?"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText) @If(!@RunWindows) @LOCALWINDOW(15,40) @EndIf
+
+  @Name INSTALL found an existing Artisoft Exchange Mail
+  Post Office.  You can  "KEEP"  the existing messages and
+  account information, or start over with an unused data
+  base by choosing  "CLEAR"  below.
+
+  If you choose  "CLEAR", all @your existing messages and
+  accounts will be removed.
+
+  @Option 11  = "KEEP    mail messages and other data"
+  @Option 12  = "CLEAR   @your existing mail data"
+@EndOption
+
+@If (12 [= @Option)
+  @NewMailServer = @True
+  @ClearMailData = @True
+@EndIf
+
+
+MAIL_DONE:
+@MailEnabled = @True
+
+@If (170 [= @Option)
+  @Share = @True
+  @MailServer = @True
+  @If (@InstallWindows)
+    @SetOption(162)
+  @EndIf
+  @SetOption(160)
+  @SetOption(161)
+  @SetOption(122)
+  @If (@NewMailServer) @SetOption(171) @EndIf
+@ElseIf (160 [= @Option)
+  @SetOption(161)
+  @SetOption(162)
+@ElseIf (161 [= @Option)
+  @SetOption(162)
+  @NetMail = @True
+@ElseIf (162 [= @Option)
+  @SetOption(160)
+  @SetOption(161)
+@Else
+  @MailEnabled = @False
+  @Goto NOMAIL
+@EndIf
+
+@FaxEnabled  = @True
+
+@If (@InfFileMode && ("@InfPOname" != ""))
+  @POname = @InfPOname
+  @Goto PONAME_DONE
+@EndIf
+
+GET_PO:
+@If (@MailServer)
+
+ @If (@NewMailServer)
+  @If (@RunWindows) @s1 = "" @Else @s1 = "\n    " @EndIf
+  @DlgCtrlSize(0,9,2,10,40) @FlushKeyboard()
+
+  @GetString @Po1
+    @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    @s1@!You have selected @your computer  "@ComputerName"
+    to be an Artisoft Exchange Mail post office.  You need to
+    give @your new post office a name.  (The post office name
+    does not have to be the same as the computer name.)
+
+    @PromptName
+    @Default = "@POname" @Prompt = "Enter post office name"
+  @EndString
+
+  @POname = @StrConvert("@Po1","uc")
+  @If (@StrLen(@POname) < 1)
+    @PromptName = ">>> Name of post office cannot be blank.<<<"
+    @Goto GET_PO
+  @ElseIf (@StrLen(@POname) > 30)
+    @PromptName = ">>> The name you typed was longer than 30 letters.<<<"
+    @Goto GET_PO
+  @EndIf
+ @Else
+  @POname = ""
+  @Goto PONAME_DONE
+ @EndIf
+
+@ElseIf (@MailEnabled)
+
+  @DlgCtrlSize(0,10,2,11,30) @FlushKeyboard()
+
+  @GetString @POname
+    @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    In order for your Artisoft Exchange Mail system to work,
+    you must select one of the computers in your
+    @Name network to be set up as the post office.
+    Do not enter the name of @your computer  "@ComputerName".
+    (You don't need the name of the post office here,
+    only the name of the computer that has it.)
+
+    @PromptName
+    @Prompt = "Enter name of computer that has post office"
+  @EndString
+
+  @POname = @StrConvert(@POname,"uc")
+  @If (@StrLen(@POname) < 1)
+    @PromptName = ">>> Name of post office computer cannot be blank.<<<"
+    @Goto GET_PO
+  @ElseIf (@StrLen(@POname) > 15)
+    @PromptName = ">>> The name you typed was longer than 15 letters.<<<"
+    @Goto GET_PO
+  @ElseIf ("@POname" == "@ComputerName")
+    @PromptName = ">>> Do not use \"@ComputerName\", please.<<<"
+    @Goto GET_PO
+  @EndIf
+@EndIf
+
+@If (@StrFind("@Illegal","@POname") >= 0)
+  @PromptName = ">>> The character  @POname  is not allowed.<<<"
+  @Goto GET_PO
+@ElseIf (@StrLen("@StrToken("@POname",1,"@Illegal")") > 0)
+  @s9 = @StrMid("@POname",@StrLen("@StrToken("@POname",0,"@Illegal")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @PromptName = ">>> The character  @s9  is not allowed.<<<"
+  @Goto GET_PO
+@ElseIf ("@StrToken("@POname",0,"@Illegal")" != "@POname")
+  @PromptName = ">>>@BadChar<<<"
+  @Goto GET_PO
+@ElseIf (@StrFind(@POname," ") >= 0)
+  @PromptName = ">>> The name you typed contained spaces.<<<"
+  @Goto GET_PO
+@EndIf
+
+PONAME_DONE:
+@PromptName = ""
+@MailPath        = "@ExecutePath\\AMAILPRG"
+@MailDataPath    = "\\\\@POname\\AMAIL"
+@MailInstallPath = "@InstallPath\\AMAILPRG"
+@MailInstallDataPath = "@InstallPath\\AMAIL"
+@MailDirectDataPath  = "@ExecutePath\\AMAIL"
+
+@If (@MailServer)
+  @MailDataPath = "\\\\@ComputerName\\AMAIL"
+@ElseIf (@NetMail)
+  @MailPath     = "\\\\@POname\\AMAILPRG"
+@EndIf
+
+@If (@NewMailServer)
+
+  @If ((@InfFileMode) && ("@InfSyncMail" != ""))
+    @SyncMail = ("@InfSyncMail" == "NO")
+    @Goto SYNC_DONE
+  @EndIf
+
+  @ClearOption(11)
+  @ClearOption(12)
+  @If (@SyncMail) @SetOption(11) @Else @SetOption(12) @EndIf
+
+  @BackgroundMode(3,@WinColor,@Black)
+  @DlgCtrlSize(0,11,2,14,45) @FlushKeyboard()
+
+  @GetOption @Prompt = "Same Accounts for @Name @AndSign Mail?"
+    @If (!@RunWindows)
+      @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+      @LOCALWINDOW(16,40)
+    @EndIf
+    Do you want your @Name and Artisoft Exchange Mail
+    to use the same accounts?
+
+    If you choose YES, Exchange Mail will use @Name
+    account names for your mail user names.
+
+    If you choose NO, you will need to create separate
+    accounts for Exchange Mail and @Name.
+
+    @Option 11 = "YES  --  Use same accounts"
+    @Option 12 = "NO   --  Use separate accounts"
+  @EndOption
+
+  @SyncMail = @False
+  @If (11  [= @Option)  @SyncMail = @True  @EndIf
+@EndIf
+SYNC_DONE:
+@If (@SyncMail) @SyncFlag = "Y" @Else @SyncFlag = "N" @EndIf
+
+
+NOMAIL:
+
+@SetOption(113)
+
+@If (@ToFloppy)
+  @InstallWindows = @False
+  @ClearOption(112)
+@Else
+  @SetOption(110)
+  @If (@Share)
+    @SetOption(111)
+  @EndIf
+  @If (@InstallWindows)
+    @SetOption(120)
+    @SetOption(122)
+    @If (@Share)
+      @SetOption(121)
+    @EndIf
+  @EndIf
+@EndIF
+
+@If (180 [= @Option)
+  @NcpEnabled = 1
+@EndIf
+@If (181 [= @Option)
+  @NcpEnabled = (@NcpEnabled | 2)
+  @SetOption(180)
+@EndIf
+@If (190 [= @Option) @SmbEnabled = 1 @EndIf
+@If (191 [= @Option) @SmbEnabled = (@SmbEnabled | 2) @EndIf
+@If (112 [= @Option)
+  @Share = @True
+  @InstallServices = @True
+@EndIf
+
+
+CONTINUE_1:
+@s6 = "" @s7 = "" @s8 = "" @s9 = ""
+@If (@InstallServices) @s7 = "Install Services" @EndIf
+@If (@MailServer)
+  @If ("@POname" != "") @s9 = " \"@POname\"" @Else @s9 = "" @EndIf
+  @s9 = "Post Office @s9"
+  @If (@SyncMail) @s9 = "@Name @s9" @EndIf
+  @If (@NewMailServer) @s9 = "New @s9" @EndIf
+@ElseIf (@MailEnabled)
+  @If (@NetMail) @s9 = "Net " @Else @s9 = "" @EndIf
+  @s9 = "@s9@!Mail (P.O. at @POname)"
+@EndIf
+
+@If (@SmbEnabled) @s6 = "Microsoft Client" @EndIf
+@If (@NcpEnabled) @s8 = "Novell Client" @EndIf
+@If ("@s6" != "") @s8 = "@s6   @s8" @EndIf
+
+@Options1 = ""  @Options2 = ""
+@If ("@s7@s8@s9" == "")
+  @Options1 = "None"
+@ElseIf (@StrLen("@s7@s8@s9") < 45)
+  @If ("@s7" != "") @Options1 = "@s7   "  @EndIf
+  @If ("@s8" != "") @Options1 = "@Options1@s8   "  @EndIf
+  @Options1 = "@Options1@s9"
+@ElseIf (@StrLen("@s7@s9") < 45)
+  @If ("@s7" != "") @Options1 = "@s7   @s9" @Else @Options1 = @s9  @EndIf
+  @Options2 = "@s8\n"
+@ElseIf (@StrLen("@s8@s9") < 45)
+  @Options1 = "@s7"
+  @If ("@s8" != "") @Options2 = "@s8   " @EndIf
+  @Options2 = "@Options2@s9\n"
+@Else
+  @Options1 = "@s9"
+  @Options2 = "@s7   @s8"
+@EndIf
+
+@Options0 = ""
+@If     (@ToNetwork)   @Options0 = "Network"
+@ElseIf (@ToFloppy)    @Options0 = "Floppy" @EndIf
+@If ("@Options0" != "") @Options0 = "(@Options0)" @EndIf
+
+
+@If (@InfFileMode || @KeepInstall || (@ToFloppyOK)) @Goto CONTINUE_1_DONE @EndIf
+
+@ClearOption(11)
+@ClearOption(12)
+@ClearOption(13)
+
+@If (@InstallWindows) @s5 = "Windows" @Else @s5 = "DOS" @EndIf
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,12,2,15,42) @FlushKeyboard()
+
+@GetOption @Prompt = "@Name Information Check"
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+   @If (!@RunWindows) @LOCALWINDOW(17,40) @EndIf
+   So far, you have specified the following installation
+   information for @Name for @s5:
+
+   Installation Drive:        @Sdrive @OutDrive:     @Options0
+   Installation Directory:    @Sxxdir @InstallDir
+   Computer Name:             @Sxname @ComputerName
+   Share Drives @AndSign Printers:  @Sshare @If (!@Share) NO @Else YES - Allow @Logins Connections @EndIf
+   Extra Options:             @Sopt1 @Options1
+                              @Sopt2 @Options2
+   @Option 11 = "OK to continue with installation"
+   @Option 12 = "Go back and re-enter the information"
+@If (@MenuMode)
+   @Option 13 = "RETURN to Installation Menu"
+@EndIf
+@EndOption
+
+@If     (12  [= @Option)
+   @Goto INSTALL
+@ElseIf (13  [= @Option)
+   @Goto MAINMENU
+@EndIf
+
+CONTINUE_1_DONE:
+
+@Goto ADAPTERS_MENU
+
+
+EXTRACT_FAMILIES:
+@If (!@ExtractMode) @Goto ADAPTERS_MENU @EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@If (@HighDensity) @b = 17 @Else @b = 10 @EndIf
+@DlgCtrlSize(0,5,1,@b,55) @FlushKeyboard()
+
+@GetOption @Checkbox @Prompt = "Select file groups to extract"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText) @If (!@RunWindows) @LOCALWINDOW(20,40) @EndIf
+
+  Select one or more of the following @Name file groups
+  to load onto your computer.
+  @If (!@RunWindows)
+              >> Type "Y" for all, or "N" for none       <<
+              >> Use the SPACE bar to toggle a selection <<
+              >> Press ENTER to accept the selections    <<
+  @EndIf
+  @Option  11  = "List of Adapter Drivers"
+  @Option  113 = "@Name Core Workstation Files"
+  @Option  110 = "@Name Additional Workstation Files"
+  @Option  111 = "@Name Server Files"
+  @If (@HighDensity)
+  @Option  120 = "@Name Workstation Windows Files"
+  @Option  180 = "@Name Workstation Novell@Registered Client Files"
+  @Option  121 = "@Name Server Windows Files"
+  @Option  112 = "@Name Installation Services Files"
+  @Option  160 = "Artisoft Exchange Mail Client Files"
+  @Option  162 = "Artisoft Exchange Mail Fax Files"
+  @Option  170 = "Artisoft Exchange Mail Server Files"
+  @EndIf
+@EndOption
+
+@If ((120 [= @Option) || (170 [= @Option))
+  @SetOption(122)
+@EndIf
+@If (180 [= @Option)
+  @SetOption(140)
+@EndIf
+
+@If (112 [= @Option)
+  @InstallServices = @True
+@EndIf
+
+@If ((160 [= @Option) || (170 [= @Option))
+  @MailInstallPath = "@InstallPath\\AMAILPRG"
+  @MailEnabled = @True
+@EndIf
+
+@If ( 11  [! @Option) @Goto FINISH_INSTALL @EndIf
+
+
+ADAPTERS_MENU:
+
+@Our2mb   = @False
+@OurMport = @False
+
+@If (@NcpEnabled)
+  @AdapterName = "ODI Driver for NodeRunner"
+  @SetOption(131)
+  @SetOption(140)
+  @SetOption(142)
+  @If (@SmbEnabled)
+    @Aopt = 141
+    @AdapterProg = @AdapterProgAEX
+    @AexNdisSelected = @True
+  @Else
+    @Aopt = 131
+    @AdapterProg = @AdapterProg1
+  @EndIf
+  @Goto ADAPTERS_DONE
+@EndIf
+
+@If (@Aopt) @SetOption(@Aopt) @EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@If (@SmbEnabled)
+  @DlgCtrlSize(0,8,0,13,55)
+@Else
+  @If (@ExtractMode) @t = 6 @Else @t = 9 @EndIf
+  @DlgCtrlSize(0,@t,0,20,55)
+@EndIf
+@FlushKeyboard()
+
+@GetOption @If (@ExtractMode) @Checkbox @EndIf @Prompt = "Select network adapter"
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText) @If (!@RunWindows) @LOCALWINDOW(20,40) @EndIf
+ @If (@ExtractMode) Please select one or more of the following adapters to load into
+  the @Name directory -- @InstallPath -- on @your hard disk.
+  @If (!@RunWindows)
+    >> Type "Y" for all adapters, or "N" for none         <<
+    >> Use the SPACE bar to toggle an adapter selection   <<
+    >> Press ENTER to accept the selections you have made <<
+ @EndIf @Else Please select one of the following adapters to run with
+  your @Name software. @If (!@SmbEnabled) If you do not know the name
+  of the adapter that is installed in @your computer,
+  check the instructions that came with @your adapter.
+  If the name of @your adapter does not appear on the list
+  below, select "@AdapterNameNdis" or
+  "@AdapterNameOther". @Else (Since you chose to install
+  @Name as a Microsoft client, you need to use an NDIS
+  driver.  Select @AdapterNameAEX if
+  you have an Artisoft adapter.) @EndIf @EndIf
+ @If (@SmbEnabled) @Option 141 = "@AdapterNameAEX"
+  @Option 140 = "@AdapterNameNdis"
+ @Else @Option 131 = "@AdapterName1b"
+  @Option  31 = "@AdapterName1a"
+  @Option 141 = "@AdapterNameAEX"
+  @Option 140 = "@AdapterNameNdis"
+  @If (!@ExtractMode) @Option 138 = "@AdapterNameOther" @EndIf
+  @Option 132 = "@AdapterName2"
+  @Option 133 = "@AdapterName3"
+  @Option 134 = "@AdapterName4"
+  @Option 135 = "@AdapterName5"
+  @Option 136 = "@AdapterName6"
+  @Option 137 = "@AdapterNameMB1"
+  @Option  37 = "@AdapterNameMB2"
+  @Option  47 = "@AdapterNameMB3"
+  @Option  57 = "@AdapterNameMB4"
+  @Option 148 = "@AdapterName7"
+  @Option 149 = "@AdapterName8"
+  @Option 150 = "@AdapterName9"
+  @Option 151 = "@AdapterName10"
+  @Option 152 = "@AdapterName11a"
+  @Option  52 = "@AdapterName11b"
+  @Option  62 = "@AdapterName11c"
+  @Option 153 = "@AdapterName12"
+  @Option 154 = "@AdapterName13"
+  @Option 155 = "@AdapterName14"
+  @Option 156 = "@AdapterName15"
+  @Option 157 = "@AdapterName16"
+  @Option 158 = "@AdapterName17"
+
+ @EndIf
+@EndOption
+
+@NdisSelected = @False
+@AexNdisSelected = @False
+
+@If        (131  [= @Option)
+   @Aopt = 131 @AdapterName = @AdapterName1b @AdapterProg = @AdapterProg1
+@EndIf @If ( 31  [= @Option)
+   @AdapterName = @AdapterName1a @AdapterProg = @AdapterProg1
+   @Aopt = 31 @ClearOption(31) @SetOption(131)
+@EndIf @If (132  [= @Option)
+   @Aopt = 132 @AdapterName = @AdapterName2  @AdapterProg = @AdapterProg2
+@EndIf @If (133  [= @Option)
+   @Aopt = 133 @AdapterName = @AdapterName3  @AdapterProg = @AdapterProg3
+@EndIf @If (134  [= @Option)
+   @Aopt = 134 @AdapterName = @AdapterName4  @AdapterProg = @AdapterProg4
+@EndIf @If (135  [= @Option)
+   @Aopt = 135 @AdapterName = @AdapterName5  @AdapterProg = @AdapterProg5
+@EndIf @If (136  [= @Option)
+   @Aopt = 136 @AdapterName = @AdapterName6  @AdapterProg = @AdapterProg6
+   @OurMport = @True
+@EndIf @If (137  [= @Option)
+   @Aopt = 137 @AdapterName = @AdapterNameMB1  @AdapterProg = @AdapterProgMB1
+   @Our2mb = @True
+@EndIf @If ( 37  [= @Option)
+   @AdapterName = @AdapterNameMB2 @AdapterProg = @AdapterProgMB2
+   @Aopt = 37 @ClearOption(37) @SetOption(137)
+   @Our2mb = @True
+@EndIf @If ( 47  [= @Option)
+   @AdapterName = @AdapterNameMB3 @AdapterProg = @AdapterProgMB3
+   @Aopt = 47 @ClearOption(47) @SetOption(137)
+   @Our2mb = @True
+@EndIf @If ( 57  [= @Option)
+   @Aopt = 57 @AdapterName = @AdapterNameMB4 @AdapterProg = @AdapterProgMB4
+   @ClearOption(57) @SetOption(137)
+   @Our2mb = @True
+@EndIf @If (138  [= @Option)
+   @Aopt = 138 @AdapterName = @AdapterNameOther  @AdapterProg = @AdapterProgOther
+@EndIf @If (140  [= @Option)
+   @Aopt = 140
+   @AdapterName = @AdapterNameNdis
+   @NdisSelected = @True
+@EndIf @If (141  [= @Option)
+   @Aopt = 141
+   @AdapterName = @AdapterNameAEX
+   @AdapterProg = @AdapterProgAEX
+   @AexNdisSelected = @True
+   @SetOption(140)  @SetOption(142)
+   @SetOption(141)
+@EndIf @If (148  [= @Option)
+   @Aopt = 148 @AdapterName = @AdapterName7  @AdapterProg = @AdapterProg7
+@EndIf @If (149  [= @Option)
+   @Aopt = 149 @AdapterName = @AdapterName8  @AdapterProg = @AdapterProg8
+@EndIf @If (150  [= @Option)
+   @Aopt = 150 @AdapterName = @AdapterName9  @AdapterProg = @AdapterProg9
+@EndIf @If (151  [= @Option)
+   @Aopt = 151 @AdapterName = @AdapterName10 @AdapterProg = @AdapterProg10
+@EndIf @If (152  [= @Option)
+   @Aopt = 152 @AdapterName = @AdapterName11a @AdapterProg = @AdapterProg11a
+@EndIf @If ( 52  [= @Option)
+   @AdapterName = @AdapterName11b @AdapterProg = @AdapterProg11b
+   @Aopt = 52 @ClearOption(32) @SetOption(152)
+@EndIf @If ( 62  [= @Option)
+   @AdapterName = @AdapterName11c @AdapterProg = @AdapterProg11c
+   @Aopt = 62 @ClearOption(62) @SetOption(152)
+@EndIf @If (153  [= @Option)
+   @Aopt = 153 @AdapterName = @AdapterName12 @AdapterProg = @AdapterProg12
+@EndIf @If (154  [= @Option)
+   @Aopt = 154 @AdapterName = @AdapterName13 @AdapterProg = @AdapterProg13
+@EndIf @If (155  [= @Option)
+   @Aopt = 155 @AdapterName = @AdapterName14 @AdapterProg = @AdapterProg14
+@EndIf @If (156  [= @Option)
+   @Aopt = 156 @AdapterName = @AdapterName15 @AdapterProg = @AdapterProg15
+@EndIf @If (157  [= @Option)
+   @Aopt = 157 @AdapterName = @AdapterName16 @AdapterProg = @AdapterProg16
+@EndIf @If (158  [= @Option)
+   @Aopt = 158 @AdapterName = @AdapterName17 @AdapterProg = @AdapterProg17
+
+
+@EndIf
+
+
+
+@If (@AexNdisSelected)
+  @AdapterProg = @AdapterProgAEX
+  @AdapterNif  = @AdapterNifAEX
+  @If (!@ExtractMode) @Goto ADAPTERS_DONE @EndIf
+@EndIf
+
+@If (!@NdisSelected) @Goto ADAPTERS_DONE @EndIf
+
+@PromptNdis = ""
+
+@If ((@StrLen(@NdisPath) == 0) && @Removable(@InDrive))
+  @NdisPath = "@InDrive:\\"
+@EndIf
+@BackgroundMode(3,@WinColor,@Black)
+
+NDIS_PATH:
+@AdapterProg = ""
+@AdapterNif  = ""
+@PromptNdis = "@PromptNdis\n  >>  Clear and @key to return to Adapters Menu.<<"
+@NdisOK = @False
+
+@If (@FromFloppy) @IgnoreDiskID = @True @EndIf
+
+@DlgCtrlSize(0,13,0,14,35) @FlushKeyboard()
+
+@GetString @Nd1
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  INSTALL the NDIS Driver for @your Network Adapter
+  @Underline40@Underline10
+
+  Please insert the manufacturer's driver diskette for @your
+  adapter into a floppy drive, then type the drive letter
+  (and directory path if necessary) and @key.
+
+  @PromptNdis
+  @Default = "@NdisPath" @Prompt = "Enter NDIS driver directory"
+@EndString
+
+@NdisPath = @StrConvert("@Nd1","uc")
+
+@If (@StrLen(@NdisPath) == 1)
+  @d = (@StrIndex("@NdisPath",0))
+  @If (@DriveExists(@d)) @If (@Removable(@d))
+      @NdisPath = "@NdisPath:"
+  @EndIf @EndIf
+@EndIf
+
+@If (@StrLen(@NdisPath) < 1)
+  @If (@FromFloppy) @IgnoreDiskID = @False @EndIf
+  @If (@ExtractMode) @FlushOptions() @Aopt = 0 @EndIf
+  @NdisPath = ""
+  @Goto ADAPTERS_MENU
+@ElseIf (@StrFind(@NdisPath," ") >= 0)
+  @PromptNdis = ">>> The directory you typed contained spaces.<<<"
+  @Goto NDIS_PATH
+@ElseIf (@StrFind(@ExecutePath,"\\\\") >= 0)
+  @PromptNdis = ">>> The directory you typed contained '\\\\'.<<<"
+  @Goto NDIS_PATH
+@ElseIf (@StrLen("@StrToken("@NdisPath",1,"@Illegal1")") > 0)
+  @s9 = @StrMid("@NdisPath",@StrLen("@StrToken("@NdisPath",0,"@Illegal1")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @PromptNdis = ">>> The character  @s9  is not allowed.<<<"
+  @Goto NDIS_PATH
+@ElseIf ("@StrToken("@NdisPath",0,"@Illegal1")" != "@NdisPath")
+  @PromptNdis = ">>>@BadChar<<<"
+  @Goto NDIS_PATH
+@ElseIf ((@StrLen("@StrToken("@NdisPath",0,".\\")") > 8)
+       ||(@StrLen("@StrToken("@NdisPath",1,".\\")") > 8)
+       ||(@StrLen("@StrToken("@NdisPath",2,".\\")") > 8))
+  @PromptNdis = ">>> Directory names must be 8 letters or less.<<<"
+  @Goto NDIS_PATH
+@ElseIf (@Exists("@NdisPath") && !@DirExists("@NdisPath"))
+  @PromptNdis = ">>> \"@NdisPath\" is not a directory.<<<"
+  @Goto NDIS_PATH
+@ElseIf (!@DirExists("@NdisPath"))
+  @If ("@StrMid("@NdisPath",1,1)" == ":")
+    @d = (@StrIndex("@NdisPath",0))
+    @If (!@DriveExists(@d))
+      @PromptNdis = ">>> Drive @d: is not available.<<<"
+      @Goto NDIS_PATH
+    @ElseIf (@StrLen(@NdisPath) == 2)
+      @NdisPath = "@NdisPath\\"
+    @ElseIf ((@StrLen(@NdisPath) == 3) && ("@StrTail("@NdisPath",1)" == "\\"))
+    @Else
+      @PromptNdis = ">>> \"@NdisPath\" is not a valid path.<<<"
+      @Goto NDIS_PATH
+    @EndIf
+  @ElseIf ("@NdisPath" != "\\")
+    @s1 = "@ScriptDrive:"
+    @If ("@StrHead(@NdisPath,1)" != "\\") @s1 = "@s1\\" @EndIf
+    @NdisPath = "@s1@NdisPath"
+    @If (!@DirExists("@NdisPath"))
+      @PromptNdis = ">>> The path \"@NdisPath\" does not exist.<<<"
+      @Goto NDIS_PATH
+    @EndIf
+  @EndIf
+@EndIf
+
+@PleaseWait("- Searching for NDIS adapter driver file")
+
+@NdisPath = @StrConvert("@NdisPath","OEM")
+@NdisInstallPath = @StrConvert("@InstallPath","OEM")
+
+@NdisDriver    = ""
+@NdisDevice    = ""
+@NdisTitle     = ""
+@NdisType      = ""
+@NdisDDir      = ""
+@NdisCopyFiles = ""
+
+@NifFound  = @False
+@NifDir    = ""
+@NifFile   = ""
+@NifPath   = ""
+
+@NifList = @FindText("@NdisPath\\*.NIF","Type","IWR")
+@If (@Strlen(@NifList) <= 0) @Goto NIF_DONE @EndIF
+
+@i = 0
+@k = @StrCount(@NifList," ")
+NIF_LOOP:
+  @NifPath = @StrToken(@NifList,@i)
+  @If (@Strlen(@FindText("@NifPath","OS2","I")) == 0)
+    @NdisType = @GetINI("","Type","@NifPath")
+    @If (@StrFind("@NdisType","NDIS") >= 0)
+      @b = @StrRFind(@NifPath,"\\")
+      @If (@b >= 0)
+	@NifFound = @True
+	@NifDir   = @StrHead(@NifPath,@b)
+	@NifFile  = @StrMid(@NifPath,(@b+1),20)
+      @EndIf
+    @EndIf
+  @EndIF
+  @i = (@i + 1)
+  @If ((@i < @k) && !@NifFound) @Goto NIF_LOOP @EndIf
+NIF_DONE:
+
+@If (!@NifFound)
+  @NdisDriverFile = "*.DOS"
+  @Goto DRIVER_SEARCH
+@EndIf
+
+NIF_FOUND:
+@If (@Strlen(@FindText("@NifPath","Model","IW")) > 0)
+  @NifVersion = 1
+  @NdisDriverFile = @GetINI("","DeviceDriver","@NifPath")
+  @NdisDevice     = @GetINI("","DeviceName","@NifPath")
+  @NdisTitle      = @GetINI("","Model","@NifPath")
+  @NdisDDir       = @GetINI("","Path","@NifPath")
+  @NdisCopyFiles  = ""
+@Else
+  @NifVersion = 2
+  @NdisDriverFile = @GetINI("File","Name","@NifPath")
+  @NdisDriverFile = @StrToken(@NdisDriverFile,0," ,")
+  @NdisDevice     = @GetINI("","DriverName","@NifPath")
+  @NdisTitle      = @GetINI("","Title","@NifPath")
+  @NdisDDir       = @GetINI("File","Path","@NifPath")
+  @NdisCopyFiles  = @GetINI("","CopyFile=10","@NifPath")
+@EndIf
+
+@If (@StrFind(@NdisDriverFile,"\\") >= 0)
+  @b = @StrRFind("@NdisDriverFile","\\")
+  @If (@b >= 0)
+    @NdisDriverFile = @StrMid(@NdisDriverFile,(@b+1),20)
+  @EndIf
+@EndIF
+@NdisDriver = @StrToken(@NdisDriverFile,0,".")
+
+@If (@Strlen(@NdisDriver) <= 0)
+  @PromptNdis = ">>> NDIS driver name not found in @NifPath <<<"
+  @Goto NDIS_DONE
+@EndIf
+
+@If ((@StrFind(@NifDir,"\\") >= 0) && (@StrLen(@NdisDDir) > 0))
+  @b = @StrRFind(@NifDir,"\\")
+  @If (@b >= 0)
+    @NdisDriverDir  = "@StrHead(@NifDir,@b)\\@NdisDDir"
+    @NdisDriverPath = "@NdisDriverDir\\@NdisDriverFile"
+    @If (@Exists("@NdisDriverPath"))
+      @NdisDriver = @StrToken(@NdisDriverFile,0,".")
+      @Goto DRIVER_FOUND
+    @EndIf
+  @EndIf
+@EndIf
+
+DRIVER_SEARCH:
+@NdisDriverPath = @FindFiles("@NdisPath\\@NdisDriverFile","R")
+@NdisDriverPath = @StrToken(@NdisDriverPath,0)
+
+@s1 = ""
+@If(@Strlen(@NdisDriverPath) > 0)
+  @b = @StrRFind(@NdisDriverPath,"\\")
+  @If (@b >= 0)
+    @NdisDriverDir = @StrHead(@NdisDriverPath,@b)
+    @s1 = @StrMid(@NdisDriverPath,(@b+1),20)
+  @Else
+    @NdisDriverDir = @NdisPath
+  @EndIf
+@Else
+  @NdisDriverDir = ""
+  @PromptNdis = ">>> No NDIS driver was found in \"@NdisPath\".<<<"
+  @Goto NDIS_DONE
+@EndIf
+
+@If ("@s1" != "@NdisDriverFile")
+  @NdisDriverFile = @s1
+  @NdisDriver     = @StrToken(@NdisDriverFile,0,".")
+@EndIf
+
+@If (!@Exists("@NdisDriverDir\\@NdisDriverFile"))
+  @PromptNdis = ">>> NDIS driver \"@NdisDriverPath\" not found.<<<"
+  @Goto NDIS_DONE
+@EndIf
+
+DRIVER_FOUND:
+@If (@Exists("@NdisDriverDir\\@NdisProtocolFile"))
+  @NdisProtocolDir = @NdisDriverDir
+@Else
+  @NdisProtocolDir = ""
+  @s1 = @FindFiles("@NdisPath\\@NdisProtocolFile","R")
+  @i = 0
+  @k = @StrCount(@s1," ")
+INI_LOOP:
+  @s2 = @StrToken(@s1,@i)
+  @If ((@StrFind("@s2","OS2") < 0)
+       && (@Strlen(@FindText("@s2","OS2","I")) == 0))
+    @b = @StrRFind(@s2,"\\")
+    @If (@b >= 0)
+      @i = @k
+      @NdisProtocolDir = @StrHead(@s2,@b)
+    @EndIf
+  @EndIF
+  @i = (@i + 1)
+  @If (@i < @k) @Goto INI_LOOP @EndIf
+@EndIf
+
+@If (@Strlen(@NdisProtocolDir) <= 0)
+  @PromptNdis = ">>> \"@NdisProtocolFile\" not found in @NdisPath <<<"
+  @Goto NDIS_DONE
+@EndIf
+
+
+@PleaseWait("- Building NDIS driver PROTOCOL.INI file")
+
+@AdapterProg = "@NdisDriverFile"
+@AdapterNif  = "@NdisDriver_NIF"
+
+@If (!@Exists("@NdisInstallPath")) @MkDir("@NdisInstallPath") @EndIf
+@Copy("@NdisDriverPath","@NdisInstallPath")
+@i = 0
+@k = @StrCount(@NdisCopyFiles,"=")
+COPY_LOOP:
+  @s1 = @StrToken(@NdisCopyFiles,@i,"=")
+  @Copy("@NifDir\\@s1","@NdisInstallPath")
+  @i = (@i + 1)
+  @If (@i < @k) @Goto COPY_LOOP @EndIf
+
+@Copy("@NifPath","@NdisInstallPath")
+@s1 = @StrToken(@NdisProtocolFile,0,".")
+@FileAttr( "@NdisInstallPath\\@s1.*", "r-" )
+@Copy("@NdisInstallPath\\@NdisProtocolFile","@NdisInstallPath\\@s1.SAV")
+@ProtocolOrg = "@NdisInstallPath\\@s1.ORG"
+@Copy("@NdisProtocolDir\\@NdisProtocolFile","@ProtocolOrg")
+
+@s1 = "@NdisInstallPath\\@NdisProtocolFile"
+@WRITE("@s1","wt", ";PROTOCOL.INI for @Name Version @Version\n")
+@WRITE("@s1","at", ";------------ using @NdisTitle\n")
+@WRITE("@s1","at", ";\n")
+@WRITE("@s1","at", "[PROTMAN]\n")
+@WRITE("@s1","at", "  DRIVERNAME = PROTMAN$\n")
+@WRITE("@s1","at", "  DYNAMIC = YES\n")
+@WRITE("@s1","at", "\n")
+
+@s2 = @FindLines("@ProtocolOrg","",1,100,"D~")
+@If (@Strlen(@s2) <= 0)
+  @PromptNdis = ">>> '@NdisProtocolFile' was empty.<<<"
+  @Goto NDIS_DONE
+@EndIf
+
+@If (@StrLen(@GetINI("@AdapterNif","DriverName","@ProtocolOrg")) > 0)
+  @HeaderFixed = @True
+@Else
+  @HeaderFixed = @False
+@EndIf
+
+@i = 0
+@k = @StrCount(@s2,"~")
+PROT_LOOP:
+  @s3 = @StrToken(@s2,@i,"~")
+  @s4 = @StrToken(@s3,0)
+  @If (@HeaderFixed)
+    @WRITE("@s1","at", "@s3\n")
+  @ElseIf ((@Strlen(@s3) <= 0) || ("@StrHead(@s4,1)" == ";"))
+    @WRITE("@s1","at", "@s3\n")
+  @Else
+    @WRITE("@s1","at", "[@AdapterNif]\n")
+    @If ("@StrHead(@s4,1)" == "[")
+    @Else
+      @WRITE("@s1","at", "@s3\n")
+    @EndIf
+    @HeaderFixed = @True
+  @EndIf
+  @i = (@i + 1)
+  @If (@i < @k) @Goto PROT_LOOP @EndIf
+PROT_DONE:
+
+@s7 = @GetINI("@AdapterNif","DriverName", "@s1")
+@If ("@s7" == "@NdisDriver$") @Goto NDIS_OK @EndIf
+@i = 0
+@s6 = ""
+PROT1_LOOP:
+  @s3 = @StrToken(@s2,@i,"~")
+  @s4 = @StrTrim("@StrConvert("@s3","UC")")
+  @s5 = @StrToken("x@s4",1,"[")
+  @s5 = @StrTrim("@StrToken("@s5",0,"]")")
+  @If (@StrLen(@s5) > 0) @s6 = @s5 @EndIf
+  @If ((@StrFind("@s4","DRIVERNAME") >= 0) && (@StrFind("@s4","@NdisDriver") >= 0))
+    @If (@Strlen(@s6) > 0)
+      @s5 = @GetINI("@s6","DriverName","@s1")
+      @If ("@s5" == "@NdisDriver$")
+        @AdapterNif = @s6
+        @Goto NDIS_OK
+      @EndIf
+    @EndIf
+  @EndIf
+  @i = (@i + 1)
+  @If (@i < @k) @Goto PROT1_LOOP @EndIf
+
+@If (@StrLen(@s7) > 0) @Goto NDIS_OK @EndIf
+
+PROT_BAD:
+@Display
+   @Cls
+   @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+   Cannot build a proper '@NdisProtocolFile'.
+   Please continue with the installation.  When
+   you have finished, consult the NDIS on-line
+   documentation for suggestions or call Artisoft
+   Technical Support for assistance.
+   @FlushKeyboard() @Pause
+@EndDisplay
+
+NDIS_OK:
+@NdisOK = @True
+@If (@Strlen(@NdisTitle) > 0)
+  @AdapterName = "(NDIS) @NdisTitle"
+  @If (@StrLen(@AdapterName) > 40)
+    @AdapterName = "@StrHead(@AdapterName,40)..."
+  @EndIf
+@EndIf
+
+NDIS_DONE:
+@s1 = "" @s2 = "" @s3 = "" @s4 = ""
+@s5 = "" @s6 = "" @s7 = ""
+
+@If (@DebugMode)
+  @BackgroundMode(3,@DebugColor,@Black)
+  @Display
+    @Cls  NDIS Installation Data:
+    Install Directory   = <@NdisInstallPath>
+    NDIS path           = <@NdisPath>
+    Adapter name        = <@AdapterName>
+    Adapter program     = <@AdapterProg>
+    Adapter NIF         = <@AdapterNif>
+    ------------------------------------
+    NIF stuff (@NifFound-@NifVersion)     = <@NifPath>
+    NdisDriverPath      = <@NdisDriverPath>
+    NdisDriverFile      = <@NdisDriverFile>
+    NdisDevice          = <@NdisDevice>
+    NdisTitle           = <@NdisTitle>
+    NdisType            = <@NdisType>
+    NdisDDir            = <@NdisDDir>
+    NdisCopyFiles       = <@NdisCopyFiles>
+    PROTOCOL.INI        = <@NdisProtocolDir\@NdisProtocolFile>
+    @StrToken(@NdisProg,0,".") BIND_TO=@AdapterNif
+    Memory              = @HeapAvail bytes remaining out of @HeapTotal
+    @FlushKeyboard() @Pause
+  @EndDisplay
+  @BackgroundMode(3,@WinColor,@Black)
+@EndIf
+
+@If (!@NdisOK) @Goto NDIS_PATH @EndIf
+
+@PromptNdis = ""
+
+
+
+ADAPTERS_DONE:
+@If ((@Strlen("@LibName") > 0) && !@Exists("@LibName"))
+  @Display
+    @Cls
+    @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+    Please replace the @Name installation
+    diskette labeled  "Disk 1 of @NumDisks"  into Drive @ScriptDrive:
+    @FlushKeyboard() @Pause
+  @EndDisplay
+  @Goto ADAPTERS_DONE
+@EndIf
+
+@If (@FromFloppy) @IgnoreDiskID = @False @EndIf
+
+@If (@ExtractMode)
+  @PleaseWait("- Preparing to extract files")
+  @Goto FINISH_INSTALL
+@EndIf
+
+
+
+@If (@KeepInstall) @Goto NOCONNECT @EndIf
+
+@If (@InfFileMode)
+  @SetConnect = @False
+  @If ("@InfConnect" == "YES")
+    @SetConnect = @True
+    @DriveLetter1 = @StrToken(@InfDrive1,2,",")
+    @DriveName1   = @StrToken(@InfDrive1,1,",")
+    @DriveServer1 = @StrToken(@InfDrive1,0,",")
+    @DriveLetter2 = @StrToken(@InfDrive2,2,",")
+    @DriveName2   = @StrToken(@InfDrive2,1,",")
+    @DriveServer2 = @StrToken(@InfDrive2,0,",")
+    @PrintPort1   = @StrToken(@InfPrinter1,2,",")
+    @PrintName1   = @StrToken(@InfPrinter1,1,",")
+    @PrintServer1 = @StrToken(@InfPrinter1,0,",")
+    @PrintPort2   = @StrToken(@InfPrinter2,2,",")
+    @PrintName2   = @StrToken(@InfPrinter2,1,",")
+    @PrintServer2 = @StrToken(@InfPrinter2,0,",")
+  @EndIf
+  @Goto CONTINUE_2
+@EndIf
+
+@ClearOption(11)
+@ClearOption(12)
+@If (@SetConnect)
+  @SetOption(12)
+@Else
+  @SetOption(11)
+@EndIf
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,14,1,17,52) @FlushKeyboard()
+
+@If (@RunWindows)
+   @s1 = "use the @Name Connections programs (NET for DOS"
+   @s2 = "or WNET for Windows) to establish the connections you need."
+@Else
+   @s1 = "use the @Name Connections program (NET.EXE from DOS)"
+   @s2 = "to establish the connections you need."
+@EndIf
+
+@GetOption @Prompt = "Set up drive or printer connections?"
+   @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+   @If (!@RunWindows) @LOCALWINDOW(17,40) @EndIf
+   One of the important features of @Name is to allow you
+   to use files on other computers and to print on other computers'
+   printers.  If you know the names of the computers in your network
+   as well as which drives and printers are "shared", you can
+   set up permanent connections now.  Otherwise, you may wait and
+   @s1
+   @s2
+
+   Do you want to set up drive or printer connections now?
+
+   @Option 12 = "SET UP permanent drive or printer connections"
+   @Option 11 = "DO NOT set up any drive or printer connections"
+@EndOption
+
+@If     (12  [= @Option)
+  @SetConnect = @True
+  @Goto DO_DRIVES
+@EndIf
+
+NOCONNECT:
+@SetConnect = @False
+@DriveLetter1 = ""
+@DriveName1   = ""
+@DriveServer1 = ""
+@DriveLetter2 = ""
+@DriveName2   = ""
+@DriveServer2 = ""
+@PrintPort1   = ""
+@PrintName1   = ""
+@PrintServer1 = ""
+@PrintName2   = ""
+@PrintServer2 = ""
+
+@Goto CONTINUE_2
+
+
+
+DO_DRIVES:
+
+@i = 0
+@ChosenDrives = ""
+
+NEXT_DRIVE:
+@i = (@i + 1)
+
+@If (@i == 1)
+  @s1 = @DriveLetter1
+  @s2 = @DriveName1
+  @s3 = @DriveServer1
+  @Goto SETUP_DRIVE
+@ElseIf (@i == 2)
+  @If ("@s1" != "")
+    @DriveLetter1 = @s1
+    @DriveName1   = @s2
+    @DriveServer1 = @s3
+    @s1 = @DriveLetter2
+    @s2 = @DriveName2
+    @s3 = @DriveServer2
+    @Goto SETUP_DRIVE
+  @Else
+    @DriveLetter1 = ""
+    @DriveName1   = ""
+    @DriveServer1 = ""
+    @DriveLetter2 = ""
+    @DriveName2   = ""
+    @DriveServer2 = ""
+  @EndIf
+@ElseIf (@i == 3)
+  @If ("@s1" != "")
+    @DriveLetter2 = @s1
+    @DriveName2   = @s2
+    @DriveServer2 = @s3
+  @Else
+    @DriveLetter2 = ""
+    @DriveName2   = ""
+    @DriveServer2 = ""
+  @EndIf
+@EndIf
+
+@Goto DO_PRINTERS
+
+SETUP_DRIVE:
+
+@s4 = ""
+@s5 = ""
+@If     (@i == 1)
+  @s5 = "first"
+  @s7 = "@FirstAvailable"
+  @s4 = ">>> You can do this before the other computer is set up.<<<"
+@ElseIf (@i == 2)
+  @s5 = "second"
+  @s7 = "@SecondAvailable"
+  @If (@StrFind("@ChosenDrives", "@FirstAvailable") < 0)
+    @s7 = "@FirstAvailable"
+  @EndIf
+  @s4 = ">>> You can connect to more drives later if you need to.<<<"
+@EndIf
+
+@If (@RunWindows) @s6 = "click on  \"OK\" " @Else @s6 = "press ENTER" @EndIf
+
+D_CNAME:
+
+@DlgCtrlSize(0,12,0,13,28) @FlushKeyboard()
+
+@GetString @Dv3
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+ @If (@i > 1) ANOTHER @Else OTHER @EndIf@!COMPUTER with a DRIVE you want to USE...
+  @Underline40@!@If (!@RunWindows)@!@Underline20@!@EndIf
+
+  Please type the name of@!@If (@i > 1) another @Else the other @EndIf@!computer that has
+ @If (@i > 1) a @Else the @EndIf@!drive you want to connect to and use.
+
+ @If ("@s3" == "") Or just @s6 to continue, skipping @If (@i > 1)@!@s5@!@EndIf drive setup. @EndIf
+  @If ((!@RunWindows) && (@i == 1))
+  If you skip permanent drive setup, you will have an extra
+  step to perform every time you turn on @your computer.
+  @EndIf
+  @s4
+  @Default = "@s3" @Prompt = "Enter computer name"
+@EndString
+
+@s3 = @StrConvert("@Dv3","uc")
+
+@If (@StrLen(@s3) < 1)
+  @s1 = "" @s2 = "" @s3 = ""
+  @Goto NEXT_DRIVE
+@ElseIf (@StrLen(@s3) > 15)
+  @s4 = ">>> The name you typed was longer than 15 letters.<<<"
+  @Goto D_CNAME
+@ElseIf (@StrFind(@s3," ") >= 0)
+  @s4 = ">>> The name you typed contained spaces.<<<"
+  @Goto D_CNAME
+@ElseIf (@StrFind("@Illegal","@s3") >= 0)
+  @s4 = ">>> The character  @s3  is not allowed.<<<"
+  @Goto D_CNAME
+@ElseIf (@StrLen("@StrToken("@s3",1,"@Illegal")") > 0)
+  @s9 = @StrMid("@s3",@StrLen("@StrToken("@s3",0,"@Illegal")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @s4 = ">>> The character  @s9  is not allowed.<<<"
+  @Goto D_CNAME
+@ElseIf ("@StrToken("@s3",0,"@Illegal")" != "@s3")
+  @s4 = ">>>@BadChar<<<"
+  @Goto D_CNAME
+@ElseIf ("@s3" == "@ComputerName")
+  @s4 = ">>> You don't need to connect to your own computer.<<<"
+  @Goto D_CNAME
+@EndIf
+
+
+@s4 = ""
+D_DNAME:
+@If ("@s2" == "") @s2 = "C-DRIVE" @EndIf
+
+@DlgCtrlSize(0,14,2,15,24) @FlushKeyboard()
+
+@GetString @Dv2
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    NAME of DRIVE you want to USE on @s3...
+    @Underline40@If (!@RunWindows)@!@Underline20@!@EndIf
+
+    Please enter the name of the drive on  "@s3"
+    that you want to connect to and use.  This will most likely
+    be the computer's hard disk named "C-DRIVE".  But you can
+    instead choose another hard drive if  "@s3"  has one, or
+    choose a floppy drive named "A-DRIVE" or "B-DRIVE".
+    (Drive names can be up to 8 letters.)
+
+    @s4
+    @Default = "@s2" @Prompt = "Please enter drive name"
+@EndString
+
+@s2 = @StrConvert("@Dv2","uc")
+
+@If (@StrLen(@s2) < 1)
+  @s4 = ">>> You need to enter a drive name.<<<"
+  @Goto D_DNAME
+@ElseIf (@StrLen(@s2) > 8)
+  @s4 = ">>> The name you entered was longer than 8 letters.<<<"
+  @Goto D_DNAME
+@ElseIf (@StrFind(@s2," ") >= 0)
+  @s4 = ">>> The name you typed contained spaces.<<<"
+  @Goto D_DNAME
+@ElseIf (@StrFind("@Illegal","@s2") >= 0)
+  @s4 = ">>> The character  @s2  is not allowed.<<<"
+  @Goto D_DNAME
+@ElseIf (@StrLen("@StrToken("@s2",1,"@AtSign@Illegal")") > 0)
+  @s9 = @StrMid("@s2",@StrLen("@StrToken("@s2",0,"@AtSign@Illegal")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @s4 = ">>> The character  @s9  is not allowed.<<<"
+  @Goto D_DNAME
+@ElseIf ("@StrToken("@s2",0,"@AtSign@Illegal")" != "@s2")
+  @s4 = ">>>@BadChar<<<"
+  @Goto D_DNAME
+@EndIf
+
+@s4 = ""
+@If (@i == 1) @s4 = ">>> If you are not sure, it is safe to use '@s7'.<<<" @EndIf
+D_LETTER:
+@If ("@s1" == "") @s1 = "@s7" @EndIf
+
+@DlgCtrlSize(0,14,2,15,10) @FlushKeyboard()
+
+@GetString @Dv1
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    DRIVE LETTER to use to CONNECT to @s2 on @s3...
+    @Underline40@If (!@RunWindows)@!@Underline20@!@EndIf
+
+    Please type the letter of an "available" drive on @your
+    computer such as 'H' or 'M' that you want to use
+    to access the drive you selected on "@s3".  This
+    should not be the letter of a drive that is physically
+    mounted in @your computer.  For example, do not use the
+    letter 'C'.
+
+    @s4
+    @Default = "@s1" @Prompt = "Enter drive letter"
+@EndString
+
+@s1 = @StrConvert("@Dv1","uc")
+
+@If ("@StrMid(@s1,1,2)" == ":") @s1 = "@StrHead(@s1,1)" @EndIf
+
+@If (@StrLen(@s1) < 1)
+  @s4 = ">>> You need to enter a drive letter.<<<"
+  @Goto D_LETTER
+@ElseIf (@StrLen(@s1) > 1)
+  @s4 = ">>> You entered more than one letter.<<<"
+  @Goto D_LETTER
+@ElseIf (@StrFind("@ChosenDrives", "@s1") >= 0)
+  @s4 = ">>> You have already set up Drive @s1.<<<"
+  @Goto D_LETTER
+@ElseIf (@StrFind("@ValidDrives", "@s1") < 0)
+  @s4 = ">>> Valid drive letters are '@ValidDrives'.<<<"
+  @Goto D_LETTER
+@ElseIf (@StrFind("@AvailableDrives", "@s1") < 0)
+  @s4 = ">>> Available drives are '@AvailableDrives'.<<<"
+  @Goto D_LETTER
+@EndIf
+
+@ChosenDrives = "@ChosenDrives@s1"
+D_DONE:
+
+@Goto NEXT_DRIVE
+
+
+
+DO_PRINTERS:
+
+@i = 0
+@ChosenPorts  = ""
+
+NEXT_PRINTER:
+@i = (@i + 1)
+
+@If     (@i == 1)
+  @s1 = @PrintPort1
+  @s2 = @PrintName1
+  @s3 = @PrintServer1
+  @Goto SETUP_PRINTER
+@ElseIf (@i == 2)
+  @If ("@s1" != "")
+    @PrintPort1   = @s1
+    @PrintName1   = @s2
+    @PrintServer1 = @s3
+  @Else
+    @PrintPort1 = ""
+    @PrintName1   = ""
+    @PrintServer1 = ""
+  @EndIf
+@EndIf
+@PrintPort2 = ""
+@PrintName2   = ""
+@PrintServer2 = ""
+
+@Goto CONTINUE_2
+
+SETUP_PRINTER:
+
+@s4 = ""
+@If     (@i == 1)
+  @s5 = "first"  @x5 = "LPT1"
+  @s4 = ">>> You can do this before the other computer is set up.<<<"
+@ElseIf (@i == 2)
+  @s5 = "second"  @x5 = "LPT2"
+  @s4 = ">>> You can connect to more printers later if you need to.<<<"
+@EndIf
+
+P_CNAME:
+
+@s6 = ""
+@If ("@s3" == "")
+  @s6 = "Or just @key to continue, skipping printer setup."
+@EndIf
+@s7 = ""
+@s8 = "type the name of the other computer that has the"
+@s9 = "@s5 printer you want to connect to and use."
+@s10 = "If you skip printer setup now, you will have an extra step"
+@s11 = "to perform during @your daily printer-sharing activities."
+@If ((@i == 1) && @Share && ("@s3" == ""))
+  @If (@InstallWindows)
+    @If ("@DefaultWPrintPort" == "LPT1")
+       @s6 = "If you want to use the @DefaultWPrintName printer that is"
+       @s7 = "already attached to @DefaultWPrintPort on @your computer, @key now."
+       @s8 = "Otherwise @s8"
+       @s10 = ""
+       @s11 = ""
+    @EndIf
+  @Else
+    @If (@Lpt(1))
+       @s6 = "If you want to use the printer that may already be"
+       @s7 = "attached to LPT1 on @your computer, @key now."
+       @s8 = "Otherwise @s8"
+       @s10 = ""
+       @s11 = ""
+    @EndIf
+  @EndIf
+@EndIf
+@If ("@s7" == "")
+  @x1 = "@s8"
+  @s8 = "@s6"
+  @s6 = "Please @x1"
+  @s7 = "@s9"
+  @If (@Share)
+    @s9 = ""
+  @Else
+    @s9 = "If you have a printer you can still use it, but it won't be shared."
+  @EndIf
+  @If (@RunWindows)
+    @s10 = ""
+    @s11 = ""
+  @EndIf
+@EndIf
+
+@DlgCtrlSize(0,16,0,17,28) @FlushKeyboard()
+
+@GetString @Pt3
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  WHAT COMPUTER has the PRINTER ATTACHED ?
+  @Underline40@If (!@RunWindows)@!@Underline20@!@EndIf
+
+  @s6
+  @s7
+
+  @s8
+  @s9
+
+  @s10
+  @s11
+
+  @s4
+  @Default = "@s3" @Prompt = "Enter computer name"
+@EndString
+
+@s3 = @StrConvert("@Pt3","uc")
+
+@If (@StrLen(@s3) < 1)
+  @s1 = "" @s2 = "" @s3 = ""
+  @Goto NEXT_PRINTER
+@ElseIf (@StrLen(@s3) > 15)
+  @s4 = ">>> The name you entered was longer than 15 letters.<<<"
+  @Goto P_CNAME
+@ElseIf (@StrFind(@s3," ") >= 0)
+  @s4 = ">>> The name you typed contained spaces.<<<"
+  @Goto P_CNAME
+@ElseIf (@StrFind("@Illegal","@s3") >= 0)
+  @s4 = ">>> The character  @s3  is not allowed.<<<"
+  @Goto P_CNAME
+@ElseIf (@StrLen("@StrToken("@s3",1,"@Illegal")") > 0)
+  @s9 = @StrMid("@s3",@StrLen("@StrToken("@s3",0,"@Illegal")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @s4 = ">>> The character  @s9  is not allowed.<<<"
+  @Goto P_CNAME
+@ElseIf ("@StrToken("@s3",0,"@Illegal")" != "@s3")
+  @s4 = ">>>@BadChar<<<"
+  @Goto P_CNAME
+@ElseIf ((!@Share) && ("@s3" == "@ComputerName"))
+  @s4 = ">>> You didn't share @your computer's printer.<<<"
+  @Goto P_CNAME
+@EndIf
+
+
+@s4 = ""
+P_PNAME:
+@If ("@s2" == "") @s2 = "@@PRINTER" @EndIf
+
+@DlgCtrlSize(0,13,2,14,24) @FlushKeyboard()
+
+@GetString @Pt2
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    NAME of PRINTER you want to USE...
+    @Underline40@If (!@RunWindows)@!@Underline20@!@EndIf
+
+    Please enter the name of the printer on "@s3"
+    that you want to connect to and use.  This will most
+    likely be the default name "@@PRINTER".  However, you
+    can delete "@@PRINTER" and type in another name such as
+    "@@LASER".  (Printer names always begin with "@AtSign".)
+
+    @s4
+    @Default = "@s2" @Prompt = "Enter printer name"
+@EndString
+
+@s2 = @StrConvert("@Pt2","uc")
+
+@If (@StrLen(@s2) < 1)
+  @s4 = ">>> You need to enter a printer name.<<<"
+  @Goto P_PNAME
+@ElseIf ("@StrHead("@s2",1)" != "@AtSign")
+  @s4 = ">>> Please remember to begin the name with \"@AtSign\".<<<"
+  @Goto P_PNAME
+@ElseIf (@StrLen(@s2) > 8)
+  @s4 = ">>> The name you typed was longer than 8 letters.<<<"
+  @Goto P_PNAME
+@ElseIf (@StrFind(@s2," ") >= 0)
+  @s4 = ">>> The name you typed contained spaces.<<<"
+  @Goto P_PNAME
+@ElseIf (@StrFind("@Illegal","@s2") >= 0)
+  @s4 = ">>> The character  @s2  is not allowed.<<<"
+  @Goto P_PNAME
+@ElseIf (@StrLen("@StrToken("@s2",1,"@Illegal")") > 0)
+  @s9 = @StrMid("@s2",@StrLen("@StrToken("@s2",0,"@Illegal")"),1)
+  @If ("@s9" == "%") @s9 = "%%" @EndIf
+  @s4 = ">>> The character  @s9  is not allowed.<<<"
+  @Goto P_PNAME
+@ElseIf ("@StrToken("@s2",0,"@Illegal")" != "@s2")
+  @s4 = ">>>@BadChar<<<"
+  @Goto P_PNAME
+@EndIf
+
+@s4 = ""
+
+P_TNAME:
+@If ("@s1" == "") @s1 = "@x5" @EndIf
+
+@If (("@s2" != "@@PRINTER") && ("@s4" == ""))
+  @s4 = ">>> Use \"Net Manager\" to set up \"@s2\" on \"@s3\".<<<"
+@EndIf
+
+@DlgCtrlSize(0,13,0,14,8) @FlushKeyboard()
+
+@GetString @Pt1
+  @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+  PRINTER PORT on @your COMPUTER...
+  @Underline40@If (!@RunWindows)@!@Underline20@!@EndIf
+
+  Please enter the name of the printer port on @your computer
+  such as LPT1 or LPT2 that @your application programs will
+  use to print out on @your @s5 printer.  The documents
+  you send to the port you select will come out on the
+  printer named  "@s2"  on computer  "@s3".
+
+  @s4
+  @Default = "@s1" @Prompt = "Enter printer port"
+@EndString
+
+@s1 = @StrConvert("@Pt1","uc")
+
+@If (@StrLen(@s1) < 1)
+  @s4 = ">>> You need to enter a printer port.<<<"
+  @Goto P_TNAME
+@ElseIf (@StrFind("@ChosenPorts", "@s1") >= 0)
+  @s4 = ">>> You have already set up printer port @s1.<<<"
+  @Goto P_TNAME
+@ElseIf (@StrFind("@ValidPorts", "@s1") < 0)
+  @s4 = ">>> Valid port names are @ValidPorts.<"
+  @Goto P_TNAME
+@ElseIf (@StrLen(@s1) != 4)
+  @If (@StrLen(@s1) < 4) @s5 = "shorter" @Else @s5 = "longer" @EndIf
+  @s4 = ">>> The name you entered was @s5 than 4 letters.<<<"
+  @Goto P_TNAME
+@EndIf
+
+@ChosenPorts = "@ChosenPorts@s1"
+P_DONE:
+
+@Goto NEXT_PRINTER
+
+
+CONTINUE_2:
+
+@s1 = ""  @s2 = ""
+@If ("@DriveLetter1" != "") @s1 = "Drive @DriveLetter1:      @Sdrive will be connected to  \"@DriveName1\"  on  \"@DriveServer1\"" @EndIf
+@If ("@DriveLetter2" != "") @s2 = "Drive @DriveLetter2:      @Sdrive will be connected to  \"@DriveName2\"  on  \"@DriveServer2\"" @EndIf
+
+@s3 = "" @s4 = ""  @s5 = ""
+@If (@Share)
+ @If ("@PrintPort1" == "")
+  @If (@InstallWindows && @ToHard)
+   @If ("@DefaultWPrintPort" == "LPT1")
+     @PrintPort1   = @DefaultWPrintPort
+     @PrintServer1 = @ComputerName
+     @PrintName1   = "@AtSign@!PRINTER"
+     @s5 = "@your @DefaultWPrintName"
+   @EndIf
+  @Else
+   @If (@Lpt(1))
+     @PrintPort1   = "LPT1"
+     @PrintServer1 = @ComputerName
+     @PrintName1   = "@AtSign@!PRINTER"
+     @If (@ToHard) @s5 = "\"@PrintName1\" on @your computer" @EndIf
+   @EndIf
+  @EndIf
+ @Else
+  @If ("@PrintServer1" == "@ComputerName")
+    @s5 = "\"@PrintName1\" on @your computer"
+  @EndIf
+ @EndIf
+@EndIf
+
+@If ("@PrintPort1" != "")
+  @If ("@s5" == "" ) @s5 = "\"@PrintName1\"  on  \"@PrintServer1\"" @EndIf
+  @s3 = "Printer @PrintPort1  @Sprint will be connected to  @s5"
+@EndIf
+@If ("@PrintPort2" != "")
+  @s5 = "\"@PrintName2\"  on  \"@PrintServer2\""
+  @s4 = "Printer @PrintPort2  @Sprint will be connected to  @s5"
+@EndIf
+
+@If (@KeepInstall)
+  @s1 = "" @s2 = "" @s3 = "" @s4 = ""
+  @If (@Share)
+    @s3 = "Control Directory for @ComputerName upgrade is @SharePath"
+  @EndIf
+@EndIf
+
+@If (@InstallWindows) @s5 = "Windows" @Else @s5 = "DOS" @EndIf
+@If ("@POname" != "") @s7 = " \"@POname\"" @Else @s7 = "" @EndIf
+
+@ClearOption(11)
+@ClearOption(12)
+@ClearOption(13)
+
+@BackgroundMode(3,@WinColor,@Black)
+@DlgCtrlSize(0,20,0,23,40) @FlushKeyboard()
+
+@GetOption @Prompt = "@Name Final Information Check"
+ @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+ @If (!@RunWindows) @LOCALWINDOW(21,40) @EndIf
+ You have specified the following installation information
+ for @Name for @s5:
+
+ Installation Drive:     @Sdrive @OutDrive:       @Options0
+ Installation Directory: @Sxxdir @InstallDir
+ Computer Name:          @Sxname @ComputerName
+ Share Drives @AndSign Printers:@Sshare@If (!@Share) NO @Else YES@!@If (@NewInstall) - Allow @Logins Connections @EndIf @EndIf
+ Network Adapter:        @Sadapt @AdapterName
+ Extra Options:          @Sopt1 @Options1
+                         @Sopt2 @Options2
+ @s1
+ @s2
+ @s3
+ @s4
+@If (@StrLen("@s2@s4") > 0) ** Use the Net program later if you want more connections ** @EndIf
+  @Option 11 = "OK to perform the installation"
+  @Option 12 = "Go back and re-enter the information"
+@If (@MenuMode)
+  @Option 13 = "RETURN to Installation Menu"
+@EndIf
+@EndOption
+
+@If     (12  [= @Option)
+    @InfFileMode = @False
+    @Goto INSTALL
+@ElseIf (13  [= @Option)
+    @Goto MAINMENU
+@EndIf
+
+
+
+PROMPTS_DONE:
+
+@If (@InstallMode) @Goto FINISH_INSTALL @EndIf
+
+@BackgroundMode(3,@Red,@Red)
+@Display
+  @Cls
+  Unexpected termination of @Name Installation Program.
+  Please report to Artisoft.
+  @FlushKeyboard() @Pause
+  @Abort
+@EndDisplay
+
+
+FINISH_INSTALL:
+@If (!@ToFloppy) @Goto DISK_OK @EndIf
+
+TEST_FLOPPY:
+@If (@DiskFree(@OutDrive) < 0)
+  @Display
+    @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+    Please place a formatted floppy diskette
+    into Drive @OutDrive to receive the @Name files..
+    @FlushKeyboard() @Pause
+  @EndDisplay
+  @Goto TEST_FLOPPY
+@EndIf
+
+@MakeDiskId = @False
+
+DISK_OK:
+
+@PleaseWait()
+
+@AnsiInstallPath = @InstallPath
+@AnsiExecutePath = @ExecutePath
+@Subdir       = @StrConvert("@Subdir","OEM")
+@InstallPath  = @StrConvert(@InstallPath,"OEM")
+@ExecutePath  = @StrConvert(@ExecutePath,"OEM")
+@SharePath    = @StrConvert(@SharePath,"OEM")
+@XSharePath   = @StrConvert(@XSharePath,"OEM")
+@MailInstallPath = @StrConvert(@MailInstallPath,"OEM")
+@MailInstallDataPath = @StrConvert(@MailInstallDataPath,"OEM")
+@ComputerName = @StrConvert(@ComputerName,"OEM")
+@DriveName1   = @StrConvert(@DriveName1,"OEM")
+@DriveServer1 = @StrConvert(@DriveServer1,"OEM")
+@DriveName2   = @StrConvert(@DriveName2,"OEM")
+@DriveServer2 = @StrConvert(@DriveServer2,"OEM")
+@PrintName1   = @StrConvert(@PrintName1,"OEM")
+@PrintServer1 = @StrConvert(@PrintServer1,"OEM")
+@PrintName2   = @StrConvert(@PrintName2,"OEM")
+@PrintServer2 = @StrConvert(@PrintServer2,"OEM")
+@EnvLanCfg    = "@ExecutePath"
+@EnvLanDir    = "@XSharePath"
+@AnsiEnvLanDir = @StrConvert(@EnvLanDir,"ANSI")
+@LinkPath     = "@AnsiExecutePath\\NW"
+@If ("@MailTempPath" == "")
+  @MailTempPath = "@InstallPath\\TEMP"
+@EndIf
+@AnsiMailTempPath = @StrConvert(@MailTempPath,"ANSI")
+
+@If (@MailEnabled && !@InstallWindows)
+  @ArtmailIni = "@MailInstallPath\\@ArtmailIni"
+@EndIf
+
+
+@If (@ExtractMode)
+  @BackgroundMode(3,@WinColor,@Black)
+  @Display
+    @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+    FILE  EXTRACTION
+    @Underline20
+
+    @Name @Registered Version @Version files will
+    be extracted to @InstallPath.
+    @FlushKeyboard() @Pause
+  @EndDisplay
+
+  @BackgroundMode(3,@WinColor,@Blue)
+  @PleaseWait()
+  @Goto FINISH_FILES
+@EndIf
+
+@If (!@InstallMode) @Goto FINISH_FILES @EndIf
+
+@If (@ChangeSystemFiles)
+  @ConfigChanged   = @True
+  @AutoexecChanged = @True
+  @StartNetChanged = @True
+@EndIf
+
+@If (@ToHard && @InstallWindows && !@NoWindowsMode)
+  @SystemIniChanged  = @True
+  @WinIniChanged     = @True
+  @WinFileChanged    = @True
+  @ProgmanIniChanged = @True
+  @WnetIniChanged    = @True
+  @WnetMgrIniChanged = @True
+@EndIf
+
+@ProtocolIniChanged = (@NdisSelected || @AexNdisSelected)
+@MailIniChanged = @MailEnabled
+
+@If (@ToFloppy || @ToNetwork)
+  @NewBootDrive = @OutDrive
+  @Config = "@OutDrive:@StrMid(@Config,2,50)"
+  @Autoexec = "@OutDrive:@StrMid(@Autoexec,2,50)"
+@EndIf
+
+@i = 0
+@s1 = @StrToken(@Config,0,".")
+@s2 = "@WindowsPath\\WIN"
+EXISTS_LOOP:
+   @If (@i > 50) @Goto EXISTS_DONE @EndIf
+   @i = (@i + 1)
+   @Ext = @StrTail("000@i", 3)
+   @If (@Exists("@s1.@Ext")) @Goto EXISTS_LOOP
+   @ElseIf (@ToHard)
+     @If (@Exists("@s2.@Ext")) @Goto EXISTS_LOOP @EndIf
+   @EndIf
+EXISTS_DONE:
+
+@If (!@Exists("@InstallPath")) @MkDir("@InstallPath") @EndIf
+
+@SetConfig  @Terse
+  @If (@ConfigChanged) @Overwrite
+  @Else @DiskProtoAll @EndIf
+  @Buffers = 30
+  @LastDrive = Z
+  @If (@Share)
+    @Files = 100
+  @Else
+    @Files = 60
+  @EndIf
+@EndConfig
+
+@If ("@FindText("@AutoExec","SHARE","I")@FindText("@Config","SHARE","I")" != "")
+  @ShareExe = @True
+@Endif
+
+@If ("@FindText("@AutoExec","QEMM","I")@FindText("@Config","QEMM","I")" != "")
+   @Qemm = @True
+@Endif
+
+@s1 = "@Call@ExecutePath\\STARTNET.BAT"
+
+@SetAutoExec  @Terse
+  @If (@AutoexecChanged) @Overwrite
+  @Else @DiskProtoAll @EndIf
+  @If ("@FindText("@AutoExec","STARTNET","IW")" != "")
+    @Verbatim("@s1","STARTNET",0)
+  @ElseIf ("@FindText("@AutoExec","MSCDEX","IW")" != "")
+    @Verbatim("@s1","MSCDEX",1)
+  @Else
+    @Verbatim("@s1","WIN",1)
+  @EndIf
+@EndAutoExec
+
+@If (@NdisSelected || @AexNdisSelected || @NcpEnabled)
+  @SetConfig  @Terse
+    @If (@ConfigChanged) @Overwrite
+    @Else @DiskProtoAll @EndIf
+    @Device = "@ExecutePath\\@ProtmanProg /I:@ExecutePath"
+    @If ((@NdisSelected || @AexNdisSelected) && !@NcpEnabled)
+      @Device = "@ExecutePath\\@AdapterProg"
+    @EndIf
+  @EndConfig
+@EndIf
+
+
+@If (@ConfigChanged)
+  @SysDrive = "@BootDrive"  @SysDir = ""  @SysFile = "CONFIG"
+  @s1 = "@SysDrive:@SysDir\\@SysFile.SYS" @s2 = "@SysDrive:@SysDir\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @ConfigMsg = "Old  @s1 ---> @s2" @EndIf
+  @Copy( "@s1", "@s2")
+@EndIf
+
+@If (@AutoExecChanged)
+  @SysDrive = "@BootDrive"  @SysDir = ""  @SysFile = "AUTOEXEC"
+  @s1 = "@SysDrive:@SysDir\\@SysFile.BAT" @s2 = "@SysDrive:@SysDir\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @AutoExecMsg = "Old  @s1 ---> @s2" @EndIf
+  @Copy( "@s1", "@s2")
+@EndIf
+
+@If (@StartNetChanged)
+  @SysFile = "STARTNET"
+  @s1 = "@InstallPath\\@SysFile.BAT" @s2 = "@InstallPath\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @StartnetMsg = "Old  @s1 ---> @s2" @EndIf
+  @Copy( "@s1", "@s2")
+  @StartPath = @s1
+@Else
+  @StartPath = "@InstallPath\\STARTNET.NEW"
+@EndIf
+@SysFile = "SYSTEM"
+@If (@SystemIniChanged)
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @SystemIniMsg = "Old  @s1 ---> @s2" @EndIf
+  @Copy( "@s1", "@s2")
+  @SystemIni = "@SysFile.INI"
+@Else
+  @SystemIni = "@InstallPath\\@SysFile.NEW"
+@EndIf
+
+@SysFile = "WIN"
+@If (@WinIniChanged)
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @WinIniMsg = "Old  @s1 ---> @s2" @EndIf
+  @Copy( "@s1", "@s2")
+  @WinIni = "@SysFile.INI"
+@Else
+  @WinIni = "@InstallPath\\@SysFile.NEW"
+@EndIf
+
+@SysFile = "WINFILE"
+@If (@WinFileChanged)
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @Copy( "@s1", "@s2")
+@EndIf
+
+@If (@ProtocolIniChanged)
+  @SysFile = @StrToken(@NdisProtocolFile,0,".")
+  @s1 = "@InstallPath\\@SysFile.SAV" @s2 = "@InstallPath\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @ProtocolIniMsg = "Old  @InstallPath\\@NdisProtocolFile ---> @s2" @EndIf
+  @Copy( "@s1", "@s2") @Delete(@s1)
+@EndIf
+
+@If (@ProgmanIniChanged && @ToHard)
+  @SysFile = "PROGMAN"
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @If (@Exists("@s1")) @ProgmanIniMsg = "Old  @s1 ---> @s2" @EndIf
+  @Copy( "@s1", "@s2")
+@EndIf
+
+@If (@WnetIniChanged)
+  @SysFile = "WNET"
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @Copy( "@s1", "@s2")
+  @If (@NewInstall) @Delete( "@s1") @EndIf
+@EndIf
+
+@If (@WnetMgrIniChanged)
+  @SysFile = "WNET_MGR"
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @Copy( "@s1", "@s2")
+  @If (@NewInstall) @Delete( "@s1") @EndIf
+@EndIf
+
+@If (@MailIniChanged)
+  @SysFile = "ARTMAIL"
+  @s1 = "@WindowsPath\\@SysFile.INI" @s2 = "@WindowsPath\\@SysFile.@Ext"
+  @Copy( "@s1", "@s2")
+  @If (@NewInstall) @Delete( "@s1") @EndIf
+@EndIf
+
+
+@Sessions = (@Logouts + @Logins + @LinkExtra)
+@Ncbs     = (12 + @LinkExtra)
+
+@If (@Share)
+  @Ncbs = (@Ncbs + @Logins + 12)
+  @Sessions = (@Sessions + 3)
+@EndIf
+
+@RxBuffers = 4
+@ParamFile = "STARTNET.CFG"
+@ParamPath = "@InstallPath\\@ParamFile"
+@LoginParam = "@AtSign@ParamFile"
+@NetbiosParam = "@AtSign@ParamFile"
+@ShareArgs = "/L:100"
+
+@If ((@OSmajor < 5) || (@CPU < 386) || (@EXTTotal < 100) || @Qemm || !@ToHard)
+   @Loadhigh  = ""
+@Else
+   @Loadhigh  = "LOADHIGH "
+@EndIf
+
+@If (@DebugMode)
+  @BackgroundMode(3,@DebugColor,@Black)
+  @Display
+    Go and "@@Finish" now
+    Ext = @Ext
+    StartPath = @StartPath
+    OS vers   = @OSmajor.@OSminor
+    CPU       = @CPU
+    Memory    = @HeapAvail bytes remaining out of @HeapTotal
+    Share     = @Share
+    Logins(@Logins)  Logouts(@Logouts)  Ncbs(@Ncbs)  Sessions(@Sessions)
+    Loadhigh  = @Loadhigh   QEMM = @Qemm
+    StartupPath = @StartupPath
+    InitControlProg = @InitControlProg
+    Windows INI files:  @SystemIni   @WinIni
+    @FlushKeyboard() @Pause
+  @EndDisplay
+@EndIf
+
+@If (@RunWindows) @s6 = "click on  \"OK\" " @Else @s6 = "press ENTER" @EndIf
+@BackgroundMode(3,@WinColor,@Black)
+
+@If (@KeepInstall)
+  @Display
+   @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+   Proceed with the Upgrade Installation of @Name Version @Version
+   @Underline40@Underline20@If (!@RunWindows)@!@Underline10@!@EndIf
+   New @Name files will now be placed on your computer in
+   @InstallPath.  Your original @Name startup commands
+   contained in AUTOEXEC.BAT or STARTNET.BAT will be
+   retained and the accounts and resources contained in the
+   control  directory at @SharePath will be unchanged.
+   @If (@InstallServices)
+   >> You selected "Installation Services", so a new INSTALL disk
+        resource will be added. @EndIf @If (@MailServer)
+   >> You are installing an Artisoft Exchange Mail Post Office, so AMAIL and
+        AMAILPRG resources and ADMIN and SYSTEM accounts will be added. @EndIf @If (@NdisSelected || @AexNdisSelected)
+   >> You installed an NDIS adapter driver.  You may need to make changes to
+        your startup. (See CONFIG.NEW and STARTNET.NEW) @EndIf @If (@NcpEnabled)
+   >> To enable connecting to a Novell@Registered server, you need to make
+        changes to your startup. (See STARTNET.NEW and STARTNET.CFG) @EndIf @If (@SmbEnabled)
+   >> To enable connecting to a Microsoft@Registered server, you need to make
+        changes to your startup. (See STARTNET.NEW and STARTNET.CFG) @EndIf
+   @Underline40@Underline20@If (!@RunWindows)@!@Underline10@!@EndIf
+   @If (@RunWindows)@!Please @s6 to continue... @EndIf @FlushKeyboard() @Pause
+  @EndDisplay
+  @Goto END_CONFIG
+@EndIf
+
+@If (@ToHard && @ChangeSystemFiles)
+  @s9 = "Notes on @your Computer's Changed Configuration"
+  @s10 = "computer"
+  @s8 = "The"
+  @s2 = "whenever you turn the computer on"
+  @s5 = "Your previous startup files will be saved with the following names:"
+  @s3 = ""
+@ElseIf (@ToFloppy)
+  @s9 = "  Notes on Your Floppy Configuration..."
+  @s10 = "floppy diskette"
+  @s8 = "The"
+  @s2 = "if you boot from this floppy"
+@Else
+  @If (@ToNetwork) @s4 = "network"
+  @ElseIf (@ToHard) @s4 = "hard"
+  @Else @s4 = "STRANGE" @EndIf
+
+  @s9 = "  How to Finish @your Computer's Configuration..."
+  @s10 = "computer"
+  @s8 = "A sample"
+  @s2 = "once you have made it part of @your boot sequence"
+  @s5 = "You are installing to a @s4 drive.  You will need to complete"
+  @s3 = "setting up @Name with an editor after this installation is done.\n"
+
+  @AutoExecMsg = "Add 'CALL STARTNET.BAT' to @your AUTOEXEC.BAT."
+  @ConfigMsg   = "See @BootDrive:\\CONFIG.NEW for CONFIG.SYS changes."
+  @StartNetMsg = "Merge STARTNET.NEW with your STARTNET.BAT."
+  @If (@InstallWindows)
+    @SystemIniMsg  = "See @SystemIni for suggested SYSTEM.INI settings."
+    @WinIniMsg     = "See @WinIni for suggested WIN.INI settings."
+    @If (@ToHard)
+      @ProgmanIniMsg = "Run MKWGROUP.EXE from Windows to set up a @Name group."
+    @Else
+      @ProgmanIniMsg = "Use Windows Program Manager to set up a @Name group."
+    @EndIf
+  @EndIf
+@EndIf
+
+@Display
+ @Cls @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+    @s9
+ @Underline40@Underline20@If (!@RunWindows)@!@Underline10@!@EndIf
+ @s8 @Name startup batch file -- @StrConvert(@StartPath,"ANSI") --
+ will be placed on @your @s10.  This will make @Name run
+ automatically @s2.
+@If (!@ToFloppy)
+ @s5
+ @s3
+     @AutoExecMsg
+     @ConfigMsg
+     @StartNetMsg
+     @SystemIniMsg
+     @WinIniMsg
+     @ProgmanIniMsg
+     @ProtocolIniMsg
+@EndIf @Underline40@Underline20@If (!@RunWindows)@!@Underline10@!@EndIf
+ @If (@RunWindows)@!Please @s6 to continue... @EndIf @FlushKeyboard() @Pause
+@EndDisplay
+
+
+END_CONFIG:
+@PleaseWait()
+
+
+@BackgroundMode(3,@Red,@Blue)
+
+@s1 = ""
+@s2 = ""
+@s3 = ""
+@s4 = ""
+@s5 = ""
+@s6 = ""
+
+@If (@RunWindows) @s1 = " shut down Windows and" @EndIf
+
+@If (!@InstallWindows) @Goto SKIP_INI @EndIf
+
+@s2 = "@GetINI("LANtastic","Network_IRQ",@SystemIni)"
+@If ("@s2" == "") @s2 = "15" @EndIf
+
+@x1 = "@GetINI("windows","load",@WinIni)"
+@x1 = @StrConvert(@StrTrim("@x1"),"uc")
+@x2 = "WNET"
+@s3 = ""
+@If (@Strlen(@x1) <= 0) @Goto SCAN_DONE @EndIf
+
+@i = 0
+SCAN_WNET:
+@x3 = @StrToken(@x1,@i)
+@If (@Strlen(@x3) <= 0) @Goto SCAN_DONE @EndIf
+
+@If (@StrFind(@x3,@x2) == -1)
+  @If (("@s3" == "") || ("@x3" == "")) @x4 = "" @Else @x4 = " " @EndIf
+  @s3 = "@s3@!@x4@!@x3"
+@EndIf
+@i = (@i + 1)
+@Goto SCAN_WNET
+
+SCAN_DONE:
+@If ("@s3" != "") @s3 = "@s3 " @EndIf
+
+@x1 = "@GetINI("windows","run",@WinIni)"
+@x1 = @StrConvert(@StrTrim("@x1"),"uc")
+@x2 = "MKWGROUP"
+@s4 = ""
+@If (@Strlen(@x1) <= 0) @Goto SVR_SCAN_DONE @EndIf
+
+@i = 0
+SCAN_SVR:
+@x3 = @StrToken(@x1,@i)
+@If (@Strlen(@x3) <= 0) @Goto SVR_SCAN_DONE @EndIf
+
+@If (@StrFind(@x3,@x2) == -1)
+  @If (("@s4" == "") || ("@x3" == "")) @x4 = "" @Else @x4 = " " @EndIf
+  @s4 = "@s4@!@x4@!@x3"
+@EndIf
+@i = (@i + 1)
+@Goto SCAN_SVR
+
+SVR_SCAN_DONE:
+@If ("@s4" != "") @s4 = "@s4 " @EndIf
+@s6 = "@InstallPath\\@x2.EXE"
+@s5 = "@InstallPath\\@x2.INF"
+
+SKIP_INI:
+
+@x1 = "@SharePath\\SYSTEM.NET\\ACCOUNTS"
+@If (@NewInstall)
+  @InitControlArg = "@InitControlArg -x@Logins"
+  @If (@Exists(@x1))
+    @If (@FileSize(@x1) < 128)
+      @Delete(@x1,"os")
+    @EndIf
+  @Else
+    @InitControlArg = "@InitControlArg -A"
+  @EndIf
+@Else
+  @If (@Exists(@x1))
+    @If (@FileSize(@x1) < 128)
+      @Delete(@x1,"os")
+    @EndIf
+  @EndIf
+@EndIf
+@If (@InstallWindows)
+  @InitControlArg = "@InitControlArg -lkNW"
+@EndIf
+@If (@MailServer)
+  @InitControlArg = "@InitControlArg -mpAMAILPRG -mdAMAIL"
+@EndIf
+@If (@InstallServices)
+  @InitControlArg = "@InitControlArg -inINSTALL"
+@EndIf
+@If (@DebugMode)
+  @InitControlArg = "@InitControlArg -D"
+@EndIf
+
+@s7 = "@InstallPath\\@InitControlProg"
+@s8 = "@AnsiInstallPath\\@InitControlProg -n@ComputerName -c@AnsiEnvLanDir -p@AnsiExecutePath @InitControlArg"
+
+@SetPath     = "@InstallPath\\SETNET.BAT"
+@SamplePath  = "@InstallPath\\SAMPLE.INF"
+@ConnectPath = "@ExecutePath\\CONNECT.BAT"
+
+@AdapterProgX = @StrToken(@AdapterProg,1,"~")
+@AdapterProg  = @StrToken(@AdapterProg,0,"~")
+
+@AdapterArgs  = @StrToken(@AdapterProg,1,"`")
+@AdapterArgsX = @StrToken(@AdapterProgX,1,"`")
+
+@If (@KeepInstall) @action = "upgrade" @Else @action = "installation" @EndIf
+
+FINISH_FILES:
+
+@If (@NoFilesMode) @Goto ENDFILES @EndIf
+
+@If (@HighDensity)
+@DefineDisk
+  @Label = "Disk 1 of 4"
+
+  @File INSTALL.EXE  @Size 436000 @Out LANSETUP.EXE @Option 110
+  @File INSTALL.DAT  @Size 184000 @Out *.* @Option 110
+  @File README.DOC   @Size  22000 @Out *.* @Option 110
+  @File README2.DOC  @Size  21000 @Out *.* @Option 160
+
+  @File INSTALL.EXE  @Size 436000 @Out INSTALL\*.* @Option 112
+  @File INSTALL.DAT  @Size 184000 @Out INSTALL\*.* @Option 112
+  @File README.DOC   @Size  22000 @Out INSTALL\*.* @Option 112
+  @File README2.DOC  @Size  21000 @Out INSTALL\*.* @Option 112
+  @File DISK.ID      @Size     50 @Out INSTALL\*.* @Option 112
+  @File NOS.001      @Size 540000 @Out INSTALL\*.* @Option 112
+
+  @BeginLib NOS.001
+    @File REDIR.EXE    @Size  94100 @Out *.* @Option 113
+    @File SERVER.EXE   @Size 169100 @Out *.* @Option 111
+    @File RPS.EXE      @Size  22300 @Out *.* @Option 110
+    @File UPS.EXE      @Size   7000 @Out *.* @Option 110
+    @File LANPUP.EXE   @Size  12000 @Out *.* @Option 113
+    @File NET.EXE      @Size  20200 @Out *.* @Option 113
+    @File NET.MNU      @Size  82000 @Out *.* @Option 113
+    @File NET.HLP      @Size  87400 @Out *.* @Option 113
+    @File NET_MGR.EXE  @Size  19000 @Out *.* @Option 111
+    @File NET_MGR.MNU  @Size 132000 @Out *.* @Option 111
+    @File NET_MGR.HLP  @Size  99000 @Out *.* @Option 111
+    @File ALONE.EXE    @Size  33700 @Out *.* @Option 111
+    @File ALONE.HLP    @Size  10000 @Out *.* @Option 111
+    @File BOOT.IMD     @Size   1000 @Out *.* @Option 111
+    @File IBMBOOT.TYP  @Size   1000 @Out *.* @Option 111
+    @File FFRPL.TYP    @Size   1000 @Out *.* @Option 111
+    @File FFRPL.EXE    @Size   7600 @Out *.* @Option 111
+    @File FFRAMRPL.BSD @Size   1000 @Out *.* @Option 111
+    @File FFRAMRPL.BST @Size   2000 @Out *.* @Option 111
+    @File MODEM.CFG    @Size  29000 @Out *.* @Option 110
+    @File AILANBIO.EXE @Size  22000 @Out *.* @Option 113
+    @File NBSETUP.EXE  @Size   5400 @Out *.* @Option 110
+    @File LANCACHE.EXE @Size  19000 @Out *.* @Option 110
+    @File LANCHECK.EXE @Size  30200 @Out *.* @Option 110
+    @File LANCHECK.HLP @Size   9700 @Out *.* @Option 110
+    @File INITCTL.EXE  @Size  35000 @Out *.* @Option 111
+    @File LED.EXE      @Size  70000 @Out *.* @Option 110
+    @File LED.HLP      @Size  17000 @Out *.* @Option 110
+    @File LED.DOS      @Size  48500 @Out *.* @Option 110
+  @EndLib
+@EndDisk
+
+@DefineDisk
+  @Label = "Disk 2 of 4"
+
+  @File NOS.002      @Size 1215000 @Out INSTALL\*.* @Option 112
+
+  @BeginLib NOS.002
+    @File WNET.EXE     @Size 400000 @Out *.* @Option 120
+    @File WNET.HLP     @Size 200000 @Out *.* @Option 120
+    @File WNET_MGR.EXE @Size 428000 @Out *.* @Option 121
+    @File WNET_MGR.HLP @Size 353000 @Out *.* @Option 121
+    @File WMGRCTRL.EXE @Size 112000 @Out *.* @Option 121
+    @File WSVRSPD.EXE  @Size   8000 @Out *.* @Option 121
+    @File WPRSPD.EXE   @Size   8500 @Out *.* @Option 121
+    @File LANTASTI.386 @Size  10400 @Out *.* @Option 120
+    @File LANTNET.DRV  @Size  19800 @Out *.* @Option 120
+    @File ASBCVT.DLL   @Size  15000 @Out *.* @Option 120
+    @File ASGLIB.DLL   @Size  17100 @Out *.* @Option 120
+    @File CTL3D.DLL    @Size  20300 @Out *.* @Option 120
+    @File LPICALLW.DLL @Size  26000 @Out *.* @Option 122
+    @File LFFMEXT.DLL  @Size  10000 @Out *.* @Option 120
+    @File LVMDLL.DLL   @Size  11300 @Out *.* @Option 120
+    @File SRVRMOD.DLL  @Size  66100 @Out *.* @Option 121
+    @File WINUTIL.DLL  @Size  24100 @Out *.* @Option 120
+    @File MKWGROUP.EXE @Size  18000 @Out *.* @Option 120
+    @File INITCTLW.EXE @Size  36000 @Out *.* @Option 121
+    @File DDEMACRO.DOC @Size   2500 @Out *.* @Option 120
+    @File DDEMACRO.XLM @Size   3100 @Out *.* @Option 120
+    @File INSTALL.ICO  @Size    800 @Out *.* @Option 120
+    @File NRSETUP.EXE  @Size 34600 @Out *.*  @Option 131
+    @File NRSETUP.HLP  @Size 10700 @Out *.*  @Option 131
+    @File NRMOVE.EXE   @Size  3900 @Out *.*  @Option 131
+    @File NR.EXE       @Size 11700 @Out *.*  @Option 131
+    @File NR.EXE       @Size 11700 @Out NODERUN.EXE  @Option 131
+    @File NE3.EXE      @Size  8700 @Out *.*  @Option 132
+    @File AE2.EXE      @Size 11000 @Out *.*  @Option 133
+    @File AEX.EXE      @Size 11000 @Out *.*  @Option 134
+    @File CSPPORT.EXE  @Size 14500 @Out *.*  @Option 135
+    @File LANBIOS.EXE  @Size 19600 @Out *.*  @Option 137
+    @File LANBIOS2.EXE @Size 21100 @Out *.*  @Option 137
+    @File LANBIOS3.EXE @Size 25700 @Out *.*  @Option 137
+    @File MPORT.EXE    @Size 11000 @Out *.*  @Option 136
+    @File LDU-MGR.EXE  @Size 38000 @Out *.*  @Option 136
+    @File LDU-MGR.HLP  @Size 19000 @Out *.*  @Option 136
+    @File 3C503MM.EXE  @Size  9100 @Out *.*  @Option 148
+    @File 3C503MM.DOC  @Size 13500 @Out *.*  @Option 148
+    @File 3COM507.EXE  @Size  9300 @Out *.*  @Option 149
+    @File 3COM507.DOC  @Size 13000 @Out *.*  @Option 149
+    @File 3COM523.EXE  @Size  9200 @Out *.*  @Option 150
+    @File 3COM523.DOC  @Size 12900 @Out *.*  @Option 150
+    @File ARCNET.EXE   @Size  8000 @Out *.*  @Option 151
+    @File ARCNET.DOC   @Size 15700 @Out *.*  @Option 151
+    @File NEX000.EXE   @Size  9900 @Out *.*  @Option 152
+    @File NEX000.DOC   @Size 18700 @Out *.*  @Option 152
+    @File PATCC.COM    @Size  9200 @Out *.*  @Option 153
+    @File PATCC.DOC    @Size 12800 @Out *.*  @Option 153
+    @File PE.EXE       @Size 16600 @Out *.*  @Option 154
+    @File PE.DOC       @Size 14400 @Out *.*  @Option 154
+    @File SMCARC.EXE   @Size  8100 @Out *.*  @Option 155
+    @File SMCARC.DOC   @Size 15400 @Out *.*  @Option 155
+    @File TCARC.EXE    @Size  8000 @Out *.*  @Option 156
+    @File TCARC.DOC    @Size 13900 @Out *.*  @Option 156
+    @File TLINK.EXE    @Size  8000 @Out *.*  @Option 157
+    @File TLINK.DOC    @Size 11000 @Out *.*  @Option 157
+    @File DRVR8530.COM @Size  5100 @Out *.*  @Option 157
+    @File WD8003.EXE   @Size  9800 @Out *.*  @Option 158
+    @File WD8003.DOC   @Size 18100 @Out *.*  @Option 158
+
+    @File AI-NDIS.EXE  @Size   9600 @Out *.* @Option 140
+    @File PROTMAN.DOS  @Size  13400 @Out *.* @Option 140
+    @File PROTMAN.EXE  @Size  14100 @Out *.* @Option 140
+    @File NETBIND.COM  @Size   8000 @Out *.* @Option 140
+    @File TOKROUTE.EXE @Size   5900 @Out *.* @Option 140
+    @File AEXNDIS.DOS  @Size   6400 @Out *.* @Option 141
+    @File AEXNDIS.NIF  @Size   1520 @Out *.* @Option 141
+    @File PROTOCOL.INI @Size  1600 @Out *.* @Option 142
+    @File !A-I.TXT     @Size 10700 @Out ARTIDOCS\*.* @Option 110
+    @File !ABOUT.TXT   @Size  1400 @Out ARTIDOCS\*.* @Option 110
+    @File !AILANBO.TXT @Size 10200 @Out ARTIDOCS\*.* @Option 110
+    @File !AINDIS.TXT  @Size  1900 @Out ARTIDOCS\*.* @Option 110
+    @File !ALONE.TXT   @Size  1300 @Out ARTIDOCS\*.* @Option 110
+    @File !CTRL.TXT    @Size 14600 @Out ARTIDOCS\*.* @Option 110
+    @File !DOSAPP.TXT  @Size 12900 @Out ARTIDOCS\*.* @Option 110
+    @File !INDRCT.TXT  @Size  5300 @Out ARTIDOCS\*.* @Option 110
+    @File !IPX.TXT     @Size  2600 @Out ARTIDOCS\*.* @Option 110
+    @File !J-Q.TXT     @Size 21700 @Out ARTIDOCS\*.* @Option 110
+    @File !LANCHE.TXT  @Size  9400 @Out ARTIDOCS\*.* @Option 110
+    @File !LANPUP.TXT  @Size  1000 @Out ARTIDOCS\*.* @Option 110
+    @File !MGRCOM.TXT  @Size  7600 @Out ARTIDOCS\*.* @Option 110
+    @File !MGRSWCH.TXT @Size  1200 @Out ARTIDOCS\*.* @Option 110
+    @File !MISCNET.TXT @Size  7100 @Out ARTIDOCS\*.* @Option 110
+    @File !MULTAD.TXT  @Size  3600 @Out ARTIDOCS\*.* @Option 110
+    @File !NBSETUP.TXT @Size  3500 @Out ARTIDOCS\*.* @Option 110
+    @File !NBSWCH.TXT  @Size  1800 @Out ARTIDOCS\*.* @Option 110
+    @File !NDISWIT.TXT @Size  7100 @Out ARTIDOCS\*.* @Option 110
+    @File !NETMGR.TXT  @Size   600 @Out ARTIDOCS\*.* @Option 110
+    @File !OS2DOS.TXT  @Size  2200 @Out ARTIDOCS\*.* @Option 110
+    @File !PALACL.TXT  @Size  2500 @Out ARTIDOCS\*.* @Option 110
+    @File !R-Z.TXT     @Size 18000 @Out ARTIDOCS\*.* @Option 110
+    @File !REDIR.TXT   @Size  5200 @Out ARTIDOCS\*.* @Option 110
+    @File !RPS.TXT     @Size  7300 @Out ARTIDOCS\*.* @Option 110
+    @File !SAMPLE.TXT  @Size  2400 @Out ARTIDOCS\*.* @Option 110
+    @File !SERVER.TXT  @Size 17000 @Out ARTIDOCS\*.* @Option 110
+    @File !SMBNCP.TXT  @Size  5000 @Out ARTIDOCS\*.* @Option 110
+    @File !SWCHOVR.TXT @Size  5700 @Out ARTIDOCS\*.* @Option 110
+    @File !SYNTAX.TXT  @Size  2400 @Out ARTIDOCS\*.* @Option 110
+    @File !TCHSUP.TXT  @Size  5400 @Out ARTIDOCS\*.* @Option 110
+    @File !TOKROUT.TXT @Size  3900 @Out ARTIDOCS\*.* @Option 110
+    @File !TROUBLE.TXT @Size  4700 @Out ARTIDOCS\*.* @Option 110
+    @File !UPS.TXT     @Size  4900 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.1ST @Size  1100 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.EXE @Size 14320 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.LPT @Size   640 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.MNU @Size   900 @Out ARTIDOCS\*.* @Option 110
+    @File NDIS.OLM     @Size   600 @Out ARTIDOCS\*.* @Option 110
+    @File NET.OLM      @Size   500 @Out ARTIDOCS\*.* @Option 110
+    @File NETMGR.OLM   @Size   400 @Out ARTIDOCS\*.* @Option 110
+    @File SWITCHES.OLM @Size  1100 @Out ARTIDOCS\*.* @Option 110
+    @File AGENT.INI    @Size    200 @Out NW\*.* @Option 120
+    @File ENV.INI      @Size    300 @Out NW\*.* @Option 120
+    @File LINKBOOK.EXE @Size 247000 @Out NW\*.* @Option 120
+    @File LINKBOOK.HLP @Size  25000 @Out NW\*.* @Option 120
+    @File NMF.EXE      @Size 123000 @Out NW\*.* @Option 120
+    @File NWAGT.DLL    @Size  13700 @Out NW\*.* @Option 120
+    @File NWAPI.DLL    @Size  11200 @Out NW\*.* @Option 120
+    @File NWLIB.DLL    @Size   3300 @Out NW\*.* @Option 120
+    @File NWNB30.DLL   @Size   3400 @Out NW\*.* @Option 120
+    @File INFILT.DLL   @Size   4200 @Out NW\ENV\ARTISOFT\NWDDE\*.* @Option 120
+    @File OUTFILT.DLL  @Size   4100 @Out NW\ENV\ARTISOFT\NWDDE\*.* @Option 120
+    @File METHOD.DLL   @Size  15000 @Out NW\ENV\ARTISOFT\NWDDE\*.* @Option 120
+  @EndLib
+@EndDisk
+
+@DefineDisk
+  @Label = "Disk 3 of 4"
+
+  @File NOS.003      @Size 1030000 @Out INSTALL\*.* @Option 112
+
+  @BeginLib NOS.003
+    @If (@ToHard && !@ExtractMode)
+     @If (@InstallWindows)
+      @File ARTMAIL.INI  @Size    700 @Out @WindowsDrive:@WindowsDir\*.* @Option 161
+     @Else
+      @File ARTMAIL.INI  @Size    700 @Out AMAILPRG\*.* @Option 161
+     @EndIf
+    @Else
+     @File ARTMAIL.INI  @Size    700 @Out WINDOWS\*.* @Option 161
+    @EndIf
+
+    @If (@ToHard && @InstallWindows && !@ExtractMode)
+     @File FAXSPOOL.EXE @Size  16700 @Out @WindowsDrive:@WindowsDir\*.* @Option 162
+     @File ARTFAX.DRV   @Size   8100 @Out @WindowsDrive:@WindowsDir\SYSTEM\*.* @Option 162
+     @File MSGTRANS.DLL @Size   4200 @Out @WindowsDrive:@WindowsDir\SYSTEM\*.* @Option 162
+     @File UNIDRV.DLL   @Size 129000 @Out @WindowsDrive:@WindowsDir\SYSTEM\*.* @Option 162
+     @File UNIDRV.HLP   @Size  45200 @Out @WindowsDrive:@WindowsDir\SYSTEM\*.* @Option 162
+    @Else
+     @File FAXSPOOL.EXE @Size  16700 @Out WINDOWS\*.* @Option 162
+     @File ARTFAX.DRV   @Size   8100 @Out WINDOWS\SYSTEM\*.* @Option 162
+     @File MSGTRANS.DLL @Size   4200 @Out WINDOWS\SYSTEM\*.* @Option 162
+     @File UNIDRV.DLL   @Size 129000 @Out WINDOWS\SYSTEM\*.* @Option 162
+     @File UNIDRV.HLP   @Size  45200 @Out WINDOWS\SYSTEM\*.* @Option 162
+    @EndIf
+    @File OBJMAIN.60   @Size  86500 @Out AMAILPRG\OBJMAIN.DLL @Option 160
+    @File ACCTOBJ.DLL  @Size  24200 @Out AMAILPRG\*.* @Option 160
+    @File ACCUSOFT.DLL @Size 180000 @Out AMAILPRG\*.* @Option 160
+    @File ARTIOBJ.DLL  @Size  15900 @Out AMAILPRG\*.* @Option 160
+    @File ATED.DLL     @Size 283000 @Out AMAILPRG\*.* @Option 160
+    @File ATEDMEM.DLL  @Size  13900 @Out AMAILPRG\*.* @Option 160
+    @File ATEDSUP.DLL  @Size  23000 @Out AMAILPRG\*.* @Option 160
+    @File BALLOON.DLL  @Size   9000 @Out AMAILPRG\*.* @Option 160
+    @File DPMIFILE.DLL @Size   7400 @Out AMAILPRG\*.* @Option 160
+    @File ENGINE.DLL   @Size 193000 @Out AMAILPRG\*.* @Option 160
+    @File FAXADMIN.DLL @Size   6400 @Out AMAILPRG\*.* @Option 160
+    @File FAXOBJ.DLL   @Size  15700 @Out AMAILPRG\*.* @Option 160
+    @File FAXVIEW.DLL  @Size  16100 @Out AMAILPRG\*.* @Option 160
+    @File FLDOBJ.DLL   @Size  74000 @Out AMAILPRG\*.* @Option 160
+    @File FLTOBJ.DLL   @Size  41400 @Out AMAILPRG\*.* @Option 160
+    @File ICONLIB.DLL  @Size 104400 @Out AMAILPRG\*.* @Option 160
+    @File LANOBJ.DLL   @Size  15500 @Out AMAILPRG\*.* @Option 160
+    @File MCIOBJ.DLL   @Size  32000 @Out AMAILPRG\*.* @Option 160
+    @File MHSOBJ.DLL   @Size  15000 @Out AMAILPRG\*.* @Option 160
+    @File MODEMINI.DLL @Size   9000 @Out AMAILPRG\*.* @Option 160
+    @File MSGOBJ.DLL   @Size  87000 @Out AMAILPRG\*.* @Option 160
+    @File MSGTRANS.DLL @Size   4700 @Out AMAILPRG\*.* @Option 160
+    @File MTAOBJ.DLL   @Size  22700 @Out AMAILPRG\*.* @Option 160
+    @File MUSCROLL.DLL @Size  47600 @Out AMAILPRG\*.* @Option 160
+    @File OIIREG.DLL   @Size  13400 @Out AMAILPRG\*.* @Option 160
+    @File PAGEROBJ.DLL @Size  16000 @Out AMAILPRG\*.* @Option 160
+    @File PGADMIN.DLL  @Size   7100 @Out AMAILPRG\*.* @Option 160
+    @File POADMIN.DLL  @Size   6700 @Out AMAILPRG\*.* @Option 160
+    @File PRINTOBJ.DLL @Size   5800 @Out AMAILPRG\*.* @Option 160
+    @File QADMIN.DLL   @Size   5200 @Out AMAILPRG\*.* @Option 160
+    @File QEMADMIN.DLL @Size   5300 @Out AMAILPRG\*.* @Option 160
+    @File QOBJ.DLL     @Size  15100 @Out AMAILPRG\*.* @Option 160
+    @File SERVOBJ.DLL  @Size   6200 @Out AMAILPRG\*.* @Option 160
+    @File TXTADMIN.DLL @Size   6000 @Out AMAILPRG\*.* @Option 160
+    @File TXTOBJ.DLL   @Size  16300 @Out AMAILPRG\*.* @Option 160
+    @File AMEXTRA.EXE  @Size   8300 @Out AMAILPRG\*.* @Option 160
+    @File WAMAIL.EXE   @Size  65100 @Out AMAILPRG\*.* @Option 160
+    @File WAMAIL.HLP   @Size 549000 @Out AMAILPRG\*.* @Option 160
+    @File COMMLIB.DLL  @Size  45500 @Out AMAILPRG\*.* @Option 170
+    @File COMMREAL.DLL @Size   1600 @Out AMAILPRG\*.* @Option 170
+    @File MTAEXECL.DLL @Size  17800 @Out AMAILPRG\*.* @Option 170
+    @File MTAFAXC.DLL  @Size  27800 @Out AMAILPRG\*.* @Option 170
+    @File MTAPAGE.DLL  @Size  10200 @Out AMAILPRG\*.* @Option 170
+    @File MTAQ.DLL     @Size  24800 @Out AMAILPRG\*.* @Option 170
+    @File MTAQMAIL.DLL @Size  26000 @Out AMAILPRG\*.* @Option 170
+    @File MTASERV.DLL  @Size   7500 @Out AMAILPRG\*.* @Option 170
+    @File MTATPAGE.DLL @Size  20400 @Out AMAILPRG\*.* @Option 170
+    @File MTDLIB.DLL   @Size  14200 @Out AMAILPRG\*.* @Option 170
+    @File MTAEXEC.EXE  @Size  11800 @Out AMAILPRG\*.* @Option 170
+    @File RTM.EXE      @Size 109000 @Out AMAILPRG\*.* @Option 170
+    @File WMTAEXEC.EXE @Size  19300 @Out AMAILPRG\*.* @Option 170
+  @EndLib
+@EndDisk
+
+@DefineDisk
+  @Label = "Disk 4 of 4"
+
+  @File NOS.004      @Size 420000 @Out INSTALL\*.* @Option 112
+
+  @BeginLib NOS.004
+    @File IPXODI.COM   @Size  30100 @Out *.* @Option 180
+    @File LSL.COM      @Size  18500 @Out *.* @Option 180
+    @File NET.CFG      @Size    200 @Out *.* @Option 180
+    @File NRODI.COM    @Size  21000 @Out *.* @Option 180
+    @File ODINSUP.COM  @Size  33600 @Out *.* @Option 180
+    @File IENS9231.DAT @Size 200000 @Out AMAILPRG\*.* @Option 160
+    @File WASCHED.EXE  @Size 211000 @Out AMAILPRG\*.* @Option 160
+    @File WASCHED.HLP  @Size 166000 @Out AMAILPRG\*.* @Option 160
+    @File DPMI16BI.OVL @Size  60400 @Out AMAILPRG\*.* @Option 170
+    @File SETNAME.PIF  @Size    600 @Out AMAILPRG\*.* @Option 170
+    @File SETNAME.EXE  @Size  23200 @Out AMAILPRG\*.* @Option 170
+    @File GAB1.CAH     @Size   1000 @Out AMAIL\*.* @Option 171
+    @File GABART.DAT   @Size    900 @Out AMAIL\*.* @Option 171
+    @File USRART.DAT   @Size   1500 @Out AMAIL\*.* @Option 171
+    @File GACC.DB      @Size  16100 @Out AMAIL\*.* @Option 171
+    @File GAPAGER.DB   @Size   4000 @Out AMAIL\*.* @Option 171
+    @File GARTI.DB     @Size   7500 @Out AMAIL\*.* @Option 171
+    @File GFAX.DB      @Size   4600 @Out AMAIL\*.* @Option 171
+    @File GFILTER.DB   @Size  13400 @Out AMAIL\*.* @Option 171
+    @File GMCI.DB      @Size  12200 @Out AMAIL\*.* @Option 171
+    @File GMHS.DB      @Size   4200 @Out AMAIL\*.* @Option 171
+    @File GMSDIR.DB    @Size 238000 @Out AMAIL\*.* @Option 171
+    @File GMSG.DB      @Size   7500 @Out AMAIL\*.* @Option 171
+    @File GMTA.DB      @Size  90000 @Out AMAIL\*.* @Option 171
+    @File GPAGER.DB    @Size   3200 @Out AMAIL\*.* @Option 171
+    @File GPORT.DB     @Size    700 @Out AMAIL\*.* @Option 171
+    @File GQMAIL.DB    @Size   3400 @Out AMAIL\*.* @Option 171
+    @File GQUEUE.DB    @Size  11100 @Out AMAIL\*.* @Option 171
+    @File SERVER.INI   @Size    300 @Out AMAIL\*.* @Option 171
+    @File 00000001.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000002.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000003.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000004.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000005.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000006.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000007.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+    @File 00000008.MSG @Size   1500 @Out AMAIL\*.* @Option 171
+  @EndLib
+
+@EndDisk
+
+@ElseIf (@LowDensity)
+
+@DefineDisk
+  @Label = "Disk 1 of 4"
+
+  @File INSTALL.EXE  @Size 206000 @Out LANSETUP.EXE @Option 110
+  @File INSTALL.DAT  @Size 142000 @Out *.* @Option 110
+
+  @BeginLib NOS360.001
+  @EndLib
+@EndDisk
+
+@DefineDisk
+  @Label = "Disk 2 of 4"
+
+  @File README.DOC   @Size  16000 @Out *.* @Option 110
+
+  @BeginLib NOS360.002
+    @File REDIR.EXE    @Size  94100 @Out *.* @Option 113
+    @File SERVER.EXE   @Size 169100 @Out *.* @Option 111
+    @File RPS.EXE      @Size  22300 @Out *.* @Option 110
+    @File LANPUP.EXE   @Size  12000 @Out *.* @Option 113
+    @File NET.EXE      @Size  20200 @Out *.* @Option 113
+    @File NET.MNU      @Size  82000 @Out *.* @Option 110
+    @File NET.HLP      @Size  87400 @Out *.* @Option 113
+    @File IPXODI.COM   @Size  30100 @Out *.* @Option 180
+    @File LSL.COM      @Size  18500 @Out *.* @Option 180
+    @File NET.CFG      @Size    100 @Out *.* @Option 180
+    @File NRODI.COM    @Size  21000 @Out *.* @Option 180
+    @File ODINSUP.COM  @Size  33600 @Out *.* @Option 180
+  @EndLib
+@EndDisk
+
+@DefineDisk
+  @Label = "Disk 3 of 4"
+
+  @BeginLib NOS360.003
+    @File NET_MGR.EXE  @Size  19000 @Out *.* @Option 111
+    @File NET_MGR.MNU  @Size 132000 @Out *.* @Option 111
+    @File NET_MGR.HLP  @Size  99000 @Out *.* @Option 111
+    @File BOOT.IMD     @Size   1000 @Out *.* @Option 111
+    @File IBMBOOT.TYP  @Size   1000 @Out *.* @Option 111
+    @File FFRPL.TYP    @Size   1000 @Out *.* @Option 111
+    @File FFRPL.EXE    @Size   7600 @Out *.* @Option 111
+    @File FFRAMRPL.BSD @Size   1000 @Out *.* @Option 111
+    @File FFRAMRPL.BST @Size   2000 @Out *.* @Option 111
+    @File ALONE.EXE    @Size  33700 @Out *.* @Option 111
+    @File ALONE.HLP    @Size  10000 @Out *.* @Option 111
+    @File MODEM.CFG    @Size  29000 @Out *.* @Option 110
+    @File AILANBIO.EXE @Size  22000 @Out *.* @Option 113
+    @File NBSETUP.EXE  @Size   5400 @Out *.* @Option 110
+    @File LANCACHE.EXE @Size  19000 @Out *.* @Option 110
+    @File LANCHECK.EXE @Size  30200 @Out *.* @Option 110
+    @File LANCHECK.HLP @Size   9700 @Out *.* @Option 110
+    @File UPS.EXE      @Size   7000 @Out *.* @Option 110
+    @File INITCTL.EXE  @Size  35000 @Out *.* @Option 111
+    @File LED.EXE      @Size  70000 @Out *.* @Option 110
+    @File LED.HLP      @Size  17000 @Out *.* @Option 110
+    @File LED.DOS      @Size  48500 @Out *.* @Option 110
+    @File NRSETUP.EXE  @Size  34600 @Out *.* @Option 131
+    @File NRSETUP.HLP  @Size  10700 @Out *.* @Option 131
+    @File NRMOVE.EXE   @Size   3900 @Out *.* @Option 131
+    @File NR.EXE       @Size  11700 @Out *.* @Option 131
+    @File NR.EXE       @Size  11700 @Out NODERUN.EXE @Option 131
+    @File NE3.EXE      @Size   8700 @Out *.* @Option 132
+    @File AE2.EXE      @Size  11100 @Out *.* @Option 133
+    @File AEX.EXE      @Size  11000 @Out *.* @Option 134
+    @File CSPPORT.EXE  @Size  14500 @Out *.* @Option 135
+  @EndLib
+@EndDisk
+
+@DefineDisk
+  @Label = "Disk 4 of 4"
+
+  @BeginLib NOS360.004
+    @File LANBIOS.EXE  @Size 19600 @Out *.*  @Option 137
+    @File LANBIOS2.EXE @Size 21100 @Out *.*  @Option 137
+    @File LANBIOS3.EXE @Size 25700 @Out *.*  @Option 137
+    @File MPORT.EXE    @Size 11000 @Out *.*  @Option 136
+    @File LDU-MGR.EXE  @Size 38000 @Out *.*  @Option 136
+    @File LDU-MGR.HLP  @Size 19000 @Out *.*  @Option 136
+    @File 3C503MM.EXE  @Size  9100 @Out *.*  @Option 148
+    @File 3C503MM.DOC  @Size 13500 @Out *.*  @Option 148
+    @File 3COM507.EXE  @Size  9300 @Out *.*  @Option 149
+    @File 3COM507.DOC  @Size 13000 @Out *.*  @Option 149
+    @File 3COM523.EXE  @Size  9200 @Out *.*  @Option 150
+    @File 3COM523.DOC  @Size 12900 @Out *.*  @Option 150
+    @File ARCNET.EXE   @Size  8000 @Out *.*  @Option 151
+    @File ARCNET.DOC   @Size 15700 @Out *.*  @Option 151
+    @File NEX000.EXE   @Size  9900 @Out *.*  @Option 152
+    @File NEX000.DOC   @Size 18700 @Out *.*  @Option 152
+    @File PATCC.COM    @Size  9200 @Out *.*  @Option 153
+    @File PATCC.DOC    @Size 12800 @Out *.*  @Option 153
+    @File PE.EXE       @Size 16600 @Out *.*  @Option 154
+    @File PE.DOC       @Size 14400 @Out *.*  @Option 154
+    @File SMCARC.EXE   @Size  8100 @Out *.*  @Option 155
+    @File SMCARC.DOC   @Size 15400 @Out *.*  @Option 155
+    @File TCARC.EXE    @Size  8000 @Out *.*  @Option 156
+    @File TCARC.DOC    @Size 13900 @Out *.*  @Option 156
+    @File TLINK.EXE    @Size  8000 @Out *.*  @Option 157
+    @File TLINK.DOC    @Size 11000 @Out *.*  @Option 157
+    @File DRVR8530.DOC @Size  5100 @Out *.*  @Option 157
+    @File WD8003.EXE   @Size  9800 @Out *.*  @Option 158
+    @File WD8003.DOC   @Size 18100 @Out *.*  @Option 158
+    @File AI-NDIS.EXE  @Size  9600 @Out *.* @Option 140
+    @File PROTMAN.DOS  @Size 13400 @Out *.* @Option 140
+    @File PROTMAN.EXE  @Size 14100 @Out *.* @Option 140
+    @File NETBIND.COM  @Size  8000 @Out *.* @Option 140
+    @File TOKROUTE.EXE @Size  5900 @Out *.* @Option 140
+    @File AEXNDIS.DOS  @Size  6400 @Out *.* @Option 141
+    @File AEXNDIS.NIF  @Size  1520 @Out *.* @Option 141
+    @File PROTOCOL.INI @Size  1600 @Out *.* @Option 142
+    @File !A-I.TXT     @Size 10700 @Out ARTIDOCS\*.* @Option 110
+    @File !ABOUT.TXT   @Size  1400 @Out ARTIDOCS\*.* @Option 110
+    @File !AILANBO.TXT @Size 10200 @Out ARTIDOCS\*.* @Option 110
+    @File !AINDIS.TXT  @Size  1900 @Out ARTIDOCS\*.* @Option 110
+    @File !ALONE.TXT   @Size  1300 @Out ARTIDOCS\*.* @Option 110
+    @File !CTRL.TXT    @Size 14600 @Out ARTIDOCS\*.* @Option 110
+    @File !DOSAPP.TXT  @Size 12900 @Out ARTIDOCS\*.* @Option 110
+    @File !INDRCT.TXT  @Size  5300 @Out ARTIDOCS\*.* @Option 110
+    @File !IPX.TXT     @Size  2600 @Out ARTIDOCS\*.* @Option 110
+    @File !J-Q.TXT     @Size 21700 @Out ARTIDOCS\*.* @Option 110
+    @File !LANCHE.TXT  @Size  9400 @Out ARTIDOCS\*.* @Option 110
+    @File !LANPUP.TXT  @Size  1000 @Out ARTIDOCS\*.* @Option 110
+    @File !MGRCOM.TXT  @Size  7600 @Out ARTIDOCS\*.* @Option 110
+    @File !MGRSWCH.TXT @Size  1200 @Out ARTIDOCS\*.* @Option 110
+    @File !MISCNET.TXT @Size  7100 @Out ARTIDOCS\*.* @Option 110
+    @File !MULTAD.TXT  @Size  3600 @Out ARTIDOCS\*.* @Option 110
+    @File !NBSETUP.TXT @Size  3500 @Out ARTIDOCS\*.* @Option 110
+    @File !NBSWCH.TXT  @Size  1800 @Out ARTIDOCS\*.* @Option 110
+    @File !NDISWIT.TXT @Size  7100 @Out ARTIDOCS\*.* @Option 110
+    @File !NETMGR.TXT  @Size   600 @Out ARTIDOCS\*.* @Option 110
+    @File !OS2DOS.TXT  @Size  2200 @Out ARTIDOCS\*.* @Option 110
+    @File !PALACL.TXT  @Size  2500 @Out ARTIDOCS\*.* @Option 110
+    @File !R-Z.TXT     @Size 18000 @Out ARTIDOCS\*.* @Option 110
+    @File !REDIR.TXT   @Size  5200 @Out ARTIDOCS\*.* @Option 110
+    @File !RPS.TXT     @Size  7300 @Out ARTIDOCS\*.* @Option 110
+    @File !SAMPLE.TXT  @Size  2400 @Out ARTIDOCS\*.* @Option 110
+    @File !SERVER.TXT  @Size 17000 @Out ARTIDOCS\*.* @Option 110
+    @File !SMBNCP.TXT  @Size  5000 @Out ARTIDOCS\*.* @Option 110
+    @File !SWCHOVR.TXT @Size  5700 @Out ARTIDOCS\*.* @Option 110
+    @File !SYNTAX.TXT  @Size  2400 @Out ARTIDOCS\*.* @Option 110
+    @File !TCHSUP.TXT  @Size  5400 @Out ARTIDOCS\*.* @Option 110
+    @File !TOKROUT.TXT @Size  3900 @Out ARTIDOCS\*.* @Option 110
+    @File !TROUBLE.TXT @Size  6300 @Out ARTIDOCS\*.* @Option 110
+    @File !UPS.TXT     @Size  4900 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.1ST @Size  1100 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.EXE @Size 14320 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.LPT @Size   640 @Out ARTIDOCS\*.* @Option 110
+    @File ARTIDOCS.MNU @Size   900 @Out ARTIDOCS\*.* @Option 110
+    @File NDIS.OLM     @Size   600 @Out ARTIDOCS\*.* @Option 110
+    @File NET.OLM      @Size   500 @Out ARTIDOCS\*.* @Option 110
+    @File NETMGR.OLM   @Size   400 @Out ARTIDOCS\*.* @Option 110
+    @File SWITCHES.OLM @Size  1100 @Out ARTIDOCS\*.* @Option 110
+  @EndLib
+@EndDisk
+
+@EndIf
+
+ENDFILES:
+
+
+FINISH_BLOCK:
+
+@LicensePath = @InstallPath
+@If (@ExtractMode || @ToFloppy)
+  @LicensePath = @ScriptPath
+@Else
+  @InstallProg = "LANSETUP.EXE"
+@EndIf
+
+
+@x1 = "@KillWindows("Artisoft~Lantastic","IP")"
+@Time2 = @SystemDate
+
+@If (@InstallMode || @ExtractMode)
+  @If (@InstallServices)
+    @FileAttr( "@InstallPath\\INSTALL\\*.*", "r-" )
+  @EndIf
+
+  @If (@MailEnabled && !@NetMail)
+    @FileAttr( "@MailInstallPath\\*.*", "r-" )
+  @EndIf
+
+  @If (@InstallMode)
+    @If (@ClearMailData)
+      @Delete( "@MailInstallDataPath\\*.*", "OR" )
+    @EndIf
+  @EndIf
+@EndIf
+
+@Finish
+
+@Goto DCHECK1
+DCHECK:
+@If (@False)
+DCHECK1:
+@EndIf
+
+@If ( (@ExtractMode || @ToFloppy)
+   && ((111 [= @Option) || (113 [= @Option)) )
+  @If ((@Strlen("@LibName") > 0) && !@Exists("@LibName"))
+    @Cls
+    @MoveCStr(@DosHeadingRow,@DosHeadingCol,@DosHeadingColor,@DosHeadingText)
+
+    Please replace the @Name installation
+    diskette labeled  "Disk 1 of @NumDisks"  into Drive @ScriptDrive:
+    @FlushKeyboard() @Pause
+    @Goto DCHECK
+  @EndIf
+@EndIf
+
+@PleaseWait("- Finishing up")
+@If (!@RunWindows) @Cls Finishing up @EndIf
+
+@If (@ExtractMode)
+  @If (@InstallServices)
+    @If (@FileAttr( "@InstallPath\\INSTALL\\*.*", "r+" )) @EndIf
+  @EndIf
+  @If (@MailEnabled)
+    @If (@FileAttr( "@MailInstallPath\\*.DLL", "r+" )) @EndIf
+    @If (@FileAttr( "@MailInstallPath\\*.EXE", "r+" )) @EndIf
+  @EndIf
+
+  @If (113 [= @Option)
+    @If (@License("@InstallPath\\@RedirProg","@LicensePath\\@InstallProg") != 0)
+      @Cls @If (@BackgroundMode(3,@Red,@Red)) @EndIf
+
+      @Warning
+      @Underline40
+
+      Unable to license @your @RedirProg program.
+      @FlushKeyboard() @Pause
+      @ChDrive( @StartupDrive )
+      @ChDir( "@StartupDir" )
+      @Exit
+    @EndIf
+  @EndIf
+  @If (111 [= @Option)
+    @If (@License("@InstallPath\\@ServerProg","@LicensePath\\@InstallProg") != 0)
+      @Cls @If (@BackgroundMode(3,@Red,@Red)) @EndIf
+
+      @Warning
+      @Underline40
+
+      Unable to license @your @ServerProg program.
+      @FlushKeyboard() @Pause
+      @ChDrive( @StartupDrive )
+      @ChDir( "@StartupDir" )
+      @Exit
+    @EndIf
+  @EndIf
+  @If (@BackgroundMode(3,@Green,@Black)) @EndIf
+  @Cls @MoveCStr(@DosHeadingRow,(@DosHeadingCol1),@DosHeadingColor,@DosHeadingText)
+
+  FILE  EXTRACTION  COMPLETE
+  @Underline40
+
+  @Name @Registered Version @Version files have
+  been successfully extracted to @InstallPath.
+  @FlushKeyboard() @Pause
+  @ChDrive( @StartupDrive )
+  @ChDir( "@StartupDir" )
+  @Exit
+@EndIf
+
+ @If (@BackgroundMode(3,@Blue,@Black)) @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up. @EndIf
+ @If (@InstallWindows)
+    @If (@ToHard && !@SystemIniChanged)
+      @Copy("@WindowsPath\\SYSTEM.INI",@SystemIni)
+    @EndIf
+    @If (@SetINI("boot.description","network.drv",
+       "@NameWin Version @Version",@SystemIni)) @EndIf
+    @If (@SetINI("boot","network.drv",
+       "@AnsiExecutePath\\LANTNET.DRV",@SystemIni)) @EndIf
+    @If (!@RunWindows) @Cls Finishing up.. @EndIf
+    @If (@SetINI("386Enh","network",
+       "*vnetbios,@ExecutePath\\LANTASTI.386",@SystemIni)) @EndIf
+    @If (@SetINI("386Enh","NetAsynchFallback","TRUE", @SystemIni)) @EndIf
+    @If (@SetINI("386Enh","NetAsynchTimeout", "5.0",  @SystemIni)) @EndIf
+    @If (@SetINI("386Enh","NetHeapSize",      "64",   @SystemIni)) @EndIf
+    @If (@SetINI("386Enh","PerVMfiles",       "0",    @SystemIni)) @EndIf
+    @If (@SetINI("386Enh","UniqueDosPSP",     "TRUE", @SystemIni)) @EndIf
+    @If (@SetINI("386Enh","PSPIncrement",     "32",   @SystemIni)) @EndIf
+    @If (@Our2mb)
+      @If (@SetINI("386Enh","EMMExclude","D800-DFFF", @SystemIni)) @EndIf
+    @EndIf
+    @If (@SetINI("LANtastic","Comment",
+                 "Add 1 Network_IRQ per adapter, specify correct Irq values.",
+                 @SystemIni)) @EndIf
+    @If (@SetINI("LANtastic","Network_IRQ","@s2",@SystemIni)) @EndIf
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up... @EndIf
+ @If (@InstallWindows)
+    @If (@ToHard && !@WinIniChanged)
+      @Copy("@WindowsPath\\WIN.INI",@WinIni)
+    @EndIf
+    @If (@SetINI("windows","load","@s3@!@ExecutePath\\WNET.EXE",@WinIni)) @EndIf
+    @If (@Share)
+      @If (@SetINI("windows","spooler","no",@WinIni)) @EndIf
+      @If (@SetINI("windows","DosPrint","yes",@WinIni)) @EndIf
+    @EndIf
+    @If (@MailEnabled && @FaxEnabled)
+      @If ("@GetINI("ports","FAX:",@WinIni)" == "")
+        @If (@SetINI("ports","FAX:","",@WinIni)) @EndIf
+      @EndIf
+      @If (@SetINI("PrinterPorts","Artisoft FAX Print Driver","ARTFAX,FAX:,15,45",@WinIni)) @EndIf
+      @If (@SetINI("devices","Artisoft FAX Print Driver","ARTFAX,FAX:",@WinIni)) @EndIf
+    @EndIf
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up.... @EndIf
+ @If (@InstallWindows && @ToHard)
+    @If (@SetINI("AddOns","@Name for File Manager","@AnsiExecutePath\\LFFMEXT.DLL","WINFILE.INI")) @EndIf
+ @EndIf
+
+ @If (@InstallWindows)
+   @If (!@RunWindows) @Cls Finishing up..... @EndIf
+   @If (@FileAttr( "@s5", "r-" )) @EndIf
+   @WRITE("@s5","wt", "[DDEInfo]\n")
+   @WRITE("@s5","at", "Group=@Name\n")
+   @WRITE("@s5","at", "Apps=9\n")
+   @WRITE("@s5","at", "\n[DDEApps]\n")
+   @WRITE("@s5","at", "App1=WNET.EXE\n")
+   @If (@Share)
+     @WRITE("@s5","at", "App2=WNET_MGR.EXE\n")
+   @EndIf
+   @WRITE("@s5","at", "App3=@InstallProg\n")
+   @WRITE("@s5","at", "App4=NW\\LINKBOOK.EXE\n")
+   @If (@Share)
+     @WRITE("@s5","at", "App5=WPRSPD.EXE\n")
+     @WRITE("@s5","at", "App6=WSVRSPD.EXE\n")
+   @EndIf
+   @If (!@RunWindows) @Cls Finishing up...... @EndIf
+   @If (@MailEnabled)
+     @If (@NetMail)
+       @WRITE("@s5","at", "App7=@MailPath\\WASCHED.EXE\n")
+       @WRITE("@s5","at", "App8=@MailPath\\WAMAIL.EXE\n")
+     @Else
+       @WRITE("@s5","at", "App7=AMAILPRG\\WASCHED.EXE\n")
+       @WRITE("@s5","at", "App8=AMAILPRG\\WAMAIL.EXE\n")
+     @EndIf
+   @EndIf
+   @If (@MailServer)
+     @WRITE("@s5","at", "App9=AMAILPRG\\WMTAEXEC.EXE\n")
+   @EndIf
+   @WRITE("@s5","at", "\n[DDEAppTitles]\n")
+   @WRITE("@s5","at", "App1=@Name@Reg Net Connections\n")
+   @WRITE("@s5","at", "App2=@Name@Reg Network Manager\n")
+   @WRITE("@s5","at", "App3=@Name@Reg Setup\n")
+   @WRITE("@s5","at", "App4=Artisoft LinkBook\n")
+   @WRITE("@s5","at", "App5=@Name@Reg Printer Speed\n")
+   @WRITE("@s5","at", "App6=@Name@Reg Server Speed\n")
+   @If (!@RunWindows) @Cls Finishing up....... @EndIf
+   @If (@MailEnabled)
+     @WRITE("@s5","at", "App7=Artisoft Exchange Scheduler\n")
+     @WRITE("@s5","at", "App8=Artisoft Exchange Mail\n")
+   @EndIf
+   @If (@MailServer)
+     @WRITE("@s5","at", "App9=Artisoft Exchange Post Office\n")
+   @EndIf
+   @WRITE("@s5","at", "\n[DDEAppDirectories]\n")
+   @If (@MailEnabled)
+     @WRITE("@s5","at", "App7=@AnsiMailTempPath\n")
+     @WRITE("@s5","at", "App8=@AnsiMailTempPath\n")
+   @EndIf
+   @If (@MailServer)
+     @WRITE("@s5","at", "App9=@AnsiMailTempPath\n")
+   @EndIf
+   @WRITE("@s5","at", "\n[DDEAppIcons]\n")
+   @WRITE("@s5","at", "App3=INSTALL.ICO\n")
+   @If (@ToHard)
+     @If (@SetINI("windows","run","@s4@!@s6",@WinIni)) @EndIf
+   @EndIf
+   @If (@ToHard && !@Exists("@s6"))
+     @Cls
+     @Warning
+     @Underline40
+
+     The Windows Group Setup program
+
+     ---- @s6 ----
+
+     was not found, so the @Name group
+     will NOT be set up.
+     @FlushKeyboard() @Pause
+     @Abort
+   @EndIf
+ @EndIf
+
+ @If (@InstallServices)
+   @If (@FileAttr( "@InstallPath\\INSTALL\\*.*", "r+" )) @EndIf
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up........ @EndIf
+ @If (@MailEnabled)
+   @If (!@NetMail)
+     @If (@FileAttr( "@MailInstallPath\\*.DLL", "r+" )) @EndIf
+     @If (@FileAttr( "@MailInstallPath\\*.EXE", "r+" )) @EndIf
+   @EndIf
+   @If (!@DirExists(@MailTempPath))
+     @MkDir(@MailTempPath)
+   @EndIf
+
+   @If (@ToHard)
+     @If (@InstallWindows)
+       @If (@SetINI("E-MAIL","ExternalMail","ON","WNET.INI")) @EndIf
+       @If (@SetINI("E-MAIL","CmdLine","@MailPath\\WAMAIL.EXE","WNET.INI")) @EndIf
+     @EndIf
+
+     @If (@SetINI("Windows","MainStore",@MailDataPath,@ArtmailIni)) @EndIf
+     @If (@SetINI("Windows","LocalStore",@AnsiMailTempPath,@ArtmailIni)) @EndIf
+     @If (@SetINI("Windows","GroupEntryDir",@MailPath,@ArtmailIni)) @EndIf
+     @If (@SetINI("Main Dictionary","Dictionary","@MailPath\\IENS9231.DAT",@ArtmailIni)) @EndIf
+
+     @If (!@RunWindows) @Cls Finishing up......... @EndIf
+     @If (@MailServer)
+       @If (@SetINI("Windows","MainStore",@MailDataPath,"@MailInstallDataPath\\SERVER.INI")) @EndIf
+       @If (@SetINI("Windows","LocalStore",@AnsiMailTempPath,"@MailInstallDataPath\\SERVER.INI")) @EndIf
+       @If (@SetINI("Windows","POName",@POname,@ArtmailIni)) @EndIf
+       @If (@SyncMail)
+         @MkDir("@SharePath\\SYSTEM.NET")
+         @If (@FileAttr( "@s5", "r-" )) @EndIf
+         @If (@FileAttr( "@SharePath\\SYSTEM.NET\\ACCTSYNC", "r-" )) @EndIf
+         @WRITE("@SharePath\\SYSTEM.NET\\ACCTSYNC","wt", "@MailDirectDataPath\\TRANSFIL.DB \n")
+       @ElseIf (@NewMailServer)
+         @Delete( "@SharePath\\SYSTEM.NET\\ACCTSYNC","O" )
+       @EndIf
+     @EndIf
+   @EndIf
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up.......... @EndIf
+ @If (@NewMailServer)
+   @If (@Exists("@MailInstallPath\\SETNAME.EXE"))
+     @If (@RunWindows)
+
+       @ChDrive( @OutDrive )
+       @ChDir("@MailInstallPath")
+       @If (@WINEXEC("SETNAME.PIF ARTISOFT @POname @SyncFlag @MailInstallDataPath @MailDataPath @MailTempPath",2)) @EndIf
+       @Delay(2)
+       @ChDrive( @StartupDrive )
+       @ChDir( "@StartupDir" )
+     @Else
+       @If (@SPAWN("@MailInstallPath\\SETNAME.EXE ARTISOFT @POname @SyncFlag@!Q @MailInstallDataPath @MailDataPath @MailTempPath"))
+         @Cls
+         @Warning
+         @Underline40
+
+         Unable to name the Artisoft Exchange Port Office as "@POname".
+
+         Please continue with the @Name install anyway.
+         @FlushKeyboard() @Pause
+       @EndIf
+     @EndIf
+   @Else
+     @Cls @If (@BackgroundMode(3,@Red,@Red)) @EndIf
+     @Warning
+     @Underline40
+
+     The "Set Post Office Name" program
+
+     ---- @s7 ----
+
+     was not found, so the post office was not named.
+
+     Please continue with the @Name install anyway.
+     @FlushKeyboard() @Pause
+   @EndIf
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up........... @EndIf
+ @If (@FileAttr( "@SamplePath", "r-" )) @EndIf
+ @WRITE("@SamplePath","wt", ";* @SamplePath --- @Name INSTALL automated response file\n")
+ @WRITE("@SamplePath","at", ";* ----- Run 'INSTALL /INF' or see documentation.\n")
+ @If (@RunWindows)
+   @WRITE("@SamplePath","at", ";* ----- (Using Windows INSTALL)\n")
+ @Else
+   @WRITE("@SamplePath","at", ";* ----- (Using DOS INSTALL)\n")
+ @EndIf
+ @WRITE("@SamplePath","at", "\n[@Name]\n")
+ @WRITE("@SamplePath","at", "Mode=Fast\n")
+ @WRITE("@SamplePath","at", "ComputerName=@ComputerName\n")
+ @WRITE("@SamplePath","at", "InstallPath=@InstallPath\n")
+ @If ("@InstallPath" != "@ExecutePath")
+   @WRITE("@SamplePath","at", "ExecutePath=@ExecutePath\n")
+ @EndIf
+ @If (@InstallWindows)
+   @WRITE("@SamplePath","at", "Windows=yes\n")
+ @Else
+   @WRITE("@SamplePath","at", "Windows=no\n")
+ @EndIf
+ @If (@Share)
+   @WRITE("@SamplePath","at", "Share=yes\n")
+ @Else
+   @WRITE("@SamplePath","at", "Share=no\n")
+ @EndIf
+ @WRITE("@SamplePath","at", "Logouts=@Logouts\n")
+ @WRITE("@SamplePath","at", "Logins=@Logins\n")
+ @If (!@RunWindows) @Cls Finishing up............ @EndIf
+ @If (@MailEnabled)
+   @If (@MailServer)
+     @WRITE("@SamplePath","at", "Mail=PO\n")
+     @If (@SyncMail)
+       @WRITE("@SamplePath","at", "SyncMail=yes\n")
+     @Else
+       @WRITE("@SamplePath","at", "SyncMail=no\n")
+     @EndIf
+   @ElseIf (@NetMail)
+     @WRITE("@SamplePath","at", "Mail=Net\n")
+   @Else
+     @WRITE("@SamplePath","at", "Mail=Client\n")
+   @EndIf
+   @WRITE("@SamplePath","at", "POname=@POname\n")
+ @EndIf
+ @If (@NcpEnabled)
+   @WRITE("@SamplePath","at", "Ncp=yes\n")
+ @EndIf
+ @If (@SmbEnabled)
+   @WRITE("@SamplePath","at", "Smb=yes\n")
+ @EndIf
+ @If (@InstallServices)
+   @WRITE("@SamplePath","at", "InstallServices=yes\n")
+ @EndIf
+ @If (@SetConnect)
+   @WRITE("@SamplePath","at", "Connect=yes\n")
+   @If ("@DriveLetter1" != "")
+     @WRITE("@SamplePath","at", "Drive1=@DriveServer1,@DriveName1,@DriveLetter1\n")
+   @EndIf
+   @If ("@DriveLetter2" != "")
+     @WRITE("@SamplePath","at", "Drive2=@DriveServer2,@DriveName2,@DriveLetter2\n")
+   @EndIf
+   @If ("@PrintPort1" != "")
+     @WRITE("@SamplePath","at", "Printer1=@PrintServer1,@PrintName1,@PrintPort1\n")
+   @EndIf
+   @If ("@PrintPort2" != "")
+     @WRITE("@SamplePath","at", "Printer2=@PrintServer2,@PrintName2,@PrintPort1\n")
+   @EndIf
+ @Else
+   @WRITE("@SamplePath","at", "Connect=no\n")
+ @EndIf
+ @If (!@ChangeSystemFiles)
+   @WRITE("@SamplePath","at", "ChangeSystemFiles=no\n")
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up............. @EndIf
+ @If (@FileAttr( "@ParamPath", "r-" )) @EndIf
+ @WRITE("@ParamPath","wt", ";@ParamFile - @Name switch settings\n")
+ @WRITE("@ParamPath","at", "[AILANBIO]\n")
+ @If (@Ncbs > 32)
+   @WRITE("@ParamPath","at", "  MAX_NCBS=@Ncbs\n")
+   @WRITE("@ParamPath","at", "  NCBS=@Ncbs\n")
+ @EndIf
+ @If (@Sessions > 32)
+   @WRITE("@ParamPath","at", "  MAX_SESSIONS=@Sessions\n")
+   @WRITE("@ParamPath","at", "  SESSIONS=@Sessions\n")
+ @EndIf
+ @If (@OurMport)
+   @WRITE("@ParamPath","at", "  FORCE_ACK_MODE\n")
+ @EndIF
+ @WRITE("@ParamPath","at", "\n")
+ @WRITE("@ParamPath","at", "[REDIR]\n")
+ @WRITE("@ParamPath","at", "  LOGINS=@Logouts\n")
+ @If (@NcpEnabled)
+   @WRITE("@ParamPath","at", "  NCP_SUPPORT\n")
+ @EndIf
+ @If (@SmbEnabled)
+   @WRITE("@ParamPath","at", "  SMB_SUPPORT\n")
+ @EndIf
+ @WRITE("@ParamPath","at", "\n")
+ @WRITE("@ParamPath","at", "[SERVER]\n")
+
+ @If (!@RunWindows) @Cls Finishing up.............. @EndIf
+ @If (@FileAttr( "@SetPath", "r-" )) @EndIf
+ @WRITE("@SetPath","wt", "@Echo off\n")
+ @WRITE("@SetPath","at", "rem @Name v@Version BATCH file -- @SetPath --\n")
+ @WRITE("@SetPath","at", "rem to change connections and build new CONNECT.BAT\n")
+ @WRITE("@SetPath","at", "\n")
+ @WRITE("@SetPath","at", "NET\n")
+ @WRITE("@SetPath","at", "@Echo rem @ConnectPath for @Name v@Version >  @ConnectPath\n")
+ @WRITE("@SetPath","at", "@Echo rem >> @ConnectPath\n")
+ @WRITE("@SetPath","at", "NET SHOW/BATCH >> @ConnectPath\n")
+ @WRITE("@SetPath","at", "echo New @Name connections are set up:\n")
+ @WRITE("@SetPath","at", "NET SHOW\n")
+
+ @If (!@RunWindows) @Cls Finishing up............... @EndIf
+ @If (@FileAttr( "@StartPath", "r-" )) @EndIf
+ @WRITE("@StartPath","wt", "@Echo off\n")
+ @WRITE("@StartPath","at", "rem @Name  Version @Version  installed @DateToStr(@SystemDate)\n")
+ @If (@ToFloppy)
+   @WRITE("@StartPath","at", "rem (DOS Floppy Workstation)\n")
+ @ElseIf (@RunWindows)
+   @WRITE("@StartPath","at", "rem (for Windows)\n")
+ @ElseIf (@InstallWindows)
+   @WRITE("@StartPath","at", "rem (for Windows from DOS)\n")
+ @ElseIf (@DD360)
+   @WRITE("@StartPath","at", "rem (for DOS - DD)\n")
+ @Else
+   @WRITE("@StartPath","at", "rem (for DOS)\n")
+ @EndIf
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "@StrHead(@ExecutePath,1):\n")
+ @WRITE("@StartPath","at", "cd @ExecutePath\n")
+ @WRITE("@StartPath","at", "\n")
+ @If (!@RunWindows) @Cls Finishing up................ @EndIf
+ @WRITE("@StartPath","at", "SET LAN_CFG=@EnvLanCfg\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "rem If @Name is disabled, skip everything.\n")
+ @WRITE("@StartPath","at", "IF EXIST @DisabledFile GOTO :STARTNET_DONE\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "@Echo ===== Begin @Name configuration =====\n")
+ @WRITE("@StartPath","at", "\n")
+ @If (@InstallWindows)
+   @WRITE("@StartPath","at", "PATH @ExecutePath;@LinkPath;%PATH%\n")
+ @Else
+   @WRITE("@StartPath","at", "PATH @ExecutePath;%PATH%\n")
+ @EndIf
+ @If (@Share)
+   @WRITE("@StartPath","at", "SET LAN_DIR=@EnvLanDir\n")
+ @EndIf
+ @If (@InstallWindows)
+   @WRITE("@StartPath","at", "SET NWDBPATH=@LinkPath\n")
+ @EndIf
+ @If (@MailServer)
+   @WRITE("@StartPath","at", "SET SERVER_INI=@MailDataPath\\SERVER.INI\n")
+ @EndIf
+ @WRITE("@StartPath","at", "\n")
+ @If (!@RunWindows) @Cls Finishing up................. @EndIf
+
+
+ @If (!@RunWindows) @Cls Finishing up.................. @EndIf
+ @If (@Our2mb)
+   @WRITE("@StartPath","at", "@Loadhigh@StrToken(@AdapterProg,0,".") @AdapterArgs\n")
+ @ElseIf (@OurMport)
+   @WRITE("@StartPath","at", "@Loadhigh@StrToken(@AdapterProg,0,".") @AdapterArgs\n")
+   @WRITE("@StartPath","at", "@StrToken(@NetbiosProg,0,".") @NetbiosParam\n")
+   @WRITE("@StartPath","at", "@Loadhigh@StrToken(@AdapterProgX,0,".") @AdapterArgsX\n")
+ @Else
+   @If ((@NcpEnabled) || (@SmbEnabled))
+     @If (@NcpEnabled)
+       @WRITE("@StartPath","at", "@Loadhigh@!LSL\n")
+       @WRITE("@StartPath","at", "NRODI\n")
+       @WRITE("@StartPath","at", "@Loadhigh@!ODINSUP\n")
+       @WRITE("@StartPath","at", "@Loadhigh@!IPXODI\n")
+     @EndIf
+     @If (@SmbEnabled)
+       @WRITE("@StartPath","at", "rem Please obtain the NETBEUI.EXE program from Microsoft\n")
+       @WRITE("@StartPath","at", "@Loadhigh@!NETBEUI\n")
+     @EndIf
+     @If (@NcpEnabled)
+       @WRITE("@StartPath","at", "@Loadhigh@StrToken(@NdisProg,0,".") BIND_TO=NRODI NO_RECEIVE_HOLDOFF RECEIVE_BUFFERS=@RxBuffers\n")
+     @Else
+       @WRITE("@StartPath","at", "@Loadhigh@StrToken(@NdisProg,0,".") BIND_TO=@AdapterNif\n")
+       @If (@SetINI("NETBEUI_XIF","BINDINGS",
+           "@AdapterNif","@InstallPath\\@NdisProtocolFile")) @EndIf
+     @EndIf
+     @If (@SmbEnabled)
+       @If (@SetINI("PROTMAN","Priority",
+           "NETBEUI","@InstallPath\\@NdisProtocolFile")) @EndIf
+       @If (@SetINI("NETBEUI_XIF","LANABASE",
+           "1","@InstallPath\\@NdisProtocolFile")) @EndIf
+     @EndIf
+   @ElseIf (@NdisSelected || @AexNdisSelected)
+     @WRITE("@StartPath","at", "@Loadhigh@StrToken(@NdisProg,0,".") BIND_TO=@AdapterNif\n")
+   @Else
+     @WRITE("@StartPath","at", "@Loadhigh@StrToken(@AdapterProg,0,".") @AdapterArgs\n")
+     @If ("@AdapterProgX" != "")
+       @WRITE("@StartPath","at", "@Loadhigh@StrToken(@AdapterProgX,0,".") @AdapterArgsX\n")
+     @EndIf
+   @EndIf
+   @WRITE("@StartPath","at", "@StrToken(@NetbiosProg,0,".") @NetbiosParam\n")
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up................... @EndIf
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "@StrToken(@RedirProg,0,".") @ComputerName @LoginParam\n")
+ @If (@Share)
+   @WRITE("@StartPath","at", "\n")
+   @WRITE("@StartPath","at", "IF EXIST @NoShareFile GOTO :NOSHARE\n")
+   @WRITE("@StartPath","at", "@StrToken(@ServerProg,0,".") @EnvLanDir @LoginParam\n")
+   @WRITE("@StartPath","at", "NET LOGIN \\\\@ComputerName\n")
+   @WRITE("@StartPath","at", "GOTO :CONTINUE\n")
+   @WRITE("@StartPath","at", "\n")
+   @WRITE("@StartPath","at", ":NOSHARE\n")
+   @WRITE("@StartPath","at", "@Echo @Name server was installed but turned off.\n")
+   @WRITE("@StartPath","at", "\n")
+   @WRITE("@StartPath","at", ":CONTINUE\n")
+ @EndIf
+ @If (!@RunWindows) @Cls Finishing up.................... @EndIf
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "rem If CONNECT.BAT exists, run it to set up connections.\n")
+ @WRITE("@StartPath","at", "IF EXIST CONNECT.BAT GOTO :CONNECT\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "rem Otherwise set up connections specified during install.\n")
+ @If ("@DriveLetter1" != "")
+   @WRITE("@StartPath","at", "NET LOGIN/wait \\\\@DriveServer1\n")
+   @WRITE("@StartPath","at", "NET USE @DriveLetter1: \\\\@DriveServer1\\@DriveName1\n")
+ @EndIf
+ @If ("@DriveLetter2" != "")
+   @If ("@DriveServer1" != "@DriveServer2")
+     @WRITE("@StartPath","at", "NET LOGIN/wait \\\\@DriveServer2\n")
+   @EndIf
+   @WRITE("@StartPath","at", "NET USE @DriveLetter2: \\\\@DriveServer2\\@DriveName2\n")
+ @EndIf
+ @If (!@RunWindows) @Cls Finishing up..................... @EndIf
+ @If ("@PrintPort1" != "")
+   @If (("@PrintServer1" != "@DriveServer1") &&
+        ("@PrintServer1" != "@DriveServer2") &&
+        ("@PrintServer1" != "@ComputerName"))
+     @WRITE("@StartPath","at", "NET LOGIN/wait \\\\@PrintServer1\n")
+   @EndIf
+   @WRITE("@StartPath","at", "NET USE @PrintPort1: \\\\@PrintServer1\\@PrintName1\n")
+ @EndIf
+ @If ("@PrintPort2" != "")
+   @If (("@PrintServer2" != "@DriveServer1") &&
+        ("@PrintServer2" != "@DriveServer2") &&
+        ("@PrintServer2" != "@PrintServer1") &&
+        ("@PrintServer1" != "@ComputerName"))
+     @WRITE("@StartPath","at", "NET LOGIN/wait \\\\@PrintServer2\n")
+   @EndIf
+   @WRITE("@StartPath","at", "NET USE @PrintPort2: \\\\@PrintServer2\\@PrintName2\n")
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up...................... @EndIf
+ @WRITE("@StartPath","at", "NET LPT TIMEOUT 10\n")
+ @WRITE("@StartPath","at", "GOTO :CONNECT_DONE\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", ":CONNECT\n")
+ @WRITE("@StartPath","at", "@Echo Setting up @Name connections from CONNECT.BAT\n")
+ @WRITE("@StartPath","at", "rem Build CONNECT.BAT like this: \"NET SHOW/BATCH > @ExecutePath\\CONNECT.BAT\"\n")
+ @WRITE("@StartPath","at", "rem   (or run the batch file SETNET.BAT)\n")
+ @WRITE("@StartPath","at", "@Call@!CONNECT.BAT\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", ":CONNECT_DONE\n")
+ @WRITE("@StartPath","at", "NET POSTBOX\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", "@Echo ===== End @Name configuration =====\n")
+ @WRITE("@StartPath","at", "\n")
+ @WRITE("@StartPath","at", ":STARTNET_DONE\n")
+ @WRITE("@StartPath","at", "cd \\\n")
+
+ @Delete("@InstallPath\\INSTALL.EXE")
+
+ @Delete("@InstallPath\\@DisabledFile")
+
+ @Delete("@InstallPath\\@NoShareFile")
+
+ @If (@ToFloppy)
+   @Delete("@StrHead(@InstallPath,1):\\DISK.ID")
+ @EndIf
+
+
+ @If (!@RunWindows) @Cls Finishing up....................... @EndIf
+
+ @If (@InstallWindows)
+   @MkDir("@InstallPath\\NW\\LANTASTI.SHR")
+ @EndIf
+ @If (@Share)
+   @MkDir("@SharePath\\SYSTEM.NET")
+   @Copy("@InstallPath\\BOOT.IMD","@SharePath\\SYSTEM.NET")
+   @Copy("@InstallPath\\IBMBOOT.TYP","@SharePath\\SYSTEM.NET")
+   @Copy("@InstallPath\\FFRPL.TYP","@SharePath\\SYSTEM.NET")
+   @Copy("@InstallPath\\FFRAMRPL.BST","@SharePath\\SYSTEM.NET")
+   @Copy("@InstallPath\\FFRAMRPL.BSD","@SharePath\\SYSTEM.NET")
+
+   @If (!@RunWindows) @Cls Finishing up........................ @EndIf
+   @If (@Exists("@s7"))
+     @If (@RunWindows)
+
+       @If (@WINEXEC(@s8,2)) @EndIf
+       @Delay(2)
+     @Else
+       @If (@SPAWN(@s8)) @EndIf
+     @EndIf
+   @Else
+     @Cls @If (@BackgroundMode(3,@Red,@Red)) @EndIf
+     @Warning
+     @Underline40
+
+     The control directory initialization program
+
+     ---- @s7 ----
+
+     was not found, so the required initialization of
+     the  @SharePath  directory for @Name
+     was NOT performed.
+     @FlushKeyboard() @Pause @Exit
+   @EndIf
+ @EndIf
+
+ @If (!@RunWindows) @Cls Finishing up......................... @EndIf
+ @If (@InstallMode)
+   @If  ((@License("@InstallPath\\@RedirProg","@LicensePath\\@InstallProg") != 0)
+     || (@Share && @License("@InstallPath\\@ServerProg","@LicensePath\\@InstallProg") != 0))
+     @Cls @If (@BackgroundMode(3,@Red,@Red)) @EndIf
+
+     @Warning
+     @Underline40
+
+     Unable to license @your @Name programs.
+     @Name will not run on this computer.
+     @FlushKeyboard() @Pause
+     @ChDrive( @StartupDrive )
+     @ChDir( "@StartupDir" )
+     @Exit
+   @Else
+     @If (@NcpEnabled || @SmbEnabled || @NewMailServer)
+      @If (@BackgroundMode(3,@Yellow,@Black)) @EndIf
+      @Cls
+      @MoveCStr(@DosHeadingRow,(@DosHeadingCol1),@DosHeadingColor,@DosHeadingText)
+             I M P O R T A N T   N O T E
+      @Underline40
+      @If (@NcpEnabled)
+      You have installed @Name as a Novell@Registered Netware client
+      using:  @AdapterName.
+      To set up @Name as a Novell client using a different
+      adapter, see the "@Name Installation and Management Guide".
+      @EndIf @If (@SmbEnabled)
+      You have installed @Name as a Microsoft@Registered client.
+      You need to obtain the NETBEUI.EXE file from Microsoft
+      and place it in @InstallPath. @If (@SmbEnabled & 1 ) Or you can install
+      the Artisoft "AILANBIO" NETBIOS program on your
+      Windows for Workgroups(tm) computer. @EndIf
+      @EndIf @If (@NewMailServer)
+      You have installed a new Artisoft Exchange Mail
+      Post Office.  You need to add @If (@SyncMail)@!a @Name account @Else@!an Exchange Mail account @EndIf
+      for each mail user that does not already have one.
+      @EndIf @FlushKeyboard() @Pause
+     @EndIf
+     @If (@BackgroundMode(3,@Green,@Black)) @EndIf
+     @Cls
+     @MoveCStr(@DosHeadingRow,(@DosHeadingCol1),@DosHeadingColor,@DosHeadingText)
+     @StrConvert(@action,"uc")  COMPLETE
+
+     @Underline40
+
+     @Name @Registered Version @Version @action
+     has been successfully completed.
+
+     You will need to@!@s1 REBOOT@!@If ("@s1"=="") YOUR COMPUTER @EndIf
+     @If ("@s1"!="")@!YOUR COMPUTER @EndIf@!to join the @Name network. @If (@RunWindows && @Removable(@ScriptDrive)) Please
+     remove the @Name installation diskette from Drive @ScriptDrive. @EndIf
+
+     Please perform this @action on each computer
+     in your @Name network.  Then store @your @Name
+     diskettes in a safe place. @If (@NewInstall) You will need them to
+     install software upgrades. @EndIf
+     @FlushKeyboard() @Pause
+   @EndIf
+ @EndIf
+
+ @If (@DebugMode)
+   @Cls
+   Memory  = @HeapAvail bytes remaining out of @HeapTotal
+   Startup time = @Eval(@Time1-@Time0)
+   Entry time = @Eval(@Time2-@Time1)
+   Finish time = @Eval(@SystemDate-@Time2)
+   @FlushKeyboard() @Pause
+ @EndIf
+
+ @ChDrive( @StartupDrive )
+ @ChDir( "@StartupDir" )
+
+ @If (!@RunWindows)
+   @If (@ToHard && !@NoRebootMode)
+     @Cls
+     In a moment, INSTALL will reboot @your computer to activate
+     @your @Name network software. @If (@Removable(@ScriptDrive)) Please remove the @Name
+     installation diskette from Drive @ScriptDrive. @EndIf
+
+     Please wait...
+     @Delay(3)
+     @Cls
+     @If (@ScriptXfered) @Delete("@ScriptTempPath\\@InstallScript") @EndIf
+     @If (@NewTemp) @RmDir(@ScriptTempPath) @EndIf
+     @Reboot()
+     @Exit
+   @Else
+     @If (@ScriptXfered) @Delete("@ScriptTempPath\\@InstallScript") @EndIf
+     @If (@NewTemp) @RmDir(@ScriptTempPath) @EndIf
+     @Exit
+   @EndIf
+ @Else
+   @If (@ToHard && !@NoRebootMode)
+     @Delete("@WindowsPath\\@InstallScript")
+     @Reboot()
+     @Exit
+   @Else
+     @Delete("@WindowsPath\\@InstallScript")
+     @Exit
+   @EndIf
+ @EndIf
+
+@EndFinish
+

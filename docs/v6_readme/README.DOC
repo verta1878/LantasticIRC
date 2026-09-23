@@ -1,0 +1,483 @@
+
+
+             LANtastic(R) Information Update File (README.DOC)
+             ------------------------------------------------
+                     (C) Copyright 1994 Artisoft, Inc.
+                                 (Edition 1)
+
+   Contents
+   ========
+       This file contains information about the following topics:
+
+            - Installation Procedures
+            - Installing Over a Previous LANtastic NDIS Installation
+            - Using the LANtastic On-line Manual
+            - Copying and Pasting Accounts, ACL Groups and Resources
+            - Using Linkbook
+            - Server Startup Parameters
+            - Connecting to SMB/NCP Servers
+            - Using Novell's NETX with LANtastic NCP Support
+            - Controlling a Remote Server
+            - Using DOS EDIT.COM
+            - Using LANtastic with Stacker(R)
+            - Using NET PING
+            - Using Artisoft Drivers with LANtastic Interchange(TM)
+            - New Error Messages
+            - Command Line Switches
+            - About the Installation Program
+
+       For information about Artisoft Exchange products, please see the
+       README2.DOC file in your LANtastic installation directory.
+
+   Installation Procedures
+   ========================
+       Read the following information before you begin to install
+       LANtastic V6.0.
+
+     Memory Requirements
+     -------------------
+       Before you install LANtastic, make sure you have 510K of DOS memory
+       available to run the installation, its Extract function or the
+       SETUP utility.
+  
+     Upgrading from V5.0 with LANCACHE
+     ---------------------------------
+       If you are upgrading your LANtastic software from V5.0 or earlier to
+       V6.0 and choose to "KEEP" your current system files and settings, 
+       you may need to modify your network startup batch file so that 
+       LANCACHE loads before SERVER.  The LANCACHE program that ships with 
+       LANtastic V6.0 will not load if it detects that the SERVER program 
+       is already running.
+
+     Procedure for Upgrading Windows-based LANtastic
+     -----------------------------------------------
+       If you're performing an upgrade installation on a computer that's
+       running LANtastic's Windows interface, move all program items
+       that aren't part of the LANtastic installation to a program group
+       other than LANtastic.  This includes items such as Voice Error
+       Messaging, LAN Radio and ArtiScribe, as well as any non-LANtastic
+       program items such as E-Mail icons.  Any program items that are
+       left in the LANtastic program group will be removed from it during
+       the LANtastic installation.  You'll be able to re-assign the
+       removed items to the LANtastic program group through Program
+       Manager once the installation is complete.
+
+     Adding or Removing the LANtastic Menu
+     -------------------------------------
+       In a new LANtastic installation, a LANtastic menu appears on the
+       Windows File Manager menu line. From this menu, you can access all
+       the functions available from the LANtastic Net window by scrolling
+       down the list and selecting the desired menu option. To add this
+       functionality to a LANtastic upgrade installation, or to remove
+       it from an existing installation, use a text editor such as Windows
+       Notepad or DOS EDIT to add or remove the following line to the
+       [AddOns] section of your WINFILE.INI file:
+
+                 LANtastic for File Manager=C:\LANTASTI\LFFMEXT.DLL
+
+       where C:\LANTASTI is your LANtastic installation directory.
+
+     NDIS Adapter Driver Diskette
+     ----------------------------
+       If you select NDIS Supported Adapter during the LANtastic
+       installation, you'll need to have your adapter's driver diskette
+       ready to insert when prompted to do so.
+
+     SMB/NCP Installation
+     --------------------
+       If you selected SMB and/or NCP-client support during the LANtastic
+       installation, you are ready to connect to and use SMB and /or
+       NCP servers and their resources.  File modifications that may be
+       mentioned in the LANtastic Installation and Management Guide
+       shouldn't be needed unless there was a problem during the
+       installation.  However, you must have NETBEUI.EXE in your LANtastic
+       installation directory to be able to communicate with SMB servers.
+       Contact Microsoft to obtain NETBEUI.EXE.  See the on-line manual
+       and the LANtastic Installation and Management Guide for information
+       on setting up SMB and/or NCP-client support manually.
+
+       NOTES  NodeRunner adapters must be run in 16-bit mode to connect
+              to NCP or SMB servers.
+
+              Simply LANtastic network adapters are not compatible with
+              NCP or SMB networks.
+
+       You can set up a drive or printer connection to an SMB or NCP
+       server only if:
+
+          - The name for a printer begins with an "@" symbol.
+          - The drive or printer name doesn't contain any spaces.
+          - SMB drives don't have passwords.
+
+       After installation you can set up drive and printer connections
+       that don't meet these criteria by editing STARTNET.BAT and adding
+       NET commands such as:
+
+              NET LOGIN "\\WFW SERVER"
+              NET USE D: "\\WFW SERVER\CDRIVE" SECRET
+              NET USE LPT1 "\\WFW SERVER\HP" HPSECRET
+
+       Note: Arguments to NET that contain spaces must be in double
+             quotes.
+
+     New AI-NDIS Line
+     ----------------
+       The documentation that describes NCP client support may give an
+       incorrect AI-NDIS command line example.  An example of the correct
+       syntax for the NDIS line is:
+
+              AI-NDIS BIND_TO=NRODI NO_RECEIVE_HOLDOFF RECEIVE_BUFFERS=4
+
+     Using the LANSETUP Program
+     --------------------------
+       After you install LANtastic V6.0, you can use the LANSETUP program
+       to:
+
+         - View your system setup
+         - Reset the control directory
+         - Add default resources
+         - Enable or disable sharing of your printers and drives
+         - Enable or disable LANtastic
+         - View the LANtastic V6.0 On-line Manual
+
+       To use the LANSETUP program:
+
+         - In DOS, type LANSETUP <Enter> from the DOS prompt in the
+           LANTASTI directory.
+
+         - In Windows, choose the LANtastic Setup icon in the LANtastic
+           Program Group.
+
+   Installing Over a Previous LANtastic NDIS Installation
+   ======================================================
+       If you have LANtastic already installed on a computer using an
+       NDIS network adapter driver, see the following scenarios for
+       important steps to take before installing LANtastic V6.0.
+
+           If you don't plan to install NDIS, NCP or SMB support, use a
+           text editor such as DOS EDIT or Windows Notepad to remove the
+           DEVICE=PROTMAN.DOS and NDIS adapter driver lines from your
+           CONFIG.SYS file.
+
+           If you plan to install NDIS and/or SMB support using the same
+           network adapter driver, you don't need to make any changes.
+
+           If you plan to install NCP support or use an adapter driver
+           other than the one used in your previous LANtastic
+           installation, use a text editor such as DOS EDIT or Windows
+           Notepad to remove the adapter driver line from your CONFIG.SYS
+           file.
+
+      The PROTMAN.DOS line and most NDIS adapter driver lines usually
+      begin with a DEVICE= statement and end with the extension .DOS.
+
+      Once these steps have been completed, install LANtastic V6.0 as
+      described in the LANtastic Installation and Management Guide.
+
+   Using the LANtastic On-line Manual
+   ====================================
+       Included in your LANtastic installation directory is the LANtastic
+       V6.0 On-line Manual.  This manual contains information about the
+       following topics:
+
+          - LANtastic Commands and Switches
+          - LANtastic NDIS Support
+          - Using Control Directories with DOS
+          - LANtastic SMB Support
+          - DOS and Application Program Considerations
+          - Using Multiple Adapters
+          - Using Artisoft's IPX Routable NetBIOS
+          - Indirect Files
+          - Physical Access ACL
+          - The NBSETUP program
+
+       To use the on-line manual, change to your installation directory
+       (usually C:\LANTASTI.) From within the LANtastic installation
+       directory, change to the ARTIDOCS directory and and type:
+
+                     ARTIDOCS
+
+       An introduction screen appears. Press the Esc key to see the main
+       menu.  Choose the desired topic from the menu and press Enter.
+
+    Copying and Pasting Accounts, ACL Groups and Resources
+    =======================================================
+       When copying and pasting multiple individual accounts, ACL groups
+       or resources using wildcard characters, the "To Account," "To
+       Group" or "To Resource" name will always match the "From Account,"
+       "From Group" or "From Resource" name, including wildcard
+       characters.
+
+    Using Linkbook
+    ==============
+       You must have at least three megabytes of free RAM (Random
+       Access Memory) before you run Linkbook. This is in addition to the
+       memory required for DDE applications. You can check the amount of
+       free memory by choosing About Program Manager from the Help menu in
+       Windows Program Manager. The available memory can be either
+       physical or virtual.
+
+     Establishing DDE Links Using Microsoft Excel V5.0
+     --------------------------------------------------
+       Excel V5.0 may return a timeout error message during paste link
+       operations when it's used as the DDE server. A DDE server is 
+       the computer running the application that placed the item in the 
+       clipboard.  The problem occurs when a paste link operation is 
+       performed on a client after pasting from a remote clipboard 
+       containing Excel V5.0 data. The timeout error message is due to 
+       inconsistent registration entries in the WIN.REG file for Excel 
+       versions. For a temporary solution to this problem, complete 
+       the following steps:
+
+          1. From Program Manager's File menu, choose Run.
+
+          2. In the Command Line field of the Run window, type REGEDIT.EXE
+             and press Enter.  The Registration Info Editor appears.
+
+          3. Scroll down through the list of applications until you
+             see the entries for Microsoft Excel.
+
+          4. Delete each Excel entry. To delete an entry, select it with
+             the mouse, then press the Delete key.
+
+       This operation won't affect installed Excel versions using DDE or
+       OLE.  Continue with the operation as instructed in your LANtastic
+       and Excel manuals.
+
+     Using LINKBOOK with Microsoft Word 2.0
+     --------------------------------------
+       When opening a DDE client Microsoft Word V2.0 document that has
+       links to a Word V2.0 document on another computer (the DDE server),
+       you must use one of these two configurations:
+
+       A.  Make sure that Word V2.0 is not running on the DDE server but
+           is in the server's DOS path variable.
+
+                                      OR
+
+       B.  Make sure that Word V2.0 is running on the server and that the
+           linked document is opened in a window.
+
+     Launching Applications with Linkbook
+     ------------------------------------
+       If you're using Linkbook to launch an application on a remote
+       server, you must be sure that the DOS path statement on that server
+       includes the directory that contains the desired application.
+
+     Multiple Adapters
+     -----------------
+       If multiple adapters are installed in your computer, the Paste
+       Remote Clipboard command can only be used to access workstations
+       that are connected to adapter #0.
+
+   Server Startup Parameters
+   =========================
+       The LANtastic Installation and Management Guide may contain
+       incorrect information about the Configuration Type field in the
+       Server Startup Parameters.  The example configuration types, "Small
+       File Server" and "Small File and Print Server,"etc. are not valid
+       options.  Instead, you're able to choose between 5, 35 or 100 User
+       File Server or File and Print Server configuration types.
+
+   Connecting to SMB/NCP Servers
+   =============================
+       To access files on an SMB or NCP server, you must redirect a
+       drive letter to the server's drives or printers. No network path
+       access is available.
+
+       Also, when logging in to a SMB or NCP server, your computer may
+       beep several times before the connection is made. This occurs as
+       the redirector automatically tries each protocol and adapter until
+       the server responds. If you have many adapters and SMB and NCP
+       support enabled, it may take as long as 15 seconds for some
+       connections.
+
+       See the on-line manual for examples of batch files used to connect
+       to SMB and NCP servers.
+
+     Turning Off Autodisconnect
+     --------------------------
+       In Windows(TM) NT(R), inactive connections are terminated after a
+       time interval specified by the Autodisconnect command (the default
+       is 20 minutes). An inactive connection is one that has transferred
+       no data for the specified interval. To increase the interval,
+       change the default value for the disc setting in the Registry. To
+       do this complete these steps on the Windows NT server:
+
+         1. Choose Run from the File menu.
+
+         2. Type REGEDT32 and press Enter. The HKEY folders appear.
+
+         3. Click on the HKEY_LOCAL_MACHINE folder to bring it to the
+            foreground.
+
+         4. Choose System.
+
+         5. Choose Current Control Set.
+
+         6. Choose Services.
+
+         7. Scroll down to Lanman Server and choose it.
+
+         8. Choose Parameters.
+
+         9. Choose disc: REG_DWORD:nnnnnnn. The DWORD Editor opens.
+            Enter a new time interval. If you don't want your connections
+            to terminate automatically, enter ffffffff.
+
+         For more information, see your Windows NT Resource Kit.
+
+   Using Novell's NETX with LANtastic NCP Support
+   ==============================================
+       To use Novell's NETX program with LANtastic's NCP support, complete
+       these steps:
+
+         1. Use a text editor such as DOS EDIT or Windows Notepad to
+            remove the NCP_SUPPORT line from the REDIR section of the
+            STARTNET.CFG file.
+
+         2. Check your LANtastic startup batch file (usually STARTNET.BAT)
+            to be certain that all of your LANtastic drive and printer
+            connections are made before NETX is loaded.  Your computer
+            will lock up if you attempt to run the LANtastic NET program
+            while NETX is running.
+
+   Controlling a Remote Server
+   ===========================
+       When you're controlling a remote server using the DOS NET or
+       Windows LANtastic Net programs, avoid using the command "SERVER
+       /REMOVE" to shut down the SERVER program.  Instead use the remote
+       server shutdown feature, described in "Remotely Shutting Down a
+       Server" in the Server Monitoring and Security chapter in your
+       LANtastic Installation and Management Guide.
+
+   Using DOS EDIT.COM
+   ==================
+       Don't run DOS EDIT.COM while controlling a remote server.
+       Keystrokes entered on the controlling computer aren't accepted by
+       EDIT.  EDIT will also lock up your computer if you attempt to
+       reboot your computer by pressing Ctrl+Alt+Del while running both
+       LANtastic's SERVER program and DOS EDIT.
+
+   Using LANtastic with Stacker
+   ============================
+       If you are installing LANtastic on a drive that has been compressed
+       using the Stacker utility and you want that computer to be a
+       server, an Artisoft Exchange Mail Post Office or an installation
+       server, complete the steps below.  If the computer will not share
+       its drives or printers and will not run the LANtastic SERVER
+       program, these steps are not necessary.
+
+              1.  After the LANtastic installation, delete the control
+                  directory as described in the LANtastic Installation and
+                  Management Guide.
+
+              2.  On a drive that has not been compressed using Stacker,
+                  create a new control directory as described in the
+                  LANtastic Installation and Management Guide.
+
+   Using NET PING
+   ==============
+       The NET PING command can report the same workstation multiple
+       times.  This is often true on networks with long delays or slow
+       nodes. To get a list of nodes without repeated entries, pipe NET
+       PING to the DOS SORT command and redirect the output to a file.
+       Then use a text editor to identify and remove multiple appearances
+       of the same node. For example:
+
+              NET PING | SORT >PING.TXT
+              EDIT PING.TXT
+
+       You can use wildcard characters to limit the number of nodes that
+       will respond to the NET PING command. For example:
+
+              NET PING A*
+              NET PING B*
+
+   Using Artisoft Drivers with LANtastic Interchange
+   =================================================
+       The Artisoft drivers shipped with LANtastic V6.0 (NODERUN.EXE,
+       NR.EXE, AEX.EXE, AI-NDIS.EXE) aren't compatible with LANtastic
+       Interchange V1.0
+
+       The older versions of these drivers (those that shipped with
+       LANtastic V5.0 and LANtastic Interchange) can be used on a V 6.0
+       node to make it compatible with LANtastic Interchange.
+
+       If you install LANtastic V6.0 after you've installed LANtastic
+       Interchange, you must then reinstall LANtastic Interchange. This
+       reloads the older drivers.
+
+   New Error Messages
+   ==================
+       If the error message "Unable to complete installation process"
+       appears while you're attempting to perform a LANtastic installation
+       on a computer that's running Windows, you don't have enough
+       memory to run the installation program under Windows.  To install
+       LANtastic on this computer, complete these steps:
+
+           1.  Make certain that Windows isn't running on the computer
+               and that you have at least 490 K DOS memory available.
+
+           2.  From the DOS prompt, type:
+
+                     A:INSTALL/DOS/WIN
+
+               The installation program will now run under DOS but will
+               install all of LANtastic's Windows functions.
+
+           3.  Complete the installation as directed in your LANtastic
+               Installation and Management Guide.
+
+       The error message "Required system component not installed" lets you
+       know that a computer is attempting to access a portion of the
+       server's SERVER program that has been disabled using the LANtastic
+       Server Startup Parameters.  See your LANtastic Installation
+       and Management Guide for information on enabling and disabling
+       SERVER modules.
+
+   Command Line Switches
+   =====================
+       The LANtastic Installation and Management Guide may list an invalid
+       range of available values for the FILES= command line switch.  The
+       correct range of available values is 50 - 5100.  The default
+       value of 0 tells the SERVER program to use the value specified in
+       the CONFIG.SYS file.
+
+       A list of command line switches that are not included in your 
+       LANtastic Installation and Management Guide appears below.  For 
+       complete information on LANtastic's command line switches, see 
+       the on-line manual.
+
+       REDIR Switches
+       --------------
+         DISCONNECT_NORETRY   Prevents automatic reconnection to a server
+                              when you are disconnected.
+
+       SERVER Switches
+       ---------------
+         PARK                 Parks the hard drive when the LANtastic
+                              SERVER program is shut down.
+
+       AI-NDIS Switches
+       ----------------
+         NO-RECEIVE_HOLDOFF   Used for compatibility with ODINSUP and NCP
+                              support.
+
+   About the Installation Program
+   ==============================
+       INSTALL is the program used to install LANtastic V6.0.  This
+       program is based on licensed software provided by Knowledge
+       Dynamics Corp., P.O. Box 780068, San Antonio, Texas 78278 (USA).
+       INSTALL is Copyright (C) 1987-1993 by Knowledge Dynamics Corp.,
+       which reserves all copyright protection worldwide.  INSTALL is
+       provided to you for the exclusive purpose of installing LANtastic
+       V6.0.  Artisoft has modified the software as provided by Knowledge
+       Dynamics Corp., and thus the performance and behavior of the
+       INSTALL program shipped with LANtastic V6.0 may not represent the
+       performance and behavior of INSTALL as shipped by Knowledge
+       Dynamics Corp.  Artisoft, Inc.  is exclusively responsible for the
+       support of LANtastic V6.0, including support during the
+       installation phase.  In no event will Knowledge Dynamics Corp.
+       provide any technical support for LANtastic V6.0.
+

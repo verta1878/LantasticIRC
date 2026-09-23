@@ -1,0 +1,202 @@
+
+                            {LANcache Switches
+                            {=================
+
+  {AFTER_IO_DELAY= [1] 0-3600
+  {==========================
+      This timer, specified in seconds, is set when LANcache receives the
+      first request to write data to disk after LANcache is run or after
+      the cache has already been flushed. Once this timer is set, every
+      time LANcache receives a request to read or write to disk, this
+      interval is reset. When the time limit expires, the cache flushes
+      its data to disk. Setting the value to zero makes the cache
+      immediately write data to disk (no delayed writing). This switch
+      must be set to a smaller value than the LONG_WRITE_DELAY= switch, or
+      LANcache will use the LONG_WRITE_DELAY= value. Setting high values
+      for these two switches usually results in improved performance,
+      while setting low values reduces the risk of data loss due to
+      lockup.
+
+  {BACKGROUND [Enabled]
+  {====================
+       Enables the background-writing-to-disk feature after it has been
+       disabled using the NOBACKGOUND switch. By default
+       background-writing-to-disk is enabled.
+
+  {CACHE_SIZE= [384 Kbytes conventional, or up to 2MB EMS, extended or
+{      XMS memory as specified with the TYPE= switch] 0-16000 Kbytes
+  {===================================================================
+       Sets the memory size of the cache.  LANcache may round down the
+       value you specify to account for its storage needs. If you don't
+       set this switch, LANcache will use 384K of conventional, EMS or
+       XMS memory as specified with the TYPE= switch.
+
+  {DELAYED_WRITES
+  {==============
+       Re-enables the delayed-writing-to-disk feature for the specified
+       drive(s) after it has been disabled using the NODELAYED_WRITES
+       switch. By default, delayed-writing-to-disk is enabled.
+
+  {DISABLE
+  {=======
+       Flushes the cache, then halts caching for the specified drive(s).
+       You can use this switch to disable caching when running
+       applications that can't function while a cache is running.
+
+  {DISK= [0] 0-3
+  {=============
+       Specifies the physical disk unit that will be cached. You may cache
+       multiple disks at the same time. Disk zero is the first hard disk
+       in the computer. If this disk is partitioned into multiple logical
+       disks such as C:, D: and E:, they will all be cached, since they're
+       all part of the same physical drive. If you're caching multiple
+       drives, you can use this option to specify unique cache settings
+       for each drive.
+
+  {DRIVE_INFO
+  {==========
+       Displays the number of cylinders, heads, sectors and the sector
+       byte length of all physical drives in your computer.
+
+  {ENABLE
+  {======
+       Use this switch to re-enable caching for the specified drive(s)
+       after it has been disabled with a LANCACHE/DISABLE command. In
+       previous versions of LANcache, this option allowed you to
+       reallocate memory released with the LANCACHE/RELEASE command. Now
+       you must use the LANCACHE/RESUME command to reallocate released
+       memory.
+
+  {FLUSH
+  {=====
+       Causes the cache to flush its data to disk. You can use this
+       command for an orderly shutdown of the cache.
+
+  {LONG_WRITE_DELAY= [12] 0-3600
+  {=============================
+       Specifies the length of time in seconds that LANcache will wait
+       before flushing its data to disk. The LONG_WRITE_DELAY= switch
+       guarantees that data is written to disk no later than the length of
+       time that you specify. This value is independent of the
+       AFTER_IO_DELAY= value, but usually you'll want to set it to be
+       greater than the AFTER_IO_DELAY= value. Setting a high value
+       usually results in improved performance, while setting low values
+       reduces the risk of data loss due to lockup. Setting the
+       LONG_WRITE_DELAY= value to zero makes the cache immediately write
+       data to disk (no delayed writing).
+
+  {MAX_SIZE= [same as CACHE_SIZE= setting] 16-16000
+  {================================================
+       Specifies the maximum amount of memory that LANcache can use for
+       caching. By default, this is the same as the SIZE= setting.
+       However, if you run LANcache and specify a cache size of 1024
+       Kbytes, you can't increase the cache size to a larger value without
+       first removing LANcache from memory and running it again with the
+       larger setting. If you specify a MAX_SIZE value of 4096, you can
+       use the SIZE= switch to specify any cache size of 4096 or fewer
+       Kbytes.
+
+  {NOBACKGROUND
+  {============
+       Disables the background-writing-to-disk feature. This doesn't
+       disable delayed-writing-to-disk, but merely specifies that all
+       cache flushes are performed as foreground tasks.
+
+  {NODELAYED_WRITES
+  {================
+       Disables the delayed-writing-to-disk feature for the specified
+       drive(s).
+
+  {NOREAD_AHEAD
+  {============
+       Disables the read-ahead buffering feature for the specified
+       drive(s).
+
+  {READ_AHEAD [Enabled]
+  {====================
+       Enables the read-ahead buffering feature after it has been disabled
+       with the NOREAD_AHEAD switch for the specified drive(s).
+
+  {RELEASE
+  {=======
+       This switch flushes the cache and then releases all the extended,
+       expanded or XMS memory that LANcache is using. LANcache remains
+       resident in memory, but applications are able to use the memory it
+       releases.
+
+  {RESET
+  {=====
+       Instructs LANcache to flush all data to disk and reset the cache by
+       removing any other cached data from memory. You can use this switch
+       for an orderly shutdown of the cache. You can also use it to
+       initialize the cache to gather performance statistics. LANcache
+       must already be installed to use this switch.
+
+  {RESUME
+  {======
+       Reallocates LANcache's memory to its original size after you've
+       issued a LANCACHE/RELEASE command.
+
+  {RUN_BURST= [10] 1-180
+  {=====================
+       Specifies the time in ticks (1/18 sec.) that LANcache spends
+       performing cache flushes before returning processing to other
+       tasks. By default all cache flushes are performed as background
+       operations. If you specify the NOBACKGROUND switch, local
+       processing will pause during cache flushes. If you've created a
+       large cache, server disconnects can occur if the server spends too
+       much time flushing the cache. Specifying a shorter RUN_BURST
+       setting can help alleviate this problem.
+
+  {SHUTDOWN_KEY= [Del] A, B, C, ... Del
+  {====================================
+       Use this option to assign the keystrokes for flushing the cache.
+       The default keystrokes are Ctrl+Alt+Del. When you use this switch,
+       the Ctrl+Alt combination remains constant, but you can assign keys
+       A through Z in place of the Del key.
+
+       For example, the command line:
+
+             {LANCACHE/SHUTDOWN_KEY=K
+
+       would assign the keystrokes Ctrl+Alt+K to flush the cache. This
+       switch is useful when running software that traps Ctrl+Alt+Del
+       commands and thus prevents you from shutting down LANcache.
+
+  {STAT= INFO, RESET
+  {=================
+       Executes LANcache's performance statistics program. The INFO option
+       gives you statistical information about LANcache, including a
+       summary of cache effectiveness. The RESET option resets statistical
+       information to its initial state.  This is useful if the cache has
+       been running for a long time and you want to gather statistics
+       about current performance. You can then use the commands:
+
+             {LANCACHE/STAT=INFO
+
+                       or
+
+             {LANCACHE/STAT=RESET
+
+  {TYPE= [XMS] CONVENTIONAL, EMS, EXTENDED, XMS
+  {============================================
+       Specifies the type of memory that LANcache will use. If you specify
+       EMS, extended or XMS memory, LANcache will still use a small amount
+       of conventional memory. To use EMS memory you must install an EMS
+       driver. You can instead use conventional memory, but make sure
+       there's enough available to make effective use of the cache. If you
+       load an XMS memory driver such as HIMEM.SYS, LANcache will
+       automatically use XMS memory.
+
+  {WINDOWS_SIZE=
+  {=============
+       Specifies the amount of memory in Kbytes that LANcache uses while
+       Microsoft(R) Windows(TM) is running. By default LANcache reduces
+       the size of the cache when Windows is run. The amount it uses is
+       proportional to the amount used for caching in DOS and the amount
+       of RAM available. For example, if your PC has 4 MB of XMS memory
+       available and you specify a CACHE_SIZE of 2 MB in DOS, LANcache
+       uses 512K when running in Windows. When you exit Windows, LANcache
+       uses the same amount of memory it used before Windows was run.
+       When using this parameter, make sure there's sufficient memory left
+       for Windows to run.

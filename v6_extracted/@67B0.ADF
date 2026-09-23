@@ -1,0 +1,159 @@
+; ADF file for Artisoft AE-2/MC or NodeRunner 2000M/TC Ethernet adapter 
+; - Fred Kokaska Jr. 8/1/90  
+; Modified for the New AE-2/MC (FJK) - 11/05/90
+;
+; ROM addresses modified for Revision 2 of the hardware (FJK) 11/16/90
+; Modified for the NodeRunner 2000M/TC - 2/22/93
+
+AdapterID 067B0h
+
+AdapterName  "LANtastic(R) NodeRunner 2000M/TC and AE-2 MC Ethernet"
+
+NumBytes 1
+
+
+nameditem
+        Prompt  "I/O Base, EPROM Address"
+
+
+
+     Choice "1000h-1017h, EPROM Disabled"
+
+          pos[0]=XXX1001Xb
+          io 1000h-1017h
+          
+     Choice "2020h-2037h, EPROM Disabled"
+
+          pos[0]=XXX1010Xb
+          io 2020H-2037H
+
+     Choice "8020h-8037h, EPROM Disabled"
+
+          pos[0]=XXX1011Xb
+          io 8020H-8037H 
+
+     Choice "0300h-0317h, EPROM Disabled"
+
+          pos[0]=XXX1100Xb
+          io 0300h-0317h
+
+     Choice "0320h-0337h, EPROM Disabled"
+
+          pos[0]=XXX1101Xb
+          io 0320H-0337h
+
+     Choice "0340h-0357h, EPROM Disabled"
+
+          pos[0]=XXX1110Xb
+          io 0340h-0357h
+
+     Choice "0360h-0377h, EPROM Disabled"
+
+          pos[0]=XXX1111Xb
+          io 0360h-0377h
+
+
+     Choice "1000h-1017h, DC000h-DFFFFh"
+
+          pos[0]=XXX0001Xb
+          io 1000h-1017h
+          mem 0DC000H-0DFFFFH
+          
+     Choice "2020h-2037h, D8000-DBFFFh"
+
+          pos[0]=XXX0010Xb
+          io 2020H-2037H
+          mem 0D8000H-0DBFFFH
+
+     Choice "8020h-8037h, C4000h-C7FFFh"
+
+          pos[0]=XXX0011Xb
+          io 8020H-8037H 
+          mem 0C4000H-0C7FFFH
+
+     Choice "0300h-0317h, C8000h-CBFFFh"
+
+          pos[0]=XXX0100Xb
+          io 0300h-317h
+          mem 0C8000H-0CBFFFH
+
+     Choice "0320h-0337h, CC000h-CFFFFh"
+
+          pos[0]=XXX0101Xb
+          io 0320H-0337h
+          mem 0CC000H-0CFFFFH
+
+
+     Choice "0340h-0357h, D0000h-D3FFFh"
+
+          pos[0]=XXX0110Xb
+          io 0340h-0357h
+          mem 0D0000H-0D3FFFH
+
+     Choice "0360h-0377h, D4000h-D7FFFh"
+
+          pos[0]=XXX0111Xb
+          io 0360h-0377h
+          mem 0D4000H-0D7FFFH
+
+
+Help
+
+"The I/O Base selects which block of addresses the NodeRunner 2000M/TC or
+AE-2 will occupy in the system I/O space.  The NodeRunner 2000M/TC or 
+AE-2 MC requires 24 consecutive I/O ports. 
+
+The EPROM address is the location in system memory space where the
+onboard boot ROM will reside.  8K is required in Novell compatible
+mode (AE-2 MC only), 16K in Artisoft mode (AE-2 MC and NodeRunner 2000M/TC).  
+This option should be disabled if diskless booting is not required or 
+you have not purchased the boot ROM kit from Artisoft."
+
+
+nameditem
+        Prompt  "IRQ (Interrupt Request) Level"
+
+     Choice "IRQ 3"
+
+     pos[0]=X00XXXXXb
+     int 3
+
+     Choice "IRQ 4"
+     pos[0]=X01XXXXXb
+     int 4
+
+     Choice "IRQ 5"
+     pos[0]=X10XXXXXb
+     int 5
+
+     Choice "IRQ 9"
+     pos[0]=X11XXXXXb
+     int 9
+
+
+Help
+
+"The IRQ level determines which interrupt request line the
+NodeRunner 2000M/TC or AE-2 MC will use to signal the CPU."
+
+
+
+nameditem
+        Prompt  "NodeRunner 2000M/TC or AE-2 MC mode"
+
+     Choice "Artisoft LANtastic(R) Mode"
+     pos[0]=1XXXXXXXb
+
+     Choice "NE-2000 Compatible Mode"
+     pos[0]=0XXXXXXXb
+
+
+Help
+
+"The Artisoft mode allows use of 64K onboard RAM along with a 16K boot ROM  
+(AE-2 MC only).  The NodeRunner 2000M/TC does not support remote
+booting.  Selecting Novell compatible mode will allow Novell NE-2000 
+emulation, but limits onboard RAM to 16K, and boot ROM to 8K.  Select 
+Artisoft mode if you are running LANtastic or Artisoft drivers, otherwise 
+select Novell Compatible mode."
+

@@ -1,0 +1,179 @@
+$Revision:   1.14  $
+`PI Stand Alone Server/Monitor Help
+ This window shows all users who are logged in to the server, and
+ various data associated with their respective sessions.  The data for
+ each user may span up to two lines on the display.
+ The first line is always displayed.  It shows the same data that is
+ displayed in the System Activity display in NET.
+ The second line is displayed only if the |F2| key (Display Filenames)
+ has been pressed or if the |SHOW_FILES| switch has been specified on
+ the command line.  It shows the number of minutes before the user will
+ be forced to log off the server (if any limit is imposed), followed
+ by the pathname associated with the user's most recent file operation.
+ Server performance will be slightly enhanced by leaving the pathname
+ display set to OFF.
+
+ The information displayed on the first line is:
+
+ ID#       This is the user's session identification number.  It consists
+           of the low-order adapter number on which the user logged in
+           and the two-byte session number.
+ Username  The account with which the user logged in to the server.  If
+           the username is '?' the user is in the process of logging in.
+ Machine   The network computer from which the user logged in.
+ Command   The last command entered.  The commands are:
+
+   AUDIT ENTRY      A user audit entry was created.
+   CANCEL SHUTDOWN  A server shutdown sequence was cancelled.
+   CHANGE PASSWORD  A user changed his or her password.
+   CHANGE USERNAME  A user changed his or her username.
+   CLOSE FILE       A file has been closed.
+   COMMIT FILE      File data has been committed to disk.
+   CONTROL QUEUE    A queue entry was modified, or the despooler
+                    was controlled.
+   COPY FILE        A file copy was requested on the server.
+   CREATE DIR       A directory has been created.
+   CREATE FILE      A file has been created, or an existing file
+                    with the same name may have been overwritten.
+   CREATE INDIRECT  An indirect file was created.
+   CREATE NEW FILE  A new file has been created.
+   DELETE DIR       A directory has been deleted.
+   DELETE FILE      A file has been deleted.
+   DISABLE ACCOUNT  An account was disabled.
+   FILE READ        Data has been read.
+   FILE WRITE       Data has been written.
+   FIND DISK SPACE  A user requested information about the
+                    amount of free disk space.
+   FIND FIRST FILE  A Find First operation was performed.
+   FIND NEXT FILE   A Find Next operation was performed.
+   FLUSH CACHE      The server's caches were flushed.
+   FULL ACCOUNT     Account and ACL Group rights information retrieved.
+   GET ACCOUNT      Account information was requested.
+   GET INDIRECT     The contents of an indirect file were retrieved.
+   GET LINK INFO    A user requested information about a
+                    directory/device Access Control List.
+   GET QUEUE ENTRY  Queue entry information was requested.
+   GET QUEUE INDEX  Queue index information was requested.
+   GET SERVER TIME  The current server time was requested.
+   GET STREAM       A user requested information about a logical
+                    printer stream.
+   GET USERNAME     A username was retrieved from the account file.
+   LOCK RANGE       A file region has been locked.
+   LOGIN            The user is in the process of logging in.
+   MULTI-MODE OPEN  A multi-mode file open was performed.
+   NOTIFY OPERATER  User received an operator notification message.
+   OPEN FILE        A file has been opened.
+   PRINTER FIELDS   User requested printer fields from a resource.
+   PRINTER STATUS   Current printer status was requested.
+   REMOTE DSPL REG  Remote despooler registered.
+   REMOTE DSPL DRG  Remote despooler registration cancelled.
+   REMOTE DSPL IDX  Set remote despooler index.
+   REMOTE Q CNTRL   Remote despooler queue control.
+   RENAME FILE      A file has been renamed.
+   RUN COMMAND      A remote keystroke command string was submitted.
+   SEEK POSITION    A File Seek operation was performed.
+   SERVER CONTROL   Server control parameters were retrieved or set.
+   SET ATTRIBUTE    A file's attributes have been changed.
+   SET QUEUE ENTRY  Detailed queue entry information was modified.
+   SET REMOTE BLK   Set remote device block fields.
+   SET STREAM       Stream information was modified.
+   SHUTDOWN         A server shutdown sequence was initiated.
+   TERMINATE        The user exited a program.
+   TERMINATE USER   A user's access was terminated by operator request.
+   TRANSLATE PATH   A network pathname was translated.
+   UNIQUE FILE      A new file has been created with a unique name.
+   UNLOCK RANGE     A file region has been unlocked.
+   UPDATE LOGIN     Update last date of log-in in accounts file.
+   USER STATUS      User status information was obtained.
+   WRITE W/COMMIT   Data has been written and committed to disk.
+   X GET QUEUE      Extended queue entry information was retrieved.
+   X PRINT STATUS   Get extended printer status.
+   X SET QUEUE      Extended queue entry information was modified.
+
+ IOBytes    This represents the amount of data input and output that the
+            server has performed for the user.  This number may be followed
+            by a K, M or G, indicating kilobytes (1024 bytes), megabytes or
+            gigabytes, respectively.
+
+ #Reqs      This shows the number of requests a user has issued to the
+            server since logging in.
+
+ Privs      This shows the user's privileges for this server.  The possible
+            privileges are:
+
+    A - Super ACL Privilege
+        The server will perform all of this user's requests without checking
+        any ACL rights.
+    Q - Super Queue Privilege
+        The user can control the despooler and all printer queue entries.
+        If this privilege is disabled, the user can only see and control
+        their own print jobs.
+    M - Super Mail Privilege
+        The user can control any item in the server's mail queue.  If this
+        privilege is disabled, the user can only manipulate mail items sent
+        to him or sent by him.
+    U - User Auditing Privilege
+        The user can issue NET AUDIT commands and create audit entries in
+        the server audit log.  If this privilege is disabled, user audit
+        entries may not be created.
+    S - System Manager Privilege
+        The user can perform management functions such as issuing NET RUN
+        commands and scheduling server shutdowns.
+    O - Operator Notification  
+        The user receives messages requesting operator action, for example,
+        "out of paper" notification from printers.
+    D - Remote Despooler  
+        The user is able to remove print jobs from the server's printer
+        queue using the remote despooler TSR program provided with
+        LANtastic.
+    L - Logged In
+        The user is fully logged in to the server.  If the "L" is not
+        displayed, the user is in the process of logging in.
+    R - Remote Boot Log-in
+        The user is logging in through the remote boot process.
+`UI User Information Help
+ This window displays all open files and record locks for the selected
+ user.  The top section shows the same user attributes and statistics from
+ the previous window. Note that the ID# from the previous screen has been
+ split into the two following fields:
+
+    Adapter         The adapter number of the server through which
+                    the user logged in.
+    Session         The user's session number on the server.
+ 
+ The bottom section is displayed if the DOS SHARE program has been started.
+ It shows information about the files that the selected user has open, and
+ the record locks within each file.  An explanation of each field is shown
+ below:
+
+    Mode            Shows the file-access and file-sharing mode used to open
+                    the file.  The file-access modes are Read-only, Write-only,
+                    or Read/Write.  Valid file-sharing mode is the file-access
+                    granted to other processes on subsequent opens.
+                    File-sharing modes are Compatibility, Deny-Read, Deny-Write,
+                    Deny-Read/Write, or Deny-None.
+    Position        Shows the current position in the file.
+    Size            Shows the size of the file.
+    Lock Start/End  Shows the position of a record lock in the file.
+                    There may be zero or more locks on a single file.
+`PW Keyboard Lock Password Help
+  Enter a password from 0-15 characters in length.  This password is then
+  required to exit ALONE.  Also, CTRL+ALT+DEL is disabled while the password
+  is in effect.  This allows the server to be protected from unauthorized
+  access.
+`CE Critical Error Help
+ |Retry the Network, Disk or Device operation
+  Will attempt the operation again.  First, check whether a floppy disk
+  drive door is open or if some other minor problem caused the error.
+  If so, correct the problem and retry the operation.
+~01 |Fail the Network, Disk or Device operation
+  Will cancel the operation in progress and return to the last window.
+  You should then correct any problems or type Esc to exit the window.
+~02 |Ignore the error, continue with program
+  The program will continue as though nothing happened.  NOTE: The
+  operation will NOT be properly completed and may lead to future errors.
+  It is suggested that you not select this option.
+~03 |Abort ALONE and return to DOS immediately
+  Will exit the program immediately.
+`ZZ Start of ALONE command line help
+

@@ -1,0 +1,28 @@
+
+{                       ABOUT LANtastic NDIS Support
+{                  =======================================
+
+       LANtastic NDIS support allows you to use any third-party network
+       adapter that provides an NDIS driver in your LANtastic network.
+       This allows you to use Ethernet, Token-Ring and Arcnet adapters in
+       your LAN.
+
+       NDIS (Network Driver Interface Specification) is a specification
+       for hardware and software communication commonly used in networks
+       such as Novell(R) NetWare(R), Banyan(R) VINES(TM) and Microsoft(R)
+       Windows(TM) for WorkGroups, Windows NT(TM) and LAN Manager. Because
+       it is used in many types of networks, most network adapters come
+       with an NDIS driver.
+
+       To learn how to install this support, press {Esc} to return to the
+       LANtastic's NDIS Support menu, then select {Installing and Using
+       {LANtastic with NDIS Drivers} and follow the steps listed there.
+
+       NDIS also allows you to stack multiple network protocols on a
+       single adapter.  This lets you run multiple networks on the same
+       adapter.  With this configuration you gain the benefit of
+       interoperability with many NDIS-compatible networks and systems.
+       Supported networks include, TCP/IP, Novell NetWare, Banyan
+       VINES and IBM(R) LAN Support (LSP) and PC Support (PSP).
+
+

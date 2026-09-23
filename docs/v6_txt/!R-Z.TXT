@@ -1,0 +1,408 @@
+
+                            {Net Commands R-Z
+                            {================
+
+  {RECEIVE
+  {=======
+       Use this command to display the last unsolicited message you
+       received. You can also use this command to pop up the message on an
+       arbitrary line of the screen for a specified period of time. If you
+       don't set values for position and delay, the pop-up message box
+       won't appear, but the message text will be displayed.
+
+             {NET RECEIVE <position> <delay>
+
+      {position}    Position on the screen where the message will appear.
+                  The line numbers range from 0 to 23. To use the option,
+                  you must also include the delay argument.
+
+      {delay}       Length of time in seconds that informative messages
+                  will appear on the screen from 0 to 65539 seconds. To
+                  use this option, you must also include the position
+                  argument.
+
+       Examples:
+
+             {NET RECEIVE
+             {NET RECEIVE 15 7
+
+  {RUN
+  {===
+       Allows you to issue a command to be executed on a remote server.
+       The command will be executed as though a user at the remote server
+       had entered the command at the keyboard. This can be useful for
+       running system-intensive operations such as database sorts and
+       backups. Include the NET RUN command in a batch file to set up
+       automated methods for backing up your servers, compiling databases
+       and other operations. In order to use the NET RUN command, you must
+       have the S (System Manager) privilege.
+
+             {NET RUN </NOCR>\\server "command"
+
+       {NOCR}      Instructs NET not to insert a carriage return at the
+                 end of the command string.
+
+       {server}    The server on which you'd like the command executed.
+
+       {command}   The command you'd like executed on the server.
+
+       Example:
+
+              {NET RUN \\SERVER1 "BACKUP"
+
+  {SEND
+  {====
+       Allows you to send an unsolicited, one-line text message to any
+       network computer. If pop-up message notification has been enabled,
+       the message will pop up on the user's screen. The "server" and
+       "user" options described below allow you to specify that no pop-up
+       messages will be displayed for users who aren't logged in to the
+       server.
+
+             {NET SEND machine "message" < <server> <user> >
+
+       {machine}    Destination computer. Use "*" to send the message to
+                  all machines on the network, or if the server is
+                  specified, all machines logged in to that server.
+
+       {"message"}  Message you want to send.
+
+       {server}     Name of the server that the user must be logged in to
+                  in order to receive the message.  Defaults to all
+                  servers.
+
+       {user}       Name of the user to receive the message. You must
+                  include a server name if you want to use the user
+                  option.  Use "*" to indicate all users logged in to the
+                  server.
+
+       Examples:
+
+             {NET SEND SALLYS-PC "Meeting at 2:00"
+             {NET SEND RHONDAS-AT "Welcome back!" SERVER1 RHONDA
+             {NET SEND * "Backing up server" SERVER1
+
+  {SHOW
+  {====
+       Allows you to find out the network configuration of your computer,
+       what servers (if any) you're logged in to, and the list of
+       available servers.
+
+              {NET SHOW</BATCH>
+
+       {/BATCH}  Displays user-status information suitable for use in a
+               batch file. This would include NET LOGIN, NET USE and other
+               commands previously issued.  Can be abbreviated to /B.
+
+       A sample output appears below:
+
+             {LANtastic (R) Connection Manager V6.0 - (C)
+             {Copyright 1994 Artisoft Inc.
+
+    {         Machine PEER1 is being used as a Redirector and a Server
+{             File and record locking is currently ENABLED
+{             Unsolicited messages will BEEP, POP-UP and SPEAK
+{             LPT notification is disabled
+{             LPT timeout in seconds:  10
+             {Autologin is enabled with user name USER
+             {Logged into PEER1 as USER on adapter zero
+             {Logged into PEER2 as USER on adapter)
+             {Disk D:  is connected to \\PEER2 \C-Drive
+             {Disk E:  is connected to \\PEER2 \A-Drive
+
+       When you use the /BATCH argument with the SHOW command, you can
+       quickly create custom batch files to log in to network servers and
+       use their resources. To use this option, use the NET menu or
+       LANtastic Net window to set up the log-ins and disk and printer
+       redirections that you'll want to use on a daily basis. You must
+       then redirect the output of the NET SHOW command to the batch file
+       you'd like to create.
+
+       The sample below uses the file LOGIN.BAT.
+
+             {NET SHOW/BATCH>LOGIN.BAT
+
+       The NET program will build a list of the NET commands currently in
+       use, and this output will be sent to the file specified.
+
+  {SHUTDOWN
+  {========
+       Allows you to remotely schedule the shutdown and/or reboot of a
+       server. You can include a text message to warn any users logged in
+       to this server that it's shutting down. Once this command is
+       issued, you can continue local operations with your computer,
+       including logging out of the remote server, shutting down the
+       computer, delaying the shutdown of the server, or finishing
+       last-minute details. You must have the S (System Manager) privilege
+       to cancel the shutdown or reboot operation on the remote server.
+       (The Remote Control feature must also be enabled on the server
+       you're shutting down.)
+
+{             NET SHUTDOWN </REBOOT> </CANCEL> </ HALT> </SILENT>
+{             \\server < <minutes> <"message"> >
+
+       {/REBOOT}   Reboots the computer after SERVER shutdown.
+
+       {/CANCEL}   Cancels a pending shutdown of a server.
+
+       {/HALT}     Stops processing on the server after shutting down.
+
+       {/SILENT}   Shuts down the server without sending notification to
+                 users logged in to the server.
+
+       {server}    Name of the server to shut down.
+
+       {minutes}   Number of minutes before server shutdown. (The default
+                 is zero minutes.)
+
+       {message}   Message to send to logged-in users to warn them of
+                 impending shutdown. If no message is included on the
+                 command line, users logged in to the server will see the
+                 text: "Server is shutting down."
+
+       Examples:
+
+           {NET SHUTDOWN\\SERVER1 5 "SERVER1 shut down in # minute$!"
+           {NET SHUTDOWN/REBOOT \\SERVER1 10 "Server reboot in # minute$!"
+           {NET SHUTDOWN/CANCEL \\SERVER1 "Shutdown aborted."
+
+       Notice the pound sign "#" and the dollar sign "$" symbols in the
+       first two examples. When the message is displayed on a user's
+       screen, the pound sign will be replaced with the number of minutes
+       until the server shuts down. The dollar sign variable will be
+       replaced with an "s" if there's more than one minute left. The user
+       receives updated messages until the server shuts down.
+
+   {SLOGINS
+   {=======
+       Enables or disables user log-ins to a server. When this option is
+       set to DISABLE, no users may log in to the server. Existing log-ins
+       aren't affected. Your account must have the S privilege to use
+       this command.
+
+             {NET SLOGINS </ENABLE/DISABLE> \\server
+
+       {ENABLE}    Enables user log-ins (default).
+
+       {DISABLE}   Disables user log-ins.
+
+       {server}    Name of the network server on which to disable log-ins.
+
+       Example:
+
+            {NET SLOGINS/DISABLE \\SERVER1
+
+  {STREAM
+  {======
+       Used to get or set a logical printer stream on a server. For
+       example, if you have two printer resources, @LETTER and @FAST, that
+       print to the same physical device (a dot-matrix or laser printer)
+       you could disable printing on @LETTER and still allow printing on
+       @FAST. That way, to disable a mode of printing, you don't have to
+       disable the entire printer.
+
+             {NET STREAM </ENABLE /DISABLE> \\server < <stream-index>
+{             <stream-value> >
+
+       {ENABLE}        Enables the printer stream.
+
+       {DISABLE}       Disables the printer stream.
+
+       {server}        Name of the server whose printer stream you want to
+                     get or set.
+
+       {stream-index}  Stream index number for which to get or set
+                     information.
+
+       {stream-value}  Printer resource name to assign to the stream
+                     index.
+
+       You can use this command to find out the status of the logical
+       printer streams that you've set up. To do this, don't specify the
+       name of the printer device when you type the switch and command.
+       For example:
+
+             {NET STREAM \\SERVER1
+
+       will produce the output:
+
+             {0:@LABELS   ENABLED
+             {1:@LASER    ENABLED
+             {2:@GRAPHIC  DISABLED
+             {3:@DRAFT    DISABLED
+             {4:@LANDSCP  DISABLED
+
+       To enable a stream, include the server and stream index number. For
+       example:
+
+             {NET STREAM/ENABLE \\SERVER1 4
+
+       To disable a stream, you'd type:
+
+             {NET STREAM/DISABLE \\SERVER1 2
+
+       To set a value to a printer stream, you might type:
+
+             {NET STREAM/DISABLE \\SERVER1 7
+             {@PRINTER
+
+       This creates the printer stream @PRINTER in number 7.
+
+       Note that when you reset or reboot your server, the printer stream
+       settings are lost unless you add the commands to your AUTOEXEC.BAT
+       or STARTNET.BAT file.
+
+  {STRING
+  {======
+       Assigns a string of characters to a pre-existing environment
+       variable that's either typed in by the user or extracted from one
+       of LANtastic's special strings.  Use these strings just like DOS
+       environmental variable strings. They are useful for prompting users
+       to enter their passwords, user names or any other information. In
+       batch files, you can use special strings to extract items such as
+       the date, time and name of the machine you're using. If you specify
+       two strings, they'll be linked together first, and then extracted.
+
+            {NET STRING </LEFT=n> </RIGHT=n> variable <string 1 <string2>>
+
+       {/LEFT}      First character from the left that will be extracted
+                  from a string. Negative numbers greater than the length
+                  of the string refer to the end of the string.
+
+       {/RIGHT}     Last character that will be extracted from the string.
+                  Negative numbers denote reverse (from the right)
+                  indexing.  Numbers greater than the length of the string
+                  refer to the end of the string.
+
+       {variable}   Pre-existing environment variable to receive string.
+
+       {string1}    String to replace environment variable.
+
+       {string2}    Optional string to be linked with string1.
+
+       The following is a list of LANtastic's special strings:
+
+       {?}                     Prompts you for input with echo. Expands to
+                             the length of the typed input.
+
+       {"DATE"}                Expands to the current date.
+
+       {!"DAY"}                Expands to the current day of the week.
+
+       {!"DIRECTORY"}          Expands to the current disk and directory
+                             you're using.
+
+       {!"ETEXT=n"}            Expands to the error text associated with
+                             error number "n."
+
+       {!"FILE=pathname"}      Expands to the first line of a file.
+
+       {!"INSTALLED"}          Expands to characters corresponding to
+                             installed programs. N=NetBIOS, R=REDIR,
+                             speciaa=1 7
+ , P=ticPUP, -=N# mind progr      {!"INSTAL/DISA=, the       Exps to characTRUEu ha in to the seafied.
+
+                          specia, the prFALSEu haeve      {!"INSTALNODEID            Exps to the current disk a12-digit S, R=RE                         specian pri. For
+     {!"INSTALMACHINEID            s to the currenf the machine you'rebe                 refer      users logr      {!"INSTALPROC  M        Expands to the error r pl     me"}e NET comma              refer      users ms. N=N      {!"INSTALTIM             Expans to the current disk and n      {!"INSTALU1 7            Expans to the current disk at).
+
+names                             specia,   graastatuserve of 
+       {streamALU1 7ID=, the       Exs to the current disk aames or ae
+                 comman      specia, the  {STRING nuMIN   =======
+        AssignLo losor extracgroupe NEmay lo the rear. You can inave the S privi   (The Re Manager) privilege
+    e
+    command.
+
+             {NET SLOGIN nuMIN   ver < <strr ext<e you'r>tes> <"mes     {server}    Name of the network server on whiou've seto
+  nuterachan              users loggedged-ino the r      {streamr ex}Name of the serverroddcard ut wide
+duingt must htype:OS
+             text: "ed-ino the rerver. ExistiWoddcard ters corresan              users t mepour aan use tciforr leithAUTOEXortes.
+
+the numb     set to    command line,      {minutes you'r}e of the serverer after he rito get r or extist cg on th             text: "ver. ExistiWoddcard ters corr t mepour aD).
+
+edged"*"             text: (prone you'rs)      {minutes}   Number of minutes before sehem  be lingringlogged serve             text:  in  be l
+   the rerver. ExistiaD).
+
+edgedinut             text: (immedwith)tiaRandispla0 - 65535 (45 1/2f ths)      {minutes:
+
+           {NET S SLOGIN nuMIN   ver1 7
+   !Mural      The followd line, usered."vcal
+st r or ext!Mural   the re1 7
+  .creat   {minutd line, c a pendiron serviss
+    ns (defau striner k serve   {minutd lafter(s)      {minutET S SLOGIN nuMIN   verACCT*     This creates line, u
+st theiron servnglogged(exmepoAUTOEself) prisan          t disk lya in to the seACCT1      {minutET S SLOGIN nuMIN   verSALES4 $*     The followd line, usered."vcal
+st theironlogged in to the seSALES4 print   until tmes    ed sg
+the nuar sign varia      {minutET S SLOGIN nuMIN   verMALED 7
+  * L \\S-PC     This creates line, userel
+st the r or extpris in to the seMALED 7
+    first tstriL \\S-PC {STRINGUNLINK=====
+       Assignes conn
+ loso grry
+ to drring stringour s. ExistiItheru get o   aren't rintierve of 
+ se
+    comsswoA: ut B: drrined i   lyaaft     receivesmversour NumbeSe tean use s'ss yowitate, trring using.
+
+ can u   receivave tfharactern  e
+ aninformtrring( i   boot yrry
+ to)e
+  yowit   the date, A: ut B: drrin      Example:
+
+            {NET SSLOGINUNLINK A:{STRINGUNU1 =====
+      Used to gerviss and coract a peuar rringorer resourcerry
+ 
+       {streaNET SSLOGINUNU1  [d: LPTn COMn ]     {minuted:}NameRgrry
+ to dd ditrring(A:-Z:TARTN*)ant to
+     dd conn
+    {minutET S She string. the  {STRINminuteLPTn}meRgrry
+ to prs rogter streamport (LPT1, LPT2, LPT3, LPT4      examplAssignLPT*)ant to
+     dd conn
+ She string. the  {STRINminuteCOMn}meRgrry
+ to . tringport (COM1, COM2, COM3, COM4    COM*)ant    examplAssigno
+     dd conn
+ She string. the  {STRINminutes:
+
+           {NET S SLOGINUNU1  F:       {NET S SLOGINUNU1  LPT1       {NET S SLOGINUNU1  COM1       {NET S SLOGINUNU1  *    {U1 =={      Assignsrintfor inlace rry
+ uar d ditrringorer resourport 
+    cnuterf   the date, . the herces, @LETmind ead.ollowing is a listrvererry
+ usyarix   first toot yrry
+  a lar d ditrringne, aer resourport      {streaNET SSLOGINU1  </DEFER
+ /REPLACervd: er < <stre\me"}...>   {streaNET SSLOGINU1  </DEFER
+ /REPLACerv[LPTn COMn] er < <st\@ when      {/RIGHT}DEFER
+ }meRg:
+ETmfaiograconn
+ iervetnagpoAlhan tou rer ex                    etnagpose
+    cconn
+ ier      {/RIGHT} EPLACe}ameRgenvirlosacte envirotrringconn
+ iervhe nuarnewcnut.     {minuted:}Namessignes k trring usno
+     e rry
+ u(A:-Z:) {STRINminuteLPTn}meromptsrs rogter streamport  usno
+     e rry
+ u(LPT1,                    LPT2, LPT3goreLPT4) {STRINminuteCOMn}mepeciaa tringport  usno
+     e rry
+ u(COM1, COM2, COM3      examplAssignnnnnnCOM4)      {server}        NamSwhose prerS priv d diorer resourcesides      {serverme"}}mepeciaF pl k serverme"}e NET co < <str d diorer resour                      to get usno
+     e rry
+       {server@ when } NamSwhose r device when y   to get usno
+     e rry
+  a                     i   bport an use thals  e rry
+  r device:
+
+ e
+ a              from a 
+       {!"INSes:
+
+           {NET S SLOGINU1  F:ver1 7
+  \C-DRIVE       {NET S SLOGINU1  LPT1verHOST\    EN       {NET S SLOGINU1  COM1ver1 7
+  \@PLOT
+       T{U1 R=====
+         {NSetstrvert).
+
+names or a,ords, usegne, adapvice "n."
+linkedu ge   first tootauto. Incns (defautoo < <sts      {streaNET SSLOGINU1 R </D \\SER>rr ext<rds, use>teadapvic#      {/LEFT} D \\SER}gnes 
+
+ stauto. Incns (def fthaure      {streamr ex}Name oUmes    e
+    ctootauto. Incns (def etnagpos      {servermes, use}ptsrs, useg
+    ctootauto. Incns (def etnagpos      {serveradapvic#}ptAdapvice "n."
+lhrough to getauto. Incns (defauan              users ttnagpour aIhaevnisplaied.
+
+ ,eironadapvicsbe extra             users logd tootauto. Incns (defa      {!"INSes:
+
+           {NET S SLOGINU1 R $EDe1 CRma              rLOGINU1 R SALLY MINE 1              rLOGINU1 R D \\SER

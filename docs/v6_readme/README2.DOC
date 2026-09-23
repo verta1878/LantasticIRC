@@ -1,0 +1,471 @@
+       Artisoft Exchange (TM) Information Update File (README2.DOC)
+       ------------------------------------------------------------
+                    (C) Copyright 1994 Artisoft, Inc.
+                              (Edition 1.0)
+
+
+   Contents
+   ========
+       This file contains information about the following topics:
+
+            - Context Sensitive Help
+            - Logging In to Mail
+                 - Log-In Error Messages
+            - Searching for Objects
+            - Printing through the Fax Printer Driver
+            - Memory and Configuration Requirements
+            - Automatically Setting Up Gateways and the Server
+                 - Activating the Fax Gateway
+                 - Activating the Pager Gateways
+                 - Activating the LANtastic Mail Gateway
+            - Setting Up a Network Post Office to Post Office Gateway
+            - Setting Up the LANtastic Queue Gateway
+            - Message Logging for Gateways
+            - Using the Log File Browser
+            - Setting Up the CAS Manager
+            - Using Intel's FAXPOP.EXE
+            - Running a DOS Server
+            - Using the Admin Account
+            - Using SHARE with Artisoft Exchange
+            - Scheduling Global Appointments
+
+   Context Sensitive Help
+   ======================
+       Artisoft Exchange on-line Help is now context sensitive. From any
+       window or dialog box, press F1 to get instant Help. Once you're in
+       the Help window, you can use the jump, browse and search features
+       to see other Help topics.
+
+   Logging In to Mail
+   ==================
+       When you're not using LANtastic accounts for Artisoft Exchange,
+       mail users must enter a username and password to log in to their
+       mail account. For information on what to type in the log-in fields,
+       press F1 when the log-in screen is visible.
+
+       When you're already logged in to Artisoft Exchange Mail, you don't
+       need to type in a password (if one is set) to enter Artisoft
+       Exchange Scheduler.  The same rule applies if you're logged into
+       Artisoft Exchange Scheduler and want to use Artisoft Exchange Mail.
+
+       Important!  In order to use Artisoft Exchange, you must be logged
+                   in to the Post Office computer.
+
+     Log-In Error Messages
+     ---------------------
+       Some of the error messages described in the Artisoft Exchange
+       User's Manual have changed slightly.  The steps for correcting
+       these errors remain as described in the manual.
+
+       One message has changed completely. The old message which read:
+
+              "Personal directory path is invalid or read only"
+
+       now appears as follows:
+
+              "Local Temp Directory Path is Invalid."
+
+       Other common error messages are described below.
+
+       Artisoft Exchange Mail is not in server mode
+         You can't choose the Post Office icon or run MTAEXEC on a
+         computer running in Client mode. Follow the steps for setting up
+         the Server later in this file, then choose the Post Office icon,
+         or run MTAEXEC.
+
+       Message Store Directory Path is Invalid
+         You may get this message if you're using a mail Server. If you
+         see this message, make sure you're logged into the server
+         computer. See your LANtastic manuals for information on logging
+         in to servers. If this doesn't correct the problem, follow the
+         instructions given for correcting this error in your Artisoft
+         Exchange User's Manual.
+
+   Searching for Objects
+   =====================
+       When you search for an object, you can use wildcard characters
+       such as ? or *. To search for one of these characters, precede
+       it with a backslash. For example, if you want to search for a
+       wildcard account, you could type /* in the search box.
+
+       Note: Artisoft Exchange Mail will search for an exact match of what
+             you type in a Search box, unless you place an asterisk (*)
+             at the beginning and end of the search string.
+
+       To search for a message based on what's in its Subject box, use
+       the extended search criteria features described under "Searching
+       for Objects" in your Artisoft Exchange User's Manual.
+
+   Printing through the Fax Printer Driver
+   =======================================
+       When you install Artisoft Exchange, a fax printer driver
+       (ARTFAX.DRV) is copied into your WINDOWS\SYSTEM directory.  New
+       instructions for sending a fax appear below. Instructions can also
+       be found in "Printing through the Fax Printer Driver" in the How Do
+       I? section of on-line Help for Artisoft Exchange Mail.
+
+     Sending a Fax through Artisoft Exchange Mail
+     --------------------------------------------
+         1. Create a new message, or open an existing one.
+
+         2. Choose Print from the Message menu. The Print Setup window
+            appears.
+
+         3. In the Print Setup window, choose Specific Printers. Choose
+            the arrow to the right of the Specific Printers box to pull
+            down a list of available printer drivers.
+
+         4. Select Artisoft Fax Printer Driver.
+
+         5. Choose OK to send the fax.
+
+     Sending a Fax from Other Windows Applications
+     ---------------------------------------------
+       ARTFAX.DRV is a Windows printer driver. You can use it from
+       other Windows applications, such as Microsoft Word. The steps below
+       assume that you've selected the fax printer driver to be the
+       default printer driver for your computer. See your Windows
+       documentation for instructions.
+
+       If you have a CAS-compatible fax modem installed on your computer:
+
+         1. From the application, choose Print. The Options window
+            appears.
+
+         2. In the Options box in the upper left, choose either Local or
+            Mail.
+
+              - If you choose Local, the fax is sent directly through the
+                fax modem on your computer.
+
+                   - If desired, fill in the To and Phone boxes in the
+                     Local Send Information box.  The information in the
+                     From and Logo file boxes was set up when you
+                     installed the CAS manager software. The subject
+                     contains the application and the name of the file.
+
+                   - Choose OK to send the fax.
+
+              - If you choose Mail, the fax will be attached to an
+                Artisoft Exchange Mail message, which you can send to a
+                fax address or other address.
+
+                   - Choose OK to bring up the Artisoft Exchange Mail
+                     log-in screen.
+
+                   - Follow the instructions in your Artisoft Exchange
+                     User's Manual for addressing and sending a message.
+                     To send the message as a fax, send it to a fax
+                     address.
+
+       If you have a fax modem installed on the mail Server computer:
+
+         1. From the application, choose Print.
+
+         2. The printer output is printed to a file, which is then
+            attached to an Artisoft Exchange Mail message. (Before you see
+            the message with the print file attached, you may have to log
+            in to Artisoft Exchange Mail.)
+
+         3. Follow the instructions in your Artisoft Exchange User's
+            Manual for addressing and sending a message.  To fax the
+            message, send the message to a fax address.
+
+       To use a fax modem installed on the mail Server computer, the mail
+       administrator must have set up a Fax Gateway on the server.
+
+       Note: You may not use the fax printer driver across the network; it
+             must be located in the Windows directory on the local
+             computer.
+
+   Memory and Configuration Requirements
+   =====================================
+       The recommended minimum configuration for a computer running
+       Artisoft Exchange is a 386SX or faster processor with 4MB of RAM.
+
+   Automatically Setting Up Gateways and the Server
+   ================================================
+       For your convenience, the procedure for setting up a dedicated mail
+       server has been improved. The Gateways and Server are
+       automatically set up during the installation on the Post Office
+       computer, but they're disabled. To use Server-based mail, and to
+       use the pre-configured Gateways, follow these steps.
+
+         1. Log in with the username SYSTEM.
+
+         2. Open the User Accounts folder.
+
+         3. Pull down the Administration menu and choose Post Office Mode.
+            The Server/Client window appears.
+
+         4. Check the Server button, then choose OK.
+
+        All the Gateways and the Server are set up, but only the Server is
+        automatically enabled. The Gateways that are set up are:
+
+           Fax Gateway
+           Pager Gateway
+           Text Pager Gateway
+           LANtastic Mail Gateway
+
+        To use a Gateway you must turn it on by following the steps in the
+        next few sections. You may also need to change the default
+        settings to match your modem or fax board.
+
+     Activating the Fax Gateway
+     --------------------------
+         1. Make sure you have a compatible fax modem (fax board)
+            installed on the mail server. See the Artisoft Exchange User's
+            Manual for more information about supported fax modems.
+
+         2. Log in with the username SYSTEM.
+
+         3. Open Gateway Folders.
+
+         4. Open the folder with the same name as the main Post Office.
+            (This is the same name you entered during the installation.)
+
+         5. Open the MTA Events folder.
+
+         6. Open the MTA CAS Fax object.
+
+         7. In the box titled Interval (seconds), enter a positive time
+            interval, such as 60 for one minute. See your Artisoft
+            Exchange User's Manual for a complete description of the
+            settings in this window.
+
+         8. If desired, choose the Options button to change the default
+            settings. See your Artisoft Exchange User's Manual for a
+            complete description of the settings in this window.
+
+       Note: In the Fax Gateway Information window, which appears when you
+             choose the Options button, the name of the first input field
+             has changed. Administrator's Address appears in the manual,
+             while the screen now says Administrator's Account. Enter the
+             account name of the person who'll be receiving and
+             distributing incoming faxes.
+
+         9. Choose Save from the MTA menu.
+
+     Activating the Pager Gateways
+     -----------------------------
+         1. Make sure you have a compatible modem installed on COM2
+            on the mail server. To use the Digital Pager, the modem
+            phone line must be a Touchtone phone line.
+
+         2. Log in with the username SYSTEM.
+
+         3. Open Gateway Folders.
+
+         4. Open the folder with the same name as the main Post Office.
+            (This is the same name you entered during the installation.)
+
+         5. Open the MTA Events folder.
+
+         6. Open the MTA Digital Pager object to set up the Digital
+            Pager. Open the MTA Alpha Pager object to set up the
+            Text Pager.
+
+         7. In the box titled Interval (seconds), enter a positive time
+            interval, such as 60 for one minute. See your Artisoft
+            Exchange User's Manual for a complete description of the
+            settings in this window.
+
+         8. If desired, choose the Options button to change the default
+            settings, such as baud rate, data bits and init strings.  See
+            your Artisoft Exchange User's Manual for a complete
+            description of the settings in this window.
+
+         9. Choose Save from the MTA menu.
+
+     Activating the LANtastic Mail Gateway
+     -------------------------------------
+         1. Log in with the username SYSTEM.
+
+         2. Open Gateway Folders.
+
+         3. Open the folder with the same name as the main Post Office.
+            (This is the name you entered during the installation.)
+
+         4. Open the MTA Events folder.
+
+         5. Open the MTA LANtastic Mail object.
+
+         6. In the box titled Interval (seconds), enter a positive time
+            interval, such as 60 for one minute. See your Artisoft
+            Exchange User's Manual for a complete description of the
+            settings in this window.
+
+         7. Choose Save from the MTA menu.
+
+         8. Close the MTA Events window.  Close the main Post Office
+            window to return to the Gateway Folders window.
+
+         9. Open the LANtastic Mail folder.
+
+        10. Open the MTA Events folder.
+
+        11. Open the LANtastic Queue Object.
+
+        12. Enter the name of the LANtastic mail server in the Source
+            Server box.
+
+        13. Choose Save from the Queue menu.
+
+       See the Artisoft Exchange User's Manual for additional setup
+       options.
+
+   Setting Up a Network Post Office to Post Office Gateway
+   =======================================================
+       The path listed under Remote Message Store Directory is incorrect
+       as it appears in the Artisoft Exchange User's Manual. The following
+       path:
+
+              \\server\c-drive\amail\
+
+       should read:
+
+              \\SERVER\C-DRIVE\LANTASTI\AMAIL
+
+       The path is correct as it appears in the on-line Help.
+
+   Setting Up the LANtastic Queue Gateway
+   ======================================
+       Some additional information for setting up a LANtastic Queue
+       Gateway has been added to the "LANtastic Queue Gateway" topic in
+       the Administration section of on-line Help for Artisoft Exchange
+       Mail. (This information is not in the Artisoft Exchange
+       User's Manual.)
+
+  Message Logging for Gateways
+  ============================
+       Gateway accounts don't have a Sent folder. When a message is sent
+       through a Gateway, a copy of the Message is NOT saved in the
+       Gateway account. If the client sending the message has a Sent
+       folder, a copy of the message will be stored there.
+
+   Using the Log File Browser
+   ==========================
+       This feature allows the mail administrator to easily view error
+       messages and other information sent to the log file by Artisoft
+       Exchange Mail. For complete information on reading a log file, see
+       "Using the Log File Browser" in the Administration section of
+       on-line Help.
+
+   Setting Up the CAS Manager
+   ==========================
+       To use Artisoft Exchange's fax capabilities, you must have a CAS
+       manager running on your computer.  See your CAS manager
+       documentation for information on loading the CAS manager.
+
+   Using Intel's FAXPOP.EXE
+   ========================
+       If you're using Intel's FAXPOP.EXE, make sure the FAXPOP
+       application loads after LANtastic's REDIR.EXE program.  Loading
+       FAXPOP before REDIR.EXE will cause your computer to lock up.
+
+   Running a DOS Server
+   ====================
+       You don't have to run Windows on the Artisoft Exchange server.
+       To use a DOS-only server:
+
+          - Install the Post Office on the server.  To perform a Windows
+            installation through DOS, use the /DOS/WIN switch described in
+            the installation chapters in the LANtastic Installation and
+            Management Guide.
+
+          - From a client computer, log into SYSTEM and set up the
+            Gateways. Steps for setting up the Gateways appear earlier in
+            this file.
+
+          - Change to the directory containing the Artisoft Exchange
+            program files and type MTAEXEC <Enter> at the DOS prompt. For
+            example, if you installed to the default directory, type:
+
+              CD C:\LANTASTI\AMAILPRG <Enter>
+              MTAEXEC <Enter>
+
+       Note: You may not run MTAEXEC with LANtastic's ALONE program.
+
+       To administer a DOS-only Artisoft Exchange server, log in to the
+       System account from any Artisoft Exchange client in the network.
+
+   Using the Admin Account
+   =======================
+       When you install the Post Office on a computer, an account called
+       Admin is created by default. This is an account used for storing
+       incoming faxes and storing special error notices for the mail
+       administrator.
+
+       To log in to the Admin account, type ADMIN in the Username box when
+       you log in. The first time you log in you won't need to enter a
+       password. Choose OK or press Enter.
+
+       When an MTA or Gateway is removed from the mail server, a message
+       is sent to the Admin account describing the error. Some MHS-based
+       mail systems may send error messages and directory updates to the
+       Admin account.
+
+       To read and delete these messages, log in to the Admin account as
+       described above, then open the In folder. Even if you don't
+       regularly use the Admin account, you may want to log in
+       periodically to delete accumulated messages. The mail administrator
+       may want to set up a filter to forward all mail sent to the Admin
+       account to her own account.
+
+   Using SHARE with Artisoft Exchange
+   ==================================
+       For the Post Office computer ONLY, the File Name Spaces setting for
+       SHARE must be at least 10K.  Instructions for changing the File
+       Name Spaces setting for LANtastic's SHARE program appear below.  If
+       you are using DOS SHARE, see your DOS manual.
+
+         1. At the DOS prompt type NET_MGR <Enter>
+
+         2. Select Server Startup Parameters <Enter>.
+
+         3. Select Internal SHARE <Enter>.
+
+         4. Select Name Space <Enter>.
+
+         5. Type 10000 <Enter>.
+
+         6. Press Esc at each screen to return to the DOS prompt.
+
+   Scheduling Global Appointments
+   ==============================
+       The administrator can schedule global appointments, such as
+       national holidays and organization-wide meetings, for every
+       Artisoft Exchange Scheduler account.
+
+       Global appointments appear in your daily schedule with a globe
+       symbol on the appointment line. Global recurring appointments
+       appear in blue on the monthly calendar and daily schedule, just as
+       personal recurring appointments do. Non-recurring (one-time) global
+       appointments appear in purple.
+
+       The administrator creates and modifies global appointments by
+       logging into the scheduler as the SYSTEM account. Every new
+       appointment the administrator creates while logged into the System
+       account will be a global appointment.  The same steps for creating
+       and editing personal and recurring appointments are used for global
+       appointments. When the administrator chooses the New Appointment
+       button, the New Appointment dialog box that appears is identical to
+       the dialog box that would appear for creating a new personal
+       appointment.  When the Recurring Appointment button is selected,
+       the new appointments created will be global recurring appointments.
+
+       Note: One type of appointment the system administrator can create
+             through the System account won't schedule every account in
+             the organization: the group appointment. Only the
+             participants the system administrator selects will be
+             included in the group appointment.
+
+       To view global appointments, choose a date on your calendar that
+       contains a global appointment, then choose the appointment line
+       that has a globe symbol. If it's a one-time appointment, the Global
+       Appointment window appears, showing all information about the
+       appointment. If it's a global recurring appointment, the Recurring
+       Appointment window appears. Choose OK to close either of these
+       windows.
+
