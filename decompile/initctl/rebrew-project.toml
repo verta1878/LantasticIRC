@@ -1,0 +1,77 @@
+# rebrew project configuration
+# This file defines the target binaries, source layout, compiler, and
+# architecture so that every tool reads from a single source of truth.
+#
+# Multiple targets are supported.  Tools use project.default_target
+# unless --target <name> is passed.
+
+# ---------------------------------------------------------------------------
+# Project-level settings
+# ---------------------------------------------------------------------------
+
+[project]
+name = "initctl"
+default_target = "main"   # target used when --target is not passed
+jobs = 4                           # default parallelism for verify/batch/GA
+# db_dir = "db"                    # coverage database output
+# output_dir = "output"            # GA run output
+
+# ---------------------------------------------------------------------------
+# Target definitions
+# ---------------------------------------------------------------------------
+
+[targets."main"]
+binary = "original/INITCTL.EXE"
+format = "mz"               # pe | elf | macho | ne | mz
+arch = "x86_16"               # x86_16 | x86_32 | x86_64 | arm32 | arm64
+reversed_dir = "src/main"   # directory containing reversed .c files
+bin_dir = "bin/main"        # directory for extracted .bin files
+source_ext = ".c"                      # source file extension (.c, .cpp, etc.)
+marker = "MAIN"                  # annotation marker (e.g. // FUNCTION: SERVER 0x...)
+# ignored_symbols = []              # symbols to skip (ASM builtins etc.)
+
+# Per-target cflags presets — keyed by module name, under the target's
+# [compiler] sub-table (a bare [targets."…".cflags_presets] is misplaced).
+# [targets."main".compiler.cflags_presets]
+# GAME = "/O2 /Gd"
+
+# Per-target compiler override (optional — falls back to global [compiler]).
+# Windows/DOS toolchains run ONLY through their docker image; leave the
+# command/runner empty (the profile drives the image).  E.g.:
+# [targets."main".compiler]
+# profile = "msvc-6.0-sp6"
+
+# ---------------------------------------------------------------------------
+# Global compiler settings — shared across all targets
+# ---------------------------------------------------------------------------
+
+[compiler]
+profile = "borland-3.1"
+runner = ""
+command = ""
+includes = "toolchain/borland/3.1-win16/source/INCLUDE"
+libs = "toolchain/borland/3.1-win16/source/LIB"
+cflags = ""
+base_cflags = "-c"       # always-on flags prepended to every compile
+timeout = 60                         # compile subprocess timeout (seconds)
+
+[compiler.cflags_presets]
+GAME = ""
+
+# Optional LLM seeding for `rebrew match --seed-llm`. Prefer env vars for the
+# key so it is never committed: REBREW_LLM_ENDPOINT / REBREW_LLM_API_KEY.
+# Optional model pin: REBREW_LLM_MODEL or [llm] model (default gpt-4o-mini-2024-07-18).
+# Process call ceiling: REBREW_LLM_MAX_REQUESTS (default 32) stops --watch burn.
+# [llm]
+# endpoint = "https://api.example.com/v1"
+# model = "gpt-4o-mini-2024-07-18"
+# api_key = ""   # leave empty — set REBREW_LLM_API_KEY instead
+
+# Per-directory overrides — rebrew-libraries.toml at a library root can
+# declare toolchain + flags for a whole subtree; per-function TOOLCHAIN/CFLAGS
+# metadata wins.  See docs/TOOLCHAIN.md.
+# [compiler.profiles."clang-18.1.8"]
+# command = "clang"
+# includes = "/usr/include"
+# libs = "/usr/lib"
+# cflags = "-O2"

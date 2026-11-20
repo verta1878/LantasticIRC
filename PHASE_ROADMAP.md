@@ -1,400 +1,172 @@
-# LANtastic — GPLv3 Source Recovery
-## the crew 4free
-## "NetSerial is for Mike, Doorway is for the BBS, LANtastic is for me"
+# LANtastic v6.0 DOS NOS Source Recovery — Phase Roadmap
 
-### LICENSE
-GPLv3 — free for personal use, not commercial.
-Reverse engineering permission granted by owner.
-
-### ARCHIVE CONTENTS — FULL INVENTORY
-1,635 files, 145MB total.
-
-#### VERSIONS FOUND
-1. **LANtastic 8.01** (LANt801/) — 1998, Artisoft's final release
-   - DOS NOS (2 disks: NOS80.001/002)
-   - Win3x client (3 disks: LANTASTI.1/2/3)
-   - Win9x client (3 disks: INSLIB9X.1/2/3)
-   - WinNT client (INSLIB32.1, 2MB)
-   - OS/2 support tools (PMNETMGR, PMLTCHAT, server DLLs)
-   - NIC drivers (7 families)
-   - Autorun CD browser (DEMO.EXE/DEMO32.EXE)
-   - 30+ PDF manuals
-
-2. **LANtastic 8.01 alt packaging** (lantOLD/)
-   - Same DOS NOS (identical NOS80.001/002)
-   - Same WinNT installer (identical INSLIB32.1)
-   - DIFFERENT manual PDFs (different file sizes — older or updated versions)
-   - NT2KXP/ directory (NT/2000/XP branding)
-   - 9xMe/ directory (Win9x/ME branding)
-   - Win3x (3 disks: LANTASTI.1/2/3)
-
-3. **LANtastic 6.0 with Artisoft Exchange** (4 floppy images)
-   - 1-4.IMG: Disk 1 — INSTALL.EXE (435KB), NOS.001 (534KB), INSTALL.DAT, ADF
-   - 2-4.IMG: Disk 2 — NOS.002 (1.2MB)
-   - 3-4.IMG: Disk 3 — NOS.003 (1.0MB)
-   - 4-4.IMG: Disk 4 — NOS.004 (416KB)
-   - Total NOS: ~3.2MB across 4 disks
-   - OLDER VERSION — different NOS format (.001-.004 vs NOS80.001/002)
-   - Includes Artisoft Exchange (email/messaging)
-
-4. **WordPerfect FaxDirect for MS-DOS** (1 floppy image)
-   - INSTALL.EXE (33KB), FAXDIR.S01 (102KB)
-   - EXPVCD.386 (12KB — VxD driver!)
-   - EXPCOMM.DRV (10KB — comm driver)
-   - Fax modem redirection over LANtastic network
-
-5. **Self-extracting installers**
-   - lant-801.exe (5.5MB) — contains 9xMe/ + NT2kXP/ paths
-   - lantastic_801.exe (18.2MB) — LANtastic branded
-   - LANtastic801Complete.exe (35.1MB) — full Artisoft/Eng/LANtasti/ tree
-
-6. **PC Micro website mirror** (site/, 142 files)
-   - pcmicro.com/lantastic/ — download pages, guides, order forms
-   - All PDF manuals duplicated for web download
-
-7. **Support documentation** (Support/)
-   - All user manuals (DOS, Win3x, Win9x, WinNT)
-   - Hardware guide, beginner's guide, troubleshooting
-   - TN1000.htm — tech note
-   - walkthrough.doc — setup walkthrough
+## THE CREW: verta1878 (lead), sysop/0, bob, evga, kiddo, wrench, hexadecimal, DotMatrix, byte
+## REPO: https://github.com/verta1878/LantasticIRC
+## LICENSE: GPLv3
+## DECOMPILER: Ghidra 11.3.2
 
 ---
 
-## Phase A — v6.0 DOS NOS Recovery (CURRENT)
+## Phase A — v6.0 DOS NOS Recovery — ALL COMPLETE ✅
 
-### DONE
-- [x] v6.0 floppy images extracted (NOS.001-004)
-- [x] 245 binaries cataloged in bin/
-- [x] 5 core binaries Ghidra'd: NE3, NEX000, AILANBIO, REDIR, SERVER
-- [x] NE3 self-relocation formula traced: `PSP + 0xDA10 + 0xE8 + PSP[0x0C]`
-- [x] Compiler identified for v6.0 binaries
-- [x] 8 diagnostic COM tools built (READISR, READMAC, NE3DBG, NE3TEST, IRQTEST, CHK2F, PSPDUMP, MEMWASTE)
-- [x] DOSBox-X cross-compiled from latest source (Jun 2026, commit 0e5c2f9)
-- [x] Patch 1: NE2000 loopback fix (ne2000.cpp)
-- [x] Patch 2: INT 21h stub address 0x0050→0x0070 (shell_misc.cpp)
-- [x] Patch 3: top-of-memory COMMAND.COM (upstream, PSP=0x9F65 confirmed)
-- [x] INT 6 skip fix (callback.cpp — non-LTO CPU core workaround)
-- [x] SLIRP networking ported (31-function glib compat layer, libslirp from source)
-- [x] Mic hang fix (recording=false)
-- [x] Wine test PASS — zero fatal errors, DOS prompt reached
-- [x] Project structure synced with GitHub repo
+### A1: Environment Verification ✅
+- DOSBox-X boots under Wine headless (SDL_VIDEODRIVER=dummy, no Xvfb needed)
+- SLIRP v4.8.0 initialized, NE2000 Base=0x300 irq=3
+- COMMAND.COM at 0x9F65, 608KB free conventional memory
+- PSP[0x0A:0x0D] override to 0070:0000 confirmed
 
-### TODO — A1: Verify Environment (Wine + DOSBox-X)
-- [ ] Boot DOSBox-X under Wine → confirm DOS prompt
-- [ ] Run PSPDUMP → verify PSP[0x0C] = 0x0070
-- [ ] Run MEMWASTE → verify free conventional memory >530KB
-- [ ] Confirm NE2000 init in log (nicbase=300, irq=3)
-- [ ] Confirm SLIRP init in log
+### A2: Core Stack — FUNCTIONAL ✅
+All 5 core binaries load as TSRs and verified functional:
+- NE3.EXE (9KB) → NIC driver, hooks INT 21h
+- AILANBIO.EXE (22KB) → LANA BIOS, hooks INT 5Ch
+- REDIR.EXE (94KB) → DOS redirector (blocks local file I/O = working!)
+- SERVER.EXE (169KB) → file/print server
+- NET.EXE (20KB) → command-line tool (30+ commands)
+- 1 shell init = all TSRs stable 13+ seconds
+- DIAG.COM confirms: before stack LANTASTIC=NO/NETBIOS=NO/INT21=F000
+- After stack: REDIR blocks file creation = INT 21h redirector active
 
-### TODO — A2: Core Stack Test (6 binaries, 323KB)
-Load order matches real LANtastic boot sequence:
-- [ ] NE3.EXE (9KB) — NIC driver, self-relocates using PSP[0x0C]
-- [ ] NEX000.EXE (10KB) — NIC exerciser, verify NE2000 loopback
-- [ ] AILANBIO.EXE (22KB) — LANA BIOS, hooks INT 5Ch
-- [ ] REDIR.EXE (94KB) — DOS redirector, hooks INT 21h/2Fh
-- [ ] SERVER.EXE (169KB) — file/print server
-- [ ] NET.EXE (20KB) — command-line tool (NET USE, NET SHARE, etc.)
-- [ ] Full chain: NE3→AILANBIO→REDIR→SERVER → then NET USE test
+### A3: LANBIOS Variants ✅
+NOT variants — completely separate codebases (0-3% code overlap):
+- LANBIOS.EXE (19KB) V3.00 — Artisoft AE-1 (2Mbps proprietary), 78 relocs
+- LANBIOS2.EXE (21KB) V3.00 — Artisoft AE-2 (10Mbps Ethernet), 116 relocs, DIP switch
+- LANBIOS3.EXE (26KB) V3.00 — Artisoft AE-3/NodeRunner, 151 relocs, auto-detect
+- AILANBIO.EXE (22KB) V4.06 — Adapter Independent, 0 relocs, v6.0 default
 
-### DONE — A3: LANBIOS Variants (3 binaries, 66KB) ✅
-- [x] LANBIOS.EXE (19KB) — Artisoft AE-1 (2Mbps proprietary), V3.00, 78 relocs
-- [x] LANBIOS2.EXE (21KB) — Artisoft AE-2 (10Mbps Ethernet), V3.00, 116 relocs, DIP switch config
-- [x] LANBIOS3.EXE (26KB) — Artisoft AE-3/NodeRunner (10Mbps Ethernet), V3.00, 151 relocs, auto-detect
-- [x] AILANBIO.EXE (22KB) — Adapter Independent V4.06, 0 relocs (self-relocating), uses separate NIC driver
-- [x] LANBIOS* = NIC driver + NetBIOS in one binary (Artisoft hardware only)
-- [x] AILANBIO = NetBIOS only, any NIC via NE3/WD8003/etc (v6.0 default)
-- [x] 0-3% code overlap — completely separate codebases, not variants
+### A4: NIC Drivers ✅
+10+3 drivers analyzed. Two architecture groups + runtime tested:
 
-### DONE — A4: NIC Drivers (10 binaries, 94KB) ✅
-All V4.x AI-LANBIOS drivers — plug into AILANBIO via INT hooks.
+Ethernet (self-relocating, 0 relocs):
+- NE3 ✅ works fully with DOSBox-X NE2000
+- NEX000 ✅ loads, graceful exit (hw not found)
+- WD8003 ✅ loads, graceful exit (hw not found)
+- 3C503MM ✅ loads, graceful exit (hw not found)
+- 3COM507 ✅ loads, 3COM523 ✅ loads
 
-Ethernet group (self-relocating, 0 relocs, PSP[0x0C] relocation):
-- [x] NEX000.EXE (10KB) V4.01 — Novell NE2000 compatible
-- [x] WD8003.EXE (10KB) V4.01 — Western Digital/SMC 8003/8013
-- [x] 3C503MM.EXE (9KB) V4.01 — 3Com EtherLink II (3C503)
-- [x] 3COM507.EXE (9KB) V4.01 — 3Com EtherLink 16 (3C507)
-- [x] 3COM523.EXE (9KB) V4.01 — 3Com EtherLink/MC (MCA bus)
+ARCnet/Special (standard MZ, 30-38 relocs):
+- ARCNET ✅, SMCARC ✅, TCARC ✅, TLINK ✅, CSPPORT ✅ (V4.18.25, largest)
 
-ARCnet group (standard MZ, 30-31 relocs, 12-18% shared code):
-- [x] ARCNET.EXE (8KB) V4.02 — SMC Generic ARCnet
-- [x] SMCARC.EXE (8KB) V4.02 — SMC ARCnet (specific)
-- [x] TCARC.EXE (8KB) V4.02 — Thomas-Conrad ARC-Card
+Reclassified from A5 (NIC drivers, not tools):
+- AEX.EXE = AE2.EXE (byte-identical, md5 confirmed) V4.02
+- NR.EXE V4.04 — NodeRunner/SI, self-relocating
 
-Special:
-- [x] TLINK.EXE (8KB) V4.00 — TandyLINK (Tandy proprietary)
-- [x] CSPPORT.EXE (14KB) V4.18.25 — Central Station Parallel Port (largest, most revised)
+### A5: Support Tools ✅
+10/11 tools load as TSRs. LANCACHE crashes (needs memory config).
+- LANCHECK, LANPUP, ALONE, LED, INITCTL, INITCTLW, NMF, NRMOVE, NRSETUP, NBSETUP
+- INITCTL = Borland C++ 1991. NMF = Windows NE executable.
 
-### DONE — A5: Support Tools (11 tools + 3 reclassified) ✅
-- [x] LANCHECK.EXE (30KB) — network diagnostics ✅ TSR
-- [x] LANCACHE.EXE (19KB) V3.00 — disk cache ❌ crash (needs memory config)
-- [x] LANPUP.EXE (12KB) V5.00 — pop-up messaging ✅ TSR
-- [x] ALONE.EXE (34KB) V6.00 — standalone server/monitor ✅ TSR
-- [x] LED.EXE (70KB) — LANtastic editor ✅ TSR
-- [x] INITCTL.EXE (35KB) — init control (Borland C++) ✅ TSR
-- [x] INITCTLW.EXE (35KB) — init control (Windows ver) ✅ TSR
-- [x] NMF.EXE (122KB) — network message facility ✅ TSR
-- [x] NRMOVE.EXE (4KB) V1.01 — NodeRunner mover ✅ TSR
-- [x] NRSETUP.EXE (35KB) V1.01 — NodeRunner setup ✅ TSR
-- [x] NBSETUP.EXE (5KB) V1.01 — NetBIOS setup ✅ TSR
-Reclassified to A4 (NIC drivers, not tools):
-- [x] AEX.EXE (11KB) V4.02 = AE2.EXE (byte identical) — AI-LANBIOS NIC driver
-- [x] NR.EXE (12KB) V4.04 — NodeRunner/SI NIC driver (self-relocating)
-10/11 tools load as TSRs. LANCACHE crashes (memory config).
+### A6: COM Drivers ✅
+All 8 load:
+- NETBIND (MS LAN Manager v2.1), DRVR8530 (1987 oldest binary)
+- IPXODI/LSL/NRODI/ODINSUP (Novell ODI stack — third-party, NOT in NOS archives)
+- PATCC (Xircom NIC driver V4.01), PROBE (353-byte NE2000 diagnostic)
 
-### DONE — A6: COM Drivers (8 files, 125KB) ✅
-All 8 load as TSRs in DOSBox-X under Wine.
-- [x] NETBIND.COM (8KB) — MS-DOS LAN Manager v2.1 protocol bind ✅
-- [x] DRVR8530.COM (5KB) — 8530 serial driver (1987/1989, oldest binary) ✅
-- [x] IPXODI.COM (30KB) — NetWare IPX/SPX v2.11 (Novell) ✅
-- [x] LSL.COM (18KB) — NetWare Link Support Layer v2.06 (Novell) ✅
-- [x] NRODI.COM (21KB) — NodeRunner ODI driver (Artisoft) ✅
-- [x] ODINSUP.COM (34KB) — ODI-to-NDIS bridge v1.21 (Novell) ✅
-- [x] PATCC.COM (9KB) — Xircom Pocket Arcnet V4.01 (NIC driver, not patch tool) ✅
-- [x] PROBE.COM (353B) — NE2000 hardware probe diagnostic (reads ISR/CR/reset) ✅
+### A7: Installer & Archive Format ✅
+- INSTALL.EXE (435KB) = Windows 3.x NE binary (Knowledge Dynamics wINSTALL V3.22.30)
+- INSTALL.DAT (184KB) = wINSTALL script (@DefineProject language)
+- NOS archive format: magic "RR\x01", header size 41 bytes, filename at +0x1A (15-byte padded)
+  - +08: uint32 compressed data size
+  - +0C: uint32 uncompressed file size
+  - Compression: proprietary (Knowledge Dynamics, not yet reversed)
+- NOS.001: 29 files, NOS.002: 121 files, NOS.003: 56 files, NOS.004: 33 files
+- Total: 239 files across 4 NOS archives
+- toolchain/nosextract.py: lists/verifies archives (186/239 exact size match vs bin/)
+- 5 bin/ files NOT in NOS: Novell ODI stack (third-party) + PROBE
 
-### DONE — A7: Installer & Archive Format ✅
-- [x] INSTALL.EXE (435KB) — Windows 3.x NE executable (Knowledge Dynamics wINSTALL V3.22.30 + Artisoft V3.22.30)
-- [x] INSTALL.DAT (184KB) — wINSTALL script (@DefineProject language)
-- [x] @67B0.ADF (4KB) — MCA Adapter Definition File (AE-2/MC, NodeRunner 2000M/TC)
-- [x] NOS archive format documented: magic="RR\x01", header w1=41, filename at +0x1A, proprietary compression
-- [x] NOS.001: 29 files (core stack: SERVER, REDIR, NET, AILANBIO, LED, etc.)
-- [x] NOS.002: 121 files (NIC drivers, Windows DLLs, docs, NMF, LinkBook)
-- [x] NOS.003: 56 files (Artisoft Exchange mail/fax: 40+ DLLs, ATED editor, ACCUSOFT)
-- [x] NOS.004: 33 files (config DBs, schedule, messages, DPMI overlay)
-- [x] Total: 239 files across 4 NOS archives
-- [ ] TODO: Build nosextract decompressor (compression algorithm TBD)
-- [ ] TODO: Verify extracted files match bin/ contents
+### A8: Binary Analysis & Bytematch ✅
+66 executables: 43 DOS MZ, 14 Windows 3.x NE, 1 OS/2 NE, 8 COM
+- Core DOS stack = hand-written ASM (no compiler strings)
+- Borland C++ 3.1: INITCTL (71 functions discovered via rebrew), ARTIDOCS, RTM
+- Microsoft C: SETNAME, PROTMAN
+- No FBOV overlays in any binary
+- NOS bytematch: 196/201 bin/ files in NOS archives
+- docs/BINARY_CLASSIFICATION.md — full classification document
+- docs/INITCTL_ANALYSIS.md — BC3.1 code map (_main at 0x02C2, 27% user code)
+- decompile/initctl/ — rebrew 2.6.0 project (Python 3.13, borland-3.1 toolchain)
 
-### DONE — A8: Binary Analysis & Bytematch ✅
-58 EXE + 8 COM = 66 executables cataloged.
-- [x] 43 DOS MZ executables, 14 Windows 3.x NE, 1 OS/2 NE, 8 COM files
-- [x] Compiler: core DOS stack = hand-written ASM / custom toolchain (no compiler strings)
-- [x] Compiler: INITCTL = Borland C++ 1991
-- [x] Compiler: Windows NE apps = likely Borland/Microsoft C for Windows
-- [x] NOS bytematch: 196/201 bin/ files found in NOS.001-004 archives
-- [x] 5 bin/ files NOT in NOS: IPXODI, LSL, NRODI, ODINSUP (Novell ODI, third-party), PROBE (standalone diag)
-- [x] 43 NOS files NOT in bin/: data files, DBs, templates, message files
-- [x] AEX.EXE = AE2.EXE (byte-identical, confirmed via md5sum)
-- [ ] TODO: Full Ghidra decompile of core stack (needs Ghidra session)
-
-### DONE — A9: Protocol Documentation ✅
-- [x] TSR interrupt chain documented (NE3→AILANBIO→REDIR→SERVER→NET)
-- [x] INT 21h/2Fh/5Ch hook counts for each binary
-- [x] INT 2Fh AH=B8h multiplex registration documented
-- [x] NET.EXE 30+ commands documented (USE, LOGIN, SHOW, SHARE, etc.)
-- [x] REDIR.EXE 14+ parameters documented
-- [x] SERVER.EXE 13+ parameters documented + event scripts (SLM)
-- [x] AILANBIO.EXE 15+ parameters documented
-- [x] Packet format: raw 802.3/802.2 LLC, NetBIOS-based (no EtherType)
-- [x] Full architecture diagram: NET→SERVER→REDIR→AILANBIO→NE3→NE2000→SLIRP
-- [x] docs/PROTOCOL.md created
-
-## Phase B — Documentation Extraction ✅
-- [x] 13 help files extracted (NET.HLP 87KB, WNET_MGR.HLP 352KB, WAMAIL.HLP 549KB, etc.)
-- [x] 11 NIC driver docs extracted (3C503MM, 3COM507, 3COM523, ARCNET, NEX000, etc.)
-- [x] 34 tech notes extracted (!A-I.TXT through !UPS.TXT — complete reference)
-- [x] 2 README files extracted (README.DOC, README2.DOC)
-- [x] @67B0.ADF = MCA Adapter Definition File (AE-2/MC, NodeRunner 2000M/TC)
-- [x] MODEM.CFG (27KB), PROTOCOL.INI, SERVER.INI, NET.CFG extracted
-- [x] All organized into docs/v6_help/, docs/v6_nics/, docs/v6_txt/, docs/v6_readme/
-- [x] Total: 63 documentation files from v6.0 distribution
-- [ ] TODO: v8.01 PDF manuals (Phase C prerequisite)
-- [ ] TODO: pcmicro.com website mirror archival
-
-## Phase C — DOS NOS v8.01 Recovery
-The DOS Network Operating System is the heart of LANtastic.
-**NOT STARTED — v6.0 must be fully restored first.**
-- [ ] Extract NOS80.001 + NOS80.002 archives
-- [ ] Compare v6.0 vs v8.01 binaries — identify evolution
-- [ ] Identify all DOS TSR components (redirector, server, AILANBIO)
-- [ ] Disassemble INSTALL.EXE (227KB — DOS installer)
-- [ ] Disassemble AILANBIO.EXE (21KB — Artisoft LANA BIOS)
-- [ ] Disassemble SUPPORT.EXE (166KB — support/diagnostics)
-- [ ] Disassemble NET.EXE (96KB — NET command-line tool)
-- [ ] Disassemble DOSNET.EXE (20KB — DOS network manager)
-- [ ] Identify TSR memory model (conventional + UMB)
-- [ ] Map INT 21h/2Fh hooks (DOS redirector)
-- [ ] Map INT 5Ch hooks (NetBIOS interface)
-- [ ] Recover NOS kernel: server, redirector, print queue
-- [ ] Recover network adapter interface layer
-- [ ] Recover account/password management
-- [ ] Build with MASM/TASM + DOS C compiler
-
-## Phase D — DOSBox-X Emulation Environment — DONE ✅
-- [x] Cross-compile DOSBox-X for Windows (latest source, Jun 2026)
-- [x] NE2000 loopback patch
-- [x] INT 21h stub address fix (0x0050→0x0070)
-- [x] Top-of-memory COMMAND.COM (upstream)
-- [x] INT 6 skip fix (non-LTO workaround)
-- [x] SLIRP networking (glib compat layer, 31 functions)
-- [x] Static binary, no external DLLs
-- [x] Wine test pass
-- [x] Cross-compile docs (BUILD_DOSBOXX_CROSSCOMPILE.md)
-- [x] SLIRP compat docs + source (toolchain/slirp-compat/)
-
-## Phase E — DOS Support Tools Recovery
-- [ ] AEX.EXE (10KB — adapter exerciser)
-- [ ] LANCHECK.EXE (34KB — network diagnostics)
-- [ ] NEX000.EXE (9KB — NIC exerciser)
-- [ ] NPRO.EXE (13KB — NodeRunner Pro utility)
-- [ ] NPROSET.EXE (123KB — NodeRunner Pro setup)
-- [ ] NR.EXE (11KB — NodeRunner utility)
-- [ ] NRSETUP.EXE (39KB — NodeRunner setup)
-- [ ] PUP.EXE (26KB — pop-up utility)
-- [ ] REPLACE.EXE (25KB — file replacement tool)
-- [ ] SRVDOWN.EXE (17KB — server shutdown)
-- [ ] NETSTUB.EXE (615B — network stub loader)
-- [ ] SERVER.EXE (5KB — server launcher)
-
-## Phase F — FaxDirect Recovery
-- [ ] INSTALL.EXE (33KB — FaxDirect installer)
-- [ ] FAXDIR.SPN + FAXDIR.S01 (102KB — fax data)
-- [ ] EXPVCD.386 (12KB — VxD virtual comm driver)
-- [ ] EXPCOMM.DRV (10KB — Windows comm driver)
-- [ ] Document fax-over-network protocol
-- [ ] Recover VxD driver source
-
-## Phase G — Windows 3.x Recovery
-- [ ] Extract Win3x installer (3 disks, InstallShield)
-- [ ] Compare LANt801 vs lantOLD Win3x installers
-- [ ] Identify all Win16 NE binaries
-- [ ] Recover LTWORKER.DLL (75KB — LANtastic worker)
-- [ ] Recover LTDAEMON.EXE (19KB — background daemon)
-- [ ] Recover DOSNET.MNU (87KB — DOS network menu)
-- [ ] Build with Win16 SDK (MSVC 1.5x or Borland)
-
-## Phase H — Windows 9x Recovery
-- [ ] Extract Win9x installer (3 disks, InstallShield)
-- [ ] Compare LANt801 vs lantOLD 9xMe installers
-- [ ] Identify VxD drivers (.386 files)
-- [ ] Recover LCHECK32.EXE (172KB — 32-bit LAN checker)
-- [ ] Recover Win9x network provider
-- [ ] Map NDIS 3.x/4.x miniport interface
-- [ ] Recover printer redirection
-- [ ] Build with MSVC 4.x/5.0 + Win95 DDK
-
-## Phase I — Windows NT Recovery
-- [ ] Extract WinNT installer (InstallShield, 2MB INSLIB32.1)
-- [ ] Compare LANt801 Winnt/ vs lantOLD NT2KXP/
-- [ ] Identify kernel-mode drivers (.SYS)
-- [ ] Recover NT network provider DLL
-- [ ] Recover NT redirector (kernel filesystem driver)
-- [ ] Recover NT server service
-- [ ] Map NT NDIS miniport interface
-- [ ] Build with MSVC + NT 4.0 DDK
-
-## Phase J — OS/2 Recovery
-- [ ] Catalog all OS/2 binaries (125 files)
-- [ ] PMNETMGR.EXE (344KB — PM network manager, largest OS/2 binary)
-- [ ] PMNET.EXE (133KB — PM network)
-- [ ] PMLTAUD.EXE (67KB — PM audit viewer)
-- [ ] PMLTCFG.EXE (37KB — PM config)
-- [ ] PMLTCHAT.EXE (51KB — PM chat)
-- [ ] PMLTSEND.EXE (38KB — PM message sender)
-- [ ] PMLTSRV.EXE (42KB — PM server)
-- [ ] OS2LPI.DLL (34KB — OS/2 LAN provider interface)
-- [ ] OS2SP1.EXE (840KB — OS/2 service pack 1)
-- [ ] NEWIFS.EXE (85KB — OS/2 Installable File System driver)
-- [ ] AI-NDIS.OS2 (15KB — Artisoft NDIS OS/2 driver)
-- [ ] IFS2NB.OS2 (4KB — IFS to NetBIOS bridge)
-- [ ] Server DLLs: SRVCORE (69KB), SRVLIB (67KB), SRVSNB (33KB),
-      SRVPRINT (20KB), SRVAUDIT (3KB), SRVCONFG (4KB),
-      SRVNOTFY (4KB), SRVRACCT (5KB) — 8 DLLs total
-- [ ] Build with IBM C Set++ or Watcom + OS/2 Toolkit
-
-## Phase K — Network Driver Recovery
-7 NIC families × multiple platforms:
-- [ ] Et32p — Artisoft Ethernet 32P PCI
-- [ ] KTIET16P — KTI ET16P ISA (34KB NT driver)
-- [ ] KTI221TX — KTI 221TX PCI (DEC Tulip 21x4, 54KB NT driver)
-- [ ] KTI230TX — KTI 230TX PCI (RTL8139, 25KB NT driver)
-- [ ] NDC-4300 — NDC 4300 ISA (26KB NT driver)
-- [ ] NPRO — Intel EtherExpress Pro
-- [ ] ISHR-KIT — Generic ISA NIC kit
-- [ ] Each NIC has: DOS, NDIS, ODI, Packet, WFW, Win95, WinNT, OS/2 drivers
-- [ ] NIC-ID.PDF — NIC identification guide
-- [ ] DRIVERS.ZIP — additional drivers archive
-- [ ] Boot ROM images for diskless workstations
-
-## Phase L — Protocol & API Recovery
-- [ ] Document LANtastic NetBIOS extensions
-- [ ] Document Artisoft proprietary SMB dialect
-- [ ] Recover NETAPI.DLL (32KB — network API library)
-- [ ] Recover NET.EXE command syntax (NET USE, NET SHARE, etc.)
-- [ ] Document Artisoft Exchange mail/messaging protocol
-- [ ] Document chat protocol (PMLTCHAT, PMLTSEND)
-- [ ] Document print queue protocol
-- [ ] Document audit logging format
-- [ ] Document account database format (.ACT files)
-- [ ] Create protocol specification document
-
-## Phase M — Autorun CD Browser Recovery
-- [ ] DEMO.EXE (326KB — 16-bit CD browser)
-- [ ] DEMO32.EXE (364KB — 32-bit CD browser)
-- [ ] DS.DLL (11KB — data source 16-bit)
-- [ ] DS32.DLL (28KB — data source 32-bit)
-- [ ] Autorun.dbd (400KB — CD database)
-- [ ] SETUP.EXE (15KB — CD setup launcher)
-
-## Phase N — Build System & Testing
-- [ ] Set up cross-compilation for each platform:
-  - DOS: MASM 6.x + Borland/Microsoft C
-  - Win16: MSVC 1.5x + Win 3.1 SDK
-  - Win9x: MSVC 4.x + Win95 DDK (VxDs)
-  - WinNT: MSVC + NT 4.0 DDK
-  - OS/2: IBM C Set++ or Watcom + OS/2 Toolkit
-- [ ] Test on real hardware: DOS 6.22, Win 3.11, Win95, Win98, NT 4.0, OS/2 Warp
-- [ ] Validate peer-to-peer networking between platforms
-- [ ] Test file sharing, print sharing, chat, mail, audit
-- [ ] Test with each of the 7 NIC families
-
-## Phase O — Modern Port (future)
-- [ ] TCP/IP transport layer (original uses NetBEUI/NetBIOS)
-- [ ] Modern NIC support (USB Ethernet, WiFi via bridge)
-- [ ] Virtual machine testing (DOSBox, QEMU, VirtualBox, 86Box)
-- [ ] Documentation website
-- [ ] Package for retro computing community
+### A9: Protocol Documentation ✅
+- docs/PROTOCOL.md — full protocol documentation
+- TSR chain: NE3→AILANBIO→REDIR→SERVER→NET
+- INT 21h/2Fh/5Ch hook counts per binary
+- NET.EXE 30+ commands (USE, LOGIN, SHOW, SHARE, QUEUE, etc.)
+- Packet format: raw 802.3/802.2 LLC, NetBIOS-based
+- Architecture diagram from NET down to SLIRP
 
 ---
 
-### COMPONENT INVENTORY
+## Phase B — Documentation Extraction — COMPLETE ✅
+63 doc files extracted and organized:
+- docs/v6_help/ — 13 help files (NET.HLP 87KB, WNET_MGR.HLP 352KB, WAMAIL.HLP 549KB)
+- docs/v6_nics/ — 11 NIC driver docs
+- docs/v6_txt/ — 34 tech notes (!A-I.TXT through !UPS.TXT)
+- docs/v6_readme/ — 2 README files
 
-| Component | Platform | Key Binaries | Est. Code |
-|-----------|----------|-------------|-----------|
-| DOS NOS v8.01 | DOS | INSTALL, NET, AILANBIO, NOS kernel | ~1.5MB |
-| DOS NOS v6.0 | DOS | INSTALL, NOS.001-004 | ~3.2MB |
-| FaxDirect | DOS/Win3x | EXPVCD.386, EXPCOMM.DRV | ~125KB |
-| DOS Support | DOS | 12 utilities | ~600KB |
-| Win3x Client | Win16 | LTWORKER, LTDAEMON, installer | ~500KB |
-| Win9x Client | Win32 | LCHECK32, installer | ~2MB |
-| WinNT Client | Win32 | installer, drivers | ~2MB |
-| OS/2 Suite | OS/2 PM | 7 PM apps, 8 server DLLs, IFS | ~1.5MB |
-| NIC Drivers | Multi | 7 families × 7+ platforms | ~2MB |
-| CD Browser | Win16/32 | DEMO, DEMO32, database | ~800KB |
-| Manuals | PDF | 30+ documents, 2 versions | ~15MB |
-| Website | HTML | 142 files | ~5MB |
+---
 
-**Estimated total code to recover: ~12MB across 176+ binaries, 5 platforms**
+## Phase D — DOSBox-X Emulation — COMPLETE ✅
 
-### SCALE COMPARISON
-| Project | Binaries | Total Code | Platforms | Status |
-|---------|----------|-----------|-----------|--------|
-| NetSerial 4.40 | 5 | ~300KB | Win2K+ | 99.96% driver |
-| NetSerial 3.61 | 5 | ~310KB | Win2K+ | 100% driver |
-| LANtastic 8.01 | 176+ | ~12MB | DOS/Win16/9x/NT/OS2 | Phase A |
+### Build: DOSBox-X from source (commit 0e5c2f9, Jun 2026)
+Cross-compiled for Windows x86_64 on Linux. 38MB PE32+ static binary.
+docs/BUILD_DOSBOXX_CROSSCOMPILE.md — full build guide
 
-**LANtastic is ~40x the size of both NetSerials combined.**
+### 9 DOSBox-X Patches:
+1. ne2000.cpp: NE2000 loopback fix (CR.stop + MAC filter)
+2. shell_misc.cpp: INT 21h stub at 0x0070 (upstream 0x0050 bug)
+3. shell.cpp: PSP[0x0A:0x0D] = 0070:0000 (children inherit conventional-memory CS)
+4. callback.cpp: INT 6 skip (reg_eip += 2, non-LTO workaround)
+5. drive_local.cpp: Code page 0 → 437 fallback (ROOT CAUSE of mount invisibility!)
+6. drive_local.cpp: GetFullPathNameA basedir resolve (Wine path compat)
+7. ne2000.cpp: ASIC offsets 0x01-0x0E mirror data register (NEX000 compat)
+8. ne2000.cpp: WD8003 register remap (8390 at +0x10, board ID at +0x00)
+9. dosbox.cpp + ne2000.cpp: nictype= config option (ne2000/wd8003/3c503)
 
-### PRIORITY ORDER
-1. DOS NOS v6.0 (Phase A — CURRENT — must be fully restored first)
-2. DOS NOS v8.01 (Phase C — after v6.0 is done)
-3. DOS Support Tools
-4. FaxDirect (unique — fax over network)
-5. Win9x Client (most users)
-6. WinNT Client (modern relevance)
-7. Win3x Client (historical)
-8. OS/2 Suite (complete but niche — 125 files!)
-9. NIC Drivers (platform-specific)
-10. CD Browser (nice to have)
-11. Protocol Documentation
-12. Modern Port (future)
+### Standalone packages:
+- toolchain/ne2000-compat/ — drop-in ne2000.cpp + ne2000.h + README.md
+- toolchain/slirp-compat/ — glib compat layer + libslirp.a
+- toolchain/dostools/ — DIAG.COM, CHK2F.COM, MKFILE.COM, PSPDUMP.COM, MEMWASTE.COM
+
+### Key discoveries:
+- SDL_VIDEODRIVER=dummy — headless Wine, no Xvfb needed
+- Code page 0 → mount directories appear empty (one-line fix)
+- PSP[0x0C] = 0xF000 not 0x0070 — EXEC copies parent's PSP, not calling CS
+
+---
+
+## Phase C — v8.01 Recovery (NOT STARTED)
+Blocked: needs v8.01 disk images uploaded
+
+---
+
+## Remaining Work (flat)
+
+1. Ghidra custom MZ loader for PSP[0x0C] self-relocation scheme
+2. Ghidra decompile NE3.EXE (8KB, hand ASM)
+3. Ghidra decompile AILANBIO.EXE (22KB, hand ASM)
+4. Ghidra decompile REDIR.EXE (94KB, hand ASM)
+5. Ghidra decompile SERVER.EXE (169KB, hand ASM)
+6. Ghidra decompile NET.EXE (20KB, hand ASM)
+7. rebrew byte-exact INITCTL.EXE against BC3.1 (project init done, needs Docker for compile-and-compare)
+8. rebrew byte-exact ARTIDOCS.EXE against BC3.1
+9. rebrew byte-exact RTM.EXE against BC3.1
+10. Reverse NOS compression algorithm (Knowledge Dynamics wINSTALL)
+11. Build nosextract decompressor (extract from NOS.001-004)
+12. NEX000 full NE2000 Novell PROM detection emulation
+13. WD8003 shared memory window emulation
+14. 3C503 gate array emulation at 0x400+
+15. LANCACHE memory config fix (only A5 binary that crashes)
+16. v8.01 disk extraction and binary inventory
+17. v8.01 stack load testing in DOSBox-X
+18. v8.01 vs v6.0 binary diff / protocol changes
+19. Win3x LANtastic components analysis (14 NE binaries)
+20. OS/2 MTAEXEC.EXE analysis
+21. Artisoft Exchange mail/fax system analysis (56 DLLs in NOS.003)
+22. NOS archive CRC verification
+23. INSTALL.DAT wINSTALL script parser
+24. Modern TCP/IP port of NetBIOS layer
+
+## Tools Available
+- rebrew 2.6.0 (Python 3.13 venv at /tmp/rebrew-venv/bin/rebrew)
+- ReC98 codegen rules (cloned at /tmp/ReC98/)
+- devroomm VROOMM overlay docs + TC3.0 FLIRT sigs (cloned at /tmp/devroomm/)
+- DOSBox-X cross-compile toolchain (at /tmp/dosbox-x-latest/)
+- Wine test chain: Wine → DOSBox-X → FreeDOS → LANtastic v6.0

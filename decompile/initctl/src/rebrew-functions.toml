@@ -1,0 +1,496 @@
+["INITCTL.0x00000000"]
+blocker = "Application code — pending per-function decompilation"
+size = 428
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000001ac"]
+blocker = "Application code — pending per-function decompilation"
+size = 112
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000021c"]
+blocker = "Application code — pending per-function decompilation"
+size = 68
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000260"]
+blocker = "Application code — pending per-function decompilation"
+size = 65
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000002a1"]
+blocker = "Application code — pending per-function decompilation"
+size = 33
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000002c2"]
+blocker = "Application code — pending per-function decompilation"
+size = 1112
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000071a"]
+blocker = "Application code — pending per-function decompilation"
+size = 130
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000079c"]
+blocker = "Application code — pending per-function decompilation"
+size = 201
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000865"]
+blocker = "Application code — pending per-function decompilation"
+size = 366
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000009d3"]
+blocker = "Application code — pending per-function decompilation"
+size = 131
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000a56"]
+blocker = "Application code — pending per-function decompilation"
+size = 93
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000ab3"]
+blocker = "Application code — pending per-function decompilation"
+size = 122
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000b2d"]
+blocker = "Application code — pending per-function decompilation"
+size = 81
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000b7e"]
+blocker = "Application code — pending per-function decompilation"
+size = 53
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00000bb3"]
+blocker = "Application code — pending per-function decompilation"
+size = 1541
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000011b8"]
+blocker = "Application code — pending per-function decompilation"
+size = 192
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001278"]
+blocker = "Application code — pending per-function decompilation"
+size = 270
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001386"]
+blocker = "Application code — pending per-function decompilation"
+size = 194
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001448"]
+blocker = "Application code — pending per-function decompilation"
+size = 53
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000147d"]
+blocker = "Application code — pending per-function decompilation"
+size = 169
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001526"]
+blocker = "Application code — pending per-function decompilation"
+size = 670
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000017c4"]
+blocker = "Application code — pending per-function decompilation"
+size = 714
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001a8e"]
+blocker = "Application code — pending per-function decompilation"
+size = 210
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001b60"]
+blocker = "Application code — pending per-function decompilation"
+size = 424
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001d08"]
+blocker = "Application code — pending per-function decompilation"
+size = 172
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001db4"]
+blocker = "Application code — pending per-function decompilation"
+size = 27
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001dcf"]
+blocker = "Application code — pending per-function decompilation"
+size = 11
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001dda"]
+blocker = "Application code — pending per-function decompilation"
+size = 40
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001e07"]
+blocker = "Application code — pending per-function decompilation"
+size = 19
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001e1a"]
+blocker = "Application code — pending per-function decompilation"
+size = 355
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001f7d"]
+blocker = "Application code — pending per-function decompilation"
+size = 15
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00001f8c"]
+blocker = "Application code — pending per-function decompilation"
+size = 290
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000020ae"]
+blocker = "Application code — pending per-function decompilation"
+size = 41
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000020d7"]
+blocker = "Application code — pending per-function decompilation"
+size = 45
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00002104"]
+blocker = "Application code — pending per-function decompilation"
+size = 28
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00002120"]
+blocker = "Application code — pending per-function decompilation"
+size = 45
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000214d"]
+blocker = "Application code — pending per-function decompilation"
+size = 1625
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000027a6"]
+blocker = "Application code — pending per-function decompilation"
+size = 95
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00002805"]
+blocker = "Application code — pending per-function decompilation"
+size = 87
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000285c"]
+blocker = "Application code — pending per-function decompilation"
+size = 337
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000029ad"]
+blocker = "Application code — pending per-function decompilation"
+size = 470
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00002b83"]
+blocker = "Application code — pending per-function decompilation"
+size = 2150
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000033e9"]
+blocker = "Application code — pending per-function decompilation"
+size = 207
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000034b8"]
+blocker = "Application code — pending per-function decompilation"
+size = 97
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003519"]
+blocker = "Application code — pending per-function decompilation"
+size = 151
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000035b0"]
+blocker = "Application code — pending per-function decompilation"
+size = 1095
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000039f7"]
+blocker = "Application code — pending per-function decompilation"
+size = 135
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003a7e"]
+blocker = "Application code — pending per-function decompilation"
+size = 69
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003ac3"]
+blocker = "Application code — pending per-function decompilation"
+size = 69
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003b08"]
+blocker = "Application code — pending per-function decompilation"
+size = 409
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003ca1"]
+blocker = "Application code — pending per-function decompilation"
+size = 50
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003cd3"]
+blocker = "Application code — pending per-function decompilation"
+size = 17
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003ce4"]
+blocker = "Application code — pending per-function decompilation"
+size = 204
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003db0"]
+blocker = "Application code — pending per-function decompilation"
+size = 57
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003de9"]
+blocker = "Application code — pending per-function decompilation"
+size = 365
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003f56"]
+blocker = "Application code — pending per-function decompilation"
+size = 57
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003f8f"]
+blocker = "Application code — pending per-function decompilation"
+size = 54
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003fc5"]
+blocker = "Application code — pending per-function decompilation"
+size = 47
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00003ff4"]
+blocker = "Application code — pending per-function decompilation"
+size = 34
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00004016"]
+blocker = "Application code — pending per-function decompilation"
+size = 26
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00004030"]
+blocker = "Application code — pending per-function decompilation"
+size = 55
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00004067"]
+blocker = "Application code — pending per-function decompilation"
+size = 111
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000040d6"]
+blocker = "Application code — pending per-function decompilation"
+size = 68
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000411a"]
+blocker = "Application code — pending per-function decompilation"
+size = 760
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00004412"]
+blocker = "Application code — pending per-function decompilation"
+size = 2457
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00004dab"]
+blocker = "Application code — pending per-function decompilation"
+size = 1642
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00005415"]
+blocker = "Application code — pending per-function decompilation"
+size = 170
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000054bf"]
+blocker = "Application code — pending per-function decompilation"
+size = 84
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x00005513"]
+blocker = "Application code — pending per-function decompilation"
+size = 140
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x0000559f"]
+blocker = "Application code — pending per-function decompilation"
+size = 83
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
+
+["INITCTL.0x000055f2"]
+blocker = "Application code — pending per-function decompilation"
+size = 256
+status = "STUB"
+updated_by = "intake"
+updated_at = "2026-09-23T22:52:46+00:00"
